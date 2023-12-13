@@ -1,1 +1,1 @@
-import * from "./Alert"
+export * from "./Alert";

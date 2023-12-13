@@ -1,12 +1,16 @@
 export const useButtonClasses = ({
   variant,
 }: {
-  variant: "primary";
+  variant: "primary" | "secondary";
 }): {
   base: string;
   padding: string;
   colors: string;
 } => {
+  if (variant !== "primary") {
+    throw new Error(`Variant ${variant} not implemented yet.`);
+  }
+
   const base =
     "flex justify-between items-center font-bold rounded-2xl whitespace-nowrap space-x-[0.6rem]";
 

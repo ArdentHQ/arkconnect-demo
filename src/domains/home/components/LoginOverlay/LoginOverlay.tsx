@@ -1,6 +1,6 @@
-import { useWallet } from "@/app/hooks";
 import { ConnectOverlay } from "./ConnectOverlay";
 import { InstallOverlay } from "./InstallOverlay";
+import { useWallet } from "@/app/hooks";
 
 export const LoginOverlay = () => {
   const { isInstalled, isConnected } = useWallet();
