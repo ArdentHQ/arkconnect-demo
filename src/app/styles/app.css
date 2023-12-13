@@ -1,0 +1,14 @@
+html {
+  height: -webkit-fill-available;
+}
+
+body {
+  -webkit-tap-highlight-color: transparent;
+  @apply font-sans text-base antialiased min-h-screen flex flex-col;
+  /* mobile viewport bug fix */
+  min-height: -webkit-fill-available;
+}
+
+#__next {
+  @apply flex flex-col flex-1;
+}

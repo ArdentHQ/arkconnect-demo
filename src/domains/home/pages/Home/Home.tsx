@@ -1,10 +1,14 @@
-import { useTranslation } from "next-i18next";
+import { Layout } from "@/app/components/Layout";
+import { Welcome } from "@/domains/home/components/Welcome";
 
 export const Home = () => {
-  const { t } = useTranslation();
   return (
-    <div className="flex items-center justify-center h-screen font-bold">
-      {t("APP_NAME")}
-    </div>
+    <Layout>
+      <div className="flex flex-col">
+        <div className="sm:flex sm:items-center sm:h-full sm:w-full sm:mt-[8vw]">
+          <Welcome />
+        </div>
+      </div>
+    </Layout>
   );
 };

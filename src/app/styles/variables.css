@@ -6,10 +6,10 @@
   --theme-color-primary-300: 168 177 255; /* #a8b1ff */
   --theme-color-primary-400: 134 146 255; /* #8692ff */
   --theme-color-primary-500: 107 122 255; /* #6b7aff */
-  --theme-color-primary-600: 80 96 238; /* #5060ee */
-  --theme-color-primary-700: 61 76 211; /* #3d4cd3 */
-  --theme-color-primary-800: 44 57 174; /* #2c39ae */
-  --theme-color-primary-900: 33 43 131; /* #212b83 */
+  --theme-color-primary-600: 1 184 108; /* #5060ee */
+  --theme-color-primary-700: 5 135 81; /* #058751 */
+  --theme-color-primary-800: 10 113 71; /* #2c39ae */
+  --theme-color-primary-900: 11 92 60; /* #212b83 */
 
   /* Gray */
   --theme-color-secondary-50: 250 250 255; /* #fafaff */

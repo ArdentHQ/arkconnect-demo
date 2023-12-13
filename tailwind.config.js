@@ -6,19 +6,15 @@ module.exports = {
     "./src/**/*.{js,ts,jsx,tsx}",
     "node_modules/preline/dist/*.js",
   ],
-  theme: {
-    extend: {
-      fontFamily: {
-        sans: ["Inter var", ...defaultTheme.fontFamily.sans],
-      },
-    },
-  },
   plugins: [require("preline/plugin")],
   darkMode: "class",
   theme: {
     extend: {
       fontFamily: {
-        sans: ["Ubuntu", ...defaultTheme.fontFamily.sans],
+        sans: ["var(--font-dm-sans)", ...defaultTheme.fontFamily.sans],
+      },
+      boxShadow: {
+        sm: "0px 1px 4px 0px rgba(0, 0, 0, 0.05)",
       },
     },
 

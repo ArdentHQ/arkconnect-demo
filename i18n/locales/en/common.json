@@ -1,3 +1,7 @@
 {
-  "APP_NAME": "ARKCONNECT DEMO"
+  "APP_NAME": "ARKCONNECT DEMO",
+  "CONNECT_WALLET": "Connect Wallet",
+  "CONNECT": "Connect",
+  "CONNECT_ARK_CONNECT_TO_START": "Connect Your Wallet to Get Started",
+  "WELCOME": "Welcome"
 }

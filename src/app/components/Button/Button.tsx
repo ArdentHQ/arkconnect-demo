@@ -1,18 +1,28 @@
-import { ReactElement } from "react";
+import { ButtonHTMLAttributes } from "react";
+import cn from "classnames";
 
-interface ButtonProperties {
-  children: ReactElement;
-  onClick: () => void;
-}
+export const Button = ({
+  children,
+  onClick,
+  className,
+}: ButtonHTMLAttributes<HTMLButtonElement>) => {
+  // TODO: adjust based on variants.
+  const paddingClasses = "py-[0.625rem] px-[1.25rem]";
+  const colorClasses =
+    "bg-theme-primary-700 hover:bg-theme-primary-800 text-white focus:outline-none focus:shadow-outline-primary active:bg-theme-primary-900";
 
-export const Button = ({ children, onClick }: ButtonProperties) => {
   return (
     <button
       onClick={onClick}
       type="button"
-      className="py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all text-sm dark:focus:ring-offset-gray-800"
+      className={cn(
+        "inline-flex justify-center items-center gap-2 font-bold rounded-2xl",
+        paddingClasses,
+        colorClasses,
+        className,
+      )}
     >
-      <>{children}</>
+      <span>{children}</span>
     </button>
   );
 };
