@@ -1,0 +1,52 @@
+import { useTranslation } from "next-i18next";
+import Connect from "@/public/images/connect.svg";
+import Spinner from "@/public/icons/spinner.svg";
+import { H3 } from "@/app/components/Typography";
+import { Button } from "@/app/components/Button";
+import { Alert } from "@/app/components/Alert/Alert";
+import { useWallet } from "@/app/hooks";
+
+export const ConnectOverlay = () => {
+  const { t } = useTranslation();
+  const { isConnecting, isErrored, connect } = useWallet();
+
+  return (
+    <div className="bg-white mx-auto w-full sm:w-96 overflow-hidden shadow-sm rounded-xl">
+      <div className="text-center flex flex-col items-center p-8">
+        <H3>{t("WELCOME")}</H3>
+
+        <div>
+          <p className="text-md mb-4 text-theme-secondary-500">
+            {t("CONNECT_ARK_CONNECT_TO_START")}
+          </p>
+
+          <div className="w-2/3 mx-auto">
+            <Connect />
+          </div>
+        </div>
+
+        <div className="h-12 mt-6 flex flex-col items-center justify-center">
+          {!isConnecting && (
+            <Button onClick={connect}>
+              {isErrored && t("RETRY")}
+              {!isErrored && t("CONNECT")}
+            </Button>
+          )}
+
+          {isConnecting && (
+            <div className="flex items-center space-x-3">
+              <Spinner className="animate-spin w-8 text-theme-primary-700" />
+              <p className="text-lg font-medium leading-[1.406rem]">
+                {t("CONNECTING")}
+              </p>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {isConnecting && <Alert>{t("CLICK_TO_CONFIRM_WALLET_CONNECT")}</Alert>}
+
+      {isErrored && <Alert type="error">{t("WALLET_CONNECTION_ERROR")}</Alert>}
+    </div>
+  );
+};

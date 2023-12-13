@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { useTranslation } from "next-i18next";
-import Logo from "@/public/icons/logo.svg";
+import Logo from "@/public/images/logo.svg";
 import { Button } from "@/app/components/Button";
 
 export const Navbar = () => {
