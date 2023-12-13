@@ -1,28 +1,38 @@
-import { ButtonHTMLAttributes } from "react";
-import cn from "classnames";
+import { AnchorHTMLAttributes, ButtonHTMLAttributes } from "react";
+import { twMerge } from "tailwind-merge";
+import { useButtonClasses } from "./hooks/useButtonClasses";
+
+interface ButtonProperties {
+  variant?: "primary";
+}
 
 export const Button = ({
-  children,
-  onClick,
   className,
-}: ButtonHTMLAttributes<HTMLButtonElement>) => {
-  // TODO: adjust based on variants.
-  const paddingClasses = "py-[0.625rem] px-[1.25rem]";
-  const colorClasses =
-    "bg-theme-primary-700 hover:bg-theme-primary-800 text-white focus:outline-none focus:shadow-outline-primary active:bg-theme-primary-900";
+  variant = "primary",
+  ...properties
+}: ButtonProperties & ButtonHTMLAttributes<HTMLButtonElement>) => {
+  const { padding, base, colors } = useButtonClasses({ variant });
 
   return (
     <button
-      onClick={onClick}
       type="button"
-      className={cn(
-        "inline-flex justify-center items-center gap-2 font-bold rounded-2xl",
-        paddingClasses,
-        colorClasses,
-        className,
-      )}
-    >
-      <span>{children}</span>
-    </button>
+      className={twMerge(base, padding, colors, className)}
+      {...properties}
+    />
+  );
+};
+
+export const ExternalButtonLink = ({
+  className,
+  ...properties
+}: ButtonProperties & AnchorHTMLAttributes<HTMLAnchorElement>) => {
+  const { padding, base, colors } = useButtonClasses({ variant: "primary" });
+
+  return (
+    <a
+      target="_blank"
+      className={twMerge(base, padding, colors, className)}
+      {...properties}
+    />
   );
 };

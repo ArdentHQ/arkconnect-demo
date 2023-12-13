@@ -15,6 +15,10 @@ const nextConfig = {
     });
     return config;
   },
+  env: {
+    ARK_FIREFOX_EXTENSION_URL:
+      "https://addons.mozilla.org/en-US/firefox/addon/ark-connect/?utm_source=addons.mozilla.org&utm_medium=referral&utm_content=search",
+  },
   images: {
     remotePatterns: [
       {

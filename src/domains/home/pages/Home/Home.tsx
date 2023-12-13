@@ -1,13 +1,11 @@
 import { Layout } from "@/app/components/Layout";
-import { Welcome } from "@/domains/home/components/Welcome";
+import { LoginOverlay } from "@/domains/home/components/LoginOverlay";
 
 export const Home = () => {
   return (
     <Layout>
-      <div className="flex flex-col">
-        <div className="sm:flex sm:items-center sm:h-full sm:w-full sm:mt-[8vw]">
-          <Welcome />
-        </div>
+      <div className="sm:flex sm:items-center sm:h-full sm:w-full sm:mt-[8vw]">
+        <LoginOverlay />
       </div>
     </Layout>
   );
