@@ -48,16 +48,21 @@ const NavbarConnected = ({
 
 export const Navbar = () => {
   const { t } = useTranslation();
-  const { isConnected, connect, address, disconnect } = useWallet();
+  const { isConnected, connect, address, disconnect, isConnecting } =
+    useWallet();
 
-  if (isConnected) {
+  if (isConnected || isConnecting) {
     return <NavbarConnected address={address} onDisconnect={disconnect} />;
   }
 
   return (
     <NavbarWrapper>
       <li className="flex items-center justify-end">
-        <Button className="hidden sm:block" onClick={connect}>
+        <Button
+          className="hidden sm:block"
+          onClick={connect}
+          disabled={isConnecting}
+        >
           {t("CONNECT_WALLET")}
         </Button>
 
