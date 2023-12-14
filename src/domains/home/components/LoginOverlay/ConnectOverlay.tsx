@@ -5,10 +5,11 @@ import { Button } from "@/app/components/Button";
 import { Alert } from "@/app/components/Alert/Alert";
 import { useWallet } from "@/app/hooks";
 import { Spinner } from "@/app/components/Spinner";
+import { isTruthy } from "@/app/utils/isTruthy";
 
 export const ConnectOverlay = () => {
   const { t } = useTranslation();
-  const { isConnecting, isErrored, connect } = useWallet();
+  const { isConnecting, isErrored, connect, error } = useWallet();
 
   return (
     <div className="bg-white mx-auto w-full sm:w-96 overflow-hidden shadow-sm rounded-xl">
@@ -46,7 +47,16 @@ export const ConnectOverlay = () => {
 
       {isConnecting && <Alert>{t("CLICK_TO_CONFIRM_WALLET_CONNECT")}</Alert>}
 
-      {isErrored && <Alert type="error">{t("WALLET_CONNECTION_ERROR")}</Alert>}
+      {isErrored && (
+        <Alert type="error">
+          <div>{t("WALLET_CONNECTION_ERROR")}</div>
+          {isTruthy(error) && (
+            <div className="mt-2">
+              {t("ERROR_MESSAGE")} {error}
+            </div>
+          )}
+        </Alert>
+      )}
     </div>
   );
 };

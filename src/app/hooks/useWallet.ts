@@ -1,49 +1,97 @@
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
+import { isTruthy } from "../utils/isTruthy";
 
 const isClient = () => typeof window !== "undefined";
 
 export const useWallet = () => {
   const [isConnecting, setIsConnecting] = useState(false);
   const [isErrored, setIsErrored] = useState(false);
-  const [isInstalled] = useState(true);
-  const [isConnected, setIsConnected] = useState(false);
+  const [error, setError] = useState();
 
-  useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: ["wallet-connection"],
-    queryFn: () => {
+    queryFn: async () => {
       if (!isClient()) {
-        return;
+        return {};
       }
 
-      console.log("Testing connection");
-      console.log({ arkconnect: window.arkconnect });
+      const isInstalled = isTruthy(window.arkconnect);
+      const isConnected = await window.arkconnect?.isConnected();
 
-      return { data: "test" };
+      const address = isConnected
+        ? await window.arkconnect?.getAddress()
+        : undefined;
+
+      const network = isConnected
+        ? await window.arkconnect?.getNetwork()
+        : undefined;
+
+      const balance = isConnected
+        ? await window.arkconnect?.getBalance()
+        : undefined;
+
+      return {
+        isInstalled,
+        isConnected,
+        extension: window.arkconnect,
+        wallet: {
+          address,
+          network,
+          balance,
+        },
+      };
     },
-    refetchInterval: 5000,
+    refetchInterval: 500,
   });
 
   return {
+    isLoading: isLoading && !isConnecting,
     isConnecting,
     isErrored,
-    isInstalled,
-    isConnected,
-    address: "DArvWfH5nMDT38tWmo5k461vMQpRXHQWX9",
-    connect: () => {
+    isInstalled: isTruthy(data) && data.isInstalled && !isLoading,
+    isConnected: isTruthy(data) ? data.isConnected : false,
+    error,
+    wallet: data?.wallet,
+    connect: async () => {
+      if (!isTruthy(data) || !isTruthy(data.extension)) {
+        // TODO Handle
+        return;
+      }
+
+      if (data.isConnected) {
+        // TODO: handle
+        return;
+      }
+
       setIsErrored(false);
+      setError(undefined);
       setIsConnecting(true);
 
-      setTimeout(() => {
-        setIsErrored(false);
+      try {
+        await data.extension.connect();
+      } catch (error) {
+        setIsErrored(true);
         setIsConnecting(false);
-        setIsConnected(true);
-      }, 2000);
+        console.log(typeof error);
+        setError(error.message);
+        return;
+      }
     },
     disconnect: () => {
-      setIsConnected(false);
       setIsErrored(false);
       setIsConnecting(false);
+
+      if (!isTruthy(data) || !isTruthy(data.extension)) {
+        // TODO Handle
+        return;
+      }
+
+      if (!data.isConnected) {
+        return;
+      }
+
+      data.extension.disconnect();
     },
   };
 };

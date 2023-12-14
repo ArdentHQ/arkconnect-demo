@@ -7,6 +7,7 @@ import { Button, NavbarButton } from "@/app/components/Button";
 import { useWallet } from "@/app/hooks";
 import { UserMenu } from "@/app/components/UserMenu";
 import { Spinner } from "@/app/components/Spinner";
+import { isTruthy } from "@/app/utils/isTruthy";
 
 interface NavbarProperties {
   address: string;
@@ -43,7 +44,7 @@ const NavbarConnected = ({ address, onDisconnect }: NavbarProperties) => (
   </NavbarWrapper>
 );
 
-export const NavbarConnecting = () => {
+const NavbarConnecting = () => {
   const { t } = useTranslation();
 
   return (
@@ -60,11 +61,21 @@ export const NavbarConnecting = () => {
 
 export const Navbar = () => {
   const { t } = useTranslation();
-  const { isConnected, connect, address, disconnect, isConnecting } =
+  const { isConnected, connect, wallet, disconnect, isConnecting, isLoading } =
     useWallet();
 
-  if (isConnected) {
-    return <NavbarConnected address={address} onDisconnect={disconnect} />;
+  if (isLoading) {
+    return (
+      <NavbarWrapper>
+        <Spinner className="w-8" />
+      </NavbarWrapper>
+    );
+  }
+
+  if (isConnected && isTruthy(wallet.address)) {
+    return (
+      <NavbarConnected address={wallet.address} onDisconnect={disconnect} />
+    );
   }
 
   if (isConnecting) {
