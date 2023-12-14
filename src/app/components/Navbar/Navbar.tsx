@@ -6,6 +6,12 @@ import { Button, NavbarButton } from "@/app/components/Button";
 import { useWallet } from "@/app/hooks";
 import { UserMenu } from "@/app/components/UserMenu";
 import { ReactElement } from "react";
+import Spinner from "@/public/icons/spinner.svg";
+
+interface NavbarProperties {
+  address: string;
+  onDisconnect: () => void;
+}
 
 const NavbarWrapper = ({ children }: { children: ReactElement }) => {
   return (
@@ -23,24 +29,30 @@ const NavbarWrapper = ({ children }: { children: ReactElement }) => {
   );
 };
 
-const NavbarConnected = ({
-  address,
-  onDisconnect,
-}: {
-  address: string;
-  onDisconnect: () => void;
-}) => {
+const NavbarConnected = ({ address, onDisconnect }: NavbarProperties) => (
+  <NavbarWrapper>
+    <li className="flex items-center justify-end space-x-2">
+      <UserMenu address={address} onDisconnect={onDisconnect} />
+
+      <div className="hidden sm:block">
+        <NavbarButton onClick={onDisconnect}>
+          <Logout className="w-4" />
+        </NavbarButton>
+      </div>
+    </li>
+  </NavbarWrapper>
+);
+
+export const NavbarConnecting = () => {
   const { t } = useTranslation();
+
   return (
     <NavbarWrapper>
-      <li className="flex items-center justify-end space-x-2">
-        <UserMenu address={address} onDisconnect={onDisconnect} />
-
-        <div className="hidden sm:block">
-          <NavbarButton onClick={onDisconnect}>
-            <Logout className="w-4" />
-          </NavbarButton>
-        </div>
+      <li>
+        <Button disabled className="space-x-2 flex items-center">
+          <Spinner className="animate-spin w-4 text-theme-primary-700" />
+          <span>{t("CONNECTING")}</span>
+        </Button>
       </li>
     </NavbarWrapper>
   );
@@ -51,18 +63,18 @@ export const Navbar = () => {
   const { isConnected, connect, address, disconnect, isConnecting } =
     useWallet();
 
-  if (isConnected || isConnecting) {
+  if (isConnected) {
     return <NavbarConnected address={address} onDisconnect={disconnect} />;
+  }
+
+  if (isConnecting) {
+    return <NavbarConnecting />;
   }
 
   return (
     <NavbarWrapper>
       <li className="flex items-center justify-end">
-        <Button
-          className="hidden sm:block"
-          onClick={connect}
-          disabled={isConnecting}
-        >
+        <Button className="hidden sm:block" onClick={connect}>
           {t("CONNECT_WALLET")}
         </Button>
 
