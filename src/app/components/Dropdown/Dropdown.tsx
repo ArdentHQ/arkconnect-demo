@@ -11,7 +11,7 @@ export const Dropdown = ({
   return (
     <div>
       <Menu as="div" className="static sm:relative inline-block text-left">
-        <Menu.Button>{trigger}</Menu.Button>
+        <Menu.Button as="span">{trigger}</Menu.Button>
         <Transition
           as={Fragment}
           enter="transition ease-out duration-50"
@@ -32,14 +32,6 @@ export const Dropdown = ({
 
 export const DropdownItem = ({
   children,
-  className,
 }: {
-  className?: string;
   children: ReactElement | string;
-}) => {
-  return (
-    <Menu.Item>
-      <div className={className}>{children}</div>
-    </Menu.Item>
-  );
-};
+}) => <Menu.Item>{children}</Menu.Item>;

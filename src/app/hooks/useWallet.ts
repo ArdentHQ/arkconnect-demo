@@ -4,7 +4,7 @@ export const useWallet = () => {
   const [isConnecting, setIsConnecting] = useState(false);
   const [isErrored, setIsErrored] = useState(false);
   const [isInstalled] = useState(true);
-  const [isConnected, setIsConnected] = useState(true);
+  const [isConnected, setIsConnected] = useState(false);
 
   return {
     isConnecting,
