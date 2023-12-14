@@ -11,7 +11,11 @@ export const useWallet = () => {
   const [isErrored, setIsErrored] = useState(false);
   const [error, setError] = useState<string>();
 
-  const { data, isLoading } = useQuery({
+  const {
+    data,
+    isLoading,
+    error: eeror,
+  } = useQuery({
     queryKey: ["wallet-connection"],
     queryFn: async () => {
       if (!isClient()) {
@@ -19,7 +23,11 @@ export const useWallet = () => {
       }
 
       const isInstalled = isTruthy(window.arkconnect);
-      const isConnected = await window.arkconnect?.isConnected();
+      let isConnected: boolean | undefined = false;
+
+      try {
+        isConnected = await window.arkconnect?.isConnected();
+      } catch {}
 
       const address = isConnected
         ? await window.arkconnect?.getAddress()
@@ -46,6 +54,8 @@ export const useWallet = () => {
     },
     refetchInterval: 500,
   });
+
+  console.log({ data, eeror });
 
   return {
     isLoading: isLoading && !isConnecting,
