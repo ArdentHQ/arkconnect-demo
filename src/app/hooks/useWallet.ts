@@ -22,5 +22,10 @@ export const useWallet = () => {
         setIsConnected(true);
       }, 2000);
     },
+    disconnect: () => {
+      setIsConnected(false);
+      setIsErrored(false);
+      setIsConnecting(false);
+    },
   };
 };

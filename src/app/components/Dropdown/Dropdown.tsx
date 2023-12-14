@@ -1,28 +1,39 @@
-import { ReactElement } from "react";
+import { Menu, Transition } from "@headlessui/react";
+import { Fragment, ReactElement } from "react";
 
 export const Dropdown = ({
   children,
   trigger,
 }: {
-  children?: ReactElement;
+  children?: ReactElement | string;
   trigger?: ReactElement;
 }) => {
   return (
-    <div className="hs-dropdown relative inline-flex">
-      <button
-        id="hs-dropdown-default"
-        type="button"
-        className="hs-dropdown-toggle px-4 py-1 inline-flex justify-center items-center gap-2 rounded-md font-medium align-middle hover:bg-gray-50 focus:outline-none transition-all text-sm dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400 dark:hover:text-white"
-      >
-        <>{trigger}</>
-      </button>
-
-      <div
-        className="hs-dropdown-menu hidden transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 mt-2 min-w-[15rem] bg-white shadow-md rounded-lg p-2 mt-2 divide-y divide-gray-200 dark:bg-gray-800 dark:border dark:border-gray-700 dark:divide-gray-700"
-        aria-labelledby="hs-dropdown-default"
-      >
-        <>{children}</>
-      </div>
+    <div>
+      <Menu as="div" className="static sm:relative inline-block text-left">
+        <Menu.Button>{trigger}</Menu.Button>
+        <Transition
+          as={Fragment}
+          enter="transition ease-out duration-50"
+          enterFrom="transform opacity-0 scale-95"
+          enterTo="transform opacity-100 scale-100"
+          leave="transition ease-in duration-75"
+          leaveFrom="transform opacity-100 scale-100"
+          leaveTo="transform opacity-0 scale-95"
+        >
+          <Menu.Items className="mx-6 sm:mx-0 absolute right-0 mt-6 left-0 sm:left-auto origin-top-right rounded-lg bg-white shadow-xl focus:outline-none">
+            {children}
+          </Menu.Items>
+        </Transition>
+      </Menu>
     </div>
   );
+};
+
+export const DropdownItems = ({
+  children,
+}: {
+  children: ReactElement | string;
+}) => {
+  return <Menu.Item>{children}</Menu.Item>;
 };
