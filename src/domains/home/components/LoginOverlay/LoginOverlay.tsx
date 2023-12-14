@@ -27,11 +27,22 @@ export const LoginOverlay = () => {
           <Button>
             <span>Primary</span>
           </Button>
+
           <Button disabled>
             <span>Disabled</span>
           </Button>
           <Button busy>
             <span>Disabled</span>
+          </Button>
+
+          <Button variant="secondary">
+            <span>Secondary</span>
+          </Button>
+          <Button variant="secondary" disabled>
+            <span>Secondary Disabled</span>
+          </Button>
+          <Button variant="secondary" disabled busy>
+            <span>Secondary Busy</span>
           </Button>
         </div>
       </div>
