@@ -22,7 +22,7 @@ const App = ({ Component, pageProps }: AppProps) => {
   return (
     <QueryClientProvider client={queryClient}>
       <div className={`${dmSans.variable} font-sans`}>
-        <Component {...pageProps} />;
+        <Component {...pageProps} />
       </div>
     </QueryClientProvider>
   );

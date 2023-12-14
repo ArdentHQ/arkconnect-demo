@@ -47,12 +47,14 @@ export const useWallet = () => {
     refetchInterval: 500,
   });
 
+  console.log({ data });
+
   return {
     isLoading: isLoading && !isConnecting,
     isConnecting,
     isErrored,
-    isInstalled: isTruthy(data) && data.isInstalled && !isLoading,
-    isConnected: isTruthy(data) ? data.isConnected : false,
+    isInstalled: isTruthy(data) && data.isInstalled,
+    isConnected: !isLoading && isTruthy(data) ? data.isConnected : false,
     error,
     wallet: data?.wallet ?? {
       address: undefined,

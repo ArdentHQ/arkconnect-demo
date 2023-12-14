@@ -53,9 +53,9 @@ export const ConnectOverlay = () => {
 
       {isErrored && (
         <Alert type="error">
-          <div>{t("WALLET_CONNECTION_ERROR")}</div>
+          <div className="text-center">{t("WALLET_CONNECTION_ERROR")}</div>
           {isTruthy(error) && (
-            <div className="mt-2">
+            <div className="mt-2 text-center">
               {t("ERROR_MESSAGE")} {error}
             </div>
           )}
