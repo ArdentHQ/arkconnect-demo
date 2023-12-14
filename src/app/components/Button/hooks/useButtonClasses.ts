@@ -26,7 +26,7 @@ export const useButtonClasses = ({
   const padding = "py-[0.625rem] px-[1.25rem]";
 
   const colors =
-    "enabled:bg-theme-primary-700 enabled:hover:bg-theme-primary-600 enabled:text-white focus:outline-none focus:shadow-outline-primary enabled:active:bg-theme-primary-900";
+    "enabled:bg-theme-primary-700 enabled:hover:bg-theme-primary-600 enabled:text-white focus:outline focus:outline-4 focus:outline-[rgba(229,243,237,1)] focus:shadow-outline-primary enabled:active:bg-theme-primary-900";
 
   return {
     disabled,
