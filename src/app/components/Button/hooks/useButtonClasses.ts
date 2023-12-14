@@ -14,16 +14,15 @@ export const useButtonClasses = ({
     throw new Error(`Variant ${variant} not implemented yet.`);
   }
 
-  const disabled =
-    "disabled:bg-theme-secondary-100 disabled:text-theme-secondary-400";
+  const disabled = "disabled:bg-theme-gray-100 disabled:text-theme-gray-400";
 
   const base =
-    "flex justify-between items-center font-bold rounded-2xl whitespace-nowrap space-x-[0.6rem] leading-[1.25rem] min-h-[2.5rem]";
+    "flex justify-between items-center font-bold rounded-2xl whitespace-nowrap space-x-[0.6rem] leading-[1.25rem] min-h-[2.5rem] transition-default";
 
   const padding = "py-[0.625rem] px-[1.25rem]";
 
   const colors =
-    "bg-theme-primary-700 hover:bg-theme-primary-800 text-white focus:outline-none focus:shadow-outline-primary active:bg-theme-primary-900";
+    "enabled:bg-theme-primary-700 enabled:hover:bg-theme-primary-600 enabled:text-white focus:outline-none focus:shadow-outline-primary enabled:active:bg-theme-primary-900";
 
   return {
     disabled,
