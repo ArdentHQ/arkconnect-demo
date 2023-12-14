@@ -1,6 +1,10 @@
+export {};
+
 declare global {
   interface Window {
-    // TODO: define matching type.
-    arkconnect?: string;
+    arkconnect?: {
+      connect: () => Promise<void>;
+      disconnect: () => Promise<void>;
+    };
   }
 }

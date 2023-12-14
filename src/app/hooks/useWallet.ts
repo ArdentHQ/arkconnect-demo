@@ -1,10 +1,28 @@
+import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
+
+const isClient = () => typeof window !== "undefined";
 
 export const useWallet = () => {
   const [isConnecting, setIsConnecting] = useState(false);
   const [isErrored, setIsErrored] = useState(false);
   const [isInstalled] = useState(true);
   const [isConnected, setIsConnected] = useState(false);
+
+  const { data, error, isFetching, isLoading } = useQuery({
+    queryKey: ["wallet-connection"],
+    queryFn: async () => {
+      if (!isClient()) {
+        return;
+      }
+
+      console.log("Testing connection");
+      console.log({ arkconnect: window.arkconnect });
+
+      return { data: "test" };
+    },
+    refetchInterval: 5000,
+  });
 
   return {
     isConnecting,
