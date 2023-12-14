@@ -1,6 +1,7 @@
 /* eslint-disable i18next/no-literal-string */
 import { ConnectOverlay } from "./ConnectOverlay";
 import { InstallOverlay } from "./InstallOverlay";
+import { Button } from "@/app/components/Button";
 import { Spinner } from "@/app/components/Spinner";
 import { useWallet } from "@/app/hooks";
 
@@ -21,6 +22,29 @@ export const LoginOverlay = () => {
         <div>Address: {wallet.address}</div>
         <div>Network: {wallet.network}</div>
         <div>Balance: {wallet.balance}</div>
+
+        <div>
+          <Button>
+            <span>Primary</span>
+          </Button>
+
+          <Button disabled>
+            <span>Disabled</span>
+          </Button>
+          <Button busy>
+            <span>Disabled</span>
+          </Button>
+
+          <Button variant="secondary">
+            <span>Secondary</span>
+          </Button>
+          <Button variant="secondary" disabled>
+            <span>Secondary Disabled</span>
+          </Button>
+          <Button variant="secondary" disabled busy>
+            <span>Secondary Busy</span>
+          </Button>
+        </div>
       </div>
     );
   }
