@@ -6,7 +6,7 @@ import { Button, NavbarButton } from "@/app/components/Button";
 import { useWallet } from "@/app/hooks";
 import { UserMenu } from "@/app/components/UserMenu";
 import { ReactElement } from "react";
-import Spinner from "@/public/icons/spinner.svg";
+import { Spinner } from "@/app/components/Spinner";
 
 interface NavbarProperties {
   address: string;
@@ -50,7 +50,7 @@ export const NavbarConnecting = () => {
     <NavbarWrapper>
       <li>
         <Button disabled className="space-x-2 flex items-center">
-          <Spinner className="animate-spin w-4 text-theme-primary-700" />
+          <Spinner className="w-4" />
           <span>{t("CONNECTING")}</span>
         </Button>
       </li>
