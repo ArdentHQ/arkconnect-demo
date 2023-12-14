@@ -1,24 +1,40 @@
 import { AnchorHTMLAttributes, ButtonHTMLAttributes } from "react";
 import { twMerge } from "tailwind-merge";
+import { Spinner } from "../Spinner";
 import { useButtonClasses, ButtonVariant } from "./hooks/useButtonClasses";
 
 interface ButtonProperties {
   variant?: ButtonVariant;
+  busy?: boolean;
 }
 
 export const Button = ({
   className,
   variant = "primary",
+  busy = false,
+  disabled = false,
+  children,
   ...properties
 }: ButtonProperties & ButtonHTMLAttributes<HTMLButtonElement>) => {
-  const { padding, base, colors, disabled } = useButtonClasses({ variant });
+  const {
+    padding,
+    base,
+    colors,
+    disabled: disabledClass,
+  } = useButtonClasses({
+    variant,
+    busy,
+  });
 
   return (
     <button
       type="button"
-      className={twMerge(base, padding, colors, disabled, className)}
+      className={twMerge(base, padding, colors, disabledClass, className)}
+      disabled={disabled || busy}
       {...properties}
-    />
+    >
+      {busy ? <Spinner className="w-4 h-4" /> : children}
+    </button>
   );
 };
 

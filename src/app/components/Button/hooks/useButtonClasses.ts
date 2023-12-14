@@ -2,8 +2,10 @@ export type ButtonVariant = "primary" | "secondary";
 
 export const useButtonClasses = ({
   variant,
+  busy,
 }: {
   variant: ButtonVariant;
+  busy?: boolean;
 }): {
   disabled: string;
   base: string;
@@ -14,7 +16,9 @@ export const useButtonClasses = ({
     throw new Error(`Variant ${variant} not implemented yet.`);
   }
 
-  const disabled = "disabled:bg-theme-gray-100 disabled:text-theme-gray-400";
+  const disabled = busy
+    ? "disabled:bg-theme-primary-700"
+    : "disabled:bg-theme-gray-100 disabled:text-theme-gray-400";
 
   const base =
     "flex justify-between items-center font-bold rounded-2xl whitespace-nowrap space-x-[0.6rem] leading-[1.25rem] min-h-[2.5rem] transition-default";

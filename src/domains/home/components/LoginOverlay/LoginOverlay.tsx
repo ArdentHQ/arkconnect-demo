@@ -30,6 +30,9 @@ export const LoginOverlay = () => {
           <Button disabled>
             <span>Disabled</span>
           </Button>
+          <Button busy>
+            <span>Disabled</span>
+          </Button>
         </div>
       </div>
     );
