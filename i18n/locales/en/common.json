@@ -11,5 +11,6 @@
   "WALLET_CONNECTION_ERROR": "There was a problem connecting the wallet to the site, try again.",
   "WRONG_NETWORK": "You' re trying to connect to a Testnet Network, which we don't support. Switch to a Mainnet Network and try again.",
   "WELCOME": "Welcome",
-  "DISCONNECT_WALLET": "Disconnect wallet"
+  "DISCONNECT_WALLET": "Disconnect wallet",
+  "ERROR_MESSAGE": "Error message:"
 }

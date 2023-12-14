@@ -1,6 +1,15 @@
+export {};
+
 declare global {
   interface Window {
-    // TODO: define matching type.
-    arkconnect?: string;
+    arkconnect?: {
+      connect: () => Promise<void>;
+      disconnect: () => Promise<void>;
+      isConnected: () => Promise<boolean>;
+      getAddress: () => Promise<string>;
+      getNetwork: () => Promise<string>;
+      getBalance: () => Promise<string>;
+      loaded: boolean;
+    };
   }
 }
