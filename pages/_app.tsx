@@ -11,10 +11,12 @@ const dmSans = DM_Sans({
   variable: "--font-dm-sans",
 });
 
-const App = ({ Component, pageProps }: AppProps) => (
-  <div className={`${dmSans.variable} font-sans`}>
-    <Component {...pageProps} />;
-  </div>
-);
+const App = ({ Component, pageProps }: AppProps) => {
+  return (
+    <div className={`${dmSans.variable} font-sans`}>
+      <Component {...pageProps} />;
+    </div>
+  );
+};
 
 export default appWithTranslation(App);

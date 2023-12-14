@@ -1,7 +1,9 @@
+import { ButtonVariant } from "@/app/components/Button";
+
 export const useButtonClasses = ({
   variant,
 }: {
-  variant: "primary" | "secondary";
+  variant: ButtonVariant;
 }): {
   base: string;
   padding: string;
@@ -12,7 +14,7 @@ export const useButtonClasses = ({
   }
 
   const base =
-    "flex justify-between items-center font-bold rounded-2xl whitespace-nowrap space-x-[0.6rem]";
+    "flex justify-between items-center font-bold rounded-2xl whitespace-nowrap space-x-[0.6rem] leading-[1.25rem] min-h-[2.5rem]";
 
   const padding = "py-[0.625rem] px-[1.25rem]";
 
