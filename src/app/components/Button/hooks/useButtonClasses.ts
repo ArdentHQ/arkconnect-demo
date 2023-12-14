@@ -1,4 +1,4 @@
-import { ButtonVariant } from "@/app/components/Button";
+export type ButtonVariant = "primary" | "secondary";
 
 export const useButtonClasses = ({
   variant,
