@@ -3,9 +3,9 @@ import { useState } from "react";
 import { ConnectOverlay } from "./ConnectOverlay";
 import { InstallOverlay } from "./InstallOverlay";
 import { Button } from "@/app/components/Button";
-import { Modal } from "@/app/components/Modal";
 import { Spinner } from "@/app/components/Spinner";
 import { useWallet } from "@/app/hooks";
+import { Dialog } from "@/app/components/Dialog";
 
 export const LoginOverlay = () => {
   const { isInstalled, isConnected, wallet, isLoading } = useWallet();
@@ -33,9 +33,15 @@ export const LoginOverlay = () => {
           </div>
         </div>
 
-        <Modal show={showModal} onClose={() => setShowModal(false)}>
-          sfsafa
-        </Modal>
+        <Dialog
+          show={showModal}
+          onClose={() => setShowModal(false)}
+          onOk={() => console.log("Continue")}
+          title="Send ARK"
+          okButtonLabel="Continue"
+        >
+          Form Data
+        </Dialog>
       </>
     );
   }
