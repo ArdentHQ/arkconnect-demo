@@ -9,6 +9,7 @@ import {
   ReactQueryClient,
   QueryClientProvider,
 } from "@/app/contexts/ReactQuery";
+import { ModalContextProvider } from "@/app/contexts/ModalContext/ModalContext";
 
 const dmSans = DM_Sans({
   weight: ["300", "400", "500", "700"],
@@ -21,9 +22,11 @@ const App = ({ Component, pageProps }: AppProps) => {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <div className={`${dmSans.variable} font-sans`}>
-        <Component {...pageProps} />;
-      </div>
+      <ModalContextProvider>
+        <div className={`${dmSans.variable} font-sans`}>
+          <Component {...pageProps} />;
+        </div>
+      </ModalContextProvider>
     </QueryClientProvider>
   );
 };
