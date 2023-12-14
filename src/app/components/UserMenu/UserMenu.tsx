@@ -1,8 +1,8 @@
+import { useTranslation } from "next-i18next";
 import { TruncateMiddle } from "@/app/components/Truncate";
 import { NavbarButton } from "@/app/components/Button";
 import { Dropdown, DropdownItem } from "@/app/components/Dropdown";
 import Logout from "@/public/icons/logout.svg";
-import { useTranslation } from "next-i18next";
 
 const AddressButton = ({
   address,
