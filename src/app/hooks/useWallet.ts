@@ -9,9 +9,9 @@ export const useWallet = () => {
   const [isInstalled] = useState(true);
   const [isConnected, setIsConnected] = useState(false);
 
-  const { data, error, isFetching, isLoading } = useQuery({
+  useQuery({
     queryKey: ["wallet-connection"],
-    queryFn: async () => {
+    queryFn: () => {
       if (!isClient()) {
         return;
       }

@@ -1,4 +1,4 @@
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { QueryClient } from "@tanstack/react-query";
 
 export const ReactQueryClient = () => {
   return new QueryClient({
@@ -12,4 +12,4 @@ export const ReactQueryClient = () => {
   });
 };
 
-export const ReactQueryProvider = QueryClientProvider;
+export { QueryClientProvider } from "@tanstack/react-query";

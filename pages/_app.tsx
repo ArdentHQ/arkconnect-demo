@@ -7,7 +7,7 @@ import { DM_Sans } from "next/font/google";
 import { useState } from "react";
 import {
   ReactQueryClient,
-  ReactQueryProvider,
+  QueryClientProvider,
 } from "@/app/contexts/ReactQuery";
 
 const dmSans = DM_Sans({
@@ -20,11 +20,11 @@ const App = ({ Component, pageProps }: AppProps) => {
   const [queryClient] = useState(() => ReactQueryClient());
 
   return (
-    <ReactQueryProvider client={queryClient}>
+    <QueryClientProvider client={queryClient}>
       <div className={`${dmSans.variable} font-sans`}>
         <Component {...pageProps} />;
       </div>
-    </ReactQueryProvider>
+    </QueryClientProvider>
   );
 };
 
