@@ -14,7 +14,7 @@ export const useWallet = () => {
   const {
     data,
     isLoading,
-    error: eeror,
+    error: error,
   } = useQuery({
     queryKey: ["wallet-connection"],
     queryFn: async () => {
