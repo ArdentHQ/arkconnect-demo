@@ -1,5 +1,5 @@
-import SpinnerIcon from "@/public/icons/spinner.svg";
 import { twMerge } from "tailwind-merge";
+import SpinnerIcon from "@/public/icons/spinner.svg";
 
 export const Spinner = ({ className }: { className: string }) => (
   <SpinnerIcon

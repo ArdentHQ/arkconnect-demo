@@ -1,7 +1,6 @@
 import { AnchorHTMLAttributes, ButtonHTMLAttributes } from "react";
 import { twMerge } from "tailwind-merge";
-import { useButtonClasses } from "./hooks/useButtonClasses";
-import { ButtonVariant } from "./Button.contracts";
+import { useButtonClasses, ButtonVariant } from "./hooks/useButtonClasses";
 
 interface ButtonProperties {
   variant?: ButtonVariant;

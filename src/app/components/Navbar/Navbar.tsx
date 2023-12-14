@@ -1,11 +1,11 @@
 import Link from "next/link";
 import { useTranslation } from "next-i18next";
+import { ReactElement } from "react";
 import Logo from "@/public/images/logo.svg";
 import Logout from "@/public/icons/logout.svg";
 import { Button, NavbarButton } from "@/app/components/Button";
 import { useWallet } from "@/app/hooks";
 import { UserMenu } from "@/app/components/UserMenu";
-import { ReactElement } from "react";
 import { Spinner } from "@/app/components/Spinner";
 
 interface NavbarProperties {

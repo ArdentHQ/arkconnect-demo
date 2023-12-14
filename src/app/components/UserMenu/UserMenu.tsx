@@ -1,7 +1,8 @@
-import { TruncateMiddle } from "../Truncate";
-import Logout from "@/public/icons/logout.svg";
+import { TruncateMiddle } from "@/app/components/Truncate";
+import { NavbarButton } from "@/app/components/Button";
 import { Dropdown, DropdownItem } from "@/app/components/Dropdown";
-import { NavbarButton } from "../Button";
+import Logout from "@/public/icons/logout.svg";
+import { useTranslation } from "next-i18next";
 
 const AddressButton = ({
   address,
@@ -21,16 +22,20 @@ export const UserMenu = ({
 }: {
   address: string;
   onDisconnect?: () => void;
-}) => (
-  <Dropdown trigger={<AddressButton address={address} />}>
-    <DropdownItem>
-      <button
-        onClick={onDisconnect}
-        className="group flex w-full items-center px-8 py-4 leading-[1.3rem] font-medium space-x-3"
-      >
-        <Logout className="w-4" />
-        <span>Disconnect wallet</span>
-      </button>
-    </DropdownItem>
-  </Dropdown>
-);
+}) => {
+  const { t } = useTranslation();
+
+  return (
+    <Dropdown trigger={<AddressButton address={address} />}>
+      <DropdownItem>
+        <button
+          onClick={onDisconnect}
+          className="group flex w-full items-center px-8 py-4 leading-[1.3rem] font-medium space-x-3"
+        >
+          <Logout className="w-4" />
+          <span>{t("DISCONNECT_WALLET")}</span>
+        </button>
+      </DropdownItem>
+    </Dropdown>
+  );
+};
