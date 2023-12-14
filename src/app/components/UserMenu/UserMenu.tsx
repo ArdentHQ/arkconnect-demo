@@ -1,6 +1,6 @@
 import { TruncateMiddle } from "../Truncate";
 import Logout from "@/public/icons/logout.svg";
-import { Dropdown, DropdownItems } from "../Dropdown";
+import { Dropdown, DropdownItem } from "@/app/components/Dropdown";
 
 const AddressButton = ({
   address,
@@ -31,15 +31,12 @@ export const UserMenu = ({
 }) => {
   return (
     <Dropdown trigger={<AddressButton address={address} />}>
-      <DropdownItems>
-        <button
-          onClick={onDisconnect}
-          className="group flex w-full items-center px-8 py-4 leading-[1.3rem] font-medium space-x-3"
-        >
+      <DropdownItem className="group flex w-full items-center px-8 py-4 leading-[1.3rem] font-medium space-x-3">
+        <>
           <Logout className="w-4" />
           <span>Disconnect wallet</span>
-        </button>
-      </DropdownItems>
+        </>
+      </DropdownItem>
     </Dropdown>
   );
 };

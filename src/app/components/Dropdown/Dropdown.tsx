@@ -30,10 +30,16 @@ export const Dropdown = ({
   );
 };
 
-export const DropdownItems = ({
+export const DropdownItem = ({
   children,
+  className,
 }: {
+  className?: string;
   children: ReactElement | string;
 }) => {
-  return <Menu.Item>{children}</Menu.Item>;
+  return (
+    <Menu.Item>
+      <div className={className}>{children}</div>
+    </Menu.Item>
+  );
 };

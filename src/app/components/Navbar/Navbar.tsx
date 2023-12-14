@@ -4,7 +4,7 @@ import Logo from "@/public/images/logo.svg";
 import Logout from "@/public/icons/logout.svg";
 import { Button } from "@/app/components/Button";
 import { useWallet } from "@/app/hooks";
-import { UserMenu } from "../UserMenu";
+import { UserMenu } from "@/app/components/UserMenu";
 import { ReactElement } from "react";
 
 const NavbarWrapper = ({ children }: { children: ReactElement }) => {
