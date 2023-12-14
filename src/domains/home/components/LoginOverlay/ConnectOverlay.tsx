@@ -28,7 +28,11 @@ export const ConnectOverlay = () => {
 
         <div className="h-12 mt-6 flex flex-col items-center justify-center">
           {!isConnecting && (
-            <Button onClick={connect}>
+            <Button
+              onClick={() => {
+                void connect();
+              }}
+            >
               {isErrored && t("RETRY")}
               {!isErrored && t("CONNECT")}
             </Button>

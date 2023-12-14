@@ -33,10 +33,19 @@ const NavbarWrapper = ({ children }: { children: ReactElement }) => {
 const NavbarConnected = ({ address, onDisconnect }: NavbarProperties) => (
   <NavbarWrapper>
     <li className="flex items-center justify-end space-x-2">
-      <UserMenu address={address} onDisconnect={onDisconnect} />
+      <UserMenu
+        address={address}
+        onDisconnect={() => {
+          void onDisconnect();
+        }}
+      />
 
       <div className="hidden sm:block">
-        <NavbarButton onClick={onDisconnect}>
+        <NavbarButton
+          onClick={() => {
+            void onDisconnect();
+          }}
+        >
           <Logout className="w-4" />
         </NavbarButton>
       </div>
@@ -74,7 +83,12 @@ export const Navbar = () => {
 
   if (isConnected && isTruthy(wallet.address)) {
     return (
-      <NavbarConnected address={wallet.address} onDisconnect={disconnect} />
+      <NavbarConnected
+        address={wallet.address}
+        onDisconnect={() => {
+          void disconnect();
+        }}
+      />
     );
   }
 
@@ -85,11 +99,21 @@ export const Navbar = () => {
   return (
     <NavbarWrapper>
       <li className="flex items-center justify-end">
-        <Button className="hidden sm:block" onClick={connect}>
+        <Button
+          className="hidden sm:block"
+          onClick={() => {
+            void connect();
+          }}
+        >
           {t("CONNECT_WALLET")}
         </Button>
 
-        <Button className="block sm:hidden" onClick={connect}>
+        <Button
+          className="block sm:hidden"
+          onClick={() => {
+            void connect();
+          }}
+        >
           {t("CONNECT")}
         </Button>
       </li>

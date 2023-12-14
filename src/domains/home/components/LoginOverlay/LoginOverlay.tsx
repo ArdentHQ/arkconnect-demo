@@ -1,6 +1,7 @@
-import { Spinner } from "@/app/components/Spinner";
+/* eslint-disable i18next/no-literal-string */
 import { ConnectOverlay } from "./ConnectOverlay";
 import { InstallOverlay } from "./InstallOverlay";
+import { Spinner } from "@/app/components/Spinner";
 import { useWallet } from "@/app/hooks";
 
 export const LoginOverlay = () => {

@@ -1,13 +1,15 @@
+/* eslint-disable sonarjs/cognitive-complexity */
+// TODO: Cleanup
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
-import { isTruthy } from "../utils/isTruthy";
+import { isTruthy } from "@/app/utils/isTruthy";
 
 const isClient = () => typeof window !== "undefined";
 
 export const useWallet = () => {
   const [isConnecting, setIsConnecting] = useState(false);
   const [isErrored, setIsErrored] = useState(false);
-  const [error, setError] = useState();
+  const [error, setError] = useState<string>();
 
   const { data, isLoading } = useQuery({
     queryKey: ["wallet-connection"],
@@ -52,15 +54,19 @@ export const useWallet = () => {
     isInstalled: isTruthy(data) && data.isInstalled && !isLoading,
     isConnected: isTruthy(data) ? data.isConnected : false,
     error,
-    wallet: data?.wallet,
+    wallet: data?.wallet ?? {
+      address: undefined,
+      network: undefined,
+      balance: undefined,
+    },
     connect: async () => {
       if (!isTruthy(data) || !isTruthy(data.extension)) {
-        // TODO Handle
+        // TODO TBD
         return;
       }
 
       if (data.isConnected) {
-        // TODO: handle
+        // TODO TBD
         return;
       }
 
@@ -70,11 +76,12 @@ export const useWallet = () => {
 
       try {
         await data.extension.connect();
-      } catch (error) {
+      } catch (_error) {
         setIsErrored(true);
         setIsConnecting(false);
-        console.log(typeof error);
-        setError(error.message);
+
+        const error_ = _error as Error;
+        setError(error_.message);
         return;
       }
     },
