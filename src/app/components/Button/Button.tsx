@@ -1,7 +1,7 @@
 import { AnchorHTMLAttributes, ButtonHTMLAttributes } from "react";
 import { twMerge } from "tailwind-merge";
-import { Spinner } from "../Spinner";
 import { useButtonClasses, ButtonVariant } from "./hooks/useButtonClasses";
+import { Spinner } from "@/app/components/Spinner";
 
 interface ButtonProperties {
   variant?: ButtonVariant;
