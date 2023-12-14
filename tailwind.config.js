@@ -1,12 +1,7 @@
 const defaultTheme = require("tailwindcss/defaultTheme");
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: [
-    "./pages/**/*.{js,ts,jsx,tsx}",
-    "./src/**/*.{js,ts,jsx,tsx}",
-    "node_modules/preline/dist/*.js",
-  ],
-  plugins: [require("preline/plugin")],
+  content: ["./pages/**/*.{js,ts,jsx,tsx}", "./src/**/*.{js,ts,jsx,tsx}"],
   darkMode: "class",
   theme: {
     extend: {
@@ -15,6 +10,7 @@ module.exports = {
       },
       boxShadow: {
         sm: "0px 1px 4px 0px rgba(0, 0, 0, 0.05)",
+        xl: "0px 15px 35px 0px rgba(46, 46, 46, 0.14)",
       },
     },
 

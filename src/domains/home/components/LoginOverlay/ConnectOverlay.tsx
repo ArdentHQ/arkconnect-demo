@@ -1,10 +1,10 @@
 import { useTranslation } from "next-i18next";
 import Connect from "@/public/images/connect.svg";
-import Spinner from "@/public/icons/spinner.svg";
 import { H3 } from "@/app/components/Typography";
 import { Button } from "@/app/components/Button";
 import { Alert } from "@/app/components/Alert/Alert";
 import { useWallet } from "@/app/hooks";
+import { Spinner } from "@/app/components/Spinner";
 
 export const ConnectOverlay = () => {
   const { t } = useTranslation();
@@ -35,7 +35,7 @@ export const ConnectOverlay = () => {
 
           {isConnecting && (
             <div className="flex items-center space-x-3">
-              <Spinner className="animate-spin w-8 text-theme-primary-700" />
+              <Spinner className="w-8" />
               <p className="text-lg font-medium leading-[1.406rem]">
                 {t("CONNECTING")}
               </p>

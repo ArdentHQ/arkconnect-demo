@@ -10,5 +10,6 @@
   "CLICK_TO_CONFIRM_WALLET_CONNECT": "Click on the ARK Connect icon in your browser to confirm the actions and connect your wallet.",
   "WALLET_CONNECTION_ERROR": "There was a problem connecting the wallet to the site, try again.",
   "WRONG_NETWORK": "You' re trying to connect to a Testnet Network, which we don't support. Switch to a Mainnet Network and try again.",
-  "WELCOME": "Welcome"
+  "WELCOME": "Welcome",
+  "DISCONNECT_WALLET": "Disconnect wallet"
 }

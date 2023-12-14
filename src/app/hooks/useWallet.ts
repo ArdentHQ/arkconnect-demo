@@ -11,6 +11,7 @@ export const useWallet = () => {
     isErrored,
     isInstalled,
     isConnected,
+    address: "DArvWfH5nMDT38tWmo5k461vMQpRXHQWX9",
     connect: () => {
       setIsErrored(false);
       setIsConnecting(true);
@@ -20,6 +21,11 @@ export const useWallet = () => {
         setIsConnecting(false);
         setIsConnected(true);
       }, 2000);
+    },
+    disconnect: () => {
+      setIsConnected(false);
+      setIsErrored(false);
+      setIsConnecting(false);
     },
   };
 };
