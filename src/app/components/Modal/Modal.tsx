@@ -3,10 +3,10 @@ import cn from "classnames";
 
 import { Fragment, useEffect } from "react";
 
-import { createPortal } from "react-dom";
 import { useModalContext } from "@/app/contexts/ModalContext/ModalContext";
+import { useAppFont } from "@/app/hooks/useAppFont";
 
-interface Properties {
+export interface ModalProperties {
   children?: React.ReactNode;
   show?: boolean;
   onClose: () => void;
@@ -18,20 +18,21 @@ export const Modal = ({
   show = false,
   onClose,
   initialFocus,
-}: Properties): JSX.Element => {
+}: ModalProperties): JSX.Element => {
   const { setModalOpened } = useModalContext();
+
+  const fontCssClass = useAppFont();
 
   useEffect(() => {
     setModalOpened(show);
   }, [show, setModalOpened]);
 
-  return createPortal(
+  return (
     <Transition show={show} as={Fragment} leave="duration-200">
       <Dialog
         as="div"
         id="modal"
-        className="fixed inset-0 z-50 flex transform items-center overflow-y-auto px-4 py-6 transition-all sm:px-0"
-        data-testid="Dialog__close"
+        className={`fixed inset-0 z-50 flex transform items-center overflow-y-auto px-4 py-6 transition-all sm:px-0 ${fontCssClass}`}
         onClose={onClose}
         initialFocus={initialFocus}
       >
@@ -65,7 +66,6 @@ export const Modal = ({
           </Dialog.Panel>
         </Transition.Child>
       </Dialog>
-    </Transition>,
-    document.body,
+    </Transition>
   );
 };
