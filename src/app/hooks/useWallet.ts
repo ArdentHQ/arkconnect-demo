@@ -11,11 +11,7 @@ export const useWallet = () => {
   const [isErrored, setIsErrored] = useState(false);
   const [error, setError] = useState<string>();
 
-  const {
-    data,
-    isLoading,
-    error: error,
-  } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: ["wallet-connection"],
     queryFn: async () => {
       if (!isClient()) {
@@ -54,8 +50,6 @@ export const useWallet = () => {
     },
     refetchInterval: 500,
   });
-
-  console.log({ data, error });
 
   return {
     isLoading: isLoading && !isConnecting,
