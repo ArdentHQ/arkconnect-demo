@@ -1,15 +1,16 @@
 :root {
-  /* Purple */
-  --theme-color-primary-50: 248 248 255; /* #f8f8ff */
-  --theme-color-primary-100: 215 255 238; /* #e5e8ff */
-  --theme-color-primary-200: 207 212 255; /* #cfd4ff */
-  --theme-color-primary-300: 168 177 255; /* #a8b1ff */
-  --theme-color-primary-400: 134 146 255; /* #8692ff */
-  --theme-color-primary-500: 107 122 255; /* #6b7aff */
-  --theme-color-primary-600: 10 221 132; /* #0ADD84 */
+  /* Primary */
+  --theme-color-primary-50: 238 255 247; /* #eefff7 */
+  --theme-color-primary-100: 215 255 238; /* #d7ffee */
+  --theme-color-primary-200: 178 255 221; /* #b2ffdd */
+  --theme-color-primary-300: 119 254 196; /* #77fec4 */
+  --theme-color-primary-400: 52 244 162; /* #34f4a2 */
+  --theme-color-primary-500: 10 221 132; /* #0add84 */
+  --theme-color-primary-600: 1 184 108; /* #01b86c */
+  --theme-color-primary-650: 2 168 99; /* #02A863 */
   --theme-color-primary-700: 5 135 81; /* #058751 */
-  --theme-color-primary-800: 10 113 71; /* #2c39ae */
-  --theme-color-primary-900: 11 92 60; /* #212b83 */
+  --theme-color-primary-800: 10 113 71; /* #0a7147 */
+  --theme-color-primary-900: 11 92 60; /* #0b5c3c */
 
   /* Gray */
   --theme-color-secondary-50: 250 250 250; /* #fafafa */
