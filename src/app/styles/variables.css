@@ -12,17 +12,18 @@
   --theme-color-primary-800: 10 113 71; /* #0a7147 */
   --theme-color-primary-900: 11 92 60; /* #0b5c3c */
 
-  /* Gray */
-  --theme-color-secondary-50: 250 250 250; /* #fafafa */
-  --theme-color-secondary-100: 246 247 255; /* #f6f7ff */
-  --theme-color-secondary-200: 236 237 249; /* #ecedf9 */
-  --theme-color-secondary-300: 226 227 241; /* #e2e3f1 */
-  --theme-color-secondary-400: 209 211 227; /* #d1d3e3 */
-  --theme-color-secondary-500: 178 181 204; /* #b2b5cc */
-  --theme-color-secondary-600: 144 147 172; /* #9093ac */
-  --theme-color-secondary-700: 114 118 142; /* #72768e */
-  --theme-color-secondary-800: 73 76 94; /* #494c5e */
-  --theme-color-secondary-900: 49 51 63; /* #31333f */
+  /* Error */
+  --theme-color-secondary-25: rgba(255, 251, 250, 1); /* #fffbfa */
+  --theme-color-secondary-50: rgba(254, 243, 242, 1); /* #fef3f2 */
+  --theme-color-secondary-100: rgba(254, 228, 226, 1); /* #fee4e2 */
+  --theme-color-secondary-200: rgba(254, 205, 202, 1); /* #fecdca */
+  --theme-color-secondary-300: rgba(253, 162, 155, 1); /* #fda29b */
+  --theme-color-secondary-400: rgba(249, 112, 102, 1); /* #f97066 */
+  --theme-color-secondary-500: rgba(240, 68, 56, 1); /* #f04438 */
+  --theme-color-secondary-600: rgba(217, 45, 32, 1); /* #d92d20 */
+  --theme-color-secondary-700: rgba(180, 35, 24, 1); /* #b42318 */
+  --theme-color-secondary-800: rgba(145, 32, 24, 1); /* #912018 */
+  --theme-color-secondary-900: rgba(91, 16, 5, 1); /* #7a271a */
 
   /* Dark Mode Gray */
   --theme-color-dark-50: 227 232 234; /* #E3E8EA */
