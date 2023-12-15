@@ -20,11 +20,20 @@ const App = ({ Component, pageProps }: AppProps) => {
   const [queryClient] = useState(() => ReactQueryClient());
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <div className={`${dmSans.variable} font-sans`}>
-        <Component {...pageProps} />
-      </div>
-    </QueryClientProvider>
+    <>
+      <style jsx global>
+        {`
+          html {
+            --font-dm-sans: ${dmSans.style.fontFamily};
+          }
+        `}
+      </style>
+      <QueryClientProvider client={queryClient}>
+        <div>
+          <Component {...pageProps} />
+        </div>
+      </QueryClientProvider>
+    </>
   );
 };
 
