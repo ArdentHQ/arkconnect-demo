@@ -14,6 +14,6 @@ export interface UseWalletReturnType {
   isConnected: boolean;
   error?: string;
   wallet?: WalletData;
-  connect: () => void;
+  connect: () => Promise<void>;
   disconnect: () => void;
 }

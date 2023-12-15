@@ -1,5 +1,5 @@
-import { WalletData } from "@/app/hooks/useWallet.contracts";
 import { WalletAddress } from "./WalletAddress";
+import { WalletData } from "@/app/hooks/useWallet.contracts";
 
 export const WalletOverview = ({ wallet }: { wallet: WalletData }) => {
   return (

@@ -1,9 +1,10 @@
 /* eslint-disable sonarjs/cognitive-complexity */
+/* eslint-disable max-lines-per-function */
 // TODO: Cleanup
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
-import { isTruthy } from "@/app/utils/isTruthy";
 import { UseWalletReturnType } from "./useWallet.contracts";
+import { isTruthy } from "@/app/utils/isTruthy";
 import { NetworkType } from "@/app/lib";
 
 const isClient = () => typeof window !== "undefined";
