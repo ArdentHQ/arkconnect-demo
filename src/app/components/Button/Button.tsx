@@ -55,11 +55,16 @@ export const ExternalButtonLink = ({
   );
 };
 
-export const NavbarButton = (
-  properties: ButtonProperties & ButtonHTMLAttributes<HTMLButtonElement>,
-) => (
+// TODO: Define & add hover/focus states
+export const NavbarButton = ({
+  className,
+  ...properties
+}: ButtonProperties & ButtonHTMLAttributes<HTMLButtonElement>) => (
   <Button
-    className="px-4 py-[0.625rem] rounded-2xl bg-theme-primary-100 text-black font-medium text-sm active:bg-theme-primary-100 hover:bg-theme-primary-100"
+    className={twMerge(
+      "px-4 py-[0.625rem] rounded-2xl enabled:text-black font-medium text-sm enabled:bg-theme-primary-100 enabled:active:bg-theme-primary-100 enabled:hover:bg-theme-primary-100 enabled:!border-none focus:outline-none",
+      className,
+    )}
     {...properties}
   />
 );
