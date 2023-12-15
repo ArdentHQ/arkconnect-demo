@@ -4,8 +4,8 @@ import { WalletOverview } from "@/app/components/WalletOverview";
 import { useWallet } from "@/app/hooks";
 import { isTruthy } from "@/app/utils/isTruthy";
 import { LoginOverlay } from "@/domains/home/components/LoginOverlay";
-import { Dialog } from "@/app/components/Dialog";
 import { Button } from "@/app/components/Button";
+import { SendForm } from "@/domains/global/components/SendForm";
 export const Home = () => {
   const { wallet, isConnected } = useWallet();
 
@@ -18,17 +18,11 @@ export const Home = () => {
           <>
             <WalletOverview wallet={wallet} />
 
-            <Dialog
-              show={showModal}
-              onClose={() => setShowModal(false)}
-              onContinue={() => console.log("Continue")}
-              continueDisabled={true}
-              title="Send ARK"
-            >
-              Form Data
-            </Dialog>
+            <SendForm show={showModal} onClose={() => setShowModal(false)} />
 
-            <Button onClick={() => setShowModal(true)}>Send ARK</Button>
+            <Button onClick={() => setShowModal(true)}>
+              {"Send ARK (Temporal)"}
+            </Button>
           </>
         )}
         {!isConnected && (
