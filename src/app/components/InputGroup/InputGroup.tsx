@@ -8,6 +8,7 @@ export const InputGroup = ({
   label,
   help,
   inputName,
+  className,
   variant = "default",
   ...properties
 }: InputGroupProperties): JSX.Element => {
@@ -15,7 +16,10 @@ export const InputGroup = ({
     <InputGroupContext.Provider
       value={{ groupInputName: inputName, groupVariant: variant }}
     >
-      <div className="flex flex-col space-y-1.5" {...properties}>
+      <div
+        className={cn("flex flex-col space-y-1.5", className)}
+        {...properties}
+      >
         {label && (
           <label
             htmlFor={inputName}

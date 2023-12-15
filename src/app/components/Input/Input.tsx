@@ -18,7 +18,14 @@ const enabledColors = {
 
 export const Input = forwardRef<HTMLInputElement, InputProperties>(
   (
-    { isFocused = false, id, name, variant, ...properties }: InputProperties,
+    {
+      id,
+      className,
+      name,
+      variant,
+      isFocused = false,
+      ...properties
+    }: InputProperties,
     reference,
   ) => {
     const { groupInputName, groupVariant } = useInputGroupContext();
@@ -46,6 +53,7 @@ export const Input = forwardRef<HTMLInputElement, InputProperties>(
           enabledColors[inputVariant],
           "disabled:ring-theme-gray-200",
           "focus:outline-none",
+          className,
         )}
         ref={isFocused ? focusReference : reference}
         {...properties}
