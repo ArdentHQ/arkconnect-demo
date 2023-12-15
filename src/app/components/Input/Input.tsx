@@ -54,7 +54,7 @@ export const Input = forwardRef<HTMLInputElement, InputProperties>(
         className={classNames(
           inputEnabledColorClasses[inputVariant],
           "placeholder-theme-gray-400 py-3 rounded-lg ring-1 ring-inset text-black",
-          "disabled:ring-theme-gray-200",
+          "disabled:ring-theme-gray-200 disabled:bg-theme-gray-100",
           "focus:outline-none",
           {
             "px-4": iconPosition === undefined,

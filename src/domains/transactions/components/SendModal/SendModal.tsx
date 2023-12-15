@@ -1,5 +1,7 @@
 import { useTranslation } from "next-i18next";
 import { Dialog } from "@/app/components/Dialog";
+import { InputGroup } from "@/app/components/InputGroup";
+import { Input } from "@/app/components/Input";
 
 export const SendModal = ({
   show,
@@ -18,7 +20,11 @@ export const SendModal = ({
       continueDisabled={true}
       title={t("SEND_ARK")}
     >
-      {"TBD"}
+      <div className="flex flex-col space-y-4">
+        <InputGroup label="Sender">
+          <Input value="AGURf8NdhVj4fvz5mK39qMgPoLGPgJNBrc" disabled />
+        </InputGroup>
+      </div>
     </Dialog>
   );
 };

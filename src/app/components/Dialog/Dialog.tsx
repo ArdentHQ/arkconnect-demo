@@ -37,7 +37,7 @@ export const Dialog = ({
         <div className="px-10 pt-4 pb-10 flex flex-col">
           <div>{children}</div>
 
-          <div className="flex space-x-3 justify-end">
+          <div className="flex space-x-3 justify-end mt-4">
             <Button variant="secondary" onClick={onClose}>
               {closeButtonLabel}
             </Button>
