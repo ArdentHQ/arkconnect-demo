@@ -22,7 +22,25 @@ export const SendModal = ({
     >
       <div className="flex flex-col space-y-4">
         <InputGroup label="Sender">
-          <Input value="AGURf8NdhVj4fvz5mK39qMgPoLGPgJNBrc" disabled />
+          <div className="relative inline-flex items-center flex-row-reverse">
+            <span className="block px-2 py-1 rounded-lg bg-theme-gray-300 text-black text-sm font-medium absolute mr-3 pointer-events-none">
+              {"You"}
+            </span>
+
+            <Input
+              className="w-full pr-16"
+              value="AGURf8NdhVj4fvz5mK39qMgPoLGPgJNBrc"
+              disabled
+            />
+          </div>
+        </InputGroup>
+
+        <InputGroup label="Recipient">
+          <Input placeholder="Enter Recipient" />
+        </InputGroup>
+
+        <InputGroup label="Amount">
+          <Input placeholder="Enter Amount" />
         </InputGroup>
       </div>
     </Dialog>
