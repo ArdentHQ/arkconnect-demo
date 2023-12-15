@@ -6,6 +6,7 @@ import { Spinner } from "@/app/components/Spinner";
 interface ButtonProperties {
   variant?: ButtonVariant;
   busy?: boolean;
+  isExternal?: boolean;
 }
 
 export const Button = ({
@@ -38,8 +39,9 @@ export const Button = ({
   );
 };
 
-export const ExternalButtonLink = ({
+export const LinkButton = ({
   className,
+  isExternal,
   ...properties
 }: ButtonProperties & AnchorHTMLAttributes<HTMLAnchorElement>) => {
   const { padding, base, colors, disabled } = useButtonClasses({
@@ -48,7 +50,7 @@ export const ExternalButtonLink = ({
 
   return (
     <a
-      target="_blank"
+      target={isExternal ? "_blank" : "_self"}
       className={twMerge(base, padding, colors, disabled, className)}
       {...properties}
     />
@@ -62,7 +64,7 @@ export const NavbarButton = ({
 }: ButtonProperties & ButtonHTMLAttributes<HTMLButtonElement>) => (
   <Button
     className={twMerge(
-      "px-4 py-[0.625rem] rounded-2xl enabled:text-black font-medium text-sm enabled:bg-theme-primary-100 enabled:active:bg-theme-primary-100 enabled:hover:bg-theme-primary-100 enabled:!border-none focus:outline-none",
+      "px-4 py-[0.625rem] rounded-2xl text-black font-medium text-sm bg-theme-primary-100 active:bg-theme-primary-100 hover:bg-theme-primary-100 !border-none focus:outline-none",
       className,
     )}
     {...properties}
@@ -82,6 +84,28 @@ export const RoundButton = ({
         colors,
         disabled,
         "p-[0.438rem] rounded-full text-sm aspect-square",
+        className,
+      )}
+      {...properties}
+    />
+  );
+};
+
+export const RoundLinkButton = ({
+  className,
+  variant = "primary",
+  isExternal,
+  ...properties
+}: ButtonProperties & AnchorHTMLAttributes<HTMLAnchorElement>) => {
+  const { colors, disabled } = useButtonClasses({ variant });
+
+  return (
+    <a
+      target={isExternal ? "_blank" : "_self"}
+      className={twMerge(
+        colors,
+        disabled,
+        "p-[0.438rem] rounded-full text-sm",
         className,
       )}
       {...properties}

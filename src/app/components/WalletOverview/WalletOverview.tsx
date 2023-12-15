@@ -3,11 +3,16 @@ import { TruncateMiddle } from "@/app/components/Truncate";
 import Copy from "@/public/icons/copy.svg";
 import Explorer from "@/public/icons/explorer.svg";
 import Checkmark from "@/public/icons/checkmark.svg";
-import { RoundButton } from "@/app/components/Button";
+import { RoundButton, RoundLinkButton } from "@/app/components/Button";
 import { Clipboard } from "../Clipboard";
+import { Network } from "@/app/lib";
 
+// TODO: fix wallet type.
 const WalletAddress = ({ wallet }: { wallet: any }) => {
   const { t } = useTranslation();
+
+  const network = Network({ network: wallet.network });
+
   return (
     <div className="flex items-end justify-between w-full p-6">
       <div>
@@ -28,9 +33,12 @@ const WalletAddress = ({ wallet }: { wallet: any }) => {
             </RoundButton>
           </Clipboard>
 
-          <RoundButton>
+          <RoundLinkButton
+            href={network.walletExplorerLink(wallet.address)}
+            isExternal
+          >
             <Explorer className="w-[1.125rem]" />
-          </RoundButton>
+          </RoundLinkButton>
 
           <RoundButton>
             <Checkmark className="w-[1.125rem]" />

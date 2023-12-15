@@ -14,9 +14,9 @@ export const useButtonClasses = ({
 } => {
   const colors = {
     primary:
-      "enabled:bg-theme-primary-700 enabled:hover:bg-theme-primary-600 enabled:hover:border-theme-primary-600 enabled:text-white focus:outline-none focus:shadow-outline-primary enabled:border-theme-primary-700",
+      "bg-theme-primary-700 hover:bg-theme-primary-600 hover:border-theme-primary-600 text-white focus:outline-none focus:shadow-outline-primary border-theme-primary-700",
     secondary:
-      "enabled:bg-white enabled:hover:bg-theme-primary-50 enabled:text-theme-primary-700 focus:outline-none focus:shadow-outline-primary enabled:border-theme-primary-700",
+      "bg-white hover:bg-theme-primary-50 text-theme-primary-700 focus:outline-none focus:shadow-outline-primary border-theme-primary-700",
   };
 
   const disabled = {

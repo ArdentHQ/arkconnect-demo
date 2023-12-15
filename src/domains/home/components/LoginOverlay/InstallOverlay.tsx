@@ -1,7 +1,7 @@
 import { useTranslation } from "next-i18next";
 import Install from "@/public/images/install.svg";
 import { H3 } from "@/app/components/Typography";
-import { ExternalButtonLink } from "@/app/components/Button";
+import { LinkButton } from "@/app/components/Button";
 import WalletLogo from "@/public/icons/logo.svg";
 
 export const InstallOverlay = () => {
@@ -23,10 +23,10 @@ export const InstallOverlay = () => {
             </div>
           </div>
 
-          <ExternalButtonLink href={process.env.ARK_FIREFOX_EXTENSION_URL}>
+          <LinkButton href={process.env.ARK_FIREFOX_EXTENSION_URL}>
             <WalletLogo className="w-4" />
             <span>{t("INSTALL_WALLET")}</span>
-          </ExternalButtonLink>
+          </LinkButton>
         </div>
       </div>
     </div>
