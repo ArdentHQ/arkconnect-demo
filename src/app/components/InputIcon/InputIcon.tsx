@@ -14,13 +14,19 @@ export const InputIcon = ({
   return (
     <InputIconContext.Provider value={{ iconPosition: position }}>
       <div
-        className={cn("relative inline-flex items-center", className)}
+        className={cn("relative inline-flex items-center", className, {
+          "flex-row-reverse": position === "right",
+        })}
         {...properties}
       >
         <Icon
           className={cn(
-            "text-gray-500 w-4 h-4 absolute pointer-events-none ml-3.5",
+            "text-gray-500 w-4 h-4 absolute pointer-events-none",
             iconClassName,
+            {
+              "ml-3.5": position === "left",
+              "mr-3.5": position === "right",
+            },
           )}
         />
 

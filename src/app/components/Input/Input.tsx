@@ -1,5 +1,6 @@
 import classNames from "classnames";
 import React, { useRef, forwardRef, useEffect } from "react";
+import { useInputIconContext } from "../InputIcon";
 import { useInputGroupContext } from "@/app/components/InputGroup/InputGroupContext";
 
 type InputVariant = "default" | "error";
@@ -29,6 +30,7 @@ export const Input = forwardRef<HTMLInputElement, InputProperties>(
     reference,
   ) => {
     const { groupInputName, groupVariant } = useInputGroupContext();
+    const { iconPosition } = useInputIconContext();
 
     const inputVariant = variant ?? groupVariant ?? "default";
 
@@ -49,10 +51,15 @@ export const Input = forwardRef<HTMLInputElement, InputProperties>(
         id={inputId}
         name={inputName}
         className={classNames(
-          "placeholder-theme-gray-400 px-4 py-3 rounded-lg ring-1 ring-inset text-black",
           enabledColors[inputVariant],
+          "placeholder-theme-gray-400 py-3 rounded-lg ring-1 ring-inset text-black",
           "disabled:ring-theme-gray-200",
           "focus:outline-none",
+          {
+            "px-4": iconPosition === undefined,
+            "pl-4 pr-10": iconPosition === "right",
+            "pr-4 pl-10": iconPosition === "left",
+          },
           className,
         )}
         ref={isFocused ? focusReference : reference}
