@@ -4,7 +4,6 @@ import cn from "classnames";
 import { Fragment, useEffect } from "react";
 
 import { useModalContext } from "@/app/contexts/ModalContext/ModalContext";
-import { useAppFont } from "@/app/hooks/useAppFont";
 
 export interface ModalProperties {
   children?: React.ReactNode;
@@ -21,8 +20,6 @@ export const Modal = ({
 }: ModalProperties): JSX.Element => {
   const { setModalOpened } = useModalContext();
 
-  const fontCssClass = useAppFont();
-
   useEffect(() => {
     setModalOpened(show);
   }, [show, setModalOpened]);
@@ -32,7 +29,7 @@ export const Modal = ({
       <Dialog
         as="div"
         id="modal"
-        className={`fixed inset-0 z-50 flex transform items-center overflow-y-auto px-4 py-6 transition-all sm:px-0 ${fontCssClass}`}
+        className="fixed inset-0 z-50 flex transform items-center overflow-y-auto px-4 py-6 transition-all sm:px-0"
         onClose={onClose}
         initialFocus={initialFocus}
       >
