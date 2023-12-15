@@ -8,22 +8,29 @@ import { RoundButton } from "@/app/components/Button";
 const WalletAddress = ({ wallet }: { wallet: any }) => {
   const { t } = useTranslation();
   return (
-    <div className="w-[300px]">
-      <p>{t("CONNECTED_WITH_ARK_CONNECT")}</p>
-      <div className="flex items-end justify-between">
-        <TruncateMiddle>{wallet.address}</TruncateMiddle>
+    <div className="flex items-end justify-between w-full p-6">
+      <div>
+        <p className="text-theme-gray-500 font-medium text-sm leading-[0.938rem] mb-[0.563rem]">
+          {t("CONNECTED_WITH_ARK_CONNECT")}
+        </p>
 
+        <p className="leading-[1.25rem] w-full font-medium">
+          <TruncateMiddle>{wallet.address}</TruncateMiddle>
+        </p>
+      </div>
+
+      <div className="flex items-end justify-between">
         <div className="flex items-end space-x-2">
           <RoundButton>
-            <Copy className="w-4" />
+            <Copy className="w-[1.125rem]" />
           </RoundButton>
 
           <RoundButton>
-            <Explorer className="w-4" />
+            <Explorer className="w-[1.125rem]" />
           </RoundButton>
 
           <RoundButton>
-            <Checkmark className="w-4" />
+            <Checkmark className="w-[1.125rem]" />
           </RoundButton>
         </div>
       </div>

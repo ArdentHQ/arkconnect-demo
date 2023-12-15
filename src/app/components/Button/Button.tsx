@@ -81,7 +81,7 @@ export const RoundButton = ({
       className={twMerge(
         colors,
         disabled,
-        "p-[0.438rem] rounded-full text-sm",
+        "p-[0.438rem] rounded-full text-sm aspect-square",
         className,
       )}
       {...properties}
