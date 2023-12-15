@@ -13,6 +13,9 @@ module.exports = {
         sm: "0px 1px 4px 0px rgba(0, 0, 0, 0.05)",
         xl: "0px 15px 35px 0px rgba(46, 46, 46, 0.14)",
       },
+      borderRadius: {
+        "2.5xl": "1.25rem",
+      },
     },
 
     colors: {
