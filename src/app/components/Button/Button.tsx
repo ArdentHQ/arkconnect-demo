@@ -63,3 +63,23 @@ export const NavbarButton = (
     {...properties}
   />
 );
+
+export const RoundButton = ({
+  className,
+  variant = "primary",
+  ...properties
+}: ButtonProperties & ButtonHTMLAttributes<HTMLButtonElement>) => {
+  const { colors, disabled } = useButtonClasses({ variant });
+
+  return (
+    <button
+      className={twMerge(
+        colors,
+        disabled,
+        "p-[0.438rem] rounded-full text-sm",
+        className,
+      )}
+      {...properties}
+    />
+  );
+};
