@@ -35,11 +35,28 @@ export const SendModal = ({
           </div>
         </InputGroup>
 
-        <InputGroup label="Recipient">
+        <InputGroup
+          label="Recipient"
+          variant="error"
+          help="Recipient address is invalid"
+        >
           <Input placeholder="Enter Recipient" />
         </InputGroup>
 
-        <InputGroup label="Amount">
+        <InputGroup
+          label={
+            <span className="inline-flex justify-between flex-1 w-full">
+              <span>{"Amount"}</span>
+
+              <span>
+                <span className="text-theme-gray-400">{"Available"}</span>{" "}
+                <span>{"300 ARK"}</span>
+              </span>
+            </span>
+          }
+          variant="error"
+          help="The balance is too low"
+        >
           <Input placeholder="Enter Amount" />
         </InputGroup>
       </div>
