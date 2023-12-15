@@ -18,6 +18,12 @@ export const inputEnabledColorClasses = {
     "enabled:bg-white enabled:ring-theme-error-200 enabled:active:ring-theme-error-500 enabled:focus:ring-theme-error-500",
 };
 
+export const inputStyleClasses = [
+  "placeholder-theme-gray-400 rounded-lg ring-1 ring-inset text-black",
+  "disabled:ring-theme-gray-200 disabled:bg-theme-gray-100",
+  "focus:outline-none",
+];
+
 export const Input = forwardRef<HTMLInputElement, InputProperties>(
   (
     {
@@ -53,9 +59,8 @@ export const Input = forwardRef<HTMLInputElement, InputProperties>(
         name={inputName}
         className={classNames(
           inputEnabledColorClasses[inputVariant],
-          "placeholder-theme-gray-400 py-3 rounded-lg ring-1 ring-inset text-black",
-          "disabled:ring-theme-gray-200",
-          "focus:outline-none",
+          "py-3",
+          inputStyleClasses,
           {
             "px-4": iconPosition === undefined,
             "pl-4 pr-10": iconPosition === "right",

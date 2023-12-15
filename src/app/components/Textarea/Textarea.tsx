@@ -4,7 +4,10 @@ import {
   useInputGroupContext,
   InputGroupVariant,
 } from "@/app/components/InputGroup";
-import { inputEnabledColorClasses } from "@/app/components/Input";
+import {
+  inputEnabledColorClasses,
+  inputStyleClasses,
+} from "@/app/components/Input";
 
 interface TextareaProperties extends React.HTMLProps<HTMLTextAreaElement> {
   isFocused?: boolean;
@@ -45,9 +48,8 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProperties>(
         name={textareaName}
         className={classNames(
           inputEnabledColorClasses[inputVariant],
-          "placeholder-theme-gray-400 py-3 px-4 rounded-lg ring-1 ring-inset text-black",
-          "disabled:ring-theme-gray-200",
-          "focus:outline-none",
+          inputStyleClasses,
+          "py-3 px-4",
           className,
         )}
         ref={isFocused ? focusReference : reference}
