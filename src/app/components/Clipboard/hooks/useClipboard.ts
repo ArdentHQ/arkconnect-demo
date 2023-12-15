@@ -21,12 +21,9 @@ export const useClipboard = (
 
   useEffect(() => {
     if (isCopied && isTruthy(options?.resetAfter)) {
-      const handler = setTimeout(
-        () => {
-          setHasCopied(false);
-        },
-        options?.resetAfter ?? 0,
-      );
+      const handler = setTimeout(() => {
+        setHasCopied(false);
+      }, options.resetAfter);
 
       return () => {
         clearTimeout(handler);
@@ -73,7 +70,7 @@ export const useClipboard = (
 
     const isiOSDevice = /ipad|iphone/i.exec(navigator.userAgent);
 
-    if (isiOSDevice != null) {
+    if (isTruthy(isiOSDevice)) {
       const editable = textArea.contentEditable;
       const readOnly = textArea.readOnly;
 
@@ -85,12 +82,12 @@ export const useClipboard = (
 
       const selection = window.getSelection();
 
-      if (selection != null) {
+      if (isTruthy(selection)) {
         selection.removeAllRanges();
         selection.addRange(range);
       }
 
-      textArea.setSelectionRange(0, 999999);
+      textArea.setSelectionRange(0, 999_999);
       textArea.contentEditable = editable;
       textArea.readOnly = readOnly;
     } else {

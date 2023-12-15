@@ -3,9 +3,9 @@ import { HTMLAttributes, useRef } from "react";
 import { useTranslation } from "next-i18next";
 
 import { Placement, ReferenceElement } from "tippy.js";
+import { useClipboard } from "./hooks/useClipboard";
 import { Tooltip } from "@/app/components/Tooltip";
 import { useBreakpoint } from "@/app/hooks/useBreakpoint";
-import { useClipboard } from "./hooks/useClipboard";
 
 export interface ClipboardProperties extends HTMLAttributes<HTMLDivElement> {
   text: string;

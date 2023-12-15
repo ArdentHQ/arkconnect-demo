@@ -4,7 +4,7 @@ import Copy from "@/public/icons/copy.svg";
 import Explorer from "@/public/icons/explorer.svg";
 import CheckSquare from "@/public/icons/check-square.svg";
 import { RoundButton, RoundLinkButton } from "@/app/components/Button";
-import { Clipboard } from "../Clipboard";
+import { Clipboard } from "@/app/components/Clipboard";
 import { Network } from "@/app/lib";
 import { WalletData } from "@/app/hooks/useWallet.contracts";
 

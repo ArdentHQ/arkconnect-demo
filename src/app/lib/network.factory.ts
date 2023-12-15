@@ -1,5 +1,10 @@
 import { NetworkType, NetworkAddressLink } from "./network.contracts";
 
+/**
+ * Implements Network interface.
+ *
+ * @param Object
+ */
 export function Network({ network }: { network: NetworkType }) {
   return {
     /**
@@ -9,15 +14,15 @@ export function Network({ network }: { network: NetworkType }) {
      * @returns {string}
      */
     walletExplorerLink(address: string): string {
+      if (![NetworkType.DEVNET, NetworkType.MAINNET].includes(network)) {
+        throw new Error(`Network ${network} is not supported`);
+      }
+
       if (network === NetworkType.DEVNET) {
         return [NetworkAddressLink.DEVNET, address].join("");
       }
 
-      if (network === NetworkType.MAINNET) {
-        return [NetworkAddressLink.MAINNET, address].join("");
-      }
-
-      throw new Error(`Network ${network} is not supported`);
+      return [NetworkAddressLink.MAINNET, address].join("");
     },
   };
 }
