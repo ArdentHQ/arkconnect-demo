@@ -1,7 +1,7 @@
 import { useTranslation } from "next-i18next";
 import { Dialog } from "@/app/components/Dialog";
 
-export const SendForm = ({
+export const SendModal = ({
   show,
   onClose,
 }: {

@@ -5,7 +5,7 @@ import { useWallet } from "@/app/hooks";
 import { isTruthy } from "@/app/utils/isTruthy";
 import { LoginOverlay } from "@/domains/home/components/LoginOverlay";
 import { Button } from "@/app/components/Button";
-import { SendForm } from "@/domains/global/components/SendForm";
+import { SendModal } from "@/domains/transactions/components/SendModal";
 export const Home = () => {
   const { wallet, isConnected } = useWallet();
 
@@ -18,7 +18,7 @@ export const Home = () => {
           <>
             <WalletOverview wallet={wallet} />
 
-            <SendForm show={showModal} onClose={() => setShowModal(false)} />
+            <SendModal show={showModal} onClose={() => setShowModal(false)} />
 
             <Button onClick={() => setShowModal(true)}>
               {"Send ARK (Temporal)"}
