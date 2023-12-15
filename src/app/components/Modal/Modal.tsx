@@ -57,7 +57,7 @@ export const Modal = ({
         >
           <Dialog.Panel
             className={cn(
-              "transform overflow-hidden sm:rounded-lg bg-white shadow-xl transition-all sm:mx-auto w-full max-w-lg",
+              "transform overflow-hidden sm:rounded-lg bg-white shadow-xl transition-all sm:mx-auto w-full sm:max-w-lg",
             )}
           >
             {children}
