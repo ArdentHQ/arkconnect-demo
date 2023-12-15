@@ -1,6 +1,7 @@
 import { Layout } from "@/app/components/Layout";
 import { WalletOverview } from "@/app/components/WalletOverview";
 import { useWallet } from "@/app/hooks";
+import { isTruthy } from "@/app/utils/isTruthy";
 import { LoginOverlay } from "@/domains/home/components/LoginOverlay";
 
 export const Home = () => {
@@ -9,7 +10,7 @@ export const Home = () => {
   return (
     <Layout>
       <div className="container mx-auto px-6">
-        {isConnected && <WalletOverview wallet={wallet} />}
+        {isConnected && isTruthy(wallet) && <WalletOverview wallet={wallet} />}
         {!isConnected && (
           <div className="sm:flex sm:items-center sm:h-full sm:w-full sm:mt-[8vw]">
             <LoginOverlay />

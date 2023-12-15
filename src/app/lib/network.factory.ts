@@ -5,7 +5,7 @@ import { NetworkType, NetworkAddressLink } from "./network.contracts";
  *
  * @param Object
  */
-export function Network({ network }: { network: NetworkType }) {
+export function Network({ network }: { network?: NetworkType | string }) {
   return {
     /**
      * Returns the explorer link of a given address.
@@ -14,7 +14,7 @@ export function Network({ network }: { network: NetworkType }) {
      * @returns {string}
      */
     walletExplorerLink(address: string): string {
-      if (![NetworkType.DEVNET, NetworkType.MAINNET].includes(network)) {
+      if (!this.isSupported()) {
         throw new Error(`Network ${network} is not supported`);
       }
 
@@ -23,6 +23,14 @@ export function Network({ network }: { network: NetworkType }) {
       }
 
       return [NetworkAddressLink.MAINNET, address].join("");
+    },
+    /**
+     * Check if network is supported.
+     *
+     * @returns {boolean}
+     */
+    isSupported(): boolean {
+      return NetworkType.DEVNET === network || NetworkType.MAINNET === network;
     },
   };
 }

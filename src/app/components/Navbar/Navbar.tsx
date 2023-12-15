@@ -81,7 +81,7 @@ export const Navbar = () => {
     );
   }
 
-  if (isConnected && isTruthy(wallet.address)) {
+  if (isConnected && isTruthy(wallet)) {
     return (
       <NavbarConnected
         address={wallet.address}

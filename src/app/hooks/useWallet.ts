@@ -3,10 +3,12 @@
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { isTruthy } from "@/app/utils/isTruthy";
+import { UseWalletReturnType } from "./useWallet.contracts";
+import { NetworkType } from "@/app/lib";
 
 const isClient = () => typeof window !== "undefined";
 
-export const useWallet = () => {
+export const useWallet = (): UseWalletReturnType => {
   const [isConnecting, setIsConnecting] = useState(false);
   const [isErrored, setIsErrored] = useState(false);
   const [error, setError] = useState<string>();
@@ -21,17 +23,30 @@ export const useWallet = () => {
       const isInstalled = isTruthy(window.arkconnect);
       const isConnected = await window.arkconnect?.isConnected();
 
-      const address = isConnected
-        ? await window.arkconnect?.getAddress()
-        : undefined;
+      if (!isTruthy(isConnected)) {
+        return {
+          isInstalled,
+          isConnected: false,
+          extension: window.arkconnect,
+          wallet: undefined,
+        };
+      }
 
-      const network = isConnected
-        ? await window.arkconnect?.getNetwork()
-        : undefined;
+      const address = await window.arkconnect?.getAddress();
+      const network = await window.arkconnect?.getNetwork();
+      const balance = await window.arkconnect?.getBalance();
 
-      const balance = isConnected
-        ? await window.arkconnect?.getBalance()
-        : undefined;
+      if (
+        !isTruthy(address) ||
+        (network !== NetworkType.DEVNET && network !== NetworkType.MAINNET)
+      ) {
+        return {
+          isInstalled,
+          isConnected: false,
+          extension: window.arkconnect,
+          wallet: undefined,
+        };
+      }
 
       return {
         isInstalled,
@@ -51,14 +66,11 @@ export const useWallet = () => {
     isLoading: isLoading && !isConnecting,
     isConnecting,
     isErrored,
-    isInstalled: isTruthy(data) && data.isInstalled,
-    isConnected: !isLoading && isTruthy(data) ? data.isConnected : false,
+    isInstalled: isTruthy(data) && isTruthy(data.isInstalled),
+    isConnected:
+      !isLoading && isTruthy(data) ? isTruthy(data.isConnected) : false,
     error,
-    wallet: data?.wallet ?? {
-      address: undefined,
-      network: undefined,
-      balance: undefined,
-    },
+    wallet: data?.wallet,
     connect: async () => {
       if (!isTruthy(data) || !isTruthy(data.extension)) {
         // TODO TBD
