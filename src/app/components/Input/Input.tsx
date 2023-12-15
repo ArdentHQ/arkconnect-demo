@@ -1,12 +1,19 @@
 import classNames from "classnames";
 import React, { useRef, forwardRef, useEffect } from "react";
 
-type InputVariant = "default" | "danger";
+type InputVariant = "default" | "error";
 
 interface InputProperties extends React.HTMLProps<HTMLInputElement> {
   isFocused?: boolean;
   variant?: InputVariant;
 }
+
+const enabledColors = {
+  default:
+    "enabled:bg-white enabled:ring-theme-gray-400 enabled:active:ring-black enabled:focus:ring-black",
+  error:
+    "enabled:bg-white enabled:ring-theme-error-200 enabled:active:ring-theme-error-500 enabled:focus:ring-theme-error-500",
+};
 
 export const Input = forwardRef<HTMLInputElement, InputProperties>(
   (
@@ -25,12 +32,9 @@ export const Input = forwardRef<HTMLInputElement, InputProperties>(
       <input
         className={classNames(
           "placeholder-theme-gray-400 px-4 py-3 rounded-lg ring-1 ring-inset text-black",
-          "enabled:bg-white enabled:ring-theme-gray-400 enabled:active:ring-black enabled:focus:ring-black",
+          enabledColors[variant],
           "disabled:ring-theme-gray-200",
           "focus:outline-none",
-          {
-            "": true,
-          },
         )}
         ref={isFocused ? focusReference : reference}
         {...properties}
