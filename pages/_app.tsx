@@ -9,7 +9,6 @@ import {
   QueryClientProvider,
 } from "@/app/contexts/ReactQuery";
 import { AppFont } from "@/app/components/AppFont";
-import { ModalContextProvider } from "@/app/contexts/ModalContext/ModalContext";
 
 const App = ({ Component, pageProps }: AppProps) => {
   const [queryClient] = useState(() => ReactQueryClient());
@@ -18,9 +17,7 @@ const App = ({ Component, pageProps }: AppProps) => {
     <>
       <AppFont />
       <QueryClientProvider client={queryClient}>
-        <ModalContextProvider>
-          <Component {...pageProps} />
-        </ModalContextProvider>
+        <Component {...pageProps} />
       </QueryClientProvider>
     </>
   );

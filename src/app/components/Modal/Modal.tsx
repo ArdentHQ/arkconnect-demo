@@ -3,8 +3,6 @@ import cn from "classnames";
 
 import { Fragment, useEffect } from "react";
 
-import { useModalContext } from "@/app/contexts/ModalContext/ModalContext";
-
 export interface ModalProperties {
   children?: React.ReactNode;
   show?: boolean;
@@ -18,11 +16,14 @@ export const Modal = ({
   onClose,
   initialFocus,
 }: ModalProperties): JSX.Element => {
-  const { setModalOpened } = useModalContext();
-
   useEffect(() => {
-    setModalOpened(show);
-  }, [show, setModalOpened]);
+    const wrapper = document.querySelector("#layout") as HTMLDivElement;
+    if (show) {
+      wrapper.classList.add("blur");
+    } else {
+      wrapper.classList.remove("blur");
+    }
+  }, [show]);
 
   return (
     <Transition show={show} as={Fragment} leave="duration-200">
