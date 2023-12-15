@@ -17,7 +17,7 @@ export const InputGroup = ({
       value={{ groupInputName: inputName, groupVariant: variant }}
     >
       <div
-        className={cn("flex flex-col space-y-1.5", className)}
+        className={cn("inline-flex flex-col space-y-1.5", className)}
         {...properties}
       >
         {label && (
