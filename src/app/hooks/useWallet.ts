@@ -47,8 +47,6 @@ export const useWallet = () => {
     refetchInterval: 500,
   });
 
-  console.log({ data });
-
   return {
     isLoading: isLoading && !isConnecting,
     isConnecting,
