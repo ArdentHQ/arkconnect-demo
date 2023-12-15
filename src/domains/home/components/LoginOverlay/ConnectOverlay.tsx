@@ -17,7 +17,7 @@ export const ConnectOverlay = () => {
         <H3>{t("WELCOME")}</H3>
 
         <div>
-          <p className="text-md mb-4 text-theme-secondary-500">
+          <p className="text-md mb-4 text-theme-gray-500">
             {t("CONNECT_ARK_CONNECT_TO_START")}
           </p>
 

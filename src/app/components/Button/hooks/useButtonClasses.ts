@@ -11,7 +11,6 @@ export const useButtonClasses = ({
   base: string;
   padding: string;
   colors: string;
-  busy: string
 } => {
   const colors = {
     primary:
