@@ -21,9 +21,9 @@ export const Home = () => {
             <Dialog
               show={showModal}
               onClose={() => setShowModal(false)}
-              onOk={() => console.log("Continue")}
+              onContinue={() => console.log("Continue")}
+              continueDisabled={true}
               title="Send ARK"
-              okButtonLabel="Continue"
             >
               Form Data
             </Dialog>
