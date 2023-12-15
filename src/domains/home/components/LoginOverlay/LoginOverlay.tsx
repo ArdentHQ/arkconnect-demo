@@ -22,16 +22,10 @@ export const LoginOverlay = () => {
 
   if (isConnected) {
     return (
-      <>
-        <div className="flex flex-col mx-auto text-center mt-20">
-          <div>Address: {wallet.address}</div>
-          <div>Network: {wallet.network}</div>
-          <div>Balance: {wallet.balance}</div>
-
-          <div className="mx-auto mt-20">
-            <Button onClick={() => setShowModal(true)}>Send (Temporal)</Button>
-          </div>
-        </div>
+      <div className="flex flex-col mx-auto text-center mt-20">
+        <div>Address: {wallet.address}</div>
+        <div>Network: {wallet.network}</div>
+        <div>Balance: {wallet.balance}</div>
 
         <Dialog
           show={showModal}
@@ -42,7 +36,30 @@ export const LoginOverlay = () => {
         >
           Form Data
         </Dialog>
-      </>
+
+        <div>
+          <Button>
+            <span>Primary</span>
+          </Button>
+
+          <Button disabled>
+            <span>Disabled</span>
+          </Button>
+          <Button busy>
+            <span>Disabled</span>
+          </Button>
+
+          <Button variant="secondary">
+            <span>Secondary</span>
+          </Button>
+          <Button variant="secondary" disabled>
+            <span>Secondary Disabled</span>
+          </Button>
+          <Button variant="secondary" disabled busy>
+            <span>Secondary Busy</span>
+          </Button>
+        </div>
+      </div>
     );
   }
 

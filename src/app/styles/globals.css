@@ -5,3 +5,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer utilities {
+  .transition-default {
+    transition: all 0.1s ease-in;
+  }
+}
