@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import React, { useRef, forwardRef, useEffect } from "react";
-import { useInputIconContext } from "../InputIcon";
+import { useInputIconContext } from "@/app/components/InputIcon";
 import { useInputGroupContext } from "@/app/components/InputGroup/InputGroupContext";
 
 type InputVariant = "default" | "error";
