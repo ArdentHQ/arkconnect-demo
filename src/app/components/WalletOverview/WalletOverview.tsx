@@ -4,6 +4,7 @@ import Copy from "@/public/icons/copy.svg";
 import Explorer from "@/public/icons/explorer.svg";
 import Checkmark from "@/public/icons/checkmark.svg";
 import { RoundButton } from "@/app/components/Button";
+import { Clipboard } from "../Clipboard";
 
 const WalletAddress = ({ wallet }: { wallet: any }) => {
   const { t } = useTranslation();
@@ -14,16 +15,18 @@ const WalletAddress = ({ wallet }: { wallet: any }) => {
           {t("CONNECTED_WITH_ARK_CONNECT")}
         </p>
 
-        <p className="leading-[1.25rem] w-full font-medium">
+        <div className="leading-[1.25rem] w-full font-medium font-sans">
           <TruncateMiddle>{wallet.address}</TruncateMiddle>
-        </p>
+        </div>
       </div>
 
       <div className="flex items-end justify-between">
         <div className="flex items-end space-x-2">
-          <RoundButton>
-            <Copy className="w-[1.125rem]" />
-          </RoundButton>
+          <Clipboard text={wallet.address}>
+            <RoundButton>
+              <Copy className="w-[1.125rem]" />
+            </RoundButton>
+          </Clipboard>
 
           <RoundButton>
             <Explorer className="w-[1.125rem]" />
