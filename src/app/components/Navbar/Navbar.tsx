@@ -16,7 +16,7 @@ interface NavbarProperties {
 
 const NavbarWrapper = ({ children }: { children: ReactElement }) => {
   return (
-    <nav className="sticky inset-x-0 top-0 bg-white min-h-[4rem] flex items-center border-b md:border-none border-theme-secondary-300">
+    <nav className="sticky inset-x-0 top-0 bg-white min-h-[4rem] flex items-center border-b md:border-none border-theme-gray-300">
       <ul className="flex justify-between items-center container mx-auto px-6 whitespace-nowrap">
         <li>
           <Link href="/" className="w-36 sm:w-48 block">
@@ -81,7 +81,7 @@ export const Navbar = () => {
     );
   }
 
-  if (isConnected && isTruthy(wallet.address)) {
+  if (isConnected && isTruthy(wallet)) {
     return (
       <NavbarConnected
         address={wallet.address}

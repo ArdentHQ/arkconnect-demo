@@ -12,5 +12,8 @@
   "WRONG_NETWORK": "You' re trying to connect to a Testnet Network, which we don't support. Switch to a Mainnet Network and try again.",
   "WELCOME": "Welcome",
   "DISCONNECT_WALLET": "Disconnect wallet",
-  "ERROR_MESSAGE": "Error message:"
+  "ERROR_MESSAGE": "Error message:",
+  "CONNECTED_WITH_ARK_CONNECT": "Connected with ARK Connect",
+  "COPY_CLIPBOARD": "Copy to Clipboard",
+  "COPIED": "Copied!"
 }

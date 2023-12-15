@@ -1,11 +1,21 @@
 import { Layout } from "@/app/components/Layout";
+import { WalletOverview } from "@/app/components/WalletOverview";
+import { useWallet } from "@/app/hooks";
+import { isTruthy } from "@/app/utils/isTruthy";
 import { LoginOverlay } from "@/domains/home/components/LoginOverlay";
 
 export const Home = () => {
+  const { wallet, isConnected } = useWallet();
+
   return (
     <Layout>
-      <div className="sm:flex sm:items-center sm:h-full sm:w-full sm:mt-[8vw]">
-        <LoginOverlay />
+      <div className="container mx-auto px-6">
+        {isConnected && isTruthy(wallet) && <WalletOverview wallet={wallet} />}
+        {!isConnected && (
+          <div className="sm:flex sm:items-center sm:h-full sm:w-full sm:mt-[8vw]">
+            <LoginOverlay />
+          </div>
+        )}
       </div>
     </Layout>
   );

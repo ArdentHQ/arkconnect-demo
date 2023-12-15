@@ -11,9 +11,8 @@ const AddressButton = ({
   onClick?: () => void;
 }) => (
   <NavbarButton>
-    <span>
-      <TruncateMiddle text={address} length={12} className="hidden sm:block" />
-      <TruncateMiddle text={address} length={6} className="block sm:hidden" />
+    <span className="max-w-[8.75rem]">
+      <TruncateMiddle>{address}</TruncateMiddle>
     </span>
   </NavbarButton>
 );
