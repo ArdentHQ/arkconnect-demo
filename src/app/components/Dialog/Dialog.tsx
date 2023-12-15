@@ -38,11 +38,19 @@ export const Dialog = ({
           <div>{children}</div>
 
           <div className="flex space-x-3 justify-end mt-4">
-            <Button variant="secondary" onClick={onClose}>
-              {closeButtonLabel}
+            <Button
+              variant="secondary"
+              className="flex-1 sm:flex-none"
+              onClick={onClose}
+            >
+              <span className="text-center w-full">{closeButtonLabel}</span>
             </Button>
-            <Button disabled={continueDisabled} onClick={onContinue}>
-              {continueButtonLabel}
+            <Button
+              className="flex-1 sm:flex-none"
+              disabled={continueDisabled}
+              onClick={onContinue}
+            >
+              <span className="text-center w-full">{continueButtonLabel}</span>
             </Button>
           </div>
         </div>
