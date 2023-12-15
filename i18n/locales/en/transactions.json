@@ -1,3 +1,9 @@
 {
-  "SEND_ARK": "Send ARK"
+  "SENDER": "Sender",
+  "RECIPIENT": "Recipient",
+  "RECIPIENT_INVALID_ADDRESS": "Recipient address is invalid",
+  "BALANCE_TOO_LOW": "The balance is too low",
+  "SEND_ARK": "Send ARK",
+  "ENTER_RECIPIENT": "Enter Recipient",
+  "AVAILABLE": "Available"
 }
