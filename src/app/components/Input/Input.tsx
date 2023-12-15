@@ -1,16 +1,17 @@
 import classNames from "classnames";
 import React, { useRef, forwardRef, useEffect } from "react";
 import { useInputIconContext } from "@/app/components/InputIcon";
-import { useInputGroupContext } from "@/app/components/InputGroup/InputGroupContext";
+import {
+  useInputGroupContext,
+  InputGroupVariant,
+} from "@/app/components/InputGroup";
 
-type InputVariant = "default" | "error";
-
-interface InputProperties extends React.HTMLProps<HTMLInputElement> {
+export interface InputProperties extends React.HTMLProps<HTMLInputElement> {
   isFocused?: boolean;
-  variant?: InputVariant;
+  variant?: InputGroupVariant;
 }
 
-const enabledColors = {
+export const inputEnabledColorClasses = {
   default:
     "enabled:bg-white enabled:ring-theme-gray-400 enabled:active:ring-black enabled:focus:ring-black",
   error:
@@ -51,7 +52,7 @@ export const Input = forwardRef<HTMLInputElement, InputProperties>(
         id={inputId}
         name={inputName}
         className={classNames(
-          enabledColors[inputVariant],
+          inputEnabledColorClasses[inputVariant],
           "placeholder-theme-gray-400 py-3 rounded-lg ring-1 ring-inset text-black",
           "disabled:ring-theme-gray-200",
           "focus:outline-none",
