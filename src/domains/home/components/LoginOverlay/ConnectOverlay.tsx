@@ -17,7 +17,7 @@ export const ConnectOverlay = () => {
         <H3>{t("WELCOME")}</H3>
 
         <div>
-          <p className="text-md mb-4 text-theme-secondary-500">
+          <p className="text-md mb-4 text-theme-gray-500">
             {t("CONNECT_ARK_CONNECT_TO_START")}
           </p>
 
@@ -53,9 +53,9 @@ export const ConnectOverlay = () => {
 
       {isErrored && (
         <Alert type="error">
-          <div>{t("WALLET_CONNECTION_ERROR")}</div>
+          <div className="text-center">{t("WALLET_CONNECTION_ERROR")}</div>
           {isTruthy(error) && (
-            <div className="mt-2">
+            <div className="mt-2 text-center">
               {t("ERROR_MESSAGE")} {error}
             </div>
           )}

@@ -3,10 +3,17 @@ import { twMerge } from "tailwind-merge";
 import { useButtonClasses, ButtonVariant } from "./hooks/useButtonClasses";
 import { Spinner } from "@/app/components/Spinner";
 
-interface ButtonProperties {
+interface ButtonCustomProperties {
   variant?: ButtonVariant;
   busy?: boolean;
+  isExternal?: boolean;
 }
+
+type LinkButtonProperties = ButtonCustomProperties &
+  AnchorHTMLAttributes<HTMLAnchorElement>;
+
+type ButtonProperties = ButtonCustomProperties &
+  ButtonHTMLAttributes<HTMLButtonElement>;
 
 export const Button = ({
   className,
@@ -15,7 +22,7 @@ export const Button = ({
   disabled = false,
   children,
   ...properties
-}: ButtonProperties & ButtonHTMLAttributes<HTMLButtonElement>) => {
+}: ButtonProperties) => {
   const {
     padding,
     base,
@@ -38,28 +45,46 @@ export const Button = ({
   );
 };
 
-export const ExternalButtonLink = ({
+export const LinkButton = ({
   className,
+  isExternal,
+  variant = "primary",
   ...properties
-}: ButtonProperties & AnchorHTMLAttributes<HTMLAnchorElement>) => {
+}: LinkButtonProperties) => {
   const { padding, base, colors, disabled } = useButtonClasses({
-    variant: "primary",
+    variant,
   });
 
   return (
     <a
-      target="_blank"
+      target={isExternal ? "_blank" : "_self"}
       className={twMerge(base, padding, colors, disabled, className)}
       {...properties}
     />
   );
 };
 
-export const NavbarButton = (
-  properties: ButtonProperties & ButtonHTMLAttributes<HTMLButtonElement>,
-) => (
+export const RoundButton = (properties: ButtonProperties) => (
   <Button
-    className="px-4 py-[0.625rem] rounded-2xl bg-theme-primary-100 text-black font-medium text-sm active:bg-theme-primary-100 hover:bg-theme-primary-100"
+    {...properties}
+    className="p-[0.438rem] rounded-full text-sm aspect-square"
+  />
+);
+
+export const RoundLinkButton = (properties: LinkButtonProperties) => (
+  <LinkButton {...properties} className="p-[0.438rem] rounded-full text-sm" />
+);
+
+// TODO: Define & add hover/focus states
+export const NavbarButton = ({
+  className,
+  ...properties
+}: ButtonProperties) => (
+  <Button
+    className={twMerge(
+      "px-4 py-[0.625rem] rounded-2xl text-black font-medium text-sm bg-theme-primary-100 active:bg-theme-primary-100 hover:bg-theme-primary-100 !border-none focus:outline-none min-h-[2.5rem]",
+      className,
+    )}
     {...properties}
   />
 );
