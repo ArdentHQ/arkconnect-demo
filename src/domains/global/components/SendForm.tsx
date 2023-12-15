@@ -8,7 +8,7 @@ export const SendForm = ({
   show: boolean;
   onClose: () => void;
 }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation("transactions");
 
   return (
     <Dialog
@@ -16,7 +16,7 @@ export const SendForm = ({
       onClose={onClose}
       onContinue={() => console.log("Continue")}
       continueDisabled={true}
-      title="Send ARK"
+      title={t("SEND_ARK")}
     >
       {"TBD"}
     </Dialog>
