@@ -19,7 +19,11 @@ export const useWallet = () => {
       }
 
       const isInstalled = isTruthy(window.arkconnect);
-      const isConnected = await window.arkconnect?.isConnected();
+      let isConnected: boolean | undefined = false;
+
+      try {
+        isConnected = await window.arkconnect?.isConnected();
+      } catch {}
 
       const address = isConnected
         ? await window.arkconnect?.getAddress()
