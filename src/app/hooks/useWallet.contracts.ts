@@ -1,4 +1,8 @@
-import { NetworkType } from "@/app/lib";
+import {
+  NetworkType,
+  SignTransactionRequest,
+  SignTransactionResponse,
+} from "@/app/lib";
 
 export interface WalletData {
   address: string;
@@ -16,4 +20,8 @@ export interface UseWalletReturnType {
   wallet?: WalletData;
   connect: () => Promise<void>;
   disconnect: () => void;
+  isTransacting: boolean;
+  signTransaction: (
+    transaction: SignTransactionRequest,
+  ) => Promise<SignTransactionResponse>;
 }
