@@ -30,7 +30,7 @@ export const Modal = ({
       <Dialog
         as="div"
         id="modal"
-        className="fixed inset-0 z-50 flex transform items-center overflow-y-auto px-4 py-6 transition-all sm:px-0"
+        className="fixed inset-0 z-50 flex transform sm:items-center overflow-y-auto sm:py-6 transition-all items-start"
         onClose={onClose}
         initialFocus={initialFocus}
       >
@@ -57,7 +57,7 @@ export const Modal = ({
         >
           <Dialog.Panel
             className={cn(
-              "transform overflow-hidden rounded-lg bg-white shadow-xl transition-all sm:mx-auto w-full max-w-lg",
+              "transform overflow-hidden sm:rounded-lg bg-white shadow-xl transition-all sm:mx-auto w-full max-w-lg",
             )}
           >
             {children}
