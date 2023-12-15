@@ -1,5 +1,6 @@
 import classNames from "classnames";
 import React, { useRef, forwardRef, useEffect } from "react";
+import { useInputGroupContext } from "@/app/components/InputGroup/InputGroupContext";
 
 type InputVariant = "default" | "error";
 
@@ -17,9 +18,17 @@ const enabledColors = {
 
 export const Input = forwardRef<HTMLInputElement, InputProperties>(
   (
-    { isFocused = false, variant = "default", ...properties }: InputProperties,
+    { isFocused = false, id, name, variant, ...properties }: InputProperties,
     reference,
   ) => {
+    const { groupInputName, groupVariant } = useInputGroupContext();
+
+    const inputVariant = variant ?? groupVariant ?? "default";
+
+    const inputId = id ?? groupInputName;
+
+    const inputName = name ?? groupInputName;
+
     const focusReference = useRef<HTMLInputElement>(null);
 
     useEffect(() => {
@@ -30,9 +39,11 @@ export const Input = forwardRef<HTMLInputElement, InputProperties>(
 
     return (
       <input
+        id={inputId}
+        name={inputName}
         className={classNames(
           "placeholder-theme-gray-400 px-4 py-3 rounded-lg ring-1 ring-inset text-black",
-          enabledColors[variant],
+          enabledColors[inputVariant],
           "disabled:ring-theme-gray-200",
           "focus:outline-none",
         )}
