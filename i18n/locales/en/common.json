@@ -13,5 +13,7 @@
   "WELCOME": "Welcome",
   "DISCONNECT_WALLET": "Disconnect wallet",
   "ERROR_MESSAGE": "Error message:",
-  "CONNECTED_WITH_ARK_CONNECT": "Connected with ARK Connect"
+  "CONNECTED_WITH_ARK_CONNECT": "Connected with ARK Connect",
+  "COPY_CLIPBOARD": "Copy to Clipboard",
+  "COPIED": "Copied!"
 }
