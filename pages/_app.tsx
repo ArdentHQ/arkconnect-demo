@@ -2,36 +2,22 @@ import "@/app/styles/globals.css";
 
 import { appWithTranslation } from "next-i18next";
 import type { AppProps } from "next/app";
-import { DM_Sans } from "next/font/google";
-
 import { useState } from "react";
+
 import {
   ReactQueryClient,
   QueryClientProvider,
 } from "@/app/contexts/ReactQuery";
-
-const dmSans = DM_Sans({
-  weight: ["300", "400", "500", "700"],
-  subsets: ["latin"],
-  variable: "--font-dm-sans",
-});
+import { AppFont } from "@/app/components/AppFont";
 
 const App = ({ Component, pageProps }: AppProps) => {
   const [queryClient] = useState(() => ReactQueryClient());
 
   return (
     <>
-      <style jsx global>
-        {`
-          html {
-            --font-dm-sans: ${dmSans.style.fontFamily};
-          }
-        `}
-      </style>
+      <AppFont />
       <QueryClientProvider client={queryClient}>
-        <div>
-          <Component {...pageProps} />
-        </div>
+        <Component {...pageProps} />
       </QueryClientProvider>
     </>
   );
