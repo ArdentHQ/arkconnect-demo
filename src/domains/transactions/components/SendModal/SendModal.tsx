@@ -63,9 +63,6 @@ export const SendModal = ({
     }
   };
 
-  useEffect(() => {
-    console.log(errors);
-  }, [errors]);
 
   // @TODO: is this the best way to get the coin name?
   const coin = wallet.network === NetworkType.DEVNET ? "DARK" : "ARK";
