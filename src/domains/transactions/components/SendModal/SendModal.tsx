@@ -2,7 +2,6 @@
 import assert from "assert";
 import { useTranslation } from "next-i18next";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useEffect } from "react";
 import { Dialog } from "@/app/components/Dialog";
 import { InputGroup } from "@/app/components/InputGroup";
 import { Input } from "@/app/components/Input";
@@ -62,7 +61,6 @@ export const SendModal = ({
       console.error(error);
     }
   };
-
 
   // @TODO: is this the best way to get the coin name?
   const coin = wallet.network === NetworkType.DEVNET ? "DARK" : "ARK";
