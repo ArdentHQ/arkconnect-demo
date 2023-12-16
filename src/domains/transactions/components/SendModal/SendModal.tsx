@@ -1,10 +1,10 @@
 import assert from "assert";
 import { useTranslation } from "next-i18next";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { Dialog } from "@/app/components/Dialog";
 import { InputGroup } from "@/app/components/InputGroup";
 import { Input } from "@/app/components/Input";
 import { useWallet } from "@/app/hooks";
-
 export const SendModal = ({
   show,
   onClose,
@@ -14,16 +14,37 @@ export const SendModal = ({
 }) => {
   const { t } = useTranslation("transactions");
 
-  const { wallet } = useWallet();
+  const { wallet, signTransaction } = useWallet();
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isValid },
+  } = useForm<{
+    amount?: number;
+    receiverAddress: string;
+  }>({
+    defaultValues: {
+      amount: undefined,
+      receiverAddress: "",
+    },
+  });
 
   assert(wallet);
+
+  const submitHandler: SubmitHandler<{
+    amount?: number | undefined;
+    receiverAddress: string;
+  }> = async ({ amount, receiverAddress }) => {
+    console.log({ amount, receiverAddress });
+  };
 
   return (
     <Dialog
       show={show}
       onClose={onClose}
-      onContinue={() => console.log("Continue")}
-      continueDisabled={true}
+      onSubmit={handleSubmit(submitHandler)}
+      continueDisabled={!isValid}
       title={t("SEND_ARK")}
     >
       <div className="flex flex-col space-y-4">
@@ -39,10 +60,13 @@ export const SendModal = ({
 
         <InputGroup
           label={t("RECIPIENT")}
-          variant="error"
-          help={t("RECIPIENT_INVALID_ADDRESS")}
+          variant={errors.receiverAddress?.message ? "error" : undefined}
+          help={errors.receiverAddress?.message}
         >
-          <Input placeholder={t("ENTER_RECIPIENT")} />
+          <Input
+            placeholder={t("ENTER_RECIPIENT")}
+            {...register("receiverAddress")}
+          />
         </InputGroup>
 
         <InputGroup
@@ -56,10 +80,15 @@ export const SendModal = ({
               </span>
             </span>
           }
-          variant="error"
-          help={t("BALANCE_TOO_LOW")}
+          variant={errors.amount?.message ? "error" : undefined}
+          help={errors.amount?.message}
         >
-          <Input placeholder="Enter Amount" />
+          <Input
+            type="number"
+            min="0"
+            placeholder="Enter Amount"
+            {...register("amount")}
+          />
         </InputGroup>
       </div>
     </Dialog>
