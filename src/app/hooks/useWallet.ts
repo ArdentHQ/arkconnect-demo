@@ -5,13 +5,18 @@ import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { UseWalletReturnType } from "./useWallet.contracts";
 import { isTruthy } from "@/app/utils/isTruthy";
-import { NetworkType } from "@/app/lib";
+import {
+  NetworkType,
+  SignTransactionRequest,
+  SignTransactionResponse,
+} from "@/app/lib";
 
 const isClient = () => typeof window !== "undefined";
 
 export const useWallet = (): UseWalletReturnType => {
   const [isConnecting, setIsConnecting] = useState(false);
   const [isErrored, setIsErrored] = useState(false);
+  const [isTransacting, setIsTransacting] = useState(false);
   const [error, setError] = useState<string>();
 
   const { data, isLoading } = useQuery({
@@ -116,6 +121,29 @@ export const useWallet = (): UseWalletReturnType => {
       }
 
       data.extension.disconnect();
+    },
+    isTransacting,
+    signTransaction: async (
+      transaction: SignTransactionRequest,
+    ): Promise<SignTransactionResponse> => {
+      setIsTransacting(true);
+
+      try {
+        if (!window.arkconnect) {
+          throw new Error("arkconnect extension not found");
+        }
+
+        const response: SignTransactionResponse | undefined =
+          await window.arkconnect.signTransaction(transaction);
+
+        setIsTransacting(false);
+
+        return response;
+      } catch (error) {
+        setIsTransacting(false);
+
+        throw error;
+      }
     },
   };
 };

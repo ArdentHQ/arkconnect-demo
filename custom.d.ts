@@ -1,3 +1,5 @@
+import { SignTransactionRequest, SignTransactionResponse } from "@/app/lib";
+
 export {};
 
 declare global {
@@ -9,6 +11,9 @@ declare global {
       getAddress: () => Promise<string>;
       getNetwork: () => Promise<string>;
       getBalance: () => Promise<string>;
+      signTransaction: (
+        transactionRequest: SignTransactionRequest,
+      ) => Promise<SignTransactionResponse>;
       loaded: boolean;
     };
   }

@@ -1,9 +1,17 @@
+/* eslint-disable max-lines-per-function */
 import assert from "assert";
 import { useTranslation } from "next-i18next";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { Dialog } from "@/app/components/Dialog";
 import { InputGroup } from "@/app/components/InputGroup";
 import { Input } from "@/app/components/Input";
 import { useWallet } from "@/app/hooks";
+import { NetworkType, SignTransactionResponse } from "@/app/lib";
+
+type FormSubmitHandler = SubmitHandler<{
+  amount: string;
+  receiverAddress: string;
+}>;
 
 export const SendModal = ({
   show,
@@ -14,16 +22,56 @@ export const SendModal = ({
 }) => {
   const { t } = useTranslation("transactions");
 
-  const { wallet } = useWallet();
+  const { wallet, signTransaction } = useWallet();
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isValid },
+  } = useForm<{
+    amount: string;
+    receiverAddress: string;
+  }>({
+    mode: "all",
+    defaultValues: {
+      amount: "",
+      receiverAddress: "",
+    },
+  });
 
   assert(wallet);
+
+  const submitHandler: FormSubmitHandler = async ({
+    amount,
+    receiverAddress,
+  }) => {
+    try {
+      const response: SignTransactionResponse = await signTransaction({
+        amount: Number(amount),
+        receiverAddress,
+        network: wallet.network,
+      });
+
+      // @TODO: handle success response
+      console.log("Success", response);
+
+      onClose();
+    } catch (error) {
+      // @TODO: Handle wallet errors
+      console.error(error);
+    }
+  };
+
+  // @TODO: is this the best way to get the coin name?
+  const coin = wallet.network === NetworkType.DEVNET ? "DARK" : "ARK";
 
   return (
     <Dialog
       show={show}
       onClose={onClose}
-      onContinue={() => console.log("Continue")}
-      continueDisabled={true}
+      // eslint-disable-next-line @typescript-eslint/no-misused-promises
+      onSubmit={handleSubmit(submitHandler)}
+      continueDisabled={!isValid}
       title={t("SEND_ARK")}
     >
       <div className="flex flex-col space-y-4">
@@ -39,10 +87,21 @@ export const SendModal = ({
 
         <InputGroup
           label={t("RECIPIENT")}
-          variant="error"
-          help={t("RECIPIENT_INVALID_ADDRESS")}
+          variant={errors.receiverAddress?.message ? "error" : undefined}
+          help={errors.receiverAddress?.message}
         >
-          <Input placeholder={t("ENTER_RECIPIENT")} />
+          <Input
+            placeholder={t("ENTER_RECIPIENT")}
+            {...register("receiverAddress", {
+              required: t("RECIPIENT_REQUIRED"),
+              validate: (value) => {
+                // @TODO: add a better validation
+                if (value.length !== 34) {
+                  return t("INVALID_ADDRESS");
+                }
+              },
+            })}
+          />
         </InputGroup>
 
         <InputGroup
@@ -52,14 +111,30 @@ export const SendModal = ({
 
               <span>
                 <span className="text-theme-gray-400">{t("AVAILABLE")}</span>{" "}
-                <span>{`${wallet.balance} ARK`}</span>
+                <span>{`${wallet.balance} ${coin}`}</span>
               </span>
             </span>
           }
-          variant="error"
-          help={t("BALANCE_TOO_LOW")}
+          variant={errors.amount?.message ? "error" : undefined}
+          help={errors.amount?.message}
         >
-          <Input placeholder="Enter Amount" />
+          <Input
+            type="number"
+            min="0"
+            placeholder="Enter Amount"
+            step="0.00000001"
+            {...register("amount", {
+              required: t("AMOUNT_REQUIRED"),
+              min: {
+                value: 0.000_000_01,
+                message: t("AMOUNT_TOO_LOW"),
+              },
+              max: {
+                value: Number(wallet.balance ?? 0),
+                message: t("BALANCE_TOO_LOW"),
+              },
+            })}
+          />
         </InputGroup>
       </div>
     </Dialog>

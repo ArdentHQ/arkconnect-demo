@@ -3,7 +3,11 @@
   "RECIPIENT": "Recipient",
   "RECIPIENT_INVALID_ADDRESS": "Recipient address is invalid",
   "BALANCE_TOO_LOW": "The balance is too low",
+  "AMOUNT_TOO_LOW": "The amount is too low",
+  "AMOUNT_REQUIRED": "Amount is required",
   "SEND_ARK": "Send ARK",
   "ENTER_RECIPIENT": "Enter Recipient",
-  "AVAILABLE": "Available"
+  "AVAILABLE": "Available",
+  "RECIPIENT_REQUIRED": "Recipient address is required",
+  "INVALID_ADDRESS": "Invalid address"
 }
