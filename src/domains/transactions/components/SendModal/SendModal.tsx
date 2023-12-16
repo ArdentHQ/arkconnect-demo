@@ -2,11 +2,12 @@
 import assert from "assert";
 import { useTranslation } from "next-i18next";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { useEffect } from "react";
 import { Dialog } from "@/app/components/Dialog";
 import { InputGroup } from "@/app/components/InputGroup";
 import { Input } from "@/app/components/Input";
 import { useWallet } from "@/app/hooks";
-import { SignTransactionResponse } from "@/app/lib";
+import { NetworkType, SignTransactionResponse } from "@/app/lib";
 
 type FormSubmitHandler = SubmitHandler<{
   amount: string;
@@ -32,6 +33,7 @@ export const SendModal = ({
     amount: string;
     receiverAddress: string;
   }>({
+    mode: "all",
     defaultValues: {
       amount: "",
       receiverAddress: "",
@@ -45,11 +47,6 @@ export const SendModal = ({
     receiverAddress,
   }) => {
     try {
-      console.log({
-        amount: amount,
-        receiverAddress,
-        network: wallet.network,
-      });
       const response: SignTransactionResponse = await signTransaction({
         amount: Number(amount),
         receiverAddress,
@@ -65,6 +62,13 @@ export const SendModal = ({
       console.error(error);
     }
   };
+
+  useEffect(() => {
+    console.log(errors);
+  }, [errors]);
+
+  // @TODO: is this the best way to get the coin name?
+  const coin = wallet.network === NetworkType.DEVNET ? "DARK" : "ARK";
 
   return (
     <Dialog
@@ -93,7 +97,15 @@ export const SendModal = ({
         >
           <Input
             placeholder={t("ENTER_RECIPIENT")}
-            {...register("receiverAddress")}
+            {...register("receiverAddress", {
+              required: t("RECIPIENT_REQUIRED"),
+              validate: (value) => {
+                // @TODO: add a better validation
+                if (value.length !== 34) {
+                  return t("INVALID_ADDRESS");
+                }
+              },
+            })}
           />
         </InputGroup>
 
@@ -104,7 +116,7 @@ export const SendModal = ({
 
               <span>
                 <span className="text-theme-gray-400">{t("AVAILABLE")}</span>{" "}
-                <span>{`${wallet.balance} ARK`}</span>
+                <span>{`${wallet.balance} ${coin}`}</span>
               </span>
             </span>
           }
@@ -116,7 +128,17 @@ export const SendModal = ({
             min="0"
             placeholder="Enter Amount"
             step="0.00000001"
-            {...register("amount")}
+            {...register("amount", {
+              required: t("AMOUNT_REQUIRED"),
+              min: {
+                value: 0,
+                message: t("AMOUNT_TOO_LOW"),
+              },
+              max: {
+                value: Number(wallet.balance ?? 0),
+                message: t("BALANCE_TOO_LOW"),
+              },
+            })}
           />
         </InputGroup>
       </div>
