@@ -1,14 +1,8 @@
 import {
-  NetworkType,
   SignTransactionRequest,
   SignTransactionResponse,
+  WalletData,
 } from "@/app/lib";
-
-export interface WalletData {
-  address: string;
-  network: NetworkType;
-  balance?: number | string;
-}
 
 export interface UseWalletReturnType {
   isLoading: boolean;

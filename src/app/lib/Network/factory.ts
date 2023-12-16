@@ -1,10 +1,5 @@
-import { NetworkType, NetworkAddressLink } from "./network.contracts";
+import { NetworkType, NetworkAddressLink } from "./contracts";
 
-/**
- * Implements Network interface.
- *
- * @param Object
- */
 export function Network({ network }: { network?: NetworkType | string }) {
   return {
     /**

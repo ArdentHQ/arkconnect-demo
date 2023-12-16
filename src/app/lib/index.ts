@@ -1,2 +1,4 @@
-export * from "./network.factory";
-export * from "./network.contracts";
+export * from "./Network";
+export * from "./Currency";
+export * from "./Wallet";
+export * from "./Coingecko";

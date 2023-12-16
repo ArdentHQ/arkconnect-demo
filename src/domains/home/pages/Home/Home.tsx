@@ -4,25 +4,24 @@ import { WalletOverview } from "@/app/components/WalletOverview";
 import { useWallet } from "@/app/hooks";
 import { isTruthy } from "@/app/utils/isTruthy";
 import { LoginOverlay } from "@/domains/home/components/LoginOverlay";
-import { Button } from "@/app/components/Button";
 import { SendModal } from "@/domains/transactions/components/SendModal";
 export const Home = () => {
   const { wallet, isConnected } = useWallet();
-
   const [showModal, setShowModal] = useState(false);
 
   return (
     <Layout>
-      <div className="container mx-auto px-6">
+      <div className="w-full sm:container mx-auto md:px-6">
         {isConnected && isTruthy(wallet) && (
           <>
-            <WalletOverview wallet={wallet} />
+            <WalletOverview
+              walletData={wallet}
+              onSend={() => {
+                setShowModal(true);
+              }}
+            />
 
             <SendModal show={showModal} onClose={() => setShowModal(false)} />
-
-            <Button onClick={() => setShowModal(true)}>
-              {"Send ARK (Temporal)"}
-            </Button>
           </>
         )}
         {!isConnected && (
