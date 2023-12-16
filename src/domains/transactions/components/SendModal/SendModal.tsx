@@ -50,7 +50,7 @@ export const SendModal = ({
       const response: SignTransactionResponse = await signTransaction({
         amount: Number(amount),
         receiverAddress,
-        network: "Devnet",
+        network: wallet.network,
       });
 
       // @TODO: handle success response
