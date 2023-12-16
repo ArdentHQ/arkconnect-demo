@@ -131,7 +131,7 @@ export const SendModal = ({
             {...register("amount", {
               required: t("AMOUNT_REQUIRED"),
               min: {
-                value: 0,
+                value: 0.000_000_01,
                 message: t("AMOUNT_TOO_LOW"),
               },
               max: {
