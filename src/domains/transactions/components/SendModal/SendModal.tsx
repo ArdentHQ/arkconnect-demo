@@ -1,3 +1,4 @@
+/* eslint-disable max-lines-per-function */
 import assert from "assert";
 import { useTranslation } from "next-i18next";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -5,6 +6,13 @@ import { Dialog } from "@/app/components/Dialog";
 import { InputGroup } from "@/app/components/InputGroup";
 import { Input } from "@/app/components/Input";
 import { useWallet } from "@/app/hooks";
+import { SignTransactionResponse } from "@/app/lib";
+
+type FormSubmitHandler = SubmitHandler<{
+  amount: string;
+  receiverAddress: string;
+}>;
+
 export const SendModal = ({
   show,
   onClose,
@@ -21,28 +29,48 @@ export const SendModal = ({
     handleSubmit,
     formState: { errors, isValid },
   } = useForm<{
-    amount?: number;
+    amount: string;
     receiverAddress: string;
   }>({
     defaultValues: {
-      amount: undefined,
+      amount: "",
       receiverAddress: "",
     },
   });
 
   assert(wallet);
 
-  const submitHandler: SubmitHandler<{
-    amount?: number | undefined;
-    receiverAddress: string;
-  }> = async ({ amount, receiverAddress }) => {
-    console.log({ amount, receiverAddress });
+  const submitHandler: FormSubmitHandler = async ({
+    amount,
+    receiverAddress,
+  }) => {
+    try {
+      console.log({
+        amount: amount,
+        receiverAddress,
+        network: wallet.network,
+      });
+      const response: SignTransactionResponse = await signTransaction({
+        amount: Number(amount),
+        receiverAddress,
+        network: "Devnet",
+      });
+
+      // @TODO: handle success response
+      console.log("Success", response);
+
+      onClose();
+    } catch (error) {
+      // @TODO: Handle wallet errors
+      console.error(error);
+    }
   };
 
   return (
     <Dialog
       show={show}
       onClose={onClose}
+      // eslint-disable-next-line @typescript-eslint/no-misused-promises
       onSubmit={handleSubmit(submitHandler)}
       continueDisabled={!isValid}
       title={t("SEND_ARK")}
@@ -87,6 +115,7 @@ export const SendModal = ({
             type="number"
             min="0"
             placeholder="Enter Amount"
+            step="0.00000001"
             {...register("amount")}
           />
         </InputGroup>
