@@ -9,7 +9,8 @@ import {
   NetworkType,
   SignTransactionRequest,
   SignTransactionResponse,
-} from "@/app/lib";
+} from "@/app/lib/Network";
+import { Wallet } from "@/app/lib/Wallet";
 
 const isClient = () => typeof window !== "undefined";
 
@@ -31,7 +32,9 @@ export const useWallet = (): UseWalletReturnType => {
 
       try {
         isConnected = await window.arkconnect?.isConnected();
-      } catch {}
+      } catch {
+        //
+      }
 
       if (!isTruthy(isConnected)) {
         return {
@@ -62,11 +65,11 @@ export const useWallet = (): UseWalletReturnType => {
         isInstalled,
         isConnected,
         extension: window.arkconnect,
-        wallet: {
+        wallet: Wallet({
           address,
           network,
           balance,
-        },
+        }).toJSON(),
       };
     },
     refetchInterval: 500,
@@ -133,8 +136,13 @@ export const useWallet = (): UseWalletReturnType => {
           throw new Error("arkconnect extension not found");
         }
 
-        const response: SignTransactionResponse | undefined =
-          await window.arkconnect.signTransaction(transaction);
+        const response = (await window.arkconnect.signTransaction(
+          transaction,
+        )) as SignTransactionResponse | undefined;
+
+        if (!isTruthy(response)) {
+          throw new Error("arkconnect extension not found");
+        }
 
         setIsTransacting(false);
 

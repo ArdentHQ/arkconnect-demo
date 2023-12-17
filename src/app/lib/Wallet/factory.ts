@@ -1,7 +1,7 @@
 import { WalletData } from "./contracts";
-import { Coingecko } from "@/app/lib/Coingecko";
-import { Coin, Network } from "@/app/lib";
+import { Coin, Network } from "@/app/lib/Network";
 import { Currency } from "@/app/lib/Currency";
+import { Coingecko } from "@/app/lib/Coingecko";
 
 export function Wallet(wallet: WalletData) {
   const exchange = Coingecko();
@@ -9,15 +9,15 @@ export function Wallet(wallet: WalletData) {
 
   return {
     /**
-     * Fetch and sync the wallet's price data.
+     * Fetches and syncs the wallet's price data.
      *
      * @returns {Promise<void>}
      */
-    async sync(): Promise<void> {
+    async syncRates(): Promise<void> {
       await exchange.sync();
     },
     /**
-     * Return the wallet's address.
+     * Returns the wallet's address.
      *
      * @returns {string}
      */
@@ -25,15 +25,19 @@ export function Wallet(wallet: WalletData) {
       return wallet.address;
     },
     /**
-     * Return the wallet's address.
+     * Returns the wallet's address.
      *
      * @returns {string}
      */
     coin(): Coin {
-      return wallet.coin;
+      if (this.network().isTestnet()) {
+        return Coin.DARK;
+      }
+
+      return Coin.ARK;
     },
     /**
-     * Return Wallet network interface.
+     * Returns Wallet network interface.
      *
      * @returns {ReturnType<typeof Network>}
      */
@@ -41,18 +45,26 @@ export function Wallet(wallet: WalletData) {
       return network;
     },
     /**
-     * Return wallet's balance interface.
+     * Returns wallet's balance interface.
      *
      * @returns {ReturnType<typeof Currency>}
      */
     balance(): ReturnType<typeof Currency> {
       return Currency({
-        coin: wallet.coin,
+        coin: this.coin(),
         value: exchange
           .price()
           .times(wallet.balance ?? 0)
           .toNumber(),
       });
+    },
+    /**
+     * Returns wallet data fields as json object.
+     *
+     * @returns {WalletData}
+     */
+    toJSON(): WalletData {
+      return wallet;
     },
   };
 }

@@ -1,5 +1,7 @@
+import { Coin } from "@/app/lib/Network";
+
 export interface MarketDataResponseItem {
-  name: string;
+  name: Coin;
   current_price: number;
   id: string;
 }

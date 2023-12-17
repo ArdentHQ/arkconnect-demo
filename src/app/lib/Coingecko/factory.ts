@@ -1,6 +1,6 @@
 import BigNumber from "bignumber.js";
-import { isTruthy } from "@/app/utils/isTruthy";
 import { MarketDataResponseItem } from "./contracts";
+import { isTruthy } from "@/app/utils/isTruthy";
 import { Coin } from "@/app/lib/Network";
 
 /**
@@ -22,7 +22,14 @@ export function Coingecko() {
       const endpoint = `https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency}&ids=${coin.toLowerCase()}`;
 
       const response = await fetch(endpoint);
-      const data: MarketDataResponseItem[] = await response.json();
+
+      if (!response.ok) {
+        throw new Error(
+          `[Coingecko#sync] Failed to retrieve market data for ${coin}. Error status: ${response.status}`,
+        );
+      }
+
+      const data = (await response.json()) as MarketDataResponseItem[];
       const arkMarketRate = data.find((rateItem) => rateItem.name === coin);
 
       if (!isTruthy(arkMarketRate)) {
@@ -43,7 +50,7 @@ export function Coingecko() {
 
       if (price === undefined) {
         throw new Error(
-          "[Coingecko#rate] Faild to find price for `${coin}. Did you run Coingecko#syncRates first?",
+          `[Coingecko#rate] Faild to find price for ${coin}. Did you run Coingecko#syncRates first?`,
         );
       }
 

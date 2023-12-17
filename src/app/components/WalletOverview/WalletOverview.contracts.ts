@@ -1,4 +1,4 @@
-import { WalletData } from "@/app/lib";
+import { WalletData } from "@/app/lib/Wallet";
 
 export interface WalletOverviewProperties {
   className?: string;

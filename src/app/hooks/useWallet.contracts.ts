@@ -1,8 +1,9 @@
+import { WalletData } from "@/app/lib/Wallet";
+
 import {
   SignTransactionRequest,
   SignTransactionResponse,
-  WalletData,
-} from "@/app/lib";
+} from "@/app/lib/Network";
 
 export interface UseWalletReturnType {
   isLoading: boolean;

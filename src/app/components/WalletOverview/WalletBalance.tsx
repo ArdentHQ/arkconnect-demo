@@ -1,7 +1,7 @@
 import { useTranslation } from "next-i18next";
-import { Button } from "@/app/components/Button";
-import { WalletOverviewProperties } from "./WalletOverview.contracts";
 import cn from "classnames";
+import { WalletOverviewProperties } from "./WalletOverview.contracts";
+import { Button } from "@/app/components/Button";
 import { useWalletBalance } from "@/app/hooks/useWalletBalance";
 
 export const WalletBalance = ({

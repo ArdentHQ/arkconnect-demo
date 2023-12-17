@@ -1,4 +1,5 @@
 import { useTranslation } from "next-i18next";
+import { WalletOverviewProperties } from "./WalletOverview.contracts";
 import { TruncateMiddle } from "@/app/components/Truncate";
 import Copy from "@/public/icons/copy.svg";
 import Explorer from "@/public/icons/explorer.svg";
@@ -6,7 +7,6 @@ import CheckSquare from "@/public/icons/check-square.svg";
 import { RoundButton, RoundLinkButton } from "@/app/components/Button";
 import { Clipboard } from "@/app/components/Clipboard";
 import { Network } from "@/app/lib/Network";
-import { WalletOverviewProperties } from "./WalletOverview.contracts";
 
 export const WalletAddress = ({ walletData }: WalletOverviewProperties) => {
   const { t } = useTranslation();
@@ -38,7 +38,7 @@ export const WalletAddress = ({ walletData }: WalletOverviewProperties) => {
 
           <RoundLinkButton
             variant="transparent"
-            href={network.walletExplorerLink(walletData.address)}
+            href={network.addressExplorerLink(walletData.address)}
             isExternal
           >
             <Explorer className="w-[1.125rem]" />

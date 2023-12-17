@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { Wallet, WalletData } from "@/app/lib";
+import { Wallet, WalletData } from "@/app/lib/Wallet";
 
 export const useWalletBalance = ({
   walletData,
@@ -15,7 +15,7 @@ export const useWalletBalance = ({
     queryKey: ["rate"],
     queryFn: async () => {
       const wallet = Wallet(walletData);
-      await wallet.sync();
+      await wallet.syncRates();
 
       return {
         ark: wallet.balance().toARK(),
