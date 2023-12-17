@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import { Wallet, WalletData } from "@/app/lib/Wallet";
+import { Wallet } from "@/app/lib/Wallet";
+import { WalletData } from "@/app/lib/Wallet/contracts";
 
 export const useWalletBalance = ({
   walletData,

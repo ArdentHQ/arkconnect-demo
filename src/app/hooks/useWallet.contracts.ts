@@ -1,4 +1,4 @@
-import { WalletData } from "@/app/lib/Wallet";
+import { WalletData } from "@/app/lib/Wallet/contracts";
 
 import {
   SignTransactionRequest,
