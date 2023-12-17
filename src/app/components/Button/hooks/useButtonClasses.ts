@@ -37,7 +37,7 @@ export const useButtonClasses = ({
   };
 
   const base =
-    "flex justify-between items-center font-bold rounded-2xl whitespace-nowrap space-x-[0.6rem] leading-[1.25rem] transition-default border";
+    "flex justify-center items-center font-bold rounded-2xl whitespace-nowrap space-x-[0.6rem] leading-[1.25rem] transition-default border";
 
   const padding = "py-[0.625rem] px-[1.25rem]";
 
