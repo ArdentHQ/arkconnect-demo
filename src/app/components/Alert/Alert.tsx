@@ -13,7 +13,7 @@ const AlertSuccess = (properties: HTMLAttributes<HTMLElement>): JSX.Element => (
 
 const AlertError = (properties: HTMLAttributes<HTMLElement>): JSX.Element => (
   <div
-    className="border-t border-theme-danger-600 bg-theme-danger-100 text-theme-danger-700 text-sm px-8 py-3"
+    className="border-t border-theme- bg-theme-error-100 text-theme-error-700 text-sm px-8 py-3"
     {...properties}
   />
 );
