@@ -2,19 +2,33 @@ import { WalletData } from "./contracts";
 import { Coin, Network } from "@/app/lib/Network";
 import { Currency } from "@/app/lib/Currency";
 import { Coingecko } from "@/app/lib/Coingecko";
+import { Transactions } from "@/app/lib/Transactions/factory";
 
 export function Wallet(wallet: WalletData) {
   const exchange = Coingecko();
   const network = Network(wallet);
 
+  const transactions = Transactions({
+    network: wallet.network,
+    address: wallet.address,
+  });
+
   return {
     /**
-     * Fetches and syncs the wallet's price data.
+     * Fetches the wallet's price data.
      *
      * @returns {Promise<void>}
      */
     async syncRates(): Promise<void> {
       await exchange.sync();
+    },
+    /**
+     * Returns Wallet transaction interface.
+     *
+     * @returns {Promise<void>}
+     */
+    transactions(): ReturnType<typeof Transactions> {
+      return transactions;
     },
     /**
      * Returns the wallet's address.

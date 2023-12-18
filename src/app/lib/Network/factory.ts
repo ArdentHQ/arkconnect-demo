@@ -1,9 +1,14 @@
-import { NetworkType, NetworkAddressLink } from "./contracts";
+import {
+  NetworkType,
+  NetworkAddressLink,
+  NetworkTransactionsList,
+  NetworkTransactionLink,
+} from "./contracts";
 
 export function Network({ network }: { network?: NetworkType | string }) {
   return {
     /**
-     * Returns the explorer link of a given address.
+     * Generates explorer links for an address.
      *
      * @param {string} address
      * @returns {string}
@@ -13,11 +18,54 @@ export function Network({ network }: { network?: NetworkType | string }) {
         throw new Error(`Network ${network} is not supported`);
       }
 
-      if (network === NetworkType.DEVNET) {
-        return [NetworkAddressLink.DEVNET, address].join("");
+      const url = this.isTestnet()
+        ? NetworkAddressLink.DEVNET
+        : NetworkAddressLink.MAINNET;
+
+      return [url, address].join("");
+    },
+    /**
+     * Generates api transaction links for an address,
+     * based on network type.
+     *
+     * @param {string} address
+     * @param {number} limit
+     * @returns {string}
+     */
+    addressTransactionLink(address: string, limit: number = 10): string {
+      if (!this.isSupported()) {
+        throw new Error(`Network ${network} is not supported`);
       }
 
-      return [NetworkAddressLink.MAINNET, address].join("");
+      const url = new URL(
+        this.isTestnet()
+          ? NetworkTransactionsList.DEVNET
+          : NetworkTransactionsList.MAINNET,
+      );
+
+      url.searchParams.append("address", address);
+      url.searchParams.append("limit", limit.toString());
+
+      return url.toString();
+    },
+    /**
+     * Generates transaction link for a transaction,
+     * based on network type.
+     *
+     * @returns {string}
+     */
+    transactionLink(transactionId: string): string {
+      if (!this.isSupported()) {
+        throw new Error(`Network ${network} is not supported`);
+      }
+
+      const url = new URL(
+        this.isTestnet()
+          ? NetworkTransactionLink.DEVNET
+          : NetworkTransactionLink.MAINNET,
+      );
+
+      return [url.toString(), transactionId].join("");
     },
     /**
      * Checkes whether the network is supported.

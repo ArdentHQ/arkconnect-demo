@@ -53,7 +53,6 @@ export const SendModal = ({
       });
 
       // @TODO: handle success response
-      console.log("Success", response);
 
       onClose();
     } catch (error) {

@@ -22,5 +22,12 @@
   "YOU": "You",
   "VOTE": "Vote",
   "SEND": "Send",
-  "NA": "N/A"
+  "NA": "N/A",
+  "MINUS": "-",
+  "PLUS": "+",
+  "FROM": "From",
+  "TO": "To",
+  "TRANSFER": "Transfer",
+  "CONTRACT": "Contract",
+  "MULTIPLE": "Multiple"
 }
