@@ -26,7 +26,7 @@ export const TransactionListItem = ({
   const { t } = useTranslation("transactions");
 
   return (
-    <div className="border rounded-2.5xl border-[#d3d3d3] flex flex-col overflow-hidden">
+    <div className="border rounded-2.5xl border-[#d3d3d3] flex flex-col overflow-hidden bg-white">
       <div className="bg-theme-gray-100 px-4 py-3 justify-between flex">
         <Link
           href={tx.explorerLink()}
@@ -39,7 +39,8 @@ export const TransactionListItem = ({
           {tx.timestamp().timeAgo()}
         </span>
       </div>
-      <div className="pt-3 px-4 pb-4 flex justify-between">
+
+      <div className="pt-3 px-4 pb-4 flex-col flex sm:flex-row justify-between  space-y-5 sm:space-y-0">
         <div className="flex flex-col space-y-2">
           <span className="text-sm text-theme-gray-500 font-medium">
             {tx.isVote() && t("VOTE", { ns: "common" })}
