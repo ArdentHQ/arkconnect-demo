@@ -7,8 +7,8 @@ import WalletLogo from "@/public/icons/logo.svg";
 export const InstallOverlay = () => {
   const { t } = useTranslation();
 
-  const isFirefox = navigator.userAgent.indexOf("Firefox") !== -1;
-  const isChrome = navigator.userAgent.indexOf("Chrome") !== -1;
+  const isFirefox = navigator.userAgent.includes("Firefox");
+  const isChrome = navigator.userAgent.includes("Chrome");
 
   return (
     <div className="bg-white mx-auto w-full sm:w-96 overflow-hidden shadow-sm rounded-xl">
