@@ -21,5 +21,6 @@ export interface UseWalletReturnType {
   signTransaction: (
     transaction: SignTransactionRequest,
   ) => Promise<SignTransactionResponse>;
+  isVoting: boolean;
   signVote: (transaction: SignVoteRequest) => Promise<SignVoteResponse>;
 }

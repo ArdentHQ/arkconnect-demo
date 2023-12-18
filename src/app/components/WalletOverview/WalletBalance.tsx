@@ -3,6 +3,7 @@ import cn from "classnames";
 import { WalletOverviewProperties } from "./WalletOverview.contracts";
 import { Button } from "@/app/components/Button";
 import { useWalletBalance } from "@/app/hooks/useWalletBalance";
+import { useWallet } from "@/app/hooks";
 
 export const WalletBalance = ({
   className,
@@ -11,7 +12,8 @@ export const WalletBalance = ({
   onVote,
 }: WalletOverviewProperties) => {
   const { t } = useTranslation();
-  const { balance, isSuccess } = useWalletBalance({ walletData });
+  const { balance, isSuccess, signVote } = useWalletBalance({ walletData });
+  const { signVote, isVoting } = useWallet();
 
   return (
     <div

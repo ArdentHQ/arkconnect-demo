@@ -157,6 +157,7 @@ export const useWallet = (): UseWalletReturnType => {
         throw error;
       }
     },
+    isVoting,
     signVote: async (request: SignVoteRequest): Promise<SignVoteResponse> => {
       setIsVoting(true);
 
