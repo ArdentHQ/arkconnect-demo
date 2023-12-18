@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { WalletData } from "@/app/lib/Wallet/contracts";
-import { DelegatesList } from "../DelegatesList";
+import { DelegatesList } from "@/domains/vote/components/DelegatesList";
 import { Wallet } from "@/app/lib/Wallet";
 
 export const Delegates = ({ walletData }: { walletData: WalletData }) => {

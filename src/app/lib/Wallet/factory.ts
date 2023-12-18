@@ -106,7 +106,7 @@ export function Wallet(wallet: WalletData) {
      * @returns {DelegateData | undefined}
      */
     votingDelegate(): DelegateData | undefined {
-      if (votes.currentVotes().length == 0) {
+      if (votes.currentVotes().length === 0) {
         return undefined;
       }
 

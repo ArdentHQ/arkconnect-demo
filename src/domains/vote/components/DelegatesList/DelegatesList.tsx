@@ -1,7 +1,7 @@
-import { DelegatesListItem } from "./DelegatesListItem";
 import { useState } from "react";
-import { isTruthy } from "@/app/utils/isTruthy";
+import { DelegatesListItem } from "./DelegatesListItem";
 import { DelegatesListProperties } from "./contracts";
+import { isTruthy } from "@/app/utils/isTruthy";
 
 export const DelegatesList = ({
   delegates,
@@ -53,7 +53,6 @@ export const DelegatesList = ({
 
               if (currentVote) {
                 onChange?.({ votes: [], unvotes: [currentVote] });
-                return;
               }
             }}
             onCurrent={(address) => {

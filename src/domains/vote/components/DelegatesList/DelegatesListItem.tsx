@@ -1,8 +1,8 @@
+import classNames from "classnames";
+import { useTranslation } from "next-i18next";
 import { DelegateItem } from "@/app/lib/Delegates";
 import ExternalLink from "@/public/icons/external-link.svg";
 import { Link } from "@/app/components/Link";
-import classNames from "classnames";
-import { useTranslation } from "next-i18next";
 import { TruncateMiddle } from "@/app/components/Truncate";
 
 export const DelegatesListItem = ({

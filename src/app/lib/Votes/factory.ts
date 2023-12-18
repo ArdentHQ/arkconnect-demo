@@ -1,5 +1,5 @@
-import { NetworkType, Network } from "@/app/lib/Network";
 import { WalletVotesResponse } from "./contracts";
+import { NetworkType, Network } from "@/app/lib/Network";
 import { isTruthy } from "@/app/utils/isTruthy";
 
 export function WalletVotes({
@@ -33,7 +33,7 @@ export function WalletVotes({
       if (isTruthy(recentVotes)) {
         const votes = recentVotes
           .filter((vote) => vote.startsWith("+"))
-          .map((vote) => vote.substring(1));
+          .map((vote) => vote.slice(1));
 
         state.set("currentVotes", votes);
       }

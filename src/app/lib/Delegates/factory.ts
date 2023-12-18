@@ -1,5 +1,5 @@
-import { Network, NetworkType } from "@/app/lib/Network";
 import { DelegateData, DelegateItem, DelegateResponse } from "./contracts";
+import { Network, NetworkType } from "@/app/lib/Network";
 
 export function Delegates(properties: { network: NetworkType }) {
   const network = Network(properties);
