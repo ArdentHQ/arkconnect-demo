@@ -1,4 +1,8 @@
-export type ButtonVariant = "primary" | "secondary" | "transparent";
+export type ButtonVariant =
+  | "primary"
+  | "secondary"
+  | "transparent"
+  | "secondary-bordered";
 
 export const useButtonClasses = ({
   variant,
@@ -16,7 +20,8 @@ export const useButtonClasses = ({
     primary:
       "bg-theme-primary-700 hover:bg-theme-primary-600 hover:border-theme-primary-600 text-white focus:outline-none focus:shadow-outline-primary border-theme-primary-700",
     secondary:
-      "bg-white hover:bg-theme-primary-50 text-theme-primary-700 focus:outline-none focus:shadow-outline-primary border-theme-primary-700",
+      "border border-white bg-white hover:bg-theme-primary-50 text-theme-primary-700 focus:outline-none focus:shadow-outline-primary",
+    "secondary-bordered": "border border-white",
     transparent:
       "border-transparent bg-transparent hover:bg-theme-gray-50 focus:bg-transparent focus:border-theme-primary-700",
   };
@@ -25,12 +30,14 @@ export const useButtonClasses = ({
     primary:
       "disabled:bg-theme-gray-100 disabled:border-theme-gray-100 disabled:text-theme-gray-400",
     secondary: "disabled:text-theme-gray-300 disabled:border-theme-gray-100",
+    "secondary-bordered":
+      "disabled:text-theme-gray-300 disabled:border-theme-gray-300",
     transparent:
       "disabled:text-theme-gray-400 disabled:focus:border-none disabled:bg-transparent",
   };
 
   const base =
-    "flex justify-between items-center font-bold rounded-2xl whitespace-nowrap space-x-[0.6rem] leading-[1.25rem] transition-default border";
+    "flex justify-center items-center font-bold rounded-2xl whitespace-nowrap space-x-[0.6rem] leading-[1.25rem] transition-default border";
 
   const padding = "py-[0.625rem] px-[1.25rem]";
 

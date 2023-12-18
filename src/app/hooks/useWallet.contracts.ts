@@ -1,14 +1,9 @@
+import { WalletData } from "@/app/lib/Wallet/contracts";
+
 import {
-  NetworkType,
   SignTransactionRequest,
   SignTransactionResponse,
-} from "@/app/lib";
-
-export interface WalletData {
-  address: string;
-  network: NetworkType;
-  balance?: number | string;
-}
+} from "@/app/lib/Network";
 
 export interface UseWalletReturnType {
   isLoading: boolean;

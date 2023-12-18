@@ -14,8 +14,13 @@
   "DISCONNECT_WALLET": "Disconnect wallet",
   "ERROR_MESSAGE": "Error message:",
   "CONNECTED_WITH_ARK_CONNECT": "Connected with ARK Connect",
+  "CONNECTED": "Connected",
+  "BALANCE": "Balance",
   "COPY_CLIPBOARD": "Copy to Clipboard",
   "COPIED": "Copied!",
   "AMOUNT": "Amount",
-  "YOU": "You"
+  "YOU": "You",
+  "VOTE": "Vote",
+  "SEND": "Send",
+  "NA": "N/A"
 }

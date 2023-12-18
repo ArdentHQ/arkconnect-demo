@@ -6,7 +6,7 @@ import { Dialog } from "@/app/components/Dialog";
 import { InputGroup } from "@/app/components/InputGroup";
 import { Input } from "@/app/components/Input";
 import { useWallet } from "@/app/hooks";
-import { NetworkType, SignTransactionResponse } from "@/app/lib";
+import { NetworkType, SignTransactionResponse } from "@/app/lib/Network";
 
 type FormSubmitHandler = SubmitHandler<{
   amount: string;

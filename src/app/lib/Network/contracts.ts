@@ -8,6 +8,11 @@ export enum NetworkAddressLink {
   MAINNET = "https://live.arkscan.io/addresses/",
 }
 
+export enum Coin {
+  ARK = "ARK",
+  DARK = "DARK",
+}
+
 export interface SignTransactionRequest {
   amount: number;
   receiverAddress: string;
