@@ -9,15 +9,24 @@ import {
   NetworkType,
   SignTransactionRequest,
   SignTransactionResponse,
+  SignVoteRequest,
+  SignVoteResponse,
 } from "@/app/lib/Network";
 import { Wallet } from "@/app/lib/Wallet";
 
 const isClient = () => typeof window !== "undefined";
 
+class NoArkExtensionException extends Error {
+  constructor() {
+    super("arkconnect extension not found");
+  }
+}
+
 export const useWallet = (): UseWalletReturnType => {
   const [isConnecting, setIsConnecting] = useState(false);
   const [isErrored, setIsErrored] = useState(false);
   const [isTransacting, setIsTransacting] = useState(false);
+  const [isVoting, setIsVoting] = useState(false);
   const [error, setError] = useState<string>();
 
   const { data, isLoading } = useQuery({
@@ -134,7 +143,7 @@ export const useWallet = (): UseWalletReturnType => {
 
       try {
         if (!window.arkconnect) {
-          throw new Error("arkconnect extension not found");
+          throw new NoArkExtensionException();
         }
 
         const response = (await window.arkconnect.signTransaction(
@@ -142,7 +151,7 @@ export const useWallet = (): UseWalletReturnType => {
         )) as SignTransactionResponse | undefined;
 
         if (!isTruthy(response)) {
-          throw new Error("arkconnect extension not found");
+          throw new NoArkExtensionException();
         }
 
         setIsTransacting(false);
@@ -150,6 +159,32 @@ export const useWallet = (): UseWalletReturnType => {
         return response;
       } catch (error) {
         setIsTransacting(false);
+
+        throw error;
+      }
+    },
+    isVoting,
+    signVote: async (request: SignVoteRequest): Promise<SignVoteResponse> => {
+      setIsVoting(true);
+
+      try {
+        if (!window.arkconnect) {
+          throw new NoArkExtensionException();
+        }
+
+        const response = (await window.arkconnect.signVote(request)) as
+          | SignVoteResponse
+          | undefined;
+
+        if (!isTruthy(response)) {
+          throw new NoArkExtensionException();
+        }
+
+        setIsVoting(false);
+
+        return response;
+      } catch (error) {
+        setIsVoting(false);
 
         throw error;
       }
