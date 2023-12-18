@@ -5,6 +5,10 @@ export interface DelegateData {
   rank: number;
 }
 
+export interface DelegateItem extends DelegateData {
+  explorerUrl: string;
+}
+
 export interface DelegateResponse {
   data: DelegateData[];
   meta: {

@@ -1,5 +1,5 @@
 import { Network, NetworkType } from "@/app/lib/Network";
-import { DelegateData, DelegateResponse } from "./contracts";
+import { DelegateData, DelegateItem, DelegateResponse } from "./contracts";
 
 export function Delegates(properties: { network: NetworkType }) {
   const network = Network(properties);
@@ -26,10 +26,15 @@ export function Delegates(properties: { network: NetworkType }) {
     /**
      * Returns delegate items.
      *
-     * @returns {DelegateData[]}
+     * @returns {DelegateItem[]}
      */
-    items(): DelegateData[] {
-      return state.get("delegates") ?? [];
+    items(): DelegateItem[] {
+      return (state.get("delegates") ?? []).map((delegate) => {
+        return {
+          ...delegate,
+          explorerUrl: network.addressExplorerLink(delegate.address),
+        };
+      });
     },
   };
 }

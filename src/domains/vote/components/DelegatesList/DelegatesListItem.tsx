@@ -1,4 +1,4 @@
-import { DelegateData } from "@/app/lib/Delegates";
+import { DelegateItem } from "@/app/lib/Delegates";
 import ExternalLink from "@/public/icons/external-link.svg";
 import { Link } from "@/app/components/Link";
 import classNames from "classnames";
@@ -15,7 +15,7 @@ export const DelegatesListItem = ({
   onUnselect,
   onCurrent,
 }: {
-  delegate: DelegateData;
+  delegate: DelegateItem;
   isSelected?: boolean;
   isUnselected?: boolean;
   isCurrent?: boolean;
@@ -25,7 +25,6 @@ export const DelegatesListItem = ({
   onCurrent?: (address: string) => void;
 }) => {
   const { t } = useTranslation();
-  console.log({ isCurrent, address: delegate.address });
 
   const isDefault = !isSelected && !isUnselected && !isCurrent;
   const isOnlyCurrent = !isSelected && !isUnselected && isCurrent;
@@ -54,11 +53,12 @@ export const DelegatesListItem = ({
   return (
     <div
       className={classNames(
-        "flex items-center w-full justify-between py-3 px-4 rounded-lg border border-theme-gray-200",
+        "flex items-center w-full justify-between py-3 px-4 rounded-lg border",
         {
           "border-theme-primary-700 bg-theme-primary-50":
             isOnlyCurrent || isOnlySelected,
           "border-theme-error-600 bg-theme-error-50": isUnselected,
+          "border-theme-gray-200": isDefault,
         },
       )}
     >
@@ -68,12 +68,12 @@ export const DelegatesListItem = ({
 
       <div className="w-2/4">
         <div className="text-md text-black font-normal leading-[125%] overflow-hidden">
-          <TruncateMiddle>{delegate.address}</TruncateMiddle>
+          <TruncateMiddle>{delegate.username}</TruncateMiddle>
         </div>
       </div>
 
       <div className="text-center">
-        <Link href="https://google.com" target="_blank">
+        <Link href={delegate.explorerUrl} target="_blank">
           <ExternalLink className="w-4" />
         </Link>
       </div>
