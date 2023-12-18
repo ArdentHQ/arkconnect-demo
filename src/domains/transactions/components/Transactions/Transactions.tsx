@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "next-i18next";
+import { TransactionsList } from "@/domains/transactions/components/TransactionsList";
 import { Wallet } from "@/app/lib/Wallet";
 import { WalletData } from "@/app/lib/Wallet/contracts";
 import { isTruthy } from "@/app/utils/isTruthy";
@@ -28,11 +29,22 @@ export const Transactions = ({ walletData }: { walletData: WalletData }) => {
       <div className="px-6 py-6 pb-4">
         <H3>{t("LATEST_10_TRANSACTIONS")}</H3>
       </div>
-      <TransactionsTable
-        transactions={transactions}
-        walletData={walletData}
-        isLoading={isLoading}
-      />
+
+      <div className="hidden md:block">
+        <TransactionsTable
+          transactions={transactions}
+          walletData={walletData}
+          isLoading={isLoading}
+        />
+      </div>
+
+      <div className="md:hidden">
+        <TransactionsList
+          transactions={transactions}
+          walletData={walletData}
+          isLoading={isLoading}
+        />
+      </div>
     </div>
   );
 };
