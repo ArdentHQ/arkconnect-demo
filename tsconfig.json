@@ -16,6 +16,7 @@
     "incremental": true,
     "noImplicitAny": false,
     "noFallthroughCasesInSwitch": true,
+    "allowSyntheticDefaultImports": true,
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*", "./*"]

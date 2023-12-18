@@ -9,5 +9,13 @@
   "ENTER_RECIPIENT": "Enter Recipient",
   "AVAILABLE": "Available",
   "RECIPIENT_REQUIRED": "Recipient address is required",
-  "INVALID_ADDRESS": "Invalid address"
+  "INVALID_ADDRESS": "Invalid address",
+  "LATEST_10_TRANSACTIONS": "Latest 10 Transactions",
+  "TX_ID": "Tx ID",
+  "AGE": "Age",
+  "TYPE": "Type",
+  "ADDRESSING": "Addressing",
+  "VALUE_ARK": "Value (ARK)",
+  "FEE_ARK": "Fee (ARK)",
+  "NO_TRANSACTIONS": "No transactions found."
 }

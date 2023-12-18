@@ -6,7 +6,7 @@ export function Currency({
   coin,
 }: {
   value: string | number;
-  coin: Coin;
+  coin?: Coin;
 }) {
   const number = BigNumber(value);
 
@@ -37,6 +37,19 @@ export function Currency({
       }).format(number.toNumber());
 
       return [formatted, coin].join(" ");
+    },
+    /**
+     *  Returns number in crypto format
+     *  (from 2 up to 8 decimals) and without a suffix.
+     *
+     * @returns {string}
+     */
+    toCrypto(): string {
+      return new Intl.NumberFormat("en-US", {
+        style: "decimal",
+        maximumFractionDigits: 8,
+        minimumFractionDigits: 2,
+      }).format(number.toNumber());
     },
   };
 }

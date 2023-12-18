@@ -101,7 +101,7 @@
     ],
     "max-lines-per-function": [
       "warn",
-      { "max": 80, "skipBlankLines": true, "skipComments": true }
+      { "max": 100, "skipBlankLines": true, "skipComments": true }
     ],
     "unused-imports/no-unused-imports-ts": "error",
     "unicorn/consistent-destructuring": "error",

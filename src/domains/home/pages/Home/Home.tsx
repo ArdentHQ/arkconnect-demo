@@ -5,6 +5,7 @@ import { useWallet } from "@/app/hooks";
 import { isTruthy } from "@/app/utils/isTruthy";
 import { LoginOverlay } from "@/domains/home/components/LoginOverlay";
 import { SendModal } from "@/domains/transactions/components/SendModal";
+import { Transactions } from "@/domains/transactions/components/Transactions";
 export const Home = () => {
   const { wallet, isConnected } = useWallet();
   const [showModal, setShowModal] = useState(false);
@@ -24,11 +25,14 @@ export const Home = () => {
             <SendModal show={showModal} onClose={() => setShowModal(false)} />
           </>
         )}
+
         {!isConnected && (
           <div className="sm:flex sm:items-center sm:h-full sm:w-full sm:mt-[8vw]">
             <LoginOverlay />
           </div>
         )}
+
+        {wallet && <Transactions walletData={wallet} />}
       </div>
     </Layout>
   );

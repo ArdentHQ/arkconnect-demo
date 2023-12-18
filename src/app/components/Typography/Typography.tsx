@@ -1,8 +1,20 @@
 import { ReactElement } from "react";
+import { twMerge } from "tailwind-merge";
 
-export const H3 = ({ children }: { children: ReactElement | string }) => {
+export const H3 = ({
+  className,
+  children,
+}: {
+  className?: string;
+  children: ReactElement | string;
+}) => {
   return (
-    <h3 className="break-words text-xl leading-[1.563rem] font-medium mb-2">
+    <h3
+      className={twMerge(
+        className,
+        "break-words text-xl leading-[1.563rem] font-medium",
+      )}
+    >
       {children}
     </h3>
   );
