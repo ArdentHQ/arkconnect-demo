@@ -16,5 +16,6 @@
   "TYPE": "Type",
   "ADDRESSING": "Addressing",
   "VALUE_ARK": "Value (ARK)",
-  "FEE_ARK": "Fee (ARK)"
+  "FEE_ARK": "Fee (ARK)",
+  "NO_TRANSACTIONS": "No transactions found."
 }

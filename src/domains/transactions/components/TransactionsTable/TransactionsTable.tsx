@@ -3,13 +3,16 @@ import { TransactionTableRow } from "./TransactionTableRow";
 import { Table } from "@/app/components/Table";
 import { TransactionData } from "@/app/lib/Transactions/contracts";
 import { WalletData } from "@/app/lib/Wallet/contracts";
+import { isTruthy } from "@/app/utils/isTruthy";
 
 export const TransactionsTable = ({
   transactions,
   walletData,
+  isLoading,
 }: {
   transactions: TransactionData[];
   walletData: WalletData;
+  isLoading?: boolean;
 }) => {
   const { t } = useTranslation("transactions");
 
@@ -45,6 +48,10 @@ export const TransactionsTable = ({
       className: "text-right",
     },
   ];
+
+  if (!isTruthy(isLoading) && transactions.length === 0) {
+    return <div className="p-4 text-center">{t("NO_TRANSACTIONS")}</div>;
+  }
 
   return (
     <Table

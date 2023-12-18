@@ -9,7 +9,7 @@ import { H3 } from "@/app/components/Typography";
 export const Transactions = ({ walletData }: { walletData: WalletData }) => {
   const { t } = useTranslation("transactions");
 
-  const { data: transactions } = useQuery({
+  const { data: transactions, isLoading } = useQuery({
     staleTime: 0,
     initialData: [],
     enabled: isTruthy(walletData),
@@ -28,7 +28,11 @@ export const Transactions = ({ walletData }: { walletData: WalletData }) => {
       <div className="px-6 py-6 pb-4">
         <H3>{t("LATEST_10_TRANSACTIONS")}</H3>
       </div>
-      <TransactionsTable transactions={transactions} walletData={walletData} />
+      <TransactionsTable
+        transactions={transactions}
+        walletData={walletData}
+        isLoading={isLoading}
+      />
     </div>
   );
 };
