@@ -22,6 +22,7 @@ export const Delegates = ({ walletData }: { walletData: WalletData }) => {
         currentVote: wallet.votingDelegate()?.address,
       };
     },
+    refetchInterval: false,
   });
 
   return (
