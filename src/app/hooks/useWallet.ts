@@ -16,6 +16,12 @@ import { Wallet } from "@/app/lib/Wallet";
 
 const isClient = () => typeof window !== "undefined";
 
+class NoArkExtensionException extends Error {
+  constructor() {
+    super("arkconnect extension not found");
+  }
+}
+
 export const useWallet = (): UseWalletReturnType => {
   const [isConnecting, setIsConnecting] = useState(false);
   const [isErrored, setIsErrored] = useState(false);
@@ -137,7 +143,7 @@ export const useWallet = (): UseWalletReturnType => {
 
       try {
         if (!window.arkconnect) {
-          throw new Error("arkconnect extension not found");
+          throw new NoArkExtensionException();
         }
 
         const response = (await window.arkconnect.signTransaction(
@@ -145,7 +151,7 @@ export const useWallet = (): UseWalletReturnType => {
         )) as SignTransactionResponse | undefined;
 
         if (!isTruthy(response)) {
-          throw new Error("arkconnect extension not found");
+          throw new NoArkExtensionException();
         }
 
         setIsTransacting(false);
@@ -163,7 +169,7 @@ export const useWallet = (): UseWalletReturnType => {
 
       try {
         if (!window.arkconnect) {
-          throw new Error("arkconnect extension not found");
+          throw new NoArkExtensionException();
         }
 
         const response = (await window.arkconnect.signVote(request)) as
@@ -171,7 +177,7 @@ export const useWallet = (): UseWalletReturnType => {
           | undefined;
 
         if (!isTruthy(response)) {
-          throw new Error("arkconnect extension not found");
+          throw new NoArkExtensionException();
         }
 
         setIsVoting(false);
