@@ -29,5 +29,9 @@
   "TO": "To",
   "TRANSFER": "Transfer",
   "CONTRACT": "Contract",
-  "MULTIPLE": "Multiple"
+  "MULTIPLE": "Multiple",
+  "CURRENT": "Current",
+  "SELECTED": "Selected",
+  "UNSELECTED": "Unselected",
+  "SELECT": "Select"
 }

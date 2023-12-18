@@ -13,10 +13,10 @@ export const Transactions = ({ walletData }: { walletData: WalletData }) => {
     staleTime: 0,
     initialData: [],
     enabled: isTruthy(walletData),
-    queryKey: ["wallet-transactions-1"],
+    queryKey: ["wallet-transactions"],
     queryFn: async () => {
       const wallet = Wallet(walletData);
-      await wallet.transactions().sync(10);
+      await wallet.transactions().sync();
 
       return wallet.transactions().items();
     },

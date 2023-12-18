@@ -6,6 +6,8 @@ import { isTruthy } from "@/app/utils/isTruthy";
 import { LoginOverlay } from "@/domains/home/components/LoginOverlay";
 import { SendModal } from "@/domains/transactions/components/SendModal";
 import { Transactions } from "@/domains/transactions/components/Transactions";
+import { Delegates } from "@/domains/vote/components/Delegates";
+
 export const Home = () => {
   const { wallet, isConnected } = useWallet();
   const [showModal, setShowModal] = useState(false);
@@ -33,6 +35,14 @@ export const Home = () => {
         )}
 
         {wallet && <Transactions walletData={wallet} />}
+
+        {wallet && (
+          <div className="bg-white">
+            <div className="w-[400px] mx-auto mt-6">
+              <Delegates walletData={wallet} />
+            </div>
+          </div>
+        )}
       </div>
     </Layout>
   );

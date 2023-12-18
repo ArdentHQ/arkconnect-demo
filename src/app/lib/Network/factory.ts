@@ -3,6 +3,7 @@ import {
   NetworkAddressLink,
   NetworkTransactionsList,
   NetworkTransactionLink,
+  DelegatesLink,
 } from "./contracts";
 
 export function Network({ network }: { network?: NetworkType | string }) {
@@ -66,6 +67,19 @@ export function Network({ network }: { network?: NetworkType | string }) {
       );
 
       return [url.toString(), transactionId].join("");
+    },
+    delegatesLink() {
+      if (!this.isSupported()) {
+        throw new Error(`Network ${network} is not supported`);
+      }
+
+      const url = new URL(
+        this.isTestnet() ? DelegatesLink.DEVNET : DelegatesLink.MAINNET,
+      );
+
+      url.searchParams.append("limit", "51");
+
+      return url.toString();
     },
     /**
      * Checkes whether the network is supported.

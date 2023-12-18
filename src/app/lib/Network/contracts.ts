@@ -8,6 +8,11 @@ export enum NetworkAddressLink {
   MAINNET = "https://live.arkscan.io/addresses/",
 }
 
+export enum DelegatesLink {
+  DEVNET = "https://ark-test.arkvault.io/api/delegates",
+  MAINNET = "https://api.ark.io/api/delegates",
+}
+
 export enum NetworkTransactionsList {
   DEVNET = "https://ark-test.arkvault.io/api/transactions",
   MAINNET = "https://ark-live.arkvault.io/api/transactions",
