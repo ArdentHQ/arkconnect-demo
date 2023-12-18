@@ -1,20 +1,34 @@
 import { useQuery } from "@tanstack/react-query";
 import { WalletData } from "@/app/lib/Wallet/contracts";
-import { Delegates as DelegateService } from "@/app/lib/Delegates";
 import { DelegatesList } from "../DelegatesList";
+import { Wallet } from "@/app/lib/Wallet";
 
 export const Delegates = ({ walletData }: { walletData: WalletData }) => {
-  const { data: delegates } = useQuery({
+  const { data } = useQuery({
     staleTime: 0,
     queryKey: ["delegates"],
-    initialData: [],
-    queryFn: async () => {
-      const delegates = DelegateService({ network: walletData.network });
-      await delegates.sync();
-      return delegates.items();
+    initialData: {
+      delegates: [],
+      currentVote: undefined,
     },
-    refetchInterval: 20_000,
+    queryFn: async () => {
+      const wallet = Wallet(walletData);
+
+      await wallet.votes().sync();
+      await wallet.delegates().sync();
+
+      return {
+        delegates: wallet.delegates().items(),
+        currentVote: wallet.votingDelegate()?.address,
+      };
+    },
   });
 
-  return <DelegatesList delegates={delegates} onChange={console.log} />;
+  return (
+    <DelegatesList
+      delegates={data.delegates}
+      onChange={console.log}
+      currentVote={data.currentVote}
+    />
+  );
 };

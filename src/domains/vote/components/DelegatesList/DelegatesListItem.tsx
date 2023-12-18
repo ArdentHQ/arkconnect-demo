@@ -25,6 +25,7 @@ export const DelegatesListItem = ({
   onCurrent?: (address: string) => void;
 }) => {
   const { t } = useTranslation();
+  console.log({ isCurrent, address: delegate.address });
 
   const isDefault = !isSelected && !isUnselected && !isCurrent;
   const isOnlyCurrent = !isSelected && !isUnselected && isCurrent;

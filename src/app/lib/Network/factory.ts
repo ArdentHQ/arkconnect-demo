@@ -4,8 +4,10 @@ import {
   NetworkTransactionsList,
   NetworkTransactionLink,
   DelegatesLink,
+  WalletsLink,
 } from "./contracts";
 
+// @TODO: cleanup url transformations.
 export function Network({ network }: { network?: NetworkType | string }) {
   return {
     /**
@@ -80,6 +82,15 @@ export function Network({ network }: { network?: NetworkType | string }) {
       url.searchParams.append("limit", "51");
 
       return url.toString();
+    },
+    walletVotesLink(address: string) {
+      if (!this.isSupported()) {
+        throw new Error(`Network ${network} is not supported`);
+      }
+
+      const url = this.isTestnet() ? WalletsLink.DEVNET : WalletsLink.MAINNET;
+
+      return [url.toString(), address, "votes"].join("/");
     },
     /**
      * Checkes whether the network is supported.

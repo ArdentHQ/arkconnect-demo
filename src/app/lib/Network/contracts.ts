@@ -23,6 +23,11 @@ export enum NetworkTransactionLink {
   MAINNET = "https://live.arkscan.io/api/transactions/",
 }
 
+export enum WalletsLink {
+  DEVNET = "https://ark-test.arkvault.io/api/wallets",
+  MAINNET = "https://api.ark.io/api/wallets",
+}
+
 export enum Coin {
   ARK = "ARK",
   DARK = "DARK",

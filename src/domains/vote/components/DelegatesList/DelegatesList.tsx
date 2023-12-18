@@ -6,10 +6,15 @@ import { DelegatesListProperties } from "./contracts";
 export const DelegatesList = ({
   delegates,
   onChange,
+  currentVote,
 }: DelegatesListProperties) => {
-  const [current, setCurrent] = useState<string | null>();
-  const [selected, setSelected] = useState<string | null>(null);
-  const [unselected, setUnselected] = useState<string | null>(null);
+  const [current, setCurrent] = useState<string | undefined | null>(
+    currentVote ?? null,
+  );
+  const [selected, setSelected] = useState<string>();
+  const [unselected, setUnselected] = useState<string>();
+
+  const initialVote = current === null ? currentVote : current;
 
   return (
     <div className="space-y-2">
@@ -19,14 +24,14 @@ export const DelegatesList = ({
             key={delegate.address}
             delegate={delegate}
             isSelected={selected === delegate.address}
-            isCurrent={current === delegate.address}
+            isCurrent={initialVote === delegate.address}
             isUnselected={unselected === delegate.address}
             onSelect={(address) => {
               setSelected(address);
 
               if (isTruthy(current)) {
                 setUnselected(current);
-                setCurrent(null);
+                setCurrent(undefined);
                 onChange?.({ votes: [address], unvotes: [current] });
                 return;
               }
@@ -39,11 +44,11 @@ export const DelegatesList = ({
               onChange?.({ votes: [address], unvotes: [] });
             }}
             onDeselect={() => {
-              setSelected(null);
+              setSelected(undefined);
 
               if (isTruthy(unselected)) {
                 setCurrent(unselected);
-                setUnselected(null);
+                setUnselected(undefined);
               }
 
               onChange?.({ votes: [], unvotes: [] });
@@ -57,8 +62,8 @@ export const DelegatesList = ({
               }
             }}
             onCurrent={(address) => {
-              setSelected(null);
-              setUnselected(null);
+              setSelected(undefined);
+              setUnselected(undefined);
               setCurrent(address);
               onChange?.({ votes: [address], unvotes: [] });
             }}
