@@ -41,3 +41,24 @@ export interface SignTransactionResponse {
   total: number;
   convertedTotal: number;
 }
+
+export interface SignVoteRequest {
+  vote?: {
+    amount: number;
+    delegateAddress: string;
+  };
+  unvote?: {
+    amount: number;
+    delegateAddress: string;
+  };
+  network: "Devnet" | "Mainnet";
+}
+
+export interface SignVoteResponse {
+  id: string;
+  sender: string;
+  delegate: string;
+  exchangeCurrency: string;
+  fee: number;
+  convertedFee: number;
+}
