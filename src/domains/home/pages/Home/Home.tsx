@@ -37,10 +37,8 @@ export const Home = () => {
         {wallet && <Transactions walletData={wallet} />}
 
         {wallet && (
-          <div className="bg-white">
-            <div className="w-[400px] mx-auto mt-6">
-              <Delegates walletData={wallet} />
-            </div>
+          <div className="bg-white w-[400px] mx-auto mt-6 p-4">
+            <Delegates walletData={wallet} />
           </div>
         )}
       </div>
