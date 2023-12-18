@@ -100,7 +100,8 @@ export const useWallet = (): UseWalletReturnType => {
       setIsConnecting(true);
 
       try {
-        await data.extension.connect();
+        // @ts-ignore
+        await data.extension.connect({ network: "Devnet" });
       } catch (_error) {
         setIsErrored(true);
         setIsConnecting(false);
