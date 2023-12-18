@@ -16,8 +16,10 @@ const nextConfig = {
     return config;
   },
   env: {
+    ARK_CHROME_EXTENSION_URL:
+      "https://chromewebstore.google.com/detail/ark-connect/efcfcaonapdhdljmikbpmikhiklhfbhm?hl=en",
     ARK_FIREFOX_EXTENSION_URL:
-      "https://addons.mozilla.org/en-US/firefox/addon/ark-connect/?utm_source=addons.mozilla.org&utm_medium=referral&utm_content=search",
+      "https://addons.mozilla.org/en-US/firefox/addon/ark-connect/",
   },
   images: {
     remotePatterns: [

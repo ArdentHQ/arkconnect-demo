@@ -7,6 +7,9 @@ import WalletLogo from "@/public/icons/logo.svg";
 export const InstallOverlay = () => {
   const { t } = useTranslation();
 
+  const isFirefox = navigator.userAgent.indexOf("Firefox") !== -1;
+  const isChrome = navigator.userAgent.indexOf("Chrome") !== -1;
+
   return (
     <div className="bg-white mx-auto w-full sm:w-96 overflow-hidden shadow-sm rounded-xl">
       <div className="p-8">
@@ -23,10 +26,19 @@ export const InstallOverlay = () => {
             </div>
           </div>
 
-          <LinkButton href={process.env.ARK_FIREFOX_EXTENSION_URL}>
-            <WalletLogo className="w-4" />
-            <span>{t("INSTALL_WALLET")}</span>
-          </LinkButton>
+          {isChrome && (
+            <LinkButton href={process.env.ARK_CHROME_EXTENSION_URL} isExternal>
+              <WalletLogo className="w-4" />
+              <span>{t("INSTALL_WALLET")}</span>
+            </LinkButton>
+          )}
+
+          {isFirefox && (
+            <LinkButton href={process.env.ARK_FIREFOX_EXTENSION_URL} isExternal>
+              <WalletLogo className="w-4" />
+              <span>{t("INSTALL_WALLET")}</span>
+            </LinkButton>
+          )}
         </div>
       </div>
     </div>
