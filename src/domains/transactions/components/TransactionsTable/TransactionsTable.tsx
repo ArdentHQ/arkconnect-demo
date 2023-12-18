@@ -1,7 +1,7 @@
+import { useTranslation } from "next-i18next";
+import { TransactionTableRow } from "./TransactionTableRow";
 import { Table } from "@/app/components/Table";
 import { TransactionData } from "@/app/lib/Transactions/contracts";
-import { TransactionTableRow } from "./TransactionTableRow";
-import { useTranslation } from "next-i18next";
 import { WalletData } from "@/app/lib/Wallet/contracts";
 
 export const TransactionsTable = ({

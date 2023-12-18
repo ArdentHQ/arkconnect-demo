@@ -1,8 +1,8 @@
+import { useTranslation } from "next-i18next";
 import { Label } from "@/app/components/Label";
 import { Link } from "@/app/components/Link";
 import { TruncateMiddle } from "@/app/components/Truncate";
 import { Transaction } from "@/app/lib/Transaction/factory";
-import { useTranslation } from "next-i18next";
 
 const TransactionAddressLink = ({
   address,

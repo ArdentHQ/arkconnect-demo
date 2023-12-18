@@ -1,3 +1,9 @@
+import { useTranslation } from "next-i18next";
+import {
+  TransactionAddress,
+  TransactionAmount,
+} from "./TransactionTableRow.blocks";
+
 import { Label } from "@/app/components/Label";
 import { Link } from "@/app/components/Link";
 import { TableCell, TableRow } from "@/app/components/Table";
@@ -5,11 +11,6 @@ import { TruncateMiddle } from "@/app/components/Truncate";
 import { Transaction } from "@/app/lib/Transaction/factory";
 import { TransactionData } from "@/app/lib/Transactions/contracts";
 import { WalletData } from "@/app/lib/Wallet/contracts";
-import { useTranslation } from "react-i18next";
-import {
-  TransactionAddress,
-  TransactionAmount,
-} from "./TransactionTableRow.blocks";
 
 export const TransactionTableRow = ({
   walletData,

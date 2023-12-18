@@ -1,8 +1,8 @@
+import BigNumber from "bignumber.js";
 import { NetworkType, Network } from "@/app/lib/Network";
 import { TransactionData } from "@/app/lib/Transactions/contracts";
-import { DateTime } from "../DateTime";
-import { Currency } from "../Currency";
-import BigNumber from "bignumber.js";
+import { DateTime } from "@/app/lib/DateTime";
+import { Currency } from "@/app/lib/Currency";
 import { isTruthy } from "@/app/utils/isTruthy";
 
 export function Transaction({
@@ -41,7 +41,7 @@ export function Transaction({
     fee(): ReturnType<typeof Currency> {
       return Currency({
         // TODO: fix hardcoded satoshi.
-        value: BigNumber(transaction.fee).div(100000000).toString(),
+        value: BigNumber(transaction.fee).div(100_000_000).toString(),
       });
     },
     /**
@@ -52,7 +52,7 @@ export function Transaction({
     amount(): ReturnType<typeof Currency> {
       return Currency({
         // TODO: fix hardcoded satoshi.
-        value: BigNumber(transaction.amount).div(100000000).toString(),
+        value: BigNumber(transaction.amount).div(100_000_000).toString(),
       });
     },
     /**
@@ -137,6 +137,8 @@ export function Transaction({
         return false;
       }
 
+      // TODO: fix lookup.
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
       return transaction.asset?.payments?.length > 1;
     },
     /**
@@ -153,7 +155,7 @@ export function Transaction({
       if (!isTruthy(transaction.asset)) {
         return false;
       }
-
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
       return transaction.asset?.payments.some(
         ({ recipientId }) => recipientId === address,
       );

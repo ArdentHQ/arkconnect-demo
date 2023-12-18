@@ -1,5 +1,5 @@
-import { NetworkType, Network } from "@/app/lib/Network";
 import { TransactionData, TransactionsResponse } from "./contracts";
+import { NetworkType, Network } from "@/app/lib/Network";
 import { isTruthy } from "@/app/utils/isTruthy";
 
 export function Transactions({
@@ -21,7 +21,7 @@ export function Transactions({
      */
     async sync(limit: number = 10): Promise<void> {
       if (!isTruthy(address)) {
-        throw new Error(`[Transactions#sync] Address is not provided.`);
+        throw new Error("[Transactions#sync] Address is not provided.");
       }
 
       const url = network.addressTransactionLink(address, limit);

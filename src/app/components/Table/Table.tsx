@@ -7,7 +7,7 @@ import {
 } from "@tanstack/react-table";
 import { twMerge } from "tailwind-merge";
 
-interface TableProps<T> {
+interface TableProperties<T> {
   columns: ColumnDef<T>[];
   data: T[];
   row: (data: T) => JSX.Element;
@@ -23,17 +23,12 @@ export const TableCell = ({
   children,
   className,
 }: HTMLAttributes<HTMLTableCellElement>) => (
-  <td
-    className={twMerge(
-      "py-3 align-top lg:align-middle",
-      className,
-    )}
-  >
+  <td className={twMerge("py-3 align-top lg:align-middle", className)}>
     {children}
   </td>
 );
 
-export function Table<T>({ data, columns, row }: TableProps<T>) {
+export function Table<T>({ data, columns, row }: TableProperties<T>) {
   const table = useReactTable({
     data,
     columns,
@@ -56,7 +51,7 @@ export function Table<T>({ data, columns, row }: TableProps<T>) {
                     className={twMerge(
                       "text-theme-gray-500 text-sm font-medium leading-[125%] py-3",
                       // @ts-ignore
-                      header?.column?.columnDef?.className as string,
+                      header.column.columnDef.className as string,
                     )}
                   >
                     {flexRender(

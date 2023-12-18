@@ -1,24 +1,20 @@
+import { useQuery } from "@tanstack/react-query";
+import { useTranslation } from "next-i18next";
 import { Wallet } from "@/app/lib/Wallet";
 import { WalletData } from "@/app/lib/Wallet/contracts";
 import { isTruthy } from "@/app/utils/isTruthy";
-import { useQuery } from "@tanstack/react-query";
 import { TransactionsTable } from "@/domains/transactions/components/TransactionsTable";
 import { H3 } from "@/app/components/Typography";
-import { useTranslation } from "next-i18next";
 
 export const Transactions = ({ walletData }: { walletData: WalletData }) => {
   const { t } = useTranslation("transactions");
 
-  const { data: transactions, isLoading } = useQuery({
+  const { data: transactions } = useQuery({
     staleTime: 0,
     initialData: [],
     enabled: isTruthy(walletData),
     queryKey: ["wallet-transactions-1"],
     queryFn: async () => {
-      if (!walletData) {
-        return [];
-      }
-
       const wallet = Wallet(walletData);
       await wallet.transactions().sync(10);
 

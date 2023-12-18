@@ -46,13 +46,13 @@ export const SendModal = ({
     receiverAddress,
   }) => {
     try {
+      // @TODO: handle success response
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const response: SignTransactionResponse = await signTransaction({
         amount: Number(amount),
         receiverAddress,
         network: wallet.network,
       });
-
-      // @TODO: handle success response
 
       onClose();
     } catch (error) {
