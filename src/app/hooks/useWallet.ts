@@ -9,6 +9,8 @@ import {
   NetworkType,
   SignTransactionRequest,
   SignTransactionResponse,
+  SignVoteRequest,
+  SignVoteResponse,
 } from "@/app/lib/Network";
 import { Wallet } from "@/app/lib/Wallet";
 
@@ -18,6 +20,7 @@ export const useWallet = (): UseWalletReturnType => {
   const [isConnecting, setIsConnecting] = useState(false);
   const [isErrored, setIsErrored] = useState(false);
   const [isTransacting, setIsTransacting] = useState(false);
+  const [isVoting, setIsVoting] = useState(false);
   const [error, setError] = useState<string>();
 
   const { data, isLoading } = useQuery({
@@ -150,6 +153,31 @@ export const useWallet = (): UseWalletReturnType => {
         return response;
       } catch (error) {
         setIsTransacting(false);
+
+        throw error;
+      }
+    },
+    signVote: async (request: SignVoteRequest): Promise<SignVoteResponse> => {
+      setIsVoting(true);
+
+      try {
+        if (!window.arkconnect) {
+          throw new Error("arkconnect extension not found");
+        }
+
+        const response = (await window.arkconnect.signVote(request)) as
+          | SignVoteResponse
+          | undefined;
+
+        if (!isTruthy(response)) {
+          throw new Error("arkconnect extension not found");
+        }
+
+        setIsVoting(false);
+
+        return response;
+      } catch (error) {
+        setIsVoting(false);
 
         throw error;
       }

@@ -1,4 +1,5 @@
 import { SignTransactionRequest, SignTransactionResponse } from "@/app/lib";
+import { SignVoteRequest, SignVoteResponse } from "@/app/lib/Network";
 
 export {};
 
@@ -14,6 +15,7 @@ declare global {
       signTransaction: (
         transactionRequest: SignTransactionRequest,
       ) => Promise<SignTransactionResponse>;
+      signVote: (voteRequest: SignVoteRequest) => Promise<SignVoteResponse>;
       loaded: boolean;
     };
   }
