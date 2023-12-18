@@ -26,7 +26,6 @@ export const DelegatesList = ({
 
               if (isTruthy(currentVote)) {
                 setUnselected(currentVote);
-                // setCurrent(undefined);
                 onChange?.({ votes: [address], unvotes: [currentVote] });
                 return;
               }
@@ -42,7 +41,6 @@ export const DelegatesList = ({
               setSelected(undefined);
 
               if (isTruthy(unselected)) {
-                // setCurrent(unselected);
                 setUnselected(undefined);
               }
 
@@ -58,7 +56,6 @@ export const DelegatesList = ({
             onCurrent={(address) => {
               setSelected(undefined);
               setUnselected(undefined);
-              // setCurrent(address);
               onChange?.({ votes: [address], unvotes: [] });
             }}
           />
