@@ -7,6 +7,8 @@ export const TruncateMiddle = ({
   children?: ReactElement | string;
 }): JSX.Element => (
   <MiddleEllispis>
-    <span className="inline-block">{children}</span>
+    <span className="inline-block group-hover:underline transition-default">
+      {children}
+    </span>
   </MiddleEllispis>
 );
