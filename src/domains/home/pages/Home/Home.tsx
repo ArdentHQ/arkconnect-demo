@@ -14,6 +14,8 @@ export const Home = () => {
   const [showSendModal, setShowSendModal] = useState(false);
   const [showVoteModal, setShowVoteModal] = useState(false);
 
+  console.log({ isConnected, isLoading });
+
   return (
     <Layout>
       <div className="w-full sm:container mx-auto md:px-6 flex-1 flex flex-col">
