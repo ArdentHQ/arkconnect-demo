@@ -3,6 +3,7 @@
 // TODO: Cleanup
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
+import { useTranslation } from "next-i18next";
 import { SignedMessage, UseWalletReturnType } from "./useWallet.contracts";
 import { isTruthy } from "@/app/utils/isTruthy";
 import {
@@ -13,7 +14,6 @@ import {
   SignVoteResponse,
 } from "@/app/lib/Network";
 import { Wallet } from "@/app/lib/Wallet";
-import { useTranslation } from "react-i18next";
 
 const isClient = () => typeof window !== "undefined";
 
