@@ -6,7 +6,8 @@ import { isTruthy } from "@/app/utils/isTruthy";
 import { LoginOverlay } from "@/domains/home/components/LoginOverlay";
 import { SendModal } from "@/domains/transactions/components/SendModal";
 import { Transactions } from "@/domains/transactions/components/Transactions";
-import { VoteModal } from "@/domains/transactions/components/Voting";
+import { Delegates } from "@/domains/vote/components/Delegates";
+
 export const Home = () => {
   const { wallet, isConnected } = useWallet();
   const [showSendModal, setShowSendModal] = useState(false);
@@ -22,7 +23,6 @@ export const Home = () => {
               onSend={() => {
                 setShowSendModal(true);
               }}
-              onVote={() => setShowVoteModal(true)}
             />
 
             <SendModal
@@ -43,6 +43,12 @@ export const Home = () => {
         )}
 
         {wallet && <Transactions walletData={wallet} />}
+
+        {wallet && (
+          <div className="bg-white w-[400px] mx-auto mt-6 p-4">
+            <Delegates walletData={wallet} />
+          </div>
+        )}
       </div>
     </Layout>
   );
