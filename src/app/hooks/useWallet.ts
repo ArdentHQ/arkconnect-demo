@@ -64,16 +64,8 @@ export const useWallet = (): UseWalletReturnType => {
   const { data, isLoading } = useQuery({
     queryKey: ["wallet-connection"],
     queryFn: async () => {
-      if (!isClient() || i) {
+      if (!isClient() || !isInstalled) {
         return {};
-      }
-
-      if (!isInstalled) {
-        return {
-          isConnected: false,
-          extension: undefined,
-          wallet: undefined,
-        };
       }
 
       let isConnected: boolean | undefined = false;
