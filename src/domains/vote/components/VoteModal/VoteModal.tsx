@@ -1,4 +1,5 @@
 /* eslint-disable max-lines-per-function */
+import assert from "assert";
 import { useTranslation } from "next-i18next";
 import { useState } from "react";
 import { Dialog } from "@/app/components/Dialog";
@@ -6,7 +7,6 @@ import { InputGroup } from "@/app/components/InputGroup";
 import { Input } from "@/app/components/Input";
 import { useWallet } from "@/app/hooks";
 import { Delegates } from "@/domains/vote/components/Delegates";
-import assert from "assert";
 
 export interface VotingState {
   votes: string[];
@@ -67,14 +67,12 @@ export const VoteModal = ({
         </InputGroup>
 
         <div className="h-96 max-h-full overflow-y-auto -mr-[14px]">
-          {wallet && (
-            <Delegates
-              walletData={wallet}
-              onChange={({ votes, unvotes }) => {
-                setVoteState({ votes, unvotes });
-              }}
-            />
-          )}
+          <Delegates
+            walletData={wallet}
+            onChange={({ votes, unvotes }) => {
+              setVoteState({ votes, unvotes });
+            }}
+          />
         </div>
       </div>
     </Dialog>
