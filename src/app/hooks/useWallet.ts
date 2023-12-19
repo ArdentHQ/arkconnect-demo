@@ -2,7 +2,7 @@
 /* eslint-disable max-lines-per-function */
 // TODO: Cleanup
 import { useQuery } from "@tanstack/react-query";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "next-i18next";
 import { SignedMessage, UseWalletReturnType } from "./useWallet.contracts";
 import { isTruthy } from "@/app/utils/isTruthy";
@@ -30,30 +30,62 @@ export const useWallet = (): UseWalletReturnType => {
   const [isErrored, setIsErrored] = useState(false);
   const [isTransacting, setIsTransacting] = useState(false);
   const [isVoting, setIsVoting] = useState(false);
+  const [isInstalled, setIsInstalled] = useState<boolean>();
   const [error, setError] = useState<string>();
   const { t } = useTranslation();
+
+  const checkArkConnect = async () => {
+    const result = await new Promise<boolean>((resolve) => {
+      let attempts = 0;
+
+      function check() {
+        if (window.arkconnect) {
+          resolve(true);
+        } else {
+          attempts++;
+          if (attempts < 7) {
+            setTimeout(check, 500);
+          } else {
+            resolve(false);
+          }
+        }
+      }
+
+      check();
+    });
+
+    setIsInstalled(result);
+  };
+
+  useEffect(() => {
+    checkArkConnect();
+  }, []);
 
   const { data, isLoading } = useQuery({
     queryKey: ["wallet-connection"],
     queryFn: async () => {
-      if (!isClient()) {
+      if (!isClient() || i) {
         return {};
       }
 
-      const isInstalled = isTruthy(window.arkconnect);
+      if (!isInstalled) {
+        return {
+          isConnected: false,
+          extension: undefined,
+          wallet: undefined,
+        };
+      }
+
       let isConnected: boolean | undefined = false;
 
       try {
         isConnected = await window.arkconnect?.isConnected();
-      } catch (error) {
-        console.log({ error });
+      } catch {
         //
       }
 
       if (!isTruthy(isConnected)) {
-        console.log("option 1", { arkconnect: window.arkconnect });
         return {
-          isInstalled,
           isConnected: false,
           extension: window.arkconnect,
           wallet: undefined,
@@ -68,9 +100,7 @@ export const useWallet = (): UseWalletReturnType => {
         !isTruthy(address) ||
         (network !== NetworkType.DEVNET && network !== NetworkType.MAINNET)
       ) {
-        console.log("option 2");
         return {
-          isInstalled,
           isConnected: false,
           extension: window.arkconnect,
           wallet: undefined,
@@ -78,7 +108,6 @@ export const useWallet = (): UseWalletReturnType => {
       }
 
       return {
-        isInstalled,
         isConnected,
         extension: window.arkconnect,
         wallet: Wallet({
@@ -92,11 +121,12 @@ export const useWallet = (): UseWalletReturnType => {
   });
 
   return {
-    isLoading: isLoading || !isTruthy(data) || isConnecting,
+    isLoading: isLoading || isInstalled === undefined,
     isConnecting,
     isErrored,
-    isInstalled: isTruthy(data) ? data.isInstalled : undefined,
-    isConnected: isTruthy(data) ? data.isConnected : undefined,
+    isInstalled: isInstalled,
+    isConnected:
+      !isLoading && isTruthy(data) ? isTruthy(data.isConnected) : false,
     error,
     wallet: data?.wallet,
     connect: async () => {
