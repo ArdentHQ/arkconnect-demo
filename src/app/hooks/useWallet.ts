@@ -51,7 +51,7 @@ export const useWallet = (): UseWalletReturnType => {
       }
 
       if (!isTruthy(isConnected)) {
-        console.log("option 1");
+        console.log("option 1", { arkconnect: window.arkconnect });
         return {
           isInstalled,
           isConnected: false,
