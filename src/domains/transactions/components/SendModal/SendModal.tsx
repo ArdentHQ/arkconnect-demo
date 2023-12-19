@@ -2,6 +2,7 @@
 import assert from "assert";
 import { useTranslation } from "next-i18next";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { useEffect } from "react";
 import { Dialog } from "@/app/components/Dialog";
 import { InputGroup } from "@/app/components/InputGroup";
 import { Input } from "@/app/components/Input";
@@ -28,6 +29,7 @@ export const SendModal = ({
     register,
     handleSubmit,
     formState: { errors, isValid },
+    reset,
   } = useForm<{
     amount: string;
     receiverAddress: string;
@@ -38,6 +40,15 @@ export const SendModal = ({
       receiverAddress: "",
     },
   });
+
+  useEffect(
+    () => () => {
+      if (!show) {
+        reset();
+      }
+    },
+    [show, reset],
+  );
 
   assert(wallet);
 
