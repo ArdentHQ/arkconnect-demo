@@ -7,6 +7,12 @@ import {
   SignVoteResponse,
 } from "@/app/lib/Network";
 
+export interface SignedMessage {
+  message: string;
+  signatory: string;
+  signature: string;
+}
+
 export interface UseWalletReturnType {
   isLoading: boolean;
   isConnecting: boolean;
@@ -23,4 +29,5 @@ export interface UseWalletReturnType {
   ) => Promise<SignTransactionResponse>;
   isVoting: boolean;
   signVote: (transaction: SignVoteRequest) => Promise<SignVoteResponse>;
+  signMessage: () => Promise<void>;
 }

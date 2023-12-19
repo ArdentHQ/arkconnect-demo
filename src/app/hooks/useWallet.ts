@@ -3,7 +3,7 @@
 // TODO: Cleanup
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
-import { UseWalletReturnType } from "./useWallet.contracts";
+import { SignedMessage, UseWalletReturnType } from "./useWallet.contracts";
 import { isTruthy } from "@/app/utils/isTruthy";
 import {
   NetworkType,
@@ -13,6 +13,7 @@ import {
   SignVoteResponse,
 } from "@/app/lib/Network";
 import { Wallet } from "@/app/lib/Wallet";
+import { useTranslation } from "react-i18next";
 
 const isClient = () => typeof window !== "undefined";
 
@@ -28,6 +29,7 @@ export const useWallet = (): UseWalletReturnType => {
   const [isTransacting, setIsTransacting] = useState(false);
   const [isVoting, setIsVoting] = useState(false);
   const [error, setError] = useState<string>();
+  const { t } = useTranslation();
 
   const { data, isLoading } = useQuery({
     queryKey: ["wallet-connection"],
@@ -188,6 +190,22 @@ export const useWallet = (): UseWalletReturnType => {
 
         throw error;
       }
+    },
+    signMessage: async (): Promise<void> => {
+      if (!window.arkconnect) {
+        throw new NoArkExtensionException();
+      }
+
+      if (!data?.wallet?.network) {
+        throw new Error("Wallet is not connected");
+      }
+
+      const response = (await window.arkconnect.signMessage({
+        message: t("SIGN_TEXT"),
+        network: data.wallet.network,
+      })) as SignedMessage | undefined;
+
+      console.log({ response });
     },
   };
 };
