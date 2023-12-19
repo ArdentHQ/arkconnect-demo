@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { WalletData } from "@/app/lib/Wallet/contracts";
 import { DelegatesList } from "@/domains/vote/components/DelegatesList";
 import { Wallet } from "@/app/lib/Wallet";
+import {VotingState} from "@/domains/vote/components/VoteModal";
 
 export const Delegates = ({
   walletData,
@@ -11,10 +12,7 @@ export const Delegates = ({
   onChange: ({
     votes,
     unvotes,
-  }: {
-    votes: string[];
-    unvotes: string[];
-  }) => void;
+  }: VotingState) => void;
 }) => {
   const { data } = useQuery({
     staleTime: 0,

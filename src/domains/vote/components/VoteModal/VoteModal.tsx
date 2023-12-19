@@ -13,7 +13,7 @@ type FormSubmitHandler = SubmitHandler<{
   receiverAddress: string;
 }>;
 
-interface VotingState {
+export interface VotingState {
   votes: string[];
   unvotes: string[];
 }
