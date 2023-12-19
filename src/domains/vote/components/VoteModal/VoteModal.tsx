@@ -1,7 +1,7 @@
 /* eslint-disable max-lines-per-function */
 import assert from "assert";
 import { useTranslation } from "next-i18next";
-import { useState } from "react";
+import React, { useState } from "react";
 import { Dialog } from "@/app/components/Dialog";
 import { InputGroup } from "@/app/components/InputGroup";
 import { Input } from "@/app/components/Input";
@@ -28,6 +28,8 @@ export const VoteModal = ({
     votes: [],
     unvotes: [],
   });
+
+  const [search, setSearch] = useState("");
 
   assert(wallet);
 
@@ -62,7 +64,15 @@ export const VoteModal = ({
     >
       <div className="flex flex-col space-y-4">
         <InputGroup>
-          <Input placeholder={t("ENTER_DELEGATE_NAME")} />
+          <Input
+            placeholder={t("ENTER_DELEGATE_NAME")}
+            value={search}
+            onChange={(event) => {
+              setSearch(
+                (event as React.ChangeEvent<HTMLInputElement>).target.value,
+              );
+            }}
+          />
         </InputGroup>
 
         <div className="h-96 max-h-full overflow-y-auto -mr-[14px]">
@@ -71,6 +81,7 @@ export const VoteModal = ({
             onChange={({ votes, unvotes }) => {
               setVoteState({ votes, unvotes });
             }}
+            searchTerm={search}
           />
         </div>
       </div>
