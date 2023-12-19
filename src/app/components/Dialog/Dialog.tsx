@@ -24,7 +24,13 @@ export const Dialog = ({
 }: Properties): JSX.Element => {
   return (
     <Modal {...modalProperties} onClose={onClose}>
-      <form onSubmit={onSubmit} className="flex flex-col">
+      <form
+        onSubmit={(event) => {
+          event.preventDefault();
+          onSubmit?.(event);
+        }}
+        className="flex flex-col"
+      >
         <div className="bg-theme-gray-100 flex justify-between items-center px-10 py-5">
           <HeadlessDialog.Title className=" text-xl text-black font-medium">
             {title}
