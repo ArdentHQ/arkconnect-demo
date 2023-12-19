@@ -9,7 +9,7 @@ export const Delegates = ({ walletData }: { walletData: WalletData }) => {
     <DelegatesList
       delegates={delegates}
       onChange={console.log}
-      currentVote={votingDelegate?.publicKey}
+      currentVote={votingDelegate?.address}
     />
   );
 };
