@@ -8,6 +8,8 @@ import { useWallet } from "@/app/hooks";
 import { UserMenu } from "@/app/components/UserMenu";
 import { Spinner } from "@/app/components/Spinner";
 import { isTruthy } from "@/app/utils/isTruthy";
+import { NetworkToggle } from "@/app/components/NetworkToggle";
+import { NetworkToggleMobile } from "@/app/components/NetworkToggleMobile";
 
 interface NavbarProperties {
   address: string;
@@ -33,6 +35,8 @@ const NavbarWrapper = ({ children }: { children: ReactElement }) => {
 const NavbarConnected = ({ address, onDisconnect }: NavbarProperties) => (
   <NavbarWrapper>
     <li className="flex items-center justify-end space-x-2">
+      <NetworkToggle />
+
       <UserMenu
         address={address}
         onDisconnect={() => {
@@ -83,12 +87,15 @@ export const Navbar = () => {
 
   if (isConnected && isTruthy(wallet)) {
     return (
-      <NavbarConnected
-        address={wallet.address}
-        onDisconnect={() => {
-          void disconnect();
-        }}
-      />
+      <>
+        <NavbarConnected
+          address={wallet.address}
+          onDisconnect={() => {
+            void disconnect();
+          }}
+        />
+        <NetworkToggleMobile />
+      </>
     );
   }
 
@@ -97,26 +104,28 @@ export const Navbar = () => {
   }
 
   return (
-    <NavbarWrapper>
-      <li className="flex items-center justify-end">
-        <Button
-          className="hidden sm:block"
-          onClick={() => {
-            void connect();
-          }}
-        >
-          {t("CONNECT_WALLET")}
-        </Button>
+    <>
+      <NavbarWrapper>
+        <li className="flex items-center justify-end">
+          <Button
+            className="hidden sm:block"
+            onClick={() => {
+              void connect();
+            }}
+          >
+            {t("CONNECT_WALLET")}
+          </Button>
 
-        <Button
-          className="block sm:hidden"
-          onClick={() => {
-            void connect();
-          }}
-        >
-          {t("CONNECT")}
-        </Button>
-      </li>
-    </NavbarWrapper>
+          <Button
+            className="block sm:hidden"
+            onClick={() => {
+              void connect();
+            }}
+          >
+            {t("CONNECT")}
+          </Button>
+        </li>
+      </NavbarWrapper>
+    </>
   );
 };

@@ -7,6 +7,8 @@ import { useTranslation } from "next-i18next";
 import { SignedMessage, UseWalletReturnType } from "./useWallet.contracts";
 import { isTruthy } from "@/app/utils/isTruthy";
 import {
+  ChangeAddressRequest,
+  ChangeAddressResponse,
   NetworkType,
   SignTransactionRequest,
   SignTransactionResponse,
@@ -190,6 +192,15 @@ export const useWallet = (): UseWalletReturnType => {
 
         throw error;
       }
+    },
+    changeAddress: async (
+      request: ChangeAddressRequest,
+    ): Promise<ChangeAddressResponse> => {
+      if (!window.arkconnect) {
+        throw new NoArkExtensionException();
+      }
+
+      return await window.arkconnect.changeAddress(request);
     },
     signMessage: async (): Promise<void> => {
       if (!window.arkconnect) {

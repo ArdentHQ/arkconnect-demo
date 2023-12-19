@@ -72,3 +72,12 @@ export interface SignVoteResponse {
   fee: number;
   convertedFee: number;
 }
+export interface ChangeAddressRequest {
+  network?: NetworkType;
+}
+export interface ChangeAddressResponse {
+  status: "success";
+  domain: string;
+  sessionId?: string;
+  network?: NetworkType;
+}
