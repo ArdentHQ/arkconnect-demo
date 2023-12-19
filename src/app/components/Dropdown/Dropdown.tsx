@@ -2,14 +2,16 @@ import { Menu, Transition } from "@headlessui/react";
 import { Fragment, ReactElement } from "react";
 
 export const Dropdown = ({
+  className,
   children,
   trigger,
 }: {
   children?: ReactElement | string;
   trigger?: ReactElement;
+  className?: string;
 }) => {
   return (
-    <div>
+    <div className={className}>
       <Menu as="div" className="static sm:relative inline-block text-left">
         <Menu.Button as="span">{trigger}</Menu.Button>
         <Transition
