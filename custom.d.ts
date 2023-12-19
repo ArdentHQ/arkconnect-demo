@@ -1,5 +1,6 @@
 import { SignTransactionRequest, SignTransactionResponse } from "@/app/lib";
 import {
+  ConnectResponse,
   NetworkType,
   SignVoteRequest,
   SignVoteResponse,
@@ -29,6 +30,7 @@ declare global {
         signature: string;
       }>;
       loaded: boolean;
+      changeAddress: () => Promise<ConnectResponse>;
     };
   }
 }

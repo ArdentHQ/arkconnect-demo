@@ -72,3 +72,9 @@ export interface SignVoteResponse {
   fee: number;
   convertedFee: number;
 }
+export interface ConnectResponse {
+  status: "success";
+  domain: string;
+  sessionId?: string;
+  network?: NetworkType;
+}

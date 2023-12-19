@@ -1,6 +1,7 @@
 import { WalletData } from "@/app/lib/Wallet/contracts";
 
 import {
+  ConnectResponse,
   SignTransactionRequest,
   SignTransactionResponse,
   SignVoteRequest,
@@ -30,4 +31,5 @@ export interface UseWalletReturnType {
   isVoting: boolean;
   signVote: (transaction: SignVoteRequest) => Promise<SignVoteResponse>;
   signMessage: () => Promise<void>;
+  changeAddress: () => Promise<ConnectResponse>;
 }
