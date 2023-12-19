@@ -8,6 +8,7 @@ import { useWallet } from "@/app/hooks";
 import { UserMenu } from "@/app/components/UserMenu";
 import { Spinner } from "@/app/components/Spinner";
 import { isTruthy } from "@/app/utils/isTruthy";
+import { NetworkToggle } from "@/app/components/NetworkToggle";
 
 interface NavbarProperties {
   address: string;
@@ -33,6 +34,8 @@ const NavbarWrapper = ({ children }: { children: ReactElement }) => {
 const NavbarConnected = ({ address, onDisconnect }: NavbarProperties) => (
   <NavbarWrapper>
     <li className="flex items-center justify-end space-x-2">
+      <NetworkToggle />
+
       <UserMenu
         address={address}
         onDisconnect={() => {

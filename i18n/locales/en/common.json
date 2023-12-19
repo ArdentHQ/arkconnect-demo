@@ -19,6 +19,8 @@
   "COPY_CLIPBOARD": "Copy to Clipboard",
   "COPIED": "Copied!",
   "AMOUNT": "Amount",
+  "MAINNET": "Mainnet",
+  "DEVNET": "Devnet",
   "YOU": "You",
   "VOTE": "Vote",
   "SIGN": "Sign",
