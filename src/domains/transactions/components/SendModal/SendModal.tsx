@@ -7,6 +7,7 @@ import { InputGroup } from "@/app/components/InputGroup";
 import { Input } from "@/app/components/Input";
 import { useWallet } from "@/app/hooks";
 import { NetworkType, SignTransactionResponse } from "@/app/lib/Network";
+import { useEffect } from "react";
 
 type FormSubmitHandler = SubmitHandler<{
   amount: string;
@@ -28,6 +29,7 @@ export const SendModal = ({
     register,
     handleSubmit,
     formState: { errors, isValid },
+    reset,
   } = useForm<{
     amount: string;
     receiverAddress: string;
@@ -38,6 +40,15 @@ export const SendModal = ({
       receiverAddress: "",
     },
   });
+
+  useEffect(
+    () => () => {
+      if (!show) {
+        reset();
+      }
+    },
+    [show],
+  );
 
   assert(wallet);
 
