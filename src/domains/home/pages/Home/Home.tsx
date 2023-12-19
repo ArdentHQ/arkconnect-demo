@@ -10,11 +10,12 @@ import { Transactions } from "@/domains/transactions/components/Transactions";
 import { Spinner } from "@/app/components/Spinner";
 
 export const Home = () => {
-  const { wallet, isConnected, isLoading, signMessage } = useWallet();
+  const { wallet, isConnected, isLoading, isInstalled, signMessage } =
+    useWallet();
   const [showSendModal, setShowSendModal] = useState(false);
   const [showVoteModal, setShowVoteModal] = useState(false);
 
-  console.log({ isConnected, isLoading });
+  console.log({ isConnected, isLoading, isInstalled });
 
   return (
     <Layout>
