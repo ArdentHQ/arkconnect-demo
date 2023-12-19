@@ -43,7 +43,7 @@ export const useWallet = (): UseWalletReturnType => {
           resolve(true);
         } else {
           attempts++;
-          if (attempts < 7) {
+          if (attempts <= 4) {
             setTimeout(check, 500);
           } else {
             resolve(false);
