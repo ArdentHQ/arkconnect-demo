@@ -84,7 +84,11 @@ export const RoundButton = (properties: ButtonProperties) => (
 );
 
 export const RoundLinkButton = (properties: LinkButtonProperties) => (
-  <LinkButton {...properties} className="p-[0.438rem] rounded-full text-sm" />
+  <LinkButton
+    {...properties}
+    className="p-[0.438rem] rounded-full text-sm"
+    hoverClassName="hover:bg-theme-gray-100"
+  />
 );
 
 // TODO: Define & add hover/focus states
