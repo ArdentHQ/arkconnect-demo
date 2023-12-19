@@ -29,5 +29,7 @@
   "TO": "To",
   "TRANSFER": "Transfer",
   "CONTRACT": "Contract",
-  "MULTIPLE": "Multiple"
+  "MULTIPLE": "Multiple",
+  "VOTE_FOR_DELEGATE": "Vote for Delegate",
+  "ENTER_DELEGATE_NAME": "Enter Delegate Name"
 }

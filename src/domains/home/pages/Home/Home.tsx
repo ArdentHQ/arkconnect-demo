@@ -6,9 +6,11 @@ import { isTruthy } from "@/app/utils/isTruthy";
 import { LoginOverlay } from "@/domains/home/components/LoginOverlay";
 import { SendModal } from "@/domains/transactions/components/SendModal";
 import { Transactions } from "@/domains/transactions/components/Transactions";
+import { VoteModal } from "@/domains/transactions/components/Voting";
 export const Home = () => {
   const { wallet, isConnected } = useWallet();
-  const [showModal, setShowModal] = useState(false);
+  const [showSendModal, setShowSendModal] = useState(false);
+  const [showVoteModal, setShowVoteModal] = useState(false);
 
   return (
     <Layout>
@@ -18,11 +20,19 @@ export const Home = () => {
             <WalletOverview
               walletData={wallet}
               onSend={() => {
-                setShowModal(true);
+                setShowSendModal(true);
               }}
+              onVote={() => setShowVoteModal(true)}
             />
 
-            <SendModal show={showModal} onClose={() => setShowModal(false)} />
+            <SendModal
+              show={showSendModal}
+              onClose={() => setShowSendModal(false)}
+            />
+            <VoteModal
+              show={showVoteModal}
+              onClose={() => setShowVoteModal(false)}
+            />
           </>
         )}
 
