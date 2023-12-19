@@ -6,10 +6,10 @@ export const useWalletVotes = ({ walletData }: { walletData: WalletData }) => {
   const { data } = useQuery({
     staleTime: 0,
     queryKey: ["delegates"],
-    initialData: {
+    initialData: () => ({
       delegates: [],
       votingDelegate: undefined,
-    },
+    }),
     queryFn: async () => {
       const wallet = Wallet(walletData);
 
