@@ -1,10 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "next-i18next";
+import { TransactionsList } from "@/domains/transactions/components/TransactionsList";
 import { Wallet } from "@/app/lib/Wallet";
 import { WalletData } from "@/app/lib/Wallet/contracts";
 import { isTruthy } from "@/app/utils/isTruthy";
 import { TransactionsTable } from "@/domains/transactions/components/TransactionsTable";
-import { H3 } from "@/app/components/Typography";
 
 export const Transactions = ({ walletData }: { walletData: WalletData }) => {
   const { t } = useTranslation("transactions");
@@ -24,15 +24,28 @@ export const Transactions = ({ walletData }: { walletData: WalletData }) => {
   });
 
   return (
-    <div className="bg-white sm:rounded-2.5xl sm:mt-6 sm:shadow-sm">
+    <div className="md:bg-white md:rounded-2.5xl md:mt-6 md:shadow-sm">
       <div className="px-6 py-6 pb-4">
-        <H3>{t("LATEST_10_TRANSACTIONS")}</H3>
+        <h3 className="break-words md:text-xl md:leading-[1.563rem] font-medium">
+          {t("LATEST_10_TRANSACTIONS")}
+        </h3>
       </div>
-      <TransactionsTable
-        transactions={transactions}
-        walletData={walletData}
-        isLoading={isLoading}
-      />
+
+      <div className="hidden md:block">
+        <TransactionsTable
+          transactions={transactions}
+          walletData={walletData}
+          isLoading={isLoading}
+        />
+      </div>
+
+      <div className="md:hidden px-6">
+        <TransactionsList
+          transactions={transactions}
+          walletData={walletData}
+          isLoading={isLoading}
+        />
+      </div>
     </div>
   );
 };
