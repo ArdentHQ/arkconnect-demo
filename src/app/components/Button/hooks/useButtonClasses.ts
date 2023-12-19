@@ -20,10 +20,8 @@ export const useButtonClasses = ({
   hover: string;
 } => {
   const colors = {
-    primary:
-      "bg-theme-primary-700 text-white focus:outline-none focus:shadow-outline-primary border-theme-primary-700",
-    secondary:
-      "border border-white bg-white text-theme-primary-700 focus:outline-none focus:shadow-outline-primary",
+    primary: "bg-theme-primary-700 text-white border-theme-primary-700",
+    secondary: "border border-white bg-white text-theme-primary-700",
     "secondary-bordered": "border border-white",
     transparent:
       "border-transparent bg-transparent focus:bg-transparent focus:border-theme-primary-700",
@@ -40,7 +38,7 @@ export const useButtonClasses = ({
   };
 
   const base =
-    "flex justify-center items-center font-bold rounded-2xl whitespace-nowrap space-x-[0.6rem] leading-[1.25rem] transition-default border";
+    "flex justify-center items-center font-bold rounded-2xl whitespace-nowrap space-x-[0.6rem] leading-[1.25rem] transition-default border focus:outline-none focus:shadow-outline-primary";
 
   const padding = "py-[0.625rem] px-[1.25rem]";
 
