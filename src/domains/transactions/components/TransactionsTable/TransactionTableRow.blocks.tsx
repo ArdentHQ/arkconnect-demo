@@ -25,17 +25,17 @@ export const TransactionAmount = ({
 }) => {
   const { t } = useTranslation();
 
-  if (transaction.isSent()) {
+  if (transaction.isReceived()) {
     return (
-      <Label variant="warning" className="text-sm">
-        {t("MINUS")} {transaction.amount().toCrypto()}
+      <Label variant="success" className="text-sm">
+        {t("PLUS")} {transaction.amount().toCrypto()}
       </Label>
     );
   }
 
   return (
-    <Label variant="success" className="text-sm">
-      {t("PLUS")} {transaction.amount().toCrypto()}
+    <Label variant="warning" className="text-sm">
+      {t("MINUS")} {transaction.amount().toCrypto()}
     </Label>
   );
 };
@@ -48,7 +48,7 @@ export const TransactionAddress = ({
 }) => {
   const { t } = useTranslation();
 
-  if (transaction.isContract()) {
+  if (transaction.isContract() || transaction.isVote()) {
     return (
       <>
         <Label variant="warning" className="text-xs">
@@ -97,36 +97,6 @@ export const TransactionAddress = ({
           <TransactionAddressLink
             address={transaction.recipient()}
             href={transaction.recipientExplorerLink()}
-          />
-        </>
-      );
-    }
-  }
-
-  if (transaction.isVote()) {
-    if (transaction.isReceived()) {
-      return (
-        <>
-          <Label variant="success" className="text-xs">
-            {t("FROM")}{" "}
-          </Label>
-          <TransactionAddressLink
-            address={transaction.sender()}
-            href={transaction.senderExplorerLink()}
-          />
-        </>
-      );
-    }
-
-    if (transaction.isSent()) {
-      return (
-        <>
-          <Label variant="warning" className="text-xs">
-            {t("TO")}{" "}
-          </Label>
-          <TransactionAddressLink
-            address={transaction.sender()}
-            href={transaction.senderExplorerLink()}
           />
         </>
       );
