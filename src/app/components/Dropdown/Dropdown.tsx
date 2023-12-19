@@ -6,8 +6,8 @@ export const Dropdown = ({
   children,
   trigger,
 }: {
-  children?: ReactElement | string;
-  trigger?: ReactElement | (({ open }: { open: boolean }) => ReactElement);
+  children?: JSX.Element | JSX.Element[] | string;
+  trigger?: JSX.Element | (({ open }: { open: boolean }) => JSX.Element);
   className?: string;
 }) => {
   return (
@@ -27,7 +27,7 @@ export const Dropdown = ({
               leaveFrom="transform opacity-100 scale-100"
               leaveTo="transform opacity-0 scale-95"
             >
-              <Menu.Items className="mx-6 sm:mx-0 absolute right-0 mt-6 left-0 sm:left-auto origin-top-right rounded-lg bg-white shadow-xl focus:outline-none">
+              <Menu.Items className="mx-6 sm:mx-0 absolute right-0 mt-6 left-0 sm:left-auto origin-top-right rounded-lg bg-white shadow-xl focus:outline-none overflow-hidden">
                 {children}
               </Menu.Items>
             </Transition>
