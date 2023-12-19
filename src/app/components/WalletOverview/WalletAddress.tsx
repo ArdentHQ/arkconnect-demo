@@ -58,6 +58,7 @@ export const WalletAddress = ({ walletData }: WalletOverviewProperties) => {
                 variant="transparent"
                 href={votingDelegate?.explorerUrl}
                 isExternal
+                disabled={votingDelegate === undefined}
               >
                 <CheckSquare className="w-[1.125rem]" />
               </RoundLinkButton>

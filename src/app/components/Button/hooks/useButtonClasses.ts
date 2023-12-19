@@ -8,7 +8,9 @@ export const useButtonClasses = ({
   variant,
   busy,
   hoverClassName,
+  disabled,
 }: {
+  disabled?: boolean;
   variant: ButtonVariant;
   busy?: boolean;
   hoverClassName?: string;
@@ -27,15 +29,32 @@ export const useButtonClasses = ({
       "border-transparent bg-transparent focus:bg-transparent focus:border-theme-primary-700",
   };
 
-  const disabled = {
-    primary:
-      "disabled:bg-theme-gray-100 disabled:border-theme-gray-100 disabled:text-theme-gray-400",
-    secondary: "disabled:text-theme-gray-300 disabled:border-theme-gray-100",
-    "secondary-bordered":
-      "disabled:text-theme-gray-300 disabled:border-theme-gray-300",
-    transparent:
-      "disabled:text-theme-gray-400 disabled:focus:border-none disabled:bg-transparent",
+  let disabledClass: {
+    primary: string;
+    secondary: string;
+    "secondary-bordered": string;
+    transparent: string;
   };
+
+  // Links doesn't have disabled property so we need to handle it differently
+  if (disabled) {
+    disabledClass = {
+      primary: "bg-theme-gray-100 border-theme-gray-100 text-theme-gray-400",
+      secondary: "text-theme-gray-300 border-theme-gray-100",
+      "secondary-bordered": "text-theme-gray-300 border-theme-gray-300",
+      transparent: "text-theme-gray-400 focus:border-none bg-transparent",
+    };
+  } else {
+    disabledClass = {
+      primary:
+        "disabled:bg-theme-gray-100 disabled:border-theme-gray-100 disabled:text-theme-gray-400",
+      secondary: "disabled:text-theme-gray-300 disabled:border-theme-gray-100",
+      "secondary-bordered":
+        "disabled:text-theme-gray-300 disabled:border-theme-gray-300",
+      transparent:
+        "disabled:text-theme-gray-400 disabled:focus:border-none disabled:bg-transparent",
+    };
+  }
 
   const base =
     "flex justify-center items-center font-bold rounded-2xl whitespace-nowrap space-x-[0.6rem] leading-[1.25rem] transition-default border focus:outline-none focus:shadow-outline-primary";
@@ -49,7 +68,7 @@ export const useButtonClasses = ({
   return {
     disabled: busy
       ? "disabled:bg-theme-primary-700 disabled:border-theme-primary-700"
-      : disabled[variant],
+      : disabledClass[variant],
     base: base,
     colors: colors[variant],
     padding,
