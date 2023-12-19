@@ -3,6 +3,7 @@ import cn from "classnames";
 import { WalletOverviewProperties } from "./WalletOverview.contracts";
 import { Button } from "@/app/components/Button";
 import { useWalletBalance } from "@/app/hooks/useWalletBalance";
+import { NetworkType } from "@/app/lib/Network";
 
 export const WalletBalance = ({
   className,
@@ -25,8 +26,9 @@ export const WalletBalance = ({
         <p className="font-medium text-sm leading-[0.938rem] mb-1">
           <span className="text-theme-primary-100">{t("BALANCE")}</span>{" "}
           <span className="text-theme-primary-500">
-            {isSuccess && balance.usd}
-            {!isSuccess && t("NA")}
+            {walletData.network !== NetworkType.MAINNET || !isSuccess
+              ? t("NA")
+              : balance.usd}
           </span>
         </p>
 
