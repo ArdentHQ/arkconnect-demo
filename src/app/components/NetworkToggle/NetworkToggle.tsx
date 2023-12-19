@@ -38,7 +38,7 @@ const CurrentNetworkButton = ({
 export const NetworkToggle = () => {
   const { t } = useTranslation();
 
-  const { wallet } = useWallet();
+  const { wallet, changeAddress } = useWallet();
 
   assert(wallet);
 
@@ -58,6 +58,11 @@ export const NetworkToggle = () => {
                 "bg-theme-primary-100": wallet.network === NetworkType.MAINNET,
               },
             )}
+            onClick={() => {
+              void changeAddress({
+                network: NetworkType.MAINNET,
+              });
+            }}
           >
             {t("MAINNET")}
           </button>
@@ -71,6 +76,11 @@ export const NetworkToggle = () => {
                 "bg-theme-primary-100": wallet.network === NetworkType.DEVNET,
               },
             )}
+            onClick={() => {
+              void changeAddress({
+                network: NetworkType.DEVNET,
+              });
+            }}
           >
             {t("DEVNET")}
           </button>
