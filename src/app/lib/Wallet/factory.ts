@@ -4,7 +4,7 @@ import { Currency } from "@/app/lib/Currency";
 import { Coingecko } from "@/app/lib/Coingecko";
 import { Transactions } from "@/app/lib/Transactions/factory";
 import { WalletVotes } from "@/app/lib/Votes";
-import { DelegateData, Delegates } from "@/app/lib/Delegates";
+import { DelegateItem, Delegates } from "@/app/lib/Delegates";
 
 export function Wallet(wallet: WalletData) {
   const exchange = Coingecko();
@@ -105,7 +105,7 @@ export function Wallet(wallet: WalletData) {
      *
      * @returns {DelegateData | undefined}
      */
-    votingDelegate(): DelegateData | undefined {
+    votingDelegate(): DelegateItem | undefined {
       if (votes.currentVotes().length === 0) {
         return undefined;
       }

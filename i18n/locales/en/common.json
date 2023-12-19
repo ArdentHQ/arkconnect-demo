@@ -35,5 +35,6 @@
   "CURRENT": "Current",
   "SELECTED": "Selected",
   "UNSELECTED": "Unselected",
-  "SELECT": "Select"
+  "SELECT": "Select",
+  "VOTING_FOR": "Voting For {{delegateName}} "
 }

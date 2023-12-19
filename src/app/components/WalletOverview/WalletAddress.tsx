@@ -7,11 +7,14 @@ import CheckSquare from "@/public/icons/check-square.svg";
 import { RoundButton, RoundLinkButton } from "@/app/components/Button";
 import { Clipboard } from "@/app/components/Clipboard";
 import { Network } from "@/app/lib/Network";
+import { useWalletVotes } from "@/app/hooks/useWalletVotes";
+import { Tooltip } from "@/app/components/Tooltip";
 
 export const WalletAddress = ({ walletData }: WalletOverviewProperties) => {
   const { t } = useTranslation();
 
   const network = Network({ network: walletData.network });
+  const { votingDelegate } = useWalletVotes({ walletData });
 
   return (
     <div className="flex items-end justify-between w-full p-6 sm:p-5">
@@ -44,9 +47,22 @@ export const WalletAddress = ({ walletData }: WalletOverviewProperties) => {
             <Explorer className="w-[1.125rem]" />
           </RoundLinkButton>
 
-          <RoundButton variant="transparent" disabled>
-            <CheckSquare className="w-[1.125rem]" />
-          </RoundButton>
+          <Tooltip
+            content={t("VOTING_FOR", {
+              delegateName: votingDelegate?.username,
+            })}
+            disabled={votingDelegate === undefined}
+          >
+            <div>
+              <RoundLinkButton
+                variant="transparent"
+                href={votingDelegate?.explorerUrl}
+                isExternal
+              >
+                <CheckSquare className="w-[1.125rem]" />
+              </RoundLinkButton>
+            </div>
+          </Tooltip>
         </div>
       </div>
     </div>
