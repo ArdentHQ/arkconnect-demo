@@ -2,12 +2,12 @@
 import assert from "assert";
 import { useTranslation } from "next-i18next";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { useEffect } from "react";
 import { Dialog } from "@/app/components/Dialog";
 import { InputGroup } from "@/app/components/InputGroup";
 import { Input } from "@/app/components/Input";
 import { useWallet } from "@/app/hooks";
 import { NetworkType, SignTransactionResponse } from "@/app/lib/Network";
-import { useEffect } from "react";
 
 type FormSubmitHandler = SubmitHandler<{
   amount: string;
@@ -47,7 +47,7 @@ export const SendModal = ({
         reset();
       }
     },
-    [show],
+    [show, reset],
   );
 
   assert(wallet);
