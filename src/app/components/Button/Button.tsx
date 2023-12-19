@@ -7,6 +7,7 @@ interface ButtonCustomProperties {
   variant?: ButtonVariant;
   busy?: boolean;
   isExternal?: boolean;
+  hoverClassName?: string;
 }
 
 type LinkButtonProperties = ButtonCustomProperties &
@@ -17,6 +18,7 @@ type ButtonProperties = ButtonCustomProperties &
 
 export const Button = ({
   className,
+  hoverClassName,
   variant = "primary",
   busy = false,
   disabled = false,
@@ -28,15 +30,24 @@ export const Button = ({
     base,
     colors,
     disabled: disabledClass,
+    hover,
   } = useButtonClasses({
     variant,
     busy,
+    hoverClassName,
   });
 
   return (
     <button
       type="button"
-      className={twMerge(base, padding, colors, disabledClass, className)}
+      className={twMerge(
+        base,
+        padding,
+        colors,
+        disabledClass,
+        hover,
+        className,
+      )}
       disabled={disabled || busy}
       {...properties}
     >
@@ -68,6 +79,7 @@ export const RoundButton = (properties: ButtonProperties) => (
   <Button
     {...properties}
     className="p-[0.438rem] rounded-full text-sm aspect-square"
+    hoverClassName="hover:bg-theme-gray-100"
   />
 );
 
