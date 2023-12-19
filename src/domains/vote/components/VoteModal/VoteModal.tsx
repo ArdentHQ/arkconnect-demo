@@ -6,6 +6,7 @@ import { InputGroup } from "@/app/components/InputGroup";
 import { Input } from "@/app/components/Input";
 import { useWallet } from "@/app/hooks";
 import { Delegates } from "@/domains/vote/components/Delegates";
+import assert from "assert";
 
 export interface VotingState {
   votes: string[];
@@ -21,17 +22,40 @@ export const VoteModal = ({
 }) => {
   const { t } = useTranslation("common");
 
-  const { wallet } = useWallet();
+  const { wallet, signVote } = useWallet();
 
   const [voteState, setVoteState] = useState<VotingState>({
     votes: [],
     unvotes: [],
   });
 
+  assert(wallet);
+
+  const handleSubmit = () => {
+    const voteInput = {
+      network: wallet.network,
+      vote: {
+        amount: 0,
+        delegateAddress: voteState.votes[0],
+      },
+      unvote:
+        voteState.unvotes.length > 0
+          ? {
+              amount: 0,
+              delegateAddress: voteState.unvotes[0],
+            }
+          : undefined,
+    };
+
+    console.log({ voteInput });
+    signVote(voteInput);
+  };
+
   return (
     <Dialog
       show={show}
       onClose={onClose}
+      onSubmit={handleSubmit}
       title={t("VOTE_FOR_DELEGATE")}
       continueDisabled={
         voteState.votes.length === 0 && voteState.unvotes.length === 0
@@ -41,6 +65,7 @@ export const VoteModal = ({
         <InputGroup>
           <Input placeholder={t("ENTER_DELEGATE_NAME")} />
         </InputGroup>
+
         <div className="h-96 max-h-full overflow-y-auto -mr-[14px]">
           {wallet && (
             <Delegates

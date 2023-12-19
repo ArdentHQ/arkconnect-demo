@@ -61,7 +61,7 @@ export interface SignVoteRequest {
     amount: number;
     delegateAddress: string;
   };
-  network: "Devnet" | "Mainnet";
+  network: NetworkType;
 }
 
 export interface SignVoteResponse {
