@@ -47,7 +47,6 @@ export const VoteModal = ({
           : undefined,
     };
 
-    console.log({ voteInput });
     signVote(voteInput);
   };
 
