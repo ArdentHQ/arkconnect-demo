@@ -8,7 +8,7 @@ import { SignedMessage, UseWalletReturnType } from "./useWallet.contracts";
 import { isTruthy } from "@/app/utils/isTruthy";
 import {
   ChangeAddressRequest,
-  ConnectResponse,
+  ChangeAddressResponse,
   NetworkType,
   SignTransactionRequest,
   SignTransactionResponse,
@@ -195,7 +195,7 @@ export const useWallet = (): UseWalletReturnType => {
     },
     changeAddress: async (
       request: ChangeAddressRequest,
-    ): Promise<ConnectResponse> => {
+    ): Promise<ChangeAddressResponse> => {
       if (!window.arkconnect) {
         throw new NoArkExtensionException();
       }
