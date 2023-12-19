@@ -9,7 +9,7 @@ import { Transactions } from "@/domains/transactions/components/Transactions";
 import { Delegates } from "@/domains/vote/components/Delegates";
 
 export const Home = () => {
-  const { wallet, isConnected } = useWallet();
+  const { wallet, isConnected, signMessage } = useWallet();
   const [showModal, setShowModal] = useState(false);
 
   return (
@@ -19,6 +19,9 @@ export const Home = () => {
           <>
             <WalletOverview
               walletData={wallet}
+              onSign={() => {
+                signMessage();
+              }}
               onSend={() => {
                 setShowModal(true);
               }}

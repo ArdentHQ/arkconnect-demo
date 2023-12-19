@@ -21,6 +21,7 @@
   "AMOUNT": "Amount",
   "YOU": "You",
   "VOTE": "Vote",
+  "SIGN": "Sign",
   "SEND": "Send",
   "NA": "N/A",
   "MINUS": "-",
@@ -34,5 +35,6 @@
   "SELECTED": "Selected",
   "UNSELECTED": "Unselected",
   "SELECT": "Select",
-  "VOTING_FOR": "Voting For {{delegateName}} "
+  "VOTING_FOR": "Voting For {{delegateName}} ",
+  "SIGN_TEXT": "I sign this to prove ownership of my wallet"
 }

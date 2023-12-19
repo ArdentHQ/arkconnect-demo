@@ -9,6 +9,7 @@ export const WalletBalance = ({
   walletData,
   onSend,
   onVote,
+  onSign,
 }: WalletOverviewProperties) => {
   const { t } = useTranslation();
   const { balance, isSuccess } = useWalletBalance({ walletData });
@@ -39,10 +40,18 @@ export const WalletBalance = ({
       <div className="flex items-center justify-stretch sm:justify-between space-x-3 w-full sm:w-auto">
         <Button
           variant="secondary-bordered"
+          onClick={onSign}
+          className="w-full sm:w-auto"
+        >
+          {t("SIGN")}
+        </Button>
+
+        <Button
+          variant="secondary-bordered"
           onClick={onVote}
           className="w-full sm:w-auto"
         >
-          {t("Vote")}
+          {t("VOTE")}
         </Button>
 
         <Button
