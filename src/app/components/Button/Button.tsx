@@ -8,6 +8,7 @@ interface ButtonCustomProperties {
   busy?: boolean;
   isExternal?: boolean;
   hoverClassName?: string;
+  disabled?: boolean;
 }
 
 type LinkButtonProperties = ButtonCustomProperties &
@@ -60,16 +61,23 @@ export const LinkButton = ({
   className,
   isExternal,
   variant = "primary",
+  disabled,
   ...properties
 }: LinkButtonProperties) => {
-  const { padding, base, colors, disabled } = useButtonClasses({
+  const {
+    padding,
+    base,
+    colors,
+    disabled: disabledClass,
+  } = useButtonClasses({
     variant,
+    disabled,
   });
 
   return (
     <a
       target={isExternal ? "_blank" : "_self"}
-      className={twMerge(base, padding, colors, disabled, className)}
+      className={twMerge(base, padding, colors, disabledClass, className)}
       {...properties}
     />
   );
