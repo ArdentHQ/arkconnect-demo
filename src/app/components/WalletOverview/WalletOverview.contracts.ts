@@ -5,4 +5,5 @@ export interface WalletOverviewProperties {
   walletData: WalletData;
   onSend?: () => void;
   onVote?: () => void;
+  onSign?: () => void;
 }

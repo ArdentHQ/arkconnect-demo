@@ -10,7 +10,7 @@ import { Transactions } from "@/domains/transactions/components/Transactions";
 import { Delegates } from "@/domains/vote/components/Delegates";
 
 export const Home = () => {
-  const { wallet, isConnected } = useWallet();
+  const { wallet, isConnected, signMessage } = useWallet();
   const [showSendModal, setShowSendModal] = useState(false);
   const [showVoteModal, setShowVoteModal] = useState(true);
 
@@ -21,6 +21,9 @@ export const Home = () => {
           <>
             <WalletOverview
               walletData={wallet}
+              onSign={() => {
+                signMessage();
+              }}
               onSend={() => {
                 setShowSendModal(true);
               }}
@@ -48,12 +51,6 @@ export const Home = () => {
         )}
 
         {wallet && <Transactions walletData={wallet} />}
-
-        {wallet && (
-          <div className="bg-white w-[400px] mx-auto mt-6 p-4">
-            <Delegates walletData={wallet} />
-          </div>
-        )}
       </div>
     </Layout>
   );
