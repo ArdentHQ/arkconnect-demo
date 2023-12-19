@@ -43,10 +43,6 @@ export const useWallet = (): UseWalletReturnType => {
       const isInstalled = isTruthy(window.arkconnect);
       let isConnected: boolean | undefined = false;
 
-      if (!isInstalled) {
-        ñ;
-      }
-
       try {
         isConnected = await window.arkconnect?.isConnected();
       } catch (error) {
