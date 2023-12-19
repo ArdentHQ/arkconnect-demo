@@ -3,7 +3,19 @@ import { WalletData } from "@/app/lib/Wallet/contracts";
 import { DelegatesList } from "@/domains/vote/components/DelegatesList";
 import { Wallet } from "@/app/lib/Wallet";
 
-export const Delegates = ({ walletData }: { walletData: WalletData }) => {
+export const Delegates = ({
+  walletData,
+  onChange,
+}: {
+  walletData: WalletData;
+  onChange: ({
+    votes,
+    unvotes,
+  }: {
+    votes: string[];
+    unvotes: string[];
+  }) => void;
+}) => {
   const { data } = useQuery({
     staleTime: 0,
     queryKey: ["delegates"],
@@ -28,7 +40,7 @@ export const Delegates = ({ walletData }: { walletData: WalletData }) => {
   return (
     <DelegatesList
       delegates={data.delegates}
-      onChange={console.log}
+      onChange={onChange}
       currentVote={data.currentVote}
     />
   );
