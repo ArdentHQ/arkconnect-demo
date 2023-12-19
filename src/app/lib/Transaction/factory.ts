@@ -85,7 +85,7 @@ export function Transaction({
      * @returns {boolean}
      */
     isSent(): boolean {
-      return this.sender() === address && !this.isReturn();
+      return this.sender() === address;
     },
     /**
      * Returns the explorer link of the transaction.

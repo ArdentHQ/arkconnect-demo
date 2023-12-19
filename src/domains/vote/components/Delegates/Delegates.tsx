@@ -16,7 +16,7 @@ export const Delegates = ({
     <DelegatesList
       delegates={delegates}
       onChange={onChange}
-      currentVote={votingDelegate?.publicKey}
+      currentVote={votingDelegate?.address}
     />
   );
 };
