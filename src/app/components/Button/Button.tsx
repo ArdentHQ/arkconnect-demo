@@ -62,6 +62,7 @@ export const LinkButton = ({
   isExternal,
   variant = "primary",
   disabled,
+  hoverClassName,
   ...properties
 }: LinkButtonProperties) => {
   const {
@@ -72,6 +73,7 @@ export const LinkButton = ({
   } = useButtonClasses({
     variant,
     disabled,
+    hoverClassName,
   });
 
   return (
