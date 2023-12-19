@@ -31,6 +31,8 @@
   "TRANSFER": "Transfer",
   "CONTRACT": "Contract",
   "MULTIPLE": "Multiple",
+  "VOTE_FOR_DELEGATE": "Vote for Delegate",
+  "ENTER_DELEGATE_NAME": "Enter Delegate Name",
   "CURRENT": "Current",
   "SELECTED": "Selected",
   "UNSELECTED": "Unselected",

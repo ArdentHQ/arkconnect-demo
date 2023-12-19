@@ -11,3 +11,19 @@
     transition: all 0.1s ease-in;
   }
 }
+
+::-webkit-scrollbar {
+  width: 14px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-theme-primary-700 rounded-[10px] border-4 border-solid border-transparent bg-clip-padding;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-theme-primary-800
+}

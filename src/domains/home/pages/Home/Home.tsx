@@ -5,12 +5,13 @@ import { useWallet } from "@/app/hooks";
 import { isTruthy } from "@/app/utils/isTruthy";
 import { LoginOverlay } from "@/domains/home/components/LoginOverlay";
 import { SendModal } from "@/domains/transactions/components/SendModal";
+import { VoteModal } from "@/domains/vote/components/VoteModal";
 import { Transactions } from "@/domains/transactions/components/Transactions";
-import { Delegates } from "@/domains/vote/components/Delegates";
 
 export const Home = () => {
   const { wallet, isConnected, signMessage } = useWallet();
-  const [showModal, setShowModal] = useState(false);
+  const [showSendModal, setShowSendModal] = useState(false);
+  const [showVoteModal, setShowVoteModal] = useState(false);
 
   return (
     <Layout>
@@ -23,11 +24,22 @@ export const Home = () => {
                 signMessage();
               }}
               onSend={() => {
-                setShowModal(true);
+                setShowSendModal(true);
+              }}
+              onVote={() => {
+                setShowVoteModal(true);
               }}
             />
 
-            <SendModal show={showModal} onClose={() => setShowModal(false)} />
+            <SendModal
+              show={showSendModal}
+              onClose={() => setShowSendModal(false)}
+            />
+
+            <VoteModal
+              show={showVoteModal}
+              onClose={() => setShowVoteModal(false)}
+            />
           </>
         )}
 
@@ -38,12 +50,6 @@ export const Home = () => {
         )}
 
         {wallet && <Transactions walletData={wallet} />}
-
-        {wallet && (
-          <div className="bg-white w-[400px] mx-auto mt-6 p-4">
-            <Delegates walletData={wallet} />
-          </div>
-        )}
       </div>
     </Layout>
   );
