@@ -1,18 +1,27 @@
 import { Menu, Transition } from "@headlessui/react";
+import classNames from "classnames";
 import { Fragment, ReactElement } from "react";
 
 export const Dropdown = ({
   className,
   children,
   trigger,
+  menuClassName = "static sm:relative inline-block text-left",
 }: {
   children?: JSX.Element | JSX.Element[] | string;
   trigger?: JSX.Element | (({ open }: { open: boolean }) => JSX.Element);
   className?: string;
+  menuClassName?: string;
 }) => {
   return (
     <div className={className}>
-      <Menu as="div" className="static sm:relative inline-block text-left">
+      <Menu
+        as="div"
+        className={classNames(
+          "static sm:relative inline-block text-left",
+          menuClassName,
+        )}
+      >
         {({ open }) => (
           <>
             <Menu.Button as="span">

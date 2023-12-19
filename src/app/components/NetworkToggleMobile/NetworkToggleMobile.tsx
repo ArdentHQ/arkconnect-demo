@@ -1,7 +1,6 @@
 import assert from "assert";
 import { useTranslation } from "next-i18next";
 import classNames from "classnames";
-import { NavbarButton } from "@/app/components/Button";
 import { Dropdown, DropdownItem } from "@/app/components/Dropdown";
 import ChevronDown from "@/public/icons/chevron-down.svg";
 import { useWallet } from "@/app/hooks";
@@ -16,26 +15,24 @@ const CurrentNetworkButton = ({
 }) => {
   const { t } = useTranslation();
   return (
-    <NavbarButton>
-      <span className="max-w-[8.75rem] flex items-center ">
-        <span>
-          {currentNetwork === NetworkType.MAINNET ? t("MAINNET") : t("DEVNET")}
-        </span>
-
-        <ChevronDown
-          className={classNames(
-            "w-3 ml-4 transition-default group-hover:text-white text-black",
-            {
-              "rotate-180": open,
-            },
-          )}
-        />
+    <button
+      type="button"
+      className="bg-theme-gray-100 px-6 text-black font-medium text-sm justify-between flex items-center w-full py-[7px]"
+    >
+      <span>
+        {currentNetwork === NetworkType.MAINNET ? t("MAINNET") : t("DEVNET")}
       </span>
-    </NavbarButton>
+
+      <ChevronDown
+        className={classNames("w-3 mr-4 transition-default", {
+          "rotate-180": open,
+        })}
+      />
+    </button>
   );
 };
 
-export const NetworkToggle = () => {
+export const NetworkToggleMobile = () => {
   const { t } = useTranslation();
 
   const { wallet, changeAddress } = useWallet();
@@ -44,7 +41,8 @@ export const NetworkToggle = () => {
 
   return (
     <Dropdown
-      className="hidden sm:block"
+      className="sm:hidden w-full"
+      menuClassName="w-full"
       trigger={({ open }) => (
         <CurrentNetworkButton open={open} currentNetwork={wallet.network} />
       )}
