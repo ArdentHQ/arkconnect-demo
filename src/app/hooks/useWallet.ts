@@ -89,7 +89,7 @@ export const useWallet = (): UseWalletReturnType => {
   });
 
   return {
-    isLoading: isLoading && isTruthy(data) && !isConnecting,
+    isLoading: isLoading || !isTruthy(data) || isConnecting,
     isConnecting,
     isErrored,
     isInstalled: isTruthy(data) && isTruthy(data.isInstalled),
