@@ -1,17 +1,11 @@
 /* eslint-disable max-lines-per-function */
 import { useTranslation } from "next-i18next";
-import { SubmitHandler } from "react-hook-form";
 import { useState } from "react";
 import { Dialog } from "@/app/components/Dialog";
 import { InputGroup } from "@/app/components/InputGroup";
 import { Input } from "@/app/components/Input";
 import { useWallet } from "@/app/hooks";
 import { Delegates } from "@/domains/vote/components/Delegates";
-
-type FormSubmitHandler = SubmitHandler<{
-  amount: string;
-  receiverAddress: string;
-}>;
 
 export interface VotingState {
   votes: string[];
