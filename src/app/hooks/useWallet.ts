@@ -45,11 +45,13 @@ export const useWallet = (): UseWalletReturnType => {
 
       try {
         isConnected = await window.arkconnect?.isConnected();
-      } catch {
+      } catch (error) {
+        console.log({ error });
         //
       }
 
       if (!isTruthy(isConnected)) {
+        console.log("option 1");
         return {
           isInstalled,
           isConnected: false,
@@ -66,6 +68,7 @@ export const useWallet = (): UseWalletReturnType => {
         !isTruthy(address) ||
         (network !== NetworkType.DEVNET && network !== NetworkType.MAINNET)
       ) {
+        console.log("option 2");
         return {
           isInstalled,
           isConnected: false,
