@@ -20,7 +20,7 @@ export interface UseWalletReturnType {
   isConnecting: boolean;
   isErrored: boolean;
   isInstalled: boolean;
-  isConnected: boolean;
+  isConnected?: boolean;
   error?: string;
   wallet?: WalletData;
   connect: () => Promise<void>;

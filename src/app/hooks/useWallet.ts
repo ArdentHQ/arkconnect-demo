@@ -93,7 +93,7 @@ export const useWallet = (): UseWalletReturnType => {
     isConnecting,
     isErrored,
     isInstalled: isTruthy(data) && isTruthy(data.isInstalled),
-    isConnected: isTruthy(data) && isTruthy(data.isConnected),
+    isConnected: isTruthy(data) ? data.isConnected : undefined,
     error,
     wallet: data?.wallet,
     connect: async () => {
