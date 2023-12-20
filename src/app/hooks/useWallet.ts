@@ -16,7 +16,7 @@ import {
   SignVoteResponse,
 } from "@/app/lib/Network";
 import { Wallet } from "@/app/lib/Wallet";
-import { WalletData } from "@/app/lib/Wallet/contracts";
+import { WalletData, PartialWalletData } from "@/app/lib/Wallet/contracts";
 
 const isClient = () => typeof window !== "undefined";
 
@@ -73,18 +73,17 @@ export const useWallet = (): UseWalletReturnType => {
       extension: isClient() ? window.arkconnect : undefined,
     },
     queryFn: async (): Promise<{
-      wallet?: WalletData;
-      isConnected: boolean;
-      extension: typeof window.arkconnect;
+      wallet?: PartialWalletData;
+      isConnected?: boolean;
+      extension?: typeof window.arkconnect;
     }> => {
-      const emptyData = {
-        isConnected: false,
-        wallet: undefined,
-        extension: undefined,
-      };
       if (!isClient() || !isInstalled) {
-        return emptyData;
+        return {};
       }
+      const existingState =
+        queryClient.getQueryData<{
+          wallet?: WalletData;
+        }>(queryKey) || {};
 
       let isConnected: boolean | undefined = false;
 
@@ -95,7 +94,15 @@ export const useWallet = (): UseWalletReturnType => {
       }
 
       if (!isTruthy(isConnected)) {
-        return emptyData;
+        return {
+          wallet: {
+            ...existingState.wallet,
+            address: undefined,
+            coin: undefined,
+          },
+          isConnected: false,
+          extension: isClient() ? window.arkconnect : undefined,
+        };
       }
 
       const address = await window.arkconnect?.getAddress();
@@ -106,7 +113,15 @@ export const useWallet = (): UseWalletReturnType => {
         !isTruthy(address) ||
         (network !== NetworkType.DEVNET && network !== NetworkType.MAINNET)
       ) {
-        return emptyData;
+        return {
+          isConnected: false,
+          extension: window.arkconnect,
+          wallet: {
+            ...existingState.wallet,
+            address: undefined,
+            coin: undefined,
+          },
+        };
       }
 
       return {
@@ -130,7 +145,12 @@ export const useWallet = (): UseWalletReturnType => {
     isConnected:
       !isLoading && isTruthy(data) ? isTruthy(data.isConnected) : false,
     error,
-    wallet: data.wallet,
+    wallet:
+      isTruthy(data) &&
+      isTruthy(data.wallet?.address) &&
+      isTruthy(data.wallet.network)
+        ? (data.wallet as WalletData)
+        : undefined,
     connect: async () => {
       if (!isTruthy(data) || !isTruthy(data.extension)) {
         // @TODO TBD
@@ -147,6 +167,7 @@ export const useWallet = (): UseWalletReturnType => {
       setIsConnecting(true);
 
       try {
+        // @ts-ignore
         await data.extension.connect({
           network: data.wallet?.network ?? NetworkType.DEVNET,
         });
