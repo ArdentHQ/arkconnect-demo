@@ -2,7 +2,7 @@ import assert from "assert";
 import { useTranslation } from "next-i18next";
 import classNames from "classnames";
 import { NavbarButton } from "@/app/components/Button";
-import { Dropdown, DropdownItem } from "@/app/components/Dropdown";
+import { Dropdown, DropdownButtonItem } from "@/app/components/Dropdown";
 import ChevronDown from "@/public/icons/chevron-down.svg";
 import { useWallet } from "@/app/hooks";
 import { NetworkType } from "@/app/lib/Network";
@@ -17,7 +17,7 @@ const CurrentNetworkButton = ({
   const { t } = useTranslation();
   return (
     <NavbarButton>
-      <span className="max-w-[8.75rem] flex items-center ">
+      <span className="max-w-[8.75rem] flex items-center">
         <span>
           {currentNetwork === NetworkType.MAINNET ? t("MAINNET") : t("DEVNET")}
         </span>
@@ -49,42 +49,21 @@ export const NetworkToggle = () => {
         <CurrentNetworkButton open={open} currentNetwork={wallet.network} />
       )}
     >
-      <DropdownItem>
-        <button
-          type="button"
-          className={classNames(
-            "group flex w-full items-center px-8 py-4 leading-[1.3rem] font-medium space-x-3",
-            {
-              "bg-theme-primary-100": wallet.network === NetworkType.MAINNET,
-            },
-          )}
-          onClick={() => {
-            void changeAddress({
-              network: NetworkType.MAINNET,
-            });
-          }}
-        >
-          {t("MAINNET")}
-        </button>
-      </DropdownItem>
+      <DropdownButtonItem
+        onClick={() => {
+          void changeAddress({ network: NetworkType.MAINNET });
+        }}
+      >
+        {t("MAINNET")}
+      </DropdownButtonItem>
 
-      <DropdownItem>
-        <button
-          className={classNames(
-            "group flex w-full items-center px-8 py-4 leading-[1.3rem] font-medium space-x-3",
-            {
-              "bg-theme-primary-100": wallet.network === NetworkType.DEVNET,
-            },
-          )}
-          onClick={() => {
-            void changeAddress({
-              network: NetworkType.DEVNET,
-            });
-          }}
-        >
-          {t("DEVNET")}
-        </button>
-      </DropdownItem>
+      <DropdownButtonItem
+        onClick={() => {
+          void changeAddress({ network: NetworkType.DEVNET });
+        }}
+      >
+        {t("DEVNET")}
+      </DropdownButtonItem>
     </Dropdown>
   );
 };

@@ -52,3 +52,30 @@ export const DropdownItem = ({
 }: {
   children: ReactElement | string;
 }) => <Menu.Item>{children}</Menu.Item>;
+
+export const DropdownButtonItem = ({
+  onClick,
+  children,
+  isSelected,
+}: {
+  isSelected?: boolean;
+  onClick?: () => void;
+  children?: ReactElement | string;
+}) => {
+  return (
+    <DropdownItem>
+      <button
+        type="button"
+        className={classNames(
+          "group flex w-full items-center px-8 py-4 leading-[1.3rem] font-medium space-x-3  hover:bg-theme-primary-600 hover:text-white",
+          {
+            "bg-theme-primary-100": isSelected,
+          },
+        )}
+        onClick={onClick}
+      >
+        {children}
+      </button>
+    </DropdownItem>
+  );
+};
