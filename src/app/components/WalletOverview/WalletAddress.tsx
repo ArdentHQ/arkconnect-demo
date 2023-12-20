@@ -39,16 +39,16 @@ export const WalletAddress = ({ walletData }: WalletOverviewProperties) => {
             </RoundButton>
           </Clipboard>
 
-          <Tooltip
-            content={t("OPEN_IN_EXPLORER")}
-          >
-          <RoundLinkButton
-            variant="transparent"
-            href={network.addressExplorerLink(walletData.address)}
-            isExternal
-          >
-            <Explorer className="w-[1.125rem]" />
-          </RoundLinkButton>
+          <Tooltip content={t("OPEN_IN_EXPLORER")}>
+            <div>
+              <RoundLinkButton
+                variant="transparent"
+                href={network.addressExplorerLink(walletData.address)}
+                isExternal
+              >
+                <Explorer className="w-[1.125rem]" />
+              </RoundLinkButton>
+            </div>
           </Tooltip>
 
           {votingDelegate !== undefined && (
