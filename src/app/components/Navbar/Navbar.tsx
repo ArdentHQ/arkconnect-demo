@@ -140,9 +140,7 @@ export const Navbar = () => {
             setChangeAddressError(undefined);
           }}
         >
-          <p className="text-lg">
-            {t("NETWORK_SWITCH_ERROR_DESCRIPTION")}
-          </p>
+          <p className="text-lg">{t("NETWORK_SWITCH_ERROR_DESCRIPTION")}</p>
         </Dialog>
       </>
     );
