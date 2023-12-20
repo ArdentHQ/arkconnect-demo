@@ -88,7 +88,9 @@ export const useWallet = (): UseWalletReturnType => {
       if (!isTruthy(isConnected)) {
         return {
           wallet: {
-            ...existingState,
+            // @TODO: cleanup queryFn logic & types.
+            // @ts-ignore
+            ...existingState.wallet,
             address: undefined,
             coin: undefined,
           },
