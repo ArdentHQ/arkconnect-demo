@@ -34,12 +34,12 @@ export enum Coin {
 }
 
 export interface ConnectRequest {
-  network: "Devnet" | "Mainnet";
+  network: NetworkType;
 }
 export interface SignTransactionRequest {
   amount: number;
   receiverAddress: string;
-  network: "Devnet" | "Mainnet";
+  network: NetworkType;
 }
 
 export interface SignTransactionResponse {
