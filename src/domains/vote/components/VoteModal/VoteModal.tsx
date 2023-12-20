@@ -48,7 +48,7 @@ export const VoteModal = ({
 
   assert(wallet);
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const voteInput: VoteInput = {
       network: wallet.network,
     };
@@ -67,14 +67,16 @@ export const VoteModal = ({
       };
     }
 
-    signVote(voteInput);
+    await signVote(voteInput);
   };
 
   return (
     <Dialog
       show={show}
       onClose={onClose}
-      onSubmit={handleSubmit}
+      onSubmit={() => {
+        void handleSubmit();
+      }}
       title={t("VOTE_FOR_DELEGATE")}
       continueDisabled={
         voteState.votes.length === 0 && voteState.unvotes.length === 0
