@@ -13,7 +13,7 @@ export const useWalletBalance = ({
       ark: "0",
       usd: "0",
     },
-    queryKey: ["rate"],
+    queryKey: ["rate", walletData.address],
     queryFn: async () => {
       const wallet = Wallet(walletData);
       await wallet.syncRates();
