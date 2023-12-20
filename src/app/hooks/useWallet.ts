@@ -147,7 +147,6 @@ export const useWallet = (): UseWalletReturnType => {
       setIsConnecting(true);
 
       try {
-        // @ts-ignore
         await data.extension.connect({
           network: data.wallet?.network ?? NetworkType.DEVNET,
         });
