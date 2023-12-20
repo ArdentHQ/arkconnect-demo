@@ -13,7 +13,13 @@ export const useWalletVotes = ({ walletData }: { walletData: WalletData }) => {
     queryFn: async () => {
       const wallet = Wallet(walletData);
 
-      await wallet.votes().sync();
+      try {
+        await wallet.votes().sync();
+      } catch {
+        // If the sync fails, it means the wallet is offline wallet,
+        // can safely ignore as the votes will be an empty array.
+      }
+
       await wallet.delegates().sync();
 
       return {
