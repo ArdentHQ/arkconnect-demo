@@ -19,7 +19,7 @@ export interface UseWalletReturnType {
   isLoading: boolean;
   isConnecting: boolean;
   isErrored: boolean;
-  isInstalled: boolean;
+  isInstalled?: boolean;
   isConnected: boolean;
   error?: string;
   wallet?: WalletData;
