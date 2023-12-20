@@ -49,7 +49,7 @@ export const VoteModal = ({
   assert(wallet);
 
   const handleSubmit = () => {
-    let voteInput: VoteInput = {
+    const voteInput: VoteInput = {
       network: wallet.network,
     };
 
