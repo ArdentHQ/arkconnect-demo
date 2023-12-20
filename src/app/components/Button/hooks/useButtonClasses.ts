@@ -26,7 +26,7 @@ export const useButtonClasses = ({
     secondary: "border border-white bg-white text-theme-primary-700",
     "secondary-bordered": "border border-white",
     transparent:
-      "border-transparent bg-transparent focus:bg-transparent focus:border-theme-primary-700",
+      "border-transparent bg-transparent focus-visible:bg-transparent focus-visible:border-theme-primary-700",
   };
 
   let disabledClass: {
