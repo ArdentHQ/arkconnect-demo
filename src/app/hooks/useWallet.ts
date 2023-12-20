@@ -88,7 +88,9 @@ export const useWallet = (): UseWalletReturnType => {
       if (!isTruthy(isConnected)) {
         return {
           wallet: {
-            ...existingState,
+            // @TODO: cleanup queryFn logic & types.
+            // @ts-ignore
+            ...existingState.wallet,
             address: undefined,
             coin: undefined,
           },
@@ -142,14 +144,12 @@ export const useWallet = (): UseWalletReturnType => {
     wallet: data.wallet,
     connect: async () => {
       if (!isTruthy(data) || !isTruthy(data.extension)) {
-        console.log("case 1");
-        // TODO TBD
+        // @TODO TBD
         return;
       }
 
       if (data.isConnected) {
-        console.log("case 2");
-        // TODO TBD
+        // @TODO TBD
         return;
       }
 
