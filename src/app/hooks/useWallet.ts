@@ -16,6 +16,7 @@ import {
   SignVoteResponse,
 } from "@/app/lib/Network";
 import { Wallet } from "@/app/lib/Wallet";
+import { WalletData } from "@/app/lib/Wallet/contracts";
 
 const isClient = () => typeof window !== "undefined";
 
@@ -71,11 +72,18 @@ export const useWallet = (): UseWalletReturnType => {
       isConnected: false,
       extension: isClient() ? window.arkconnect : undefined,
     },
-    queryFn: async () => {
+    queryFn: async (): Promise<{
+      wallet?: WalletData;
+      isConnected: boolean;
+      extension: typeof window.arkconnect;
+    }> => {
       if (!isClient() || !isInstalled) {
-        return {};
+        return {
+          isConnected: false,
+          wallet: undefined,
+          extension: undefined,
+        };
       }
-      const existingState = queryClient.getQueryData(queryKey) || {};
 
       let isConnected: boolean | undefined = false;
 
@@ -87,13 +95,7 @@ export const useWallet = (): UseWalletReturnType => {
 
       if (!isTruthy(isConnected)) {
         return {
-          wallet: {
-            // @TODO: cleanup queryFn logic & types.
-            // @ts-ignore
-            ...existingState.wallet,
-            address: undefined,
-            coin: undefined,
-          },
+          wallet: undefined,
           isConnected: false,
           extension: isClient() ? window.arkconnect : undefined,
         };
@@ -110,13 +112,7 @@ export const useWallet = (): UseWalletReturnType => {
         return {
           isConnected: false,
           extension: window.arkconnect,
-          wallet: {
-            // @TODO: cleanup queryFn logic & types.
-            // @ts-ignore
-            ...existingState.wallet,
-            address: undefined,
-            coin: undefined,
-          },
+          wallet: undefined,
         };
       }
 
