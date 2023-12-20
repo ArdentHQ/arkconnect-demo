@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { useTranslation } from "next-i18next";
-import { ReactElement } from "react";
+import { ReactElement, useState } from "react";
 import Logo from "@/public/images/logo.svg";
 import Logout from "@/public/icons/logout.svg";
 import { Button, NavbarButton } from "@/app/components/Button";
@@ -12,6 +12,7 @@ import { NetworkToggle } from "@/app/components/NetworkToggle";
 import { NetworkToggleMobile } from "@/app/components/NetworkToggleMobile";
 import { NetworkType } from "@/app/lib/Network";
 import { WalletData } from "@/app/lib/Wallet/contracts";
+import { Dialog } from "@/app/components/Dialog";
 
 interface NavbarProperties {
   wallet: WalletData;
@@ -86,6 +87,7 @@ const NavbarConnecting = () => {
 
 export const Navbar = () => {
   const { t } = useTranslation();
+  const [changeAddressError, setChangeAddressError] = useState<string>();
   const {
     isConnected,
     connect,
@@ -96,6 +98,19 @@ export const Navbar = () => {
     changeAddress,
     setNetwork,
   } = useWallet();
+
+  const handleChangeAddress = async (network: NetworkType) => {
+    try {
+      await changeAddress({ network });
+    } catch (error) {
+      if (String(error).includes("no available wallet")) {
+        setChangeAddressError(t("NETWORK_SWITCH_ERROR_DESCRIPTION"));
+        return;
+      }
+
+      setChangeAddressError(String(error));
+    }
+  };
 
   if (isLoading) {
     return (
@@ -113,11 +128,22 @@ export const Navbar = () => {
           onDisconnect={() => {
             void disconnect();
           }}
-          onNetworkChange={(network) => {
-            void changeAddress({ network });
-          }}
+          onNetworkChange={handleChangeAddress}
         />
         <NetworkToggleMobile />
+
+        <Dialog
+          showActionButtons={false}
+          title={t("NETWORK_SWITCH_ERROR_TITLE")}
+          show={!!changeAddressError}
+          onClose={() => {
+            setChangeAddressError(undefined);
+          }}
+        >
+          <p className="text-lg">
+            {t("NETWORK_SWITCH_ERROR_DESCRIPTION")}
+          </p>
+        </Dialog>
       </>
     );
   }

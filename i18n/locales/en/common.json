@@ -41,5 +41,7 @@
   "SELECT": "Select",
   "VOTING_FOR": "Voting For {{delegateName}} ",
   "OPEN_IN_EXPLORER": "Open in Explorer",
-  "SIGN_TEXT": "I sign this to prove ownership of my wallet"
+  "SIGN_TEXT": "I sign this to prove ownership of my wallet",
+  "NETWORK_SWITCH_ERROR_TITLE": "Error while switching network",
+  "NETWORK_SWITCH_ERROR_DESCRIPTION": "You are trying to change to Testnet without any wallets on that network. Please create a wallet first before switching networks."
 }
