@@ -9,7 +9,6 @@ import { isTruthy } from "@/app/utils/isTruthy";
 import {
   ChangeAddressRequest,
   ChangeAddressResponse,
-  Coin,
   NetworkType,
   SignTransactionRequest,
   SignTransactionResponse,
@@ -72,10 +71,11 @@ export const useWallet = (): UseWalletReturnType => {
       isConnected: false,
       extension: isClient() ? window.arkconnect : undefined,
     },
-    queryFn: async (data) => {
+    queryFn: async () => {
       if (!isClient() || !isInstalled) {
         return {};
       }
+      const existingState = queryClient.getQueryData(queryKey) || {};
 
       let isConnected: boolean | undefined = false;
 
@@ -87,9 +87,7 @@ export const useWallet = (): UseWalletReturnType => {
 
       if (!isTruthy(isConnected)) {
         return {
-          isConnected: false,
-          wallet: undefined,
-          ...queryClient.getQueryData(queryKey),
+          ...existingState,
           extension: window.arkconnect,
         };
       }
@@ -104,8 +102,7 @@ export const useWallet = (): UseWalletReturnType => {
       ) {
         return {
           isConnected: false,
-          wallet: undefined,
-          ...queryClient.getQueryData(queryKey),
+          ...existingState,
           extension: window.arkconnect,
         };
       }
@@ -131,7 +128,7 @@ export const useWallet = (): UseWalletReturnType => {
     isConnected:
       !isLoading && isTruthy(data) ? isTruthy(data.isConnected) : false,
     error,
-    wallet: data?.wallet,
+    wallet: data.wallet,
     connect: async () => {
       if (!isTruthy(data) || !isTruthy(data.extension)) {
         console.log("case 1");
@@ -246,7 +243,7 @@ export const useWallet = (): UseWalletReturnType => {
         throw new NoArkExtensionException();
       }
 
-      if (!data?.wallet?.network) {
+      if (!data.wallet?.network) {
         throw new Error("Wallet is not connected");
       }
 

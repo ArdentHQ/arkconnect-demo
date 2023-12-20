@@ -107,7 +107,9 @@ export const Navbar = () => {
           onDisconnect={() => {
             void disconnect();
           }}
-          onNetworkChange={(network) => changeAddress({ network })}
+          onNetworkChange={(network) => {
+            void changeAddress({ network });
+          }}
         />
         <NetworkToggleMobile />
       </>
