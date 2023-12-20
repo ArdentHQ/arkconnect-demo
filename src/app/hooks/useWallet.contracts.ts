@@ -3,6 +3,7 @@ import { WalletData } from "@/app/lib/Wallet/contracts";
 import {
   ChangeAddressRequest,
   ChangeAddressResponse,
+  NetworkType,
   SignTransactionRequest,
   SignTransactionResponse,
   SignVoteRequest,
@@ -35,4 +36,5 @@ export interface UseWalletReturnType {
   changeAddress: (
     request: ChangeAddressRequest,
   ) => Promise<ChangeAddressResponse>;
+  setNetwork: (network: NetworkType) => void;
 }

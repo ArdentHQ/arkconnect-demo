@@ -10,10 +10,12 @@ import { Spinner } from "@/app/components/Spinner";
 import { isTruthy } from "@/app/utils/isTruthy";
 import { NetworkToggle } from "@/app/components/NetworkToggle";
 import { NetworkToggleMobile } from "@/app/components/NetworkToggleMobile";
+import { NetworkType } from "@/app/lib/Network";
 
 interface NavbarProperties {
   address: string;
   onDisconnect: () => void;
+  onNetworkChange?: (network: NetworkType) => void;
 }
 
 const NavbarWrapper = ({ children }: { children: ReactElement }) => {
@@ -32,10 +34,14 @@ const NavbarWrapper = ({ children }: { children: ReactElement }) => {
   );
 };
 
-const NavbarConnected = ({ address, onDisconnect }: NavbarProperties) => (
+const NavbarConnected = ({
+  address,
+  onDisconnect,
+  onNetworkChange,
+}: NavbarProperties) => (
   <NavbarWrapper>
     <li className="flex items-center justify-end space-x-2">
-      <NetworkToggle />
+      <NetworkToggle onChange={onNetworkChange} />
 
       <UserMenu
         address={address}
@@ -74,8 +80,16 @@ const NavbarConnecting = () => {
 
 export const Navbar = () => {
   const { t } = useTranslation();
-  const { isConnected, connect, wallet, disconnect, isConnecting, isLoading } =
-    useWallet();
+  const {
+    isConnected,
+    connect,
+    wallet,
+    disconnect,
+    isConnecting,
+    isLoading,
+    changeAddress,
+    setNetwork,
+  } = useWallet();
 
   if (isLoading) {
     return (
@@ -93,6 +107,7 @@ export const Navbar = () => {
           onDisconnect={() => {
             void disconnect();
           }}
+          onNetworkChange={(network) => changeAddress({ network })}
         />
         <NetworkToggleMobile />
       </>
@@ -106,7 +121,11 @@ export const Navbar = () => {
   return (
     <>
       <NavbarWrapper>
-        <li className="flex items-center justify-end">
+        <li className="flex items-center justify-end space-x-2">
+          <NetworkToggle
+            currentNetwork={wallet?.network}
+            onChange={setNetwork}
+          />
           <Button
             className="hidden sm:block"
             onClick={() => {
