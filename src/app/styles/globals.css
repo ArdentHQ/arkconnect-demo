@@ -27,3 +27,9 @@
 ::-webkit-scrollbar-thumb:hover {
   @apply bg-theme-primary-800
 }
+
+@-moz-document url-prefix() {
+  .delegates-list-parent {
+    @apply pr-[14px]
+  }
+}
