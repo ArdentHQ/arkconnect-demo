@@ -77,12 +77,13 @@ export const useWallet = (): UseWalletReturnType => {
       isConnected: boolean;
       extension: typeof window.arkconnect;
     }> => {
+      const emptyData = {
+        isConnected: false,
+        wallet: undefined,
+        extension: undefined,
+      };
       if (!isClient() || !isInstalled) {
-        return {
-          isConnected: false,
-          wallet: undefined,
-          extension: undefined,
-        };
+        return emptyData;
       }
 
       let isConnected: boolean | undefined = false;
@@ -94,11 +95,7 @@ export const useWallet = (): UseWalletReturnType => {
       }
 
       if (!isTruthy(isConnected)) {
-        return {
-          wallet: undefined,
-          isConnected: false,
-          extension: isClient() ? window.arkconnect : undefined,
-        };
+        return emptyData;
       }
 
       const address = await window.arkconnect?.getAddress();
@@ -109,11 +106,7 @@ export const useWallet = (): UseWalletReturnType => {
         !isTruthy(address) ||
         (network !== NetworkType.DEVNET && network !== NetworkType.MAINNET)
       ) {
-        return {
-          isConnected: false,
-          extension: window.arkconnect,
-          wallet: undefined,
-        };
+        return emptyData;
       }
 
       return {
