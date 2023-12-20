@@ -50,6 +50,7 @@ export const NetworkToggle = () => {
       )}
     >
       <DropdownButtonItem
+        isSelected={wallet.network === NetworkType.MAINNET}
         onClick={() => {
           void changeAddress({ network: NetworkType.MAINNET });
         }}
@@ -58,6 +59,7 @@ export const NetworkToggle = () => {
       </DropdownButtonItem>
 
       <DropdownButtonItem
+        isSelected={wallet.network === NetworkType.DEVNET}
         onClick={() => {
           void changeAddress({ network: NetworkType.DEVNET });
         }}
