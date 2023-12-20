@@ -1,10 +1,8 @@
-import assert from "assert";
 import { useTranslation } from "next-i18next";
 import classNames from "classnames";
 import { NavbarButton } from "@/app/components/Button";
 import { Dropdown, DropdownButtonItem } from "@/app/components/Dropdown";
 import ChevronDown from "@/public/icons/chevron-down.svg";
-import { useWallet } from "@/app/hooks";
 import { NetworkType } from "@/app/lib/Network";
 
 const CurrentNetworkButton = ({
@@ -35,35 +33,37 @@ const CurrentNetworkButton = ({
   );
 };
 
-export const NetworkToggle = () => {
+export const NetworkToggle = ({
+  networks = [NetworkType.DEVNET, NetworkType.MAINNET],
+  currentNetwork = NetworkType.DEVNET,
+  onChange,
+}: {
+  onChange?: (network: NetworkType) => void;
+  networks?: NetworkType[];
+  currentNetwork?: NetworkType;
+}) => {
   const { t } = useTranslation();
-
-  const { wallet, changeAddress } = useWallet();
-
-  assert(wallet);
 
   return (
     <Dropdown
       className="hidden sm:block"
       trigger={({ open }) => (
-        <CurrentNetworkButton open={open} currentNetwork={wallet.network} />
+        <CurrentNetworkButton open={open} currentNetwork={currentNetwork} />
       )}
     >
-      <DropdownButtonItem
-        onClick={() => {
-          void changeAddress({ network: NetworkType.MAINNET });
-        }}
-      >
-        {t("MAINNET")}
-      </DropdownButtonItem>
-
-      <DropdownButtonItem
-        onClick={() => {
-          void changeAddress({ network: NetworkType.DEVNET });
-        }}
-      >
-        {t("DEVNET")}
-      </DropdownButtonItem>
+      <>
+        {networks.map((network) => (
+          <DropdownButtonItem
+            key={network}
+            isSelected={currentNetwork === network}
+            onClick={() => {
+              onChange?.(network);
+            }}
+          >
+            {t(network)}
+          </DropdownButtonItem>
+        ))}
+      </>
     </Dropdown>
   );
 };

@@ -10,10 +10,13 @@ import { Spinner } from "@/app/components/Spinner";
 import { isTruthy } from "@/app/utils/isTruthy";
 import { NetworkToggle } from "@/app/components/NetworkToggle";
 import { NetworkToggleMobile } from "@/app/components/NetworkToggleMobile";
+import { NetworkType } from "@/app/lib/Network";
+import { WalletData } from "@/app/lib/Wallet/contracts";
 
 interface NavbarProperties {
-  address: string;
+  wallet: WalletData;
   onDisconnect: () => void;
+  onNetworkChange?: (network: NetworkType) => void;
 }
 
 const NavbarWrapper = ({ children }: { children: ReactElement }) => {
@@ -32,13 +35,20 @@ const NavbarWrapper = ({ children }: { children: ReactElement }) => {
   );
 };
 
-const NavbarConnected = ({ address, onDisconnect }: NavbarProperties) => (
+const NavbarConnected = ({
+  wallet,
+  onDisconnect,
+  onNetworkChange,
+}: NavbarProperties) => (
   <NavbarWrapper>
     <li className="flex items-center justify-end space-x-2">
-      <NetworkToggle />
+      <NetworkToggle
+        onChange={onNetworkChange}
+        currentNetwork={wallet.network}
+      />
 
       <UserMenu
-        address={address}
+        address={wallet.address}
         onDisconnect={() => {
           void onDisconnect();
         }}
@@ -59,10 +69,12 @@ const NavbarConnected = ({ address, onDisconnect }: NavbarProperties) => (
 
 const NavbarConnecting = () => {
   const { t } = useTranslation();
+  const { wallet, setNetwork } = useWallet();
 
   return (
     <NavbarWrapper>
-      <li>
+      <li className="flex items-center justify-end space-x-2">
+        <NetworkToggle currentNetwork={wallet?.network} onChange={setNetwork} />
         <Button disabled className="space-x-2 flex items-center">
           <Spinner className="w-4" />
           <span>{t("CONNECTING")}</span>
@@ -74,8 +86,16 @@ const NavbarConnecting = () => {
 
 export const Navbar = () => {
   const { t } = useTranslation();
-  const { isConnected, connect, wallet, disconnect, isConnecting, isLoading } =
-    useWallet();
+  const {
+    isConnected,
+    connect,
+    wallet,
+    disconnect,
+    isConnecting,
+    isLoading,
+    changeAddress,
+    setNetwork,
+  } = useWallet();
 
   if (isLoading) {
     return (
@@ -89,9 +109,12 @@ export const Navbar = () => {
     return (
       <>
         <NavbarConnected
-          address={wallet.address}
+          wallet={wallet}
           onDisconnect={() => {
             void disconnect();
+          }}
+          onNetworkChange={(network) => {
+            void changeAddress({ network });
           }}
         />
         <NetworkToggleMobile />
@@ -106,7 +129,11 @@ export const Navbar = () => {
   return (
     <>
       <NavbarWrapper>
-        <li className="flex items-center justify-end">
+        <li className="flex items-center justify-end space-x-2">
+          <NetworkToggle
+            currentNetwork={wallet?.network}
+            onChange={setNetwork}
+          />
           <Button
             className="hidden sm:block"
             onClick={() => {

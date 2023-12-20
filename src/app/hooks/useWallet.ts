@@ -1,7 +1,7 @@
 /* eslint-disable sonarjs/cognitive-complexity */
 /* eslint-disable max-lines-per-function */
 // TODO: Cleanup
-import { useQuery } from "@tanstack/react-query";
+import { type QueryKey, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { useTranslation } from "next-i18next";
 import { SignedMessage, UseWalletReturnType } from "./useWallet.contracts";
@@ -61,12 +61,21 @@ export const useWallet = (): UseWalletReturnType => {
     checkArkConnect();
   }, []);
 
+  const queryKey: QueryKey = ["wallet-connection"];
+  const queryClient = useQueryClient();
+
   const { data, isLoading } = useQuery({
-    queryKey: ["wallet-connection"],
+    queryKey,
+    initialData: {
+      wallet: undefined,
+      isConnected: false,
+      extension: isClient() ? window.arkconnect : undefined,
+    },
     queryFn: async () => {
       if (!isClient() || !isInstalled) {
         return {};
       }
+      const existingState = queryClient.getQueryData(queryKey) || {};
 
       let isConnected: boolean | undefined = false;
 
@@ -78,9 +87,13 @@ export const useWallet = (): UseWalletReturnType => {
 
       if (!isTruthy(isConnected)) {
         return {
+          wallet: {
+            ...existingState,
+            address: undefined,
+            coin: undefined,
+          },
           isConnected: false,
-          extension: window.arkconnect,
-          wallet: undefined,
+          extension: isClient() ? window.arkconnect : undefined,
         };
       }
 
@@ -95,7 +108,13 @@ export const useWallet = (): UseWalletReturnType => {
         return {
           isConnected: false,
           extension: window.arkconnect,
-          wallet: undefined,
+          wallet: {
+            // @TODO: cleanup queryFn logic & types.
+            // @ts-ignore
+            ...existingState.wallet,
+            address: undefined,
+            coin: undefined,
+          },
         };
       }
 
@@ -120,14 +139,16 @@ export const useWallet = (): UseWalletReturnType => {
     isConnected:
       !isLoading && isTruthy(data) ? isTruthy(data.isConnected) : false,
     error,
-    wallet: data?.wallet,
+    wallet: data.wallet,
     connect: async () => {
       if (!isTruthy(data) || !isTruthy(data.extension)) {
+        console.log("case 1");
         // TODO TBD
         return;
       }
 
       if (data.isConnected) {
+        console.log("case 2");
         // TODO TBD
         return;
       }
@@ -138,7 +159,9 @@ export const useWallet = (): UseWalletReturnType => {
 
       try {
         // @ts-ignore
-        await data.extension.connect({ network: "Devnet" });
+        await data.extension.connect({
+          network: data.wallet?.network ?? NetworkType.DEVNET,
+        });
       } catch (_error) {
         setIsErrored(true);
         setIsConnecting(false);
@@ -231,7 +254,7 @@ export const useWallet = (): UseWalletReturnType => {
         throw new NoArkExtensionException();
       }
 
-      if (!data?.wallet?.network) {
+      if (!data.wallet?.network) {
         throw new Error("Wallet is not connected");
       }
 
@@ -241,6 +264,22 @@ export const useWallet = (): UseWalletReturnType => {
       })) as SignedMessage | undefined;
 
       console.log({ response });
+    },
+    setNetwork: (network: NetworkType) => {
+      queryClient.setQueryData(queryKey, (data) => {
+        if (!data) {
+          return data;
+        }
+
+        return {
+          ...data,
+          wallet: {
+            network,
+            balance: 0,
+            wallet: undefined,
+          },
+        };
+      });
     },
   };
 };
