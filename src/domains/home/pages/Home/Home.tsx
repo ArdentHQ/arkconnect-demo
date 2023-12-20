@@ -56,7 +56,9 @@ export const Home = () => {
               </div>
             )}
 
-            {wallet && isConnected && <Transactions walletData={wallet} />}
+            {wallet && wallet.address && isConnected && (
+              <Transactions walletData={wallet} />
+            )}
           </>
         )}
       </div>

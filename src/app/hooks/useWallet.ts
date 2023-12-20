@@ -87,8 +87,13 @@ export const useWallet = (): UseWalletReturnType => {
 
       if (!isTruthy(isConnected)) {
         return {
-          ...existingState,
-          extension: window.arkconnect,
+          wallet: {
+            ...existingState,
+            address: undefined,
+            coin: undefined,
+          },
+          isConnected: false,
+          extension: isClient() ? window.arkconnect : undefined,
         };
       }
 
@@ -102,8 +107,14 @@ export const useWallet = (): UseWalletReturnType => {
       ) {
         return {
           isConnected: false,
-          ...existingState,
           extension: window.arkconnect,
+          wallet: {
+            // @TODO: cleanup queryFn logic & types.
+            // @ts-ignore
+            ...existingState.wallet,
+            address: undefined,
+            coin: undefined,
+          },
         };
       }
 
