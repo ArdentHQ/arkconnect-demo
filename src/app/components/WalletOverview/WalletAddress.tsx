@@ -39,31 +39,35 @@ export const WalletAddress = ({ walletData }: WalletOverviewProperties) => {
             </RoundButton>
           </Clipboard>
 
-          <RoundLinkButton
-            variant="transparent"
-            href={network.addressExplorerLink(walletData.address)}
-            isExternal
-          >
-            <Explorer className="w-[1.125rem]" />
-          </RoundLinkButton>
-
-          <Tooltip
-            content={t("VOTING_FOR", {
-              delegateName: votingDelegate?.username,
-            })}
-            disabled={votingDelegate === undefined}
-          >
+          <Tooltip content={t("OPEN_IN_EXPLORER")}>
             <div>
               <RoundLinkButton
                 variant="transparent"
-                href={votingDelegate?.explorerUrl}
+                href={network.addressExplorerLink(walletData.address)}
                 isExternal
-                disabled={votingDelegate === undefined}
               >
-                <CheckSquare className="w-[1.125rem]" />
+                <Explorer className="w-[1.125rem]" />
               </RoundLinkButton>
             </div>
           </Tooltip>
+
+          {votingDelegate !== undefined && (
+            <Tooltip
+              content={t("VOTING_FOR", {
+                delegateName: votingDelegate.username,
+              })}
+            >
+              <div>
+                <RoundLinkButton
+                  variant="transparent"
+                  href={votingDelegate.explorerUrl}
+                  isExternal
+                >
+                  <CheckSquare className="w-[1.125rem]" />
+                </RoundLinkButton>
+              </div>
+            </Tooltip>
+          )}
         </div>
       </div>
     </div>
