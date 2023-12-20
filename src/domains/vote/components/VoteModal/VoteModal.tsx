@@ -1,5 +1,6 @@
 /* eslint-disable max-lines-per-function */
 import assert from "assert";
+import { useTranslation } from "next-i18next";
 
 import React, { useState } from "react";
 
@@ -9,7 +10,6 @@ import { Input } from "@/app/components/Input";
 import { InputGroup } from "@/app/components/InputGroup";
 import { NetworkType } from "@/app/lib/Network";
 
-import { useTranslation } from "next-i18next";
 import { useWallet } from "@/app/hooks";
 
 export interface VotingState {
