@@ -70,7 +70,7 @@ export const LinkButton = ({
     base,
     colors,
     disabled: disabledClass,
-    hover
+    hover,
   } = useButtonClasses({
     variant,
     disabled,
@@ -80,7 +80,14 @@ export const LinkButton = ({
   return (
     <a
       target={isExternal ? "_blank" : "_self"}
-      className={twMerge(base, padding, colors, disabledClass, hover, className)}
+      className={twMerge(
+        base,
+        padding,
+        colors,
+        disabledClass,
+        hover,
+        className,
+      )}
       {...properties}
     />
   );
