@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { ConnectOverlay } from "./ConnectOverlay";
 import { InstallOverlay } from "./InstallOverlay";
 import { Spinner } from "@/app/components/Spinner";
@@ -5,6 +6,15 @@ import { useWallet } from "@/app/hooks";
 
 export const LoginOverlay = () => {
   const { isInstalled, isLoading } = useWallet();
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(typeof window !== "undefined");
+  }, []);
+
+  if (!isClient) {
+    return <></>;
+  }
 
   if (isLoading) {
     return (

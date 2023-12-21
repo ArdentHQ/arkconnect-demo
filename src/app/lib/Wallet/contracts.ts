@@ -1,12 +1,8 @@
 import { Coin, NetworkType } from "@/app/lib/Network";
 
 export interface WalletData {
-  address: string;
   network: NetworkType;
-  balance?: number | string;
+  address: string | undefined;
+  balance: number | undefined;
   coin?: Coin;
 }
-
-export type PartialWalletData = {
-  [P in keyof WalletData]?: WalletData[P] | undefined;
-};

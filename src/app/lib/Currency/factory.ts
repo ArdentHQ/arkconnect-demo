@@ -51,5 +51,13 @@ export function Currency({
         minimumFractionDigits: 2,
       }).format(number.toNumber());
     },
+    /**
+     * Returns number as number format.
+     *
+     * @returns {number}
+     */
+    toNumber(): number {
+      return number.toNumber()
+    }
   };
 }

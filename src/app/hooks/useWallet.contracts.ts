@@ -3,6 +3,7 @@ import { WalletData } from "@/app/lib/Wallet/contracts";
 import {
   ChangeAddressRequest,
   ChangeAddressResponse,
+  Coin,
   NetworkType,
   SignTransactionRequest,
   SignTransactionResponse,
@@ -16,6 +17,14 @@ export interface SignedMessage {
   signature: string;
 }
 
+export interface UseQueryData {
+  isLoading: boolean;
+  isInstalled: boolean;
+  extension: any | undefined;
+  isConnected: boolean;
+  wallet: WalletData;
+}
+
 export interface UseWalletReturnType {
   isLoading: boolean;
   isConnecting: boolean;
@@ -23,7 +32,7 @@ export interface UseWalletReturnType {
   isInstalled?: boolean;
   isConnected: boolean;
   error?: string;
-  wallet?: WalletData;
+  wallet: WalletData;
   connect: () => Promise<void>;
   disconnect: () => void;
   isTransacting: boolean;

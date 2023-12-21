@@ -10,9 +10,11 @@ import { Transactions } from "@/domains/transactions/components/Transactions";
 import { Spinner } from "@/app/components/Spinner";
 
 export const Home = () => {
-  const { wallet, isConnected, isLoading, signMessage } = useWallet();
+  const { wallet, isConnected, isInstalled, isLoading, signMessage } =
+    useWallet();
   const [showSendModal, setShowSendModal] = useState(false);
   const [showVoteModal, setShowVoteModal] = useState(false);
+  console.log({ isInstalled, isConnected});
 
   return (
     <Layout>
@@ -56,9 +58,7 @@ export const Home = () => {
               </div>
             )}
 
-            {wallet && wallet.address && isConnected && (
-              <Transactions walletData={wallet} />
-            )}
+            {wallet && isConnected && <Transactions walletData={wallet} />}
           </>
         )}
       </div>
