@@ -10,6 +10,7 @@ interface Properties extends ModalProperties {
   continueButtonLabel?: string;
   onSubmit?: FormEventHandler<HTMLFormElement>;
   continueDisabled?: boolean;
+  showActionButtons?: boolean;
 }
 
 export const Dialog = ({
@@ -19,6 +20,7 @@ export const Dialog = ({
   closeButtonLabel = "Close",
   continueButtonLabel = "Continue",
   continueDisabled = false,
+  showActionButtons = true,
   onSubmit,
   ...modalProperties
 }: Properties): JSX.Element => {
@@ -44,22 +46,26 @@ export const Dialog = ({
         <div className="px-10 pt-4 pb-10 flex flex-col">
           <div>{children}</div>
 
-          <div className="flex space-x-3 justify-end mt-4">
-            <Button
-              variant="secondary"
-              className="flex-1 sm:flex-none"
-              onClick={onClose}
-            >
-              <span className="text-center w-full">{closeButtonLabel}</span>
-            </Button>
-            <Button
-              type="submit"
-              className="flex-1 sm:flex-none"
-              disabled={continueDisabled}
-            >
-              <span className="text-center w-full">{continueButtonLabel}</span>
-            </Button>
-          </div>
+          {showActionButtons && (
+            <div className="flex space-x-3 justify-end mt-4">
+              <Button
+                variant="secondary"
+                className="flex-1 sm:flex-none"
+                onClick={onClose}
+              >
+                <span className="text-center w-full">{closeButtonLabel}</span>
+              </Button>
+              <Button
+                type="submit"
+                className="flex-1 sm:flex-none"
+                disabled={continueDisabled}
+              >
+                <span className="text-center w-full">
+                  {continueButtonLabel}
+                </span>
+              </Button>
+            </div>
+          )}
         </div>
       </form>
     </Modal>
