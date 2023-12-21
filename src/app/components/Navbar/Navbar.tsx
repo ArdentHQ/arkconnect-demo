@@ -102,9 +102,13 @@ export const Navbar = () => {
   const handleChangeAddress = async (network: NetworkType) => {
     try {
       await changeAddress({ network });
-    } catch (error) {
-      if (String(error).includes("no available wallet")) {
-        setChangeAddressError(t("NETWORK_SWITCH_ERROR_DESCRIPTION"));
+    } catch (_error) {
+      const error = _error as Error;
+
+      if (error.message.includes("no available wallet")) {
+        setChangeAddressError(
+          t("NETWORK_SWITCH_ERROR_DESCRIPTION", { network }),
+        );
         return;
       }
 
@@ -140,7 +144,7 @@ export const Navbar = () => {
             setChangeAddressError(undefined);
           }}
         >
-          <p className="text-lg">{t("NETWORK_SWITCH_ERROR_DESCRIPTION")}</p>
+          <p className="text-lg">{changeAddressError}</p>
         </Dialog>
       </>
     );
