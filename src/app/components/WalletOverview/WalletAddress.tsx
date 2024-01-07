@@ -1,3 +1,4 @@
+import assert from "assert";
 import { useTranslation } from "next-i18next";
 import { WalletOverviewProperties } from "./WalletOverview.contracts";
 import { TruncateMiddle } from "@/app/components/Truncate";
@@ -15,6 +16,8 @@ export const WalletAddress = ({ walletData }: WalletOverviewProperties) => {
 
   const network = Network({ network: walletData.network });
   const { votingDelegate } = useWalletVotes({ walletData });
+  const address = walletData.address;
+  assert(address);
 
   return (
     <div className="flex items-end justify-between w-full p-6 sm:p-5">
@@ -33,7 +36,7 @@ export const WalletAddress = ({ walletData }: WalletOverviewProperties) => {
 
       <div className="flex items-end justify-between">
         <div className="flex items-end space-x-2">
-          <Clipboard text={walletData.address}>
+          <Clipboard text={address}>
             <RoundButton variant="transparent">
               <Copy className="w-[1.125rem]" />
             </RoundButton>
@@ -43,7 +46,7 @@ export const WalletAddress = ({ walletData }: WalletOverviewProperties) => {
             <div>
               <RoundLinkButton
                 variant="transparent"
-                href={network.addressExplorerLink(walletData.address)}
+                href={network.addressExplorerLink(address)}
                 isExternal
               >
                 <Explorer className="w-[1.125rem]" />

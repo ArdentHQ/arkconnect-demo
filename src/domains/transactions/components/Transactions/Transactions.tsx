@@ -13,14 +13,14 @@ export const Transactions = ({ walletData }: { walletData: WalletData }) => {
     staleTime: 0,
     initialData: [],
     enabled: isTruthy(walletData),
-    queryKey: ["wallet-transactions"],
+    queryKey: ["wallet-transactions", walletData.address],
     queryFn: async () => {
       const wallet = Wallet(walletData);
       await wallet.transactions().sync();
 
       return wallet.transactions().items();
     },
-    refetchInterval: 5000,
+    refetchInterval: 3000,
   });
 
   return (

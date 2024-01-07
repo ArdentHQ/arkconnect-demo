@@ -7,7 +7,7 @@ export function WalletVotes({
   address,
 }: {
   network?: NetworkType;
-  address: string;
+  address?: string;
 }) {
   const network = Network({ network: networkType });
   const state = new Map<"currentVotes", string[]>();
@@ -19,6 +19,12 @@ export function WalletVotes({
      * @returns {Promise<void>}
      */
     async sync(): Promise<void> {
+      if (!isTruthy(address)) {
+        throw new Error(
+          "[Delegates#sync] Failed to retrieve delegates. Wallet address is missing.",
+        );
+      }
+
       const response = await fetch(network.walletVotesLink(address));
 
       if (!response.ok) {

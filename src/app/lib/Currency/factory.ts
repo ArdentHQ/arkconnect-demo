@@ -57,7 +57,7 @@ export function Currency({
      * @returns {number}
      */
     toNumber(): number {
-      return number.toNumber()
-    }
+      return number.toNumber();
+    },
   };
 }

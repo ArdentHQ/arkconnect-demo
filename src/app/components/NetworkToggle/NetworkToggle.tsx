@@ -57,6 +57,10 @@ export const NetworkToggle = ({
             key={network}
             isSelected={currentNetwork === network}
             onClick={() => {
+              if (network === currentNetwork) {
+                return;
+              }
+
               onChange?.(network);
             }}
           >

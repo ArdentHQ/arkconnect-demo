@@ -1,6 +1,18 @@
 import { isTruthy } from "@/app/utils/isTruthy";
-import { Coin, NetworkType } from "../Network";
-import { Currency } from "../Currency";
+import { ArkConnectExtension, Coin, NetworkType } from "@/app/lib/Network";
+import { Currency } from "@/app/lib/Currency";
+
+export interface WalletExtensionState {
+  isInstalled: boolean;
+  extension: ArkConnectExtension | undefined;
+  isConnected: boolean;
+  wallet: {
+    network: NetworkType;
+    address?: string;
+    balance: number | undefined;
+    coin?: Coin;
+  };
+}
 
 export function WalletExtension() {
   const state = new Map();
@@ -10,10 +22,7 @@ export function WalletExtension() {
   state.set("balance", 0);
   state.set("network", undefined);
   state.set("isConnected", false);
-  state.set("isSyncingData", false);
-  state.set("isSyncingStatus", false);
   state.set("isLocked", false);
-  state.set("isConnecting", false);
 
   return {
     /**
@@ -27,12 +36,11 @@ export function WalletExtension() {
     /**
      * Returns arkconnect instance.
      *
-     * @returns {any}
+     * @returns {ArkConnectExtension | undefined}
      */
-    extension(): any {
-      console.log({ isClient: this.isClient() });
-      if (this.isClient()) {
-        return window?.arkconnect;
+    extension(): ArkConnectExtension | undefined {
+      if (this.isBrowser()) {
+        return window.arkconnect;
       }
     },
     /**
@@ -42,14 +50,6 @@ export function WalletExtension() {
      */
     isConnected(): boolean {
       return state.get("isConnected");
-    },
-    /**
-     * Determine whether the extension is connected.
-     *
-     * @returns {boolean}
-     */
-    isConnecting(): boolean {
-      return state.get("isConnecting");
     },
     /**
      * Check whether the extension is locked.
@@ -70,7 +70,7 @@ export function WalletExtension() {
     /**
      * Returns the active address of the extension.
      *
-     * @returns {boolean}
+     * @returns {string | undefined}
      */
     address(): string | undefined {
       return state.get("address");
@@ -92,13 +92,20 @@ export function WalletExtension() {
       return Currency({ value: state.get("balance"), coin: state.get("coin") });
     },
     /**
+     * Sync extension status & data.
+     *
+     * @returns {Promise<void>}
+     */
+    async sync(): Promise<void> {
+      await this.syncStatus();
+      await this.syncWalletData();
+    },
+    /**
      * Fetch and update wallet extension data (balance, address, network)
      *
      * @returns {Promise<void>}
      */
     async syncWalletData(): Promise<void> {
-      state.set("isSyncingData", true);
-
       try {
         state.set("address", await window.arkconnect?.getAddress());
         state.set("network", await window.arkconnect?.getNetwork());
@@ -108,26 +115,44 @@ export function WalletExtension() {
         state.set("balance", 0);
         //
       }
-
-      state.set("isSyncingData", false);
     },
+    /**
+     * Fetch & updated connection status from window.arkconnect.
+     *
+     * @returns {Promise<void>}
+     */
     async syncStatus(): Promise<void> {
-      state.set("isSyncingStatus", true);
-
       try {
-        state.set("isConnected", await window.arkconnect?.isConnected());
-      } catch (error) {
+        const isConnected = (await window.arkconnect?.isConnected()) ?? false;
+        state.set("isConnected", isConnected);
+      } catch {
         state.set("isConnected", false);
         //
       }
-      state.set("isSyncingStatus", false);
     },
-    isSyncing() {
-      return state.get("isSyncingStatus") || state.get("isSyncingData");
+    /**
+     * Connects to a given network.
+     *
+     * @param {NetworkType} network
+     * @returns {Promise<void>}
+     */
+    async connect(network: NetworkType): Promise<void> {
+      await this.extension()?.connect({ network });
     },
-    isClient(): boolean {
+    /**
+     * Determine whether it's a browser environment.
+     *
+     * @returns {boolean}
+     */
+    isBrowser(): boolean {
       return typeof window !== "undefined";
     },
+    /**
+     * Modify the state of the network and its corresponding coin.
+     *
+     * @param {NetworkType} network
+     * @returns {void}
+     */
     setNetwork(network?: NetworkType): void {
       state.set("network", network);
 
@@ -139,21 +164,23 @@ export function WalletExtension() {
         state.set("coin", Coin.ARK);
       }
     },
-    async connect(network: NetworkType) {
-      state.set("isConnecting", true);
-      try {
-        // @ts-ignore
-        await this.extension().connect({ network });
-      } catch (_error) {
-        const error = _error as Error;
-        console.log("error");
-
-        if (error) {
-          state.set("isLocked", error.message.includes("is locked"));
-          state.set("isConnecting", false);
-          console.log({ error });
-        }
-      }
+    /**
+     * Dumps state into json format.
+     *
+     * @returns {WalletExtensionState}
+     */
+    toJSON(): WalletExtensionState {
+      return {
+        isInstalled: this.isInstalled(),
+        extension: this.extension(),
+        isConnected: this.isConnected(),
+        wallet: {
+          network: this.network(),
+          address: this.address(),
+          balance: this.balance().toNumber(),
+          coin: this.coin(),
+        },
+      };
     },
   };
 }

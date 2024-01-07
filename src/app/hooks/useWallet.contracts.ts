@@ -1,9 +1,9 @@
 import { WalletData } from "@/app/lib/Wallet/contracts";
 
 import {
+  ArkConnectExtension,
   ChangeAddressRequest,
   ChangeAddressResponse,
-  Coin,
   NetworkType,
   SignTransactionRequest,
   SignTransactionResponse,
@@ -18,9 +18,7 @@ export interface SignedMessage {
 }
 
 export interface UseQueryData {
-  isLoading: boolean;
-  isInstalled: boolean;
-  extension: any | undefined;
+  extension: ArkConnectExtension | undefined;
   isConnected: boolean;
   wallet: WalletData;
 }
