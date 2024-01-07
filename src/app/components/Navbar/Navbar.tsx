@@ -74,7 +74,7 @@ const NavbarConnecting = () => {
   return (
     <NavbarWrapper>
       <li className="flex items-center justify-end space-x-2">
-        <NetworkToggle currentNetwork={wallet.network} onChange={setNetwork} />
+        <NetworkToggle currentNetwork={wallet?.network} onChange={setNetwork} />
         <Button disabled className="space-x-2 flex items-center">
           <Spinner className="w-4" />
           <span>{t("CONNECTING")}</span>
@@ -95,6 +95,7 @@ export const Navbar = () => {
     isLoading,
     changeAddress,
     setNetwork,
+    isInstalled,
   } = useWallet();
 
   if (isLoading) {
@@ -130,11 +131,15 @@ export const Navbar = () => {
     <>
       <NavbarWrapper>
         <li className="flex items-center justify-end space-x-2">
-          <NetworkToggle
-            currentNetwork={wallet.network}
-            onChange={setNetwork}
-          />
+          {isInstalled && (
+            <NetworkToggle
+              currentNetwork={wallet?.network}
+              onChange={setNetwork}
+            />
+          )}
+
           <Button
+            disabled={!isInstalled}
             className="hidden sm:block"
             onClick={() => {
               void connect();
@@ -144,6 +149,7 @@ export const Navbar = () => {
           </Button>
 
           <Button
+            disabled={!isInstalled}
             className="block sm:hidden"
             onClick={() => {
               void connect();
