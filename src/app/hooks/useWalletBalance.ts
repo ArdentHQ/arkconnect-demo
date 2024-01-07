@@ -16,7 +16,10 @@ export const useWalletBalance = ({
     queryKey: ["rate", walletData.address],
     queryFn: async () => {
       const wallet = Wallet(walletData);
-      await wallet.syncRates();
+
+      if (wallet.network().isMainnet()) {
+        await wallet.syncRates();
+      }
 
       return {
         ark: wallet.balance().toARK(),
