@@ -46,7 +46,7 @@ export const useWallet = (): UseWalletReturnType => {
     queryFn: async () => {
       const data = queryClient.getQueryData(queryKey) as UseQueryData;
 
-      extension.setNetwork(data.wallet.network);
+      extension.setNetwork(data.wallet.network || NetworkType.DEVNET);
       await extension.sync();
 
       return extension.toJSON();
