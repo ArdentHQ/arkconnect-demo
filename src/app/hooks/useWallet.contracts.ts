@@ -4,6 +4,7 @@ import {
   ArkConnectExtension,
   ChangeAddressRequest,
   ChangeAddressResponse,
+  Coin,
   NetworkType,
   SignTransactionRequest,
   SignTransactionResponse,
@@ -20,7 +21,12 @@ export interface SignedMessage {
 export interface UseQueryData {
   extension: ArkConnectExtension | undefined;
   isConnected: boolean;
-  wallet: WalletData;
+  wallet: {
+    network?: NetworkType;
+    address?: string;
+    balance: number | undefined;
+    coin?: Coin;
+  };
 }
 
 export interface UseWalletReturnType {

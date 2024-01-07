@@ -74,7 +74,7 @@ const NavbarConnecting = () => {
   return (
     <NavbarWrapper>
       <li className="flex items-center justify-end space-x-2">
-        <NetworkToggle currentNetwork={wallet?.network} onChange={setNetwork} />
+        <NetworkToggle currentNetwork={wallet.network} onChange={setNetwork} />
         <Button disabled className="space-x-2 flex items-center">
           <Spinner className="w-4" />
           <span>{t("CONNECTING")}</span>
@@ -133,7 +133,7 @@ export const Navbar = () => {
         <li className="flex items-center justify-end space-x-2">
           {isInstalled && (
             <NetworkToggle
-              currentNetwork={wallet?.network}
+              currentNetwork={wallet.network}
               onChange={setNetwork}
             />
           )}
