@@ -9,6 +9,15 @@ interface WalletExtensionState {
   extension: ReturnType<typeof WalletExtension>;
 }
 
+/**
+ * Handles the initial wallet extension state.
+ * Browser extensions appear after 1-2 seconds on the window.object.
+ *
+ * The purpose of this hook is to wait for ~1 second on the initial load,
+ * to  determine whether the extension is installed or not, and provide the loaded state when finished.
+ *
+ * @returns {WalletExtensionState}
+ */
 export const useWalletExtension = (): WalletExtensionState => {
   const queryClient = useQueryClient();
 
