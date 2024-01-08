@@ -73,9 +73,9 @@ export function Table<T>({
           </thead>
         )}
         <tbody>
-          {table.getRowModel().rows.map((rowModel) => ({
-            ...row(rowModel.original),
-            key: rowModel.id,
+          {data.map((data) => ({
+            ...row(data),
+            key: data.id,
           }))}
         </tbody>
       </table>
