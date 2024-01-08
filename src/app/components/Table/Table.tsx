@@ -9,7 +9,7 @@ import { twMerge } from "tailwind-merge";
 
 interface TableProperties<T> {
   columns: ColumnDef<T>[];
-  data: T[];
+  data: Array<T & { id?: string }>;
   row: (data: T) => JSX.Element;
   hideHeader?: boolean;
 }
@@ -75,7 +75,7 @@ export function Table<T>({
         <tbody>
           {table.getRowModel().rows.map((rowModel) => ({
             ...row(rowModel.original),
-            key: ('id' in rowModel.original) ? rowModel.original.id : rowModel.id
+            key: rowModel.original?.id ?? rowModel.id
           }))}
         </tbody>
       </table>
