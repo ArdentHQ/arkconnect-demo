@@ -7,9 +7,9 @@ import {
 } from "@tanstack/react-table";
 import { twMerge } from "tailwind-merge";
 
-interface TableProperties<T extends { id?: string }> {
+interface TableProperties<T> {
   columns: ColumnDef<T>[];
-  data: T[];
+  data: Array<T & {id: string}>;
   row: (data: T) => JSX.Element;
   hideHeader?: boolean;
 }
@@ -75,7 +75,7 @@ export function Table<T>({
         <tbody>
           {table.getRowModel().rows.map((rowModel) => ({
             ...row(rowModel.original),
-            key: rowModel.original.id ?? rowModel.id,
+            key: rowModel.original.id,
           }))}
         </tbody>
       </table>
