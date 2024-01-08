@@ -75,7 +75,7 @@ export function Table<T>({
         <tbody>
           {data.map((data) => ({
             ...row(data),
-            key: data.id,
+            key: data?.id,
           }))}
         </tbody>
       </table>
