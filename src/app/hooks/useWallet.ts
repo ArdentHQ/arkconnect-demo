@@ -71,7 +71,6 @@ export const useWallet = (): UseWalletReturnType => {
       setIsConnecting(true);
 
       try {
-        console.log({ network: data.wallet.network });
         await extension.connect(data.wallet.network);
         setIsConnecting(false);
       } catch (_error) {

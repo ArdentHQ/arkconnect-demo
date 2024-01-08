@@ -14,7 +14,6 @@ export const WalletBalance = ({
 }: WalletOverviewProperties) => {
   const { t } = useTranslation();
   const { balance, isSuccess } = useWalletBalance({ walletData });
-  console.log("balance", balance);
 
   return (
     <div
