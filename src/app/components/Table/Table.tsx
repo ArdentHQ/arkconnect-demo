@@ -9,7 +9,7 @@ import { twMerge } from "tailwind-merge";
 
 interface TableProperties<T> {
   columns: ColumnDef<T>[];
-  data: T;
+  data: T[];
   row: (data: T) => JSX.Element;
   hideHeader?: boolean;
 }
