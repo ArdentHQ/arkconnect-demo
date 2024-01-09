@@ -67,11 +67,11 @@ export const useWallet = (): UseWalletReturnType => {
 
   const { data, isLoading } = useQuery({
     queryKey,
-    initialData: {
+    initialData: () => ({
       wallet: undefined,
       isConnected: false,
       extension: isClient() ? window.arkconnect : undefined,
-    },
+    }),
     queryFn: async (): Promise<{
       wallet?: PartialWalletData;
       isConnected?: boolean;
