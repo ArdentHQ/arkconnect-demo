@@ -6,3 +6,7 @@ export interface WalletData {
   balance: number | undefined;
   coin?: Coin;
 }
+
+export type PartialWalletData = {
+  [P in keyof WalletData]?: WalletData[P] | undefined;
+};
