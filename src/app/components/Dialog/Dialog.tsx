@@ -38,7 +38,11 @@ export const Dialog = ({
             {title}
           </HeadlessDialog.Title>
 
-          <button type="button" className="text-black" onClick={onClose}>
+          <button
+            type="button"
+            className="text-black hover:bg-theme-gray-300 w-8 h-8 justify-center items-center flex rounded-lg"
+            onClick={onClose}
+          >
             <X className="w-5 h-5" />
           </button>
         </div>
