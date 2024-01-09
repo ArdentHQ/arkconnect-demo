@@ -6,8 +6,8 @@
     "node": ">=18.11.0"
   },
   "scripts": {
-    "dev": "next dev",
-    "dev:https": "npx next dev --experimental-https",
+    "dev": "npx next dev --experimental-https",
+    "dev:http": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
