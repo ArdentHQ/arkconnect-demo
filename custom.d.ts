@@ -1,10 +1,12 @@
-import { SignTransactionRequest, SignTransactionResponse } from "@/app/lib";
 import {
+  NetworkType,
+  SignTransactionResponse,
+  SignTransactionRequest,
   ChangeAddressRequest,
   ChangeAddressResponse,
-  NetworkType,
   SignVoteRequest,
   SignVoteResponse,
+  ConnectRequest,
 } from "@/app/lib/Network";
 
 export {};
@@ -12,7 +14,7 @@ export {};
 declare global {
   interface Window {
     arkconnect?: {
-      connect: () => Promise<void>;
+      connect: (request?: ConnectRequest) => Promise<void>;
       disconnect: () => Promise<void>;
       isConnected: () => Promise<boolean>;
       getAddress: () => Promise<string>;

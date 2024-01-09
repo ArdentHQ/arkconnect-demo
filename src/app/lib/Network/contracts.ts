@@ -33,10 +33,13 @@ export enum Coin {
   DARK = "DARK",
 }
 
+export interface ConnectRequest {
+  network: NetworkType;
+}
 export interface SignTransactionRequest {
   amount: number;
   receiverAddress: string;
-  network: "Devnet" | "Mainnet";
+  network: NetworkType;
 }
 
 export interface SignTransactionResponse {
