@@ -23,7 +23,7 @@ export const Home = () => {
           </div>
         ) : (
           <>
-            {isConnected && isTruthy(wallet) && (
+            {isConnected && isTruthy(wallet) && isTruthy(wallet.address) && (
               <>
                 <WalletOverview
                   walletData={wallet}
@@ -56,9 +56,7 @@ export const Home = () => {
               </div>
             )}
 
-            {wallet && wallet.address && isConnected && (
-              <Transactions walletData={wallet} />
-            )}
+            {isConnected && <Transactions walletData={wallet} />}
           </>
         )}
       </div>

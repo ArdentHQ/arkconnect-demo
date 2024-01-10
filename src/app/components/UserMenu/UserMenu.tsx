@@ -8,7 +8,7 @@ import Logout from "@/public/icons/logout.svg";
 const AddressButton = ({
   address,
 }: {
-  address: string;
+  address?: string;
   onClick?: () => void;
 }) => (
   <NavbarButton>
@@ -22,7 +22,7 @@ export const UserMenu = ({
   address,
   onDisconnect,
 }: {
-  address: string;
+  address?: string;
   onDisconnect?: () => void;
 }) => {
   const { t } = useTranslation();

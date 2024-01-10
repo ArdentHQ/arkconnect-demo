@@ -12,7 +12,7 @@ export function Transaction({
 }: {
   transaction: TransactionData;
   network?: NetworkType;
-  address: string;
+  address?: string;
 }) {
   const network = Network({ network: networkType });
 

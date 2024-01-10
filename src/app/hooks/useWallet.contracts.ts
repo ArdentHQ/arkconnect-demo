@@ -1,8 +1,10 @@
 import { WalletData } from "@/app/lib/Wallet/contracts";
 
 import {
+  ArkConnectExtension,
   ChangeAddressRequest,
   ChangeAddressResponse,
+  Coin,
   NetworkType,
   SignTransactionRequest,
   SignTransactionResponse,
@@ -16,6 +18,17 @@ export interface SignedMessage {
   signature: string;
 }
 
+export interface UseQueryData {
+  extension: ArkConnectExtension | undefined;
+  isConnected: boolean;
+  wallet: {
+    network?: NetworkType;
+    address?: string;
+    balance: number | undefined;
+    coin?: Coin;
+  };
+}
+
 export interface UseWalletReturnType {
   isLoading: boolean;
   isConnecting: boolean;
@@ -23,7 +36,7 @@ export interface UseWalletReturnType {
   isInstalled?: boolean;
   isConnected: boolean;
   error?: string;
-  wallet?: WalletData;
+  wallet: WalletData;
   connect: () => Promise<void>;
   disconnect: () => void;
   isTransacting: boolean;

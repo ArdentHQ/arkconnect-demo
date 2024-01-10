@@ -1,10 +1,12 @@
-/* eslint-disable sonarjs/cognitive-complexity */
-/* eslint-disable max-lines-per-function */
-// TODO: Cleanup
-import { type QueryKey, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
+import { QueryKey, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useState } from "react";
 import { useTranslation } from "next-i18next";
-import { SignedMessage, UseWalletReturnType } from "./useWallet.contracts";
+import {
+  SignedMessage,
+  UseQueryData,
+  UseWalletReturnType,
+} from "./useWallet.contracts";
+import { useWalletExtension } from "./useWalletExtension";
 import { isTruthy } from "@/app/utils/isTruthy";
 import {
   ChangeAddressRequest,
@@ -15,10 +17,6 @@ import {
   SignVoteRequest,
   SignVoteResponse,
 } from "@/app/lib/Network";
-import { Wallet } from "@/app/lib/Wallet";
-import { WalletData, PartialWalletData } from "@/app/lib/Wallet/contracts";
-
-const isClient = () => typeof window !== "undefined";
 
 class NoArkExtensionException extends Error {
   constructor() {
@@ -31,134 +29,40 @@ export const useWallet = (): UseWalletReturnType => {
   const [isErrored, setIsErrored] = useState(false);
   const [isTransacting, setIsTransacting] = useState(false);
   const [isVoting, setIsVoting] = useState(false);
-  const [isInstalled, setIsInstalled] = useState<boolean>();
   const [error, setError] = useState<string>();
   const { t } = useTranslation();
 
-  const checkArkConnect = async () => {
-    const result = await new Promise<boolean>((resolve) => {
-      let attempts = 0;
-
-      function check() {
-        if (window.arkconnect) {
-          resolve(true);
-        } else {
-          attempts++;
-          if (attempts <= 4) {
-            setTimeout(check, 500);
-          } else {
-            resolve(false);
-          }
-        }
-      }
-
-      check();
-    });
-
-    setIsInstalled(result);
-  };
-
-  useEffect(() => {
-    checkArkConnect();
-  }, []);
-
-  const queryKey: QueryKey = ["wallet-connection"];
   const queryClient = useQueryClient();
 
-  const { data, isLoading } = useQuery({
+  const { isLoaded, isLoading, extension } = useWalletExtension();
+
+  const queryKey: QueryKey = ["wallet-connection"];
+  const { data, error: _error } = useQuery({
+    enabled: isLoaded,
+    refetchOnMount: true,
     queryKey,
-    initialData: () => ({
-      wallet: undefined,
-      isConnected: false,
-      extension: isClient() ? window.arkconnect : undefined,
-    }),
-    queryFn: async (): Promise<{
-      wallet?: PartialWalletData;
-      isConnected?: boolean;
-      extension?: typeof window.arkconnect;
-    }> => {
-      if (!isClient() || !isInstalled) {
-        return {};
-      }
-      const existingState =
-        queryClient.getQueryData<{
-          wallet?: WalletData;
-        }>(queryKey) || {};
+    staleTime: 0,
+    initialData: extension.toJSON(),
+    queryFn: async () => {
+      const data = queryClient.getQueryData(queryKey) as UseQueryData;
 
-      let isConnected: boolean | undefined = false;
+      extension.setNetwork(data.wallet.network || NetworkType.DEVNET);
+      await extension.sync();
 
-      try {
-        isConnected = await window.arkconnect?.isConnected();
-      } catch {
-        //
-      }
-
-      if (!isTruthy(isConnected)) {
-        return {
-          wallet: {
-            ...existingState.wallet,
-            address: undefined,
-            coin: undefined,
-          },
-          isConnected: false,
-          extension: isClient() ? window.arkconnect : undefined,
-        };
-      }
-
-      const address = await window.arkconnect?.getAddress();
-      const network = await window.arkconnect?.getNetwork();
-      const balance = await window.arkconnect?.getBalance();
-
-      if (
-        !isTruthy(address) ||
-        (network !== NetworkType.DEVNET && network !== NetworkType.MAINNET)
-      ) {
-        return {
-          isConnected: false,
-          extension: window.arkconnect,
-          wallet: {
-            ...existingState.wallet,
-            address: undefined,
-            coin: undefined,
-          },
-        };
-      }
-
-      return {
-        isConnected,
-        extension: window.arkconnect,
-        wallet: Wallet({
-          address,
-          network,
-          balance,
-        }).toJSON(),
-      };
+      return extension.toJSON();
     },
-    refetchInterval: 500,
   });
 
   return {
-    isLoading: isLoading || isInstalled === undefined,
+    isLoading,
     isConnecting,
-    isErrored,
-    isInstalled: isInstalled,
-    isConnected:
-      !isLoading && isTruthy(data) ? isTruthy(data.isConnected) : false,
+    isInstalled: data.isInstalled,
+    isConnected: data.isConnected,
+    wallet: data.wallet,
     error,
-    wallet:
-      isTruthy(data) &&
-      isTruthy(data.wallet?.address) &&
-      isTruthy(data.wallet.network)
-        ? (data.wallet as WalletData)
-        : undefined,
+    isErrored,
     connect: async () => {
-      if (!isTruthy(data) || !isTruthy(data.extension)) {
-        // @TODO TBD
-        return;
-      }
-
-      if (data.isConnected) {
-        // @TODO TBD
+      if (extension.isConnected()) {
         return;
       }
 
@@ -167,10 +71,8 @@ export const useWallet = (): UseWalletReturnType => {
       setIsConnecting(true);
 
       try {
-        // @ts-ignore
-        await data.extension.connect({
-          network: data.wallet?.network ?? NetworkType.DEVNET,
-        });
+        await extension.connect(data.wallet.network);
+        setIsConnecting(false);
       } catch (_error) {
         setIsErrored(true);
         setIsConnecting(false);
@@ -184,12 +86,7 @@ export const useWallet = (): UseWalletReturnType => {
       setIsErrored(false);
       setIsConnecting(false);
 
-      if (!isTruthy(data) || !isTruthy(data.extension)) {
-        // TODO Handle
-        return;
-      }
-
-      if (!data.isConnected) {
+      if (!data.isConnected || !isTruthy(data) || !isTruthy(data.extension)) {
         return;
       }
 
@@ -263,29 +160,19 @@ export const useWallet = (): UseWalletReturnType => {
         throw new NoArkExtensionException();
       }
 
-      if (!data.wallet?.network) {
-        throw new Error("Wallet is not connected");
-      }
-
       const response = (await window.arkconnect.signMessage({
         message: t("SIGN_TEXT"),
         network: data.wallet.network,
       })) as SignedMessage | undefined;
-
       console.log({ response });
     },
     setNetwork: (network: NetworkType) => {
-      queryClient.setQueryData(queryKey, (data) => {
-        if (!data) {
-          return data;
-        }
-
+      queryClient.setQueryData(queryKey, (data: UseQueryData) => {
         return {
           ...data,
           wallet: {
+            ...data.wallet,
             network,
-            balance: 0,
-            wallet: undefined,
           },
         };
       });

@@ -53,9 +53,9 @@ export function Wallet(wallet: WalletData) {
     /**
      * Returns the wallet's address.
      *
-     * @returns {string}
+     * @returns {string | undefined}
      */
-    address(): string {
+    address(): string | undefined {
       return wallet.address;
     },
     /**
