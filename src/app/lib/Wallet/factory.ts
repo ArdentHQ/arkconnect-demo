@@ -86,10 +86,8 @@ export function Wallet(wallet: WalletData) {
     balance(): ReturnType<typeof Currency> {
       return Currency({
         coin: this.coin(),
-        value: exchange
-          .price()
-          .times(wallet.balance ?? 0)
-          .toNumber(),
+        rate: this.network().isMainnet() ? exchange.price().toString() : 0,
+        value: wallet.balance?.toString() ?? 0,
       });
     },
     /**

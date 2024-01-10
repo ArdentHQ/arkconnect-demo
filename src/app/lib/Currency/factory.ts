@@ -4,9 +4,11 @@ import { Coin } from "@/app/lib/Network";
 export function Currency({
   value,
   coin,
+  rate,
 }: {
   value: string | number;
   coin?: Coin;
+  rate?: string | number;
 }) {
   const number = BigNumber(value);
 
@@ -22,7 +24,7 @@ export function Currency({
         currency: "USD",
         maximumFractionDigits: 2,
         minimumFractionDigits: 0,
-      }).format(number.toNumber());
+      }).format(number.times(rate ?? 0).toNumber());
     },
     /**
      *  Returns number in ARK format.
