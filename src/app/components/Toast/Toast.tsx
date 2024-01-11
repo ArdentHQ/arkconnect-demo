@@ -1,7 +1,7 @@
 import { Transition } from "@headlessui/react";
 import cn from "classnames";
 import { forwardRef, Fragment } from "react";
-import { ToastCloseButton, ToastLoadingIcon } from "./Toast.blocks";
+import { ToastCloseButton } from "./Toast.blocks";
 import {
   type ToastProperties,
   type ToastTemplateProperties,
