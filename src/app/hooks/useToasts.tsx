@@ -25,7 +25,7 @@ const showToast = (toastMessage?: ToastMessage): void => {
       duration:
         isTruthy(toastMessage.isStatic) || isTruthy(toastMessage.isLoading)
           ? Number.POSITIVE_INFINITY
-          : Number.POSITIVE_INFINITY,
+          : 5000,
     },
   );
 };
