@@ -72,7 +72,7 @@ export const VoteModal = ({
 
     signVote(voteInput).then((response) => {
       onClose();
-      showToast({ message: "Changes registered!", type: "success" });
+      showToast({ message: t("CHANGES_REGISTERED"), type: "success" });
     });
   };
 

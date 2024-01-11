@@ -1,4 +1,4 @@
-import React, { ReactElement } from "react";
+import { ReactElement } from "react";
 import { Navbar } from "@/app/components/Navbar";
 import { Toaster } from "react-hot-toast";
 

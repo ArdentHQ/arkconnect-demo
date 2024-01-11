@@ -2,6 +2,7 @@ import cn from "classnames";
 import { type MouseEventHandler } from "react";
 import { useTranslation } from "react-i18next";
 import { type ToastType } from "./Toast.contracts";
+import X from "@/public/icons/x.svg";
 
 export const ToastCloseButton = ({
   type,
@@ -30,9 +31,11 @@ export const ToastCloseButton = ({
           type === "info",
       })}
     >
-      <span className="sr-only">{t("common.close_toast")}</span>
+      <span className="sr-only">{t("CLOSE_TOAST")}</span>
 
-      <span>close</span>
+      <span>
+        <X className="w-5 h-5" />
+      </span>
     </button>
   );
 };
