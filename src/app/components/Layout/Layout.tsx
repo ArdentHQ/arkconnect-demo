@@ -1,6 +1,6 @@
 import { ReactElement } from "react";
-import { Navbar } from "@/app/components/Navbar";
 import { Toaster } from "react-hot-toast";
+import { Navbar } from "@/app/components/Navbar";
 
 export const Layout = ({ children }: { children: ReactElement }) => {
   return (
