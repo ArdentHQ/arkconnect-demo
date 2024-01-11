@@ -8,7 +8,9 @@ import { Coin } from "@/app/lib/Network";
  */
 export function Coingecko() {
   const coin = Coin.ARK;
+
   const state = new Map<"price", number>();
+  state.set("price", 0);
 
   return {
     /**
@@ -50,7 +52,7 @@ export function Coingecko() {
 
       if (price === undefined) {
         throw new Error(
-          `[Coingecko#rate] Faild to find price for ${coin}. Did you run Coingecko#syncRates first?`,
+          `[Coingecko#price] Failed to find price for ${coin}. Did you run Coingecko#syncRates first?`,
         );
       }
 
