@@ -16,7 +16,6 @@ export const Toast = forwardRef<HTMLDivElement, ToastProperties>(
       message,
       isStatic = false,
       isExpanded = false,
-      iconDimensions,
       onClose,
       ...properties
     }: ToastProperties,
