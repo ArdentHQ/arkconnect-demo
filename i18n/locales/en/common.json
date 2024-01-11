@@ -41,6 +41,7 @@
   "SELECT": "Select",
   "CLOSE_TOAST": "Close toast",
   "CHANGES_REGISTERED": "Changes registered!",
+  "SOMETHING_WENT_WRONG": "Something went wrong!",
   "VOTING_FOR": "Voting For {{delegateName}} ",
   "OPEN_IN_EXPLORER": "Open in Explorer",
   "SIGN_TEXT": "I sign this to prove ownership of my wallet",

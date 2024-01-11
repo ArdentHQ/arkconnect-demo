@@ -70,10 +70,15 @@ export const VoteModal = ({
       };
     }
 
-    signVote(voteInput).then((response) => {
-      onClose();
-      showToast({ message: t("CHANGES_REGISTERED"), type: "success" });
-    });
+    signVote(voteInput)
+      .then(() => {
+        // onClose();
+        showToast({ message: t("CHANGES_REGISTERED"), type: "success" });
+        return 0;
+      })
+      .catch(() => {
+        showToast({ message: t("SOMETHING_WENT_WRONG"), type: "error" });
+      });
   };
 
   return (
