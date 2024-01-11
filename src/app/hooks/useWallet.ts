@@ -73,6 +73,7 @@ export const useWallet = (): UseWalletReturnType => {
       try {
         await extension.connect(data.wallet.network);
         setIsConnecting(false);
+        window.location.reload();
       } catch (_error) {
         setIsErrored(true);
         setIsConnecting(false);
