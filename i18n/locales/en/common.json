@@ -40,7 +40,7 @@
   "UNSELECTED": "Unselected",
   "SELECT": "Select",
   "CLOSE_TOAST": "Close toast",
-  "CHANGES_REGISTERED": "Changes registered",
+  "CHANGES_REGISTERED": "Changes registered!",
   "VOTING_FOR": "Voting For {{delegateName}} ",
   "OPEN_IN_EXPLORER": "Open in Explorer",
   "SIGN_TEXT": "I sign this to prove ownership of my wallet",
