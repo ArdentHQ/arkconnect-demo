@@ -83,7 +83,7 @@ export const useWallet = (): UseWalletReturnType => {
         return;
       }
     },
-    disconnect: () => {
+    disconnect: async () => {
       setIsErrored(false);
       setIsConnecting(false);
 
@@ -91,7 +91,8 @@ export const useWallet = (): UseWalletReturnType => {
         return;
       }
 
-      data.extension.disconnect();
+      await data.extension.disconnect();
+      window.location.reload();
     },
     isTransacting,
     signTransaction: async (
