@@ -25,6 +25,18 @@
   --theme-color-error-800: 145 32 24; /* #912018 */
   --theme-color-error-900: 91 16 5; /* #7a271a */
 
+  /* Green */
+  --theme-color-success-50: 240 253 244; /* #f0fdf4 */
+  --theme-color-success-100: 226 240 230; /* #e2f0e6 */
+  --theme-color-success-200: 176 219 188; /* #b0dbbc */
+  --theme-color-success-300: 140 198 157; /* #8cc69d */
+  --theme-color-success-400: 96 192 124; /* #60c07c */
+  --theme-color-success-500: 66 178 99; /* #42b263 */
+  --theme-color-success-600: 40 149 72; /* #289548 */
+  --theme-color-success-700: 48 120 69; /* #307845 */
+  --theme-color-success-800: 43 79 53; /* #2b4f35 */
+  --theme-color-success-900: 38 55 43; /* #26372b */
+
   /* warning */
   --theme-color-warning-25: 255 252 245; /* #fffcf5 */
   --theme-color-warning-50: 255 250 235; /* #fffaeb */

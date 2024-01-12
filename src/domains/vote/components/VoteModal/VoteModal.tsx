@@ -11,6 +11,7 @@ import { InputGroup } from "@/app/components/InputGroup";
 import { NetworkType } from "@/app/lib/Network";
 
 import { useWallet } from "@/app/hooks";
+import { useToasts } from "@/app/hooks/useToasts";
 
 export interface VotingState {
   votes: string[];
@@ -38,6 +39,8 @@ export const VoteModal = ({
   const { t } = useTranslation("common");
 
   const { wallet, signVote } = useWallet();
+
+  const { showToast } = useToasts();
 
   const [voteState, setVoteState] = useState<VotingState>({
     votes: [],
@@ -67,7 +70,12 @@ export const VoteModal = ({
       };
     }
 
-    signVote(voteInput);
+    // eslint-disable-next-line promise/catch-or-return
+    signVote(voteInput).then(() => {
+      onClose();
+      showToast({ message: t("CHANGES_REGISTERED"), type: "success" });
+      return 0;
+    });
   };
 
   return (
