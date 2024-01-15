@@ -76,17 +76,6 @@ export interface SignVoteResponse {
   convertedFee: number;
 }
 
-export interface ChangeAddressRequest {
-  network?: NetworkType;
-}
-
-export interface ChangeAddressResponse {
-  status: "success";
-  domain: string;
-  sessionId?: string;
-  network?: NetworkType;
-}
-
 export interface ArkConnectExtension {
   connect: (request?: ConnectRequest) => Promise<void>;
   disconnect: () => Promise<void>;
@@ -104,7 +93,4 @@ export interface ArkConnectExtension {
     signature: string;
   }>;
   loaded: boolean;
-  changeAddress: (
-    request: ChangeAddressRequest,
-  ) => Promise<ChangeAddressResponse>;
 }
