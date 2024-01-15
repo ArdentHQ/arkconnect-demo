@@ -95,27 +95,9 @@ export const Navbar = () => {
     disconnect,
     isConnecting,
     isLoading,
-    changeAddress,
     setNetwork,
     isInstalled,
   } = useWallet();
-
-  const handleChangeAddress = async (network: NetworkType) => {
-    try {
-      await changeAddress({ network });
-    } catch (_error) {
-      const error = _error as Error;
-
-      if (error.message.includes("no available wallet")) {
-        setChangeAddressError(
-          t("NETWORK_SWITCH_ERROR_DESCRIPTION", { network }),
-        );
-        return;
-      }
-
-      setChangeAddressError(String(error));
-    }
-  };
 
   if (isLoading) {
     return (
@@ -133,7 +115,9 @@ export const Navbar = () => {
           onDisconnect={() => {
             void disconnect();
           }}
-          onNetworkChange={handleChangeAddress}
+          onNetworkChange={() => {
+            console.error("Network change not implemented");
+          }}
         />
         <NetworkToggleMobile />
 
