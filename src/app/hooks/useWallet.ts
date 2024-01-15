@@ -42,6 +42,7 @@ export const useWallet = (): UseWalletReturnType => {
     refetchOnMount: true,
     queryKey,
     staleTime: 0,
+    refetchInterval: 1000,
     initialData: extension.toJSON(),
     queryFn: async () => {
       const data = queryClient.getQueryData(queryKey) as UseQueryData;
@@ -82,7 +83,7 @@ export const useWallet = (): UseWalletReturnType => {
         return;
       }
     },
-    disconnect: () => {
+    disconnect: async () => {
       setIsErrored(false);
       setIsConnecting(false);
 
@@ -90,7 +91,7 @@ export const useWallet = (): UseWalletReturnType => {
         return;
       }
 
-      data.extension.disconnect();
+      await data.extension.disconnect();
     },
     isTransacting,
     signTransaction: async (
