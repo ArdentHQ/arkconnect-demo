@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Layout } from "@/app/components/Layout";
 import { WalletOverview } from "@/app/components/WalletOverview";
 import { useWallet } from "@/app/hooks";
@@ -13,6 +13,14 @@ export const Home = () => {
   const { wallet, isConnected, isLoading, signMessage } = useWallet();
   const [showSendModal, setShowSendModal] = useState(false);
   const [showVoteModal, setShowVoteModal] = useState(false);
+
+  useEffect(() => {
+    console.log({ arkconnect: window.arkconnect });
+
+    window.arkconnect?.on("addressChanged", (data) => {
+      console.log("address changed", data);
+    });
+  }, []);
 
   return (
     <Layout>
