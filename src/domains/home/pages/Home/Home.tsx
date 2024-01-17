@@ -20,6 +20,10 @@ export const Home = () => {
     window.arkconnect?.on("addressChanged", (data) => {
       console.log("address changed", data);
     });
+
+    window.arkconnect?.on("disconnected", (data) => {
+      console.log("address changed", data);
+    });
   }, []);
 
   return (
