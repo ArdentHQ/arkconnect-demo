@@ -76,10 +76,16 @@ export interface SignVoteResponse {
   convertedFee: number;
 }
 
+type ExtensionSupportedEvent = "addressChanged";
+
 export interface ArkConnectExtension {
   connect: (request?: ConnectRequest) => Promise<void>;
   disconnect: () => Promise<void>;
   isConnected: () => Promise<boolean>;
+  on: (
+    eventName: ExtensionSupportedEvent,
+    callback: (data: any) => void,
+  ) => void;
   getAddress: () => Promise<string>;
   getNetwork: () => Promise<string>;
   getBalance: () => Promise<string>;
