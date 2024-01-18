@@ -22,7 +22,7 @@ export const Home = () => {
     });
 
     window.arkconnect?.on("disconnected", (data) => {
-      console.log("address changed", data);
+      console.log("disconnected", data);
     });
   }, []);
 
