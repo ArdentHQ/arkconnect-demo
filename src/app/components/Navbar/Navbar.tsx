@@ -8,8 +8,6 @@ import { useWallet } from "@/app/hooks";
 import { UserMenu } from "@/app/components/UserMenu";
 import { Spinner } from "@/app/components/Spinner";
 import { isTruthy } from "@/app/utils/isTruthy";
-import { NetworkToggle } from "@/app/components/NetworkToggle";
-import { NetworkToggleMobile } from "@/app/components/NetworkToggleMobile";
 import { NetworkType } from "@/app/lib/Network";
 import { WalletData } from "@/app/lib/Wallet/contracts";
 import { Dialog } from "@/app/components/Dialog";
@@ -17,8 +15,15 @@ import { Dialog } from "@/app/components/Dialog";
 interface NavbarProperties {
   wallet: WalletData;
   onDisconnect: () => void;
-  onNetworkChange?: (network: NetworkType) => void;
 }
+
+const NetworkBox = ({ network }: { network: NetworkType }) => {
+  return (
+    <span className="px-4 hidden sm:block py-[0.625rem] max-w-[8.75rem] rounded-2xl text-black font-medium text-sm bg-theme-primary-100 active:bg-theme-primary-100 hover:bg-theme-primary-100 !border-none focus:outline-none min-h-[2.5rem]">
+      {network}
+    </span>
+  );
+};
 
 const NavbarWrapper = ({ children }: { children: ReactElement }) => {
   return (
@@ -36,18 +41,10 @@ const NavbarWrapper = ({ children }: { children: ReactElement }) => {
   );
 };
 
-const NavbarConnected = ({
-  wallet,
-  onDisconnect,
-  onNetworkChange,
-}: NavbarProperties) => (
+const NavbarConnected = ({ wallet, onDisconnect }: NavbarProperties) => (
   <NavbarWrapper>
     <li className="flex items-center justify-end space-x-2">
-      <NetworkToggle
-        onChange={onNetworkChange}
-        currentNetwork={wallet.network}
-      />
-
+      <NetworkBox network={wallet.network} />
       <UserMenu
         address={wallet.address}
         onDisconnect={() => {
@@ -70,12 +67,10 @@ const NavbarConnected = ({
 
 const NavbarConnecting = () => {
   const { t } = useTranslation();
-  const { wallet, setNetwork } = useWallet();
 
   return (
     <NavbarWrapper>
       <li className="flex items-center justify-end space-x-2">
-        <NetworkToggle currentNetwork={wallet.network} onChange={setNetwork} />
         <Button disabled className="space-x-2 flex items-center">
           <Spinner className="w-4" />
           <span>{t("CONNECTING")}</span>
@@ -95,7 +90,6 @@ export const Navbar = () => {
     disconnect,
     isConnecting,
     isLoading,
-    setNetwork,
     isInstalled,
   } = useWallet();
 
@@ -115,11 +109,7 @@ export const Navbar = () => {
           onDisconnect={() => {
             void disconnect();
           }}
-          onNetworkChange={() => {
-            console.error("Network change not implemented");
-          }}
         />
-        <NetworkToggleMobile />
 
         <Dialog
           showActionButtons={false}
@@ -143,13 +133,6 @@ export const Navbar = () => {
     <>
       <NavbarWrapper>
         <li className="flex items-center justify-end space-x-2">
-          {isInstalled && (
-            <NetworkToggle
-              currentNetwork={wallet.network}
-              onChange={setNetwork}
-            />
-          )}
-
           <Button
             disabled={!isInstalled}
             className="hidden sm:block"
