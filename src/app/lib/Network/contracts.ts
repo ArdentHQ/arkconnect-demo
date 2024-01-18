@@ -76,7 +76,18 @@ export interface SignVoteResponse {
   convertedFee: number;
 }
 
-type ExtensionSupportedEvent = "addressChanged";
+export interface AddressChangedEventData {
+  data: {
+    wallet: {
+      address: string;
+      coin: string;
+      network: NetworkType;
+    };
+    type: ExtensionSupportedEvent;
+  };
+}
+
+type ExtensionSupportedEvent = "addressChanged" | "beforeunload";
 
 export interface ArkConnectExtension {
   connect: (request?: ConnectRequest) => Promise<void>;
@@ -84,7 +95,7 @@ export interface ArkConnectExtension {
   isConnected: () => Promise<boolean>;
   on: (
     eventName: ExtensionSupportedEvent,
-    callback: (data: any) => void,
+    callback: (data: AddressChangedEventData) => void,
   ) => void;
   getAddress: () => Promise<string>;
   getNetwork: () => Promise<string>;
