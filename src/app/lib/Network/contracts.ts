@@ -87,7 +87,7 @@ export interface AddressChangedEventData {
   };
 }
 
-type ExtensionSupportedEvent = "addressChanged" | "beforeunload";
+type ExtensionSupportedEvent = "addressChanged";
 
 export interface ArkConnectExtension {
   connect: (request?: ConnectRequest) => Promise<void>;
