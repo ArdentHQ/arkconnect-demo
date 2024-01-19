@@ -1,3 +1,4 @@
+/* eslint-disable max-lines-per-function */
 import { QueryKey, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { useTranslation } from "next-i18next";
@@ -40,7 +41,6 @@ export const useWallet = (): UseWalletReturnType => {
     refetchOnMount: true,
     queryKey,
     staleTime: 0,
-    refetchInterval: 1000,
     initialData: extension.toJSON(),
     queryFn: async () => {
       const data = queryClient.getQueryData(queryKey) as UseQueryData;
