@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { QueryKey, useQueryClient } from "@tanstack/react-query";
 import { Layout } from "@/app/components/Layout";
 import { WalletOverview } from "@/app/components/WalletOverview";
 import { useWallet } from "@/app/hooks";
@@ -10,9 +11,26 @@ import { Transactions } from "@/domains/transactions/components/Transactions";
 import { Spinner } from "@/app/components/Spinner";
 
 export const Home = () => {
-  const { wallet, isConnected, isLoading, signMessage } = useWallet();
+  const { wallet, isConnected, isLoading, signMessage, setNetwork } =
+    useWallet();
   const [showSendModal, setShowSendModal] = useState(false);
   const [showVoteModal, setShowVoteModal] = useState(false);
+
+  const queryClient = useQueryClient();
+
+  useEffect(() => {
+    const queryKey: QueryKey = ["wallet-connection"];
+
+    window.arkconnect?.on("addressChanged", (data) => {
+      setNetwork(data.data.wallet.network);
+      queryClient.refetchQueries({ queryKey });
+    });
+
+    window.arkconnect?.on("disconnected", () => {
+      console.log("Just disconnected");
+      queryClient.refetchQueries({ queryKey });
+    });
+  }, [setNetwork, queryClient]);
 
   return (
     <Layout>
