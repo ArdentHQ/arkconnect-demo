@@ -2,8 +2,6 @@ import { WalletData } from "@/app/lib/Wallet/contracts";
 
 import {
   ArkConnectExtension,
-  ChangeAddressRequest,
-  ChangeAddressResponse,
   Coin,
   NetworkType,
   SignTransactionRequest,
@@ -46,8 +44,5 @@ export interface UseWalletReturnType {
   isVoting: boolean;
   signVote: (transaction: SignVoteRequest) => Promise<SignVoteResponse>;
   signMessage: () => Promise<void>;
-  changeAddress: (
-    request: ChangeAddressRequest,
-  ) => Promise<ChangeAddressResponse>;
   setNetwork: (network: NetworkType) => void;
 }

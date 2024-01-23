@@ -76,21 +76,27 @@ export interface SignVoteResponse {
   convertedFee: number;
 }
 
-export interface ChangeAddressRequest {
-  network?: NetworkType;
+export interface AddressChangedEventData {
+  data: {
+    wallet: {
+      address: string;
+      coin: string;
+      network: NetworkType;
+    };
+    type: ExtensionSupportedEvent;
+  };
 }
 
-export interface ChangeAddressResponse {
-  status: "success";
-  domain: string;
-  sessionId?: string;
-  network?: NetworkType;
-}
+type ExtensionSupportedEvent = "addressChanged" | "disconnected" | "connected";
 
 export interface ArkConnectExtension {
   connect: (request?: ConnectRequest) => Promise<void>;
   disconnect: () => Promise<void>;
   isConnected: () => Promise<boolean>;
+  on: (
+    eventName: ExtensionSupportedEvent,
+    callback: (data: AddressChangedEventData) => void,
+  ) => void;
   getAddress: () => Promise<string>;
   getNetwork: () => Promise<string>;
   getBalance: () => Promise<string>;
@@ -104,7 +110,4 @@ export interface ArkConnectExtension {
     signature: string;
   }>;
   loaded: boolean;
-  changeAddress: (
-    request: ChangeAddressRequest,
-  ) => Promise<ChangeAddressResponse>;
 }

@@ -1,3 +1,4 @@
+/* eslint-disable max-lines-per-function */
 import { QueryKey, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { useTranslation } from "next-i18next";
@@ -9,8 +10,6 @@ import {
 import { useWalletExtension } from "./useWalletExtension";
 import { isTruthy } from "@/app/utils/isTruthy";
 import {
-  ChangeAddressRequest,
-  ChangeAddressResponse,
   NetworkType,
   SignTransactionRequest,
   SignTransactionResponse,
@@ -146,15 +145,6 @@ export const useWallet = (): UseWalletReturnType => {
 
         throw error;
       }
-    },
-    changeAddress: async (
-      request: ChangeAddressRequest,
-    ): Promise<ChangeAddressResponse> => {
-      if (!window.arkconnect) {
-        throw new NoArkExtensionException();
-      }
-
-      return await window.arkconnect.changeAddress(request);
     },
     signMessage: async (): Promise<void> => {
       if (!window.arkconnect) {
