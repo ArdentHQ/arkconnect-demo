@@ -27,14 +27,12 @@ export const Home = () => {
     });
 
     window.arkconnect?.on("disconnected", () => {
-      console.log("Just disconnected");
       queryClient.refetchQueries({ queryKey });
     });
 
-    // TODO: Enable once the support for connected event is added to the extension
-    /* window.arkconnect?.on("connected", (data) => {
+    window.arkconnect?.on("connected", () => {
       queryClient.refetchQueries({ queryKey });
-    }); */
+    });
   }, [setNetwork, queryClient]);
 
   return (
