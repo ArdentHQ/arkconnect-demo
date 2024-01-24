@@ -33,7 +33,7 @@ export const Home = () => {
     window.arkconnect?.on("connected", () => {
       queryClient.refetchQueries({ queryKey });
     });
-  }, [setNetwork, queryClient]);
+  }, [queryClient]);
 
   return (
     <Layout>
