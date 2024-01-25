@@ -22,8 +22,8 @@ export const useWalletBalance = ({
       await wallet.syncRates();
 
       return {
-        ark: wallet.balance().toARK(),
-        usd: wallet.balance().toUSD(),
+        ark: wallet.balance().toARK() ?? 0,
+        usd: wallet.balance().toUSD() ?? 0,
       };
     },
   });
