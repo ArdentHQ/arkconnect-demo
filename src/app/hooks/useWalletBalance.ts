@@ -8,10 +8,8 @@ export const useWalletBalance = ({
   walletData: WalletData;
 }) => {
   const { data, isSuccess, isLoading } = useQuery({
-    cacheTime: 5 * 60 * 1000, // 5 minutes
     staleTime: 5 * 60 * 1000, // 5 minutes
-    initialDataUpdatedAt: 1_608_412_420_052,
-    initialData: {
+    placeholderData: {
       ark: "0",
       usd: "0",
     },
@@ -22,8 +20,8 @@ export const useWalletBalance = ({
       await wallet.syncRates();
 
       return {
-        ark: wallet.balance().toARK() ?? 0,
-        usd: wallet.balance().toUSD() ?? 0,
+        ark: wallet.balance().toARK(),
+        usd: wallet.balance().toUSD(),
       };
     },
   });
