@@ -17,7 +17,14 @@ export const useWalletBalance = ({
     queryFn: async () => {
       const wallet = Wallet(walletData);
 
-      await wallet.syncRates();
+      try {
+        await wallet.syncRates();
+      } catch (error) {
+        console.error(
+          "Error occurred when fetching rates from Coingecko. Details:",
+          error,
+        );
+      }
 
       return {
         ark: wallet.balance().toARK(),
