@@ -8,12 +8,13 @@ export const useWalletBalance = ({
   walletData: WalletData;
 }) => {
   const { data, isSuccess, isLoading } = useQuery({
-    staleTime: 0,
+    staleTime: 5 * 60 * 1000, // 5 mins
+    initialDataUpdatedAt: 1608412420052,
     initialData: {
       ark: "0",
       usd: "0",
     },
-    queryKey: ["rate", walletData.address],
+    queryKey: ["rate", walletData.coin],
     queryFn: async () => {
       const wallet = Wallet(walletData);
 

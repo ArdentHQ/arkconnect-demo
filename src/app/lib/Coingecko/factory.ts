@@ -9,6 +9,7 @@ import { Coin } from "@/app/lib/Network";
 export function Coingecko() {
   const coin = Coin.ARK;
 
+  console.log('created')
   const state = new Map<"price", number>();
   state.set("price", 0);
 
@@ -19,6 +20,7 @@ export function Coingecko() {
      * @returns {Promise<void>}
      */
     async sync(): Promise<void> {
+      console.log('fetched')
       // TODO: remove hardcoded variables.
       const currency = "usd";
       const endpoint = `https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency}&ids=${coin.toLowerCase()}`;
