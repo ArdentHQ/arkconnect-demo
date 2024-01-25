@@ -13,7 +13,7 @@ export const WalletBalance = ({
   onSign,
 }: WalletOverviewProperties) => {
   const { t } = useTranslation();
-  const { balance} = useWalletBalance({ walletData });
+  const { balance } = useWalletBalance({ walletData });
 
   return (
     <div
