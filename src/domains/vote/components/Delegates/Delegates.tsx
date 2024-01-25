@@ -25,7 +25,7 @@ export const Delegates = ({
     return delegates.filter(
       (delegate) => delegate.username.search(searchRegex) > -1,
     );
-  }, [searchTerm, delegates.length]);
+  }, [searchTerm, delegates]);
 
   return (
     <DelegatesList
