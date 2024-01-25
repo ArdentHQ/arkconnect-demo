@@ -28,7 +28,7 @@ export const WalletBalance = ({
           <span className="text-theme-primary-500">
             {walletData.network !== NetworkType.MAINNET || !isSuccess
               ? t("NA")
-              : balance.usd}
+              : balance?.usd}
           </span>
         </p>
 
