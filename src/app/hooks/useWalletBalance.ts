@@ -8,8 +8,8 @@ export const useWalletBalance = ({
   walletData: WalletData;
 }) => {
   const { data, isSuccess, isLoading } = useQuery({
-    staleTime: 5 * 60 * 1000, // 5 mins
-    initialDataUpdatedAt: 1608412420052,
+    cacheTime: 5 * 60 * 1000, // 5 mins
+    initialDataUpdatedAt: 1_608_412_420_052,
     initialData: {
       ark: "0",
       usd: "0",
