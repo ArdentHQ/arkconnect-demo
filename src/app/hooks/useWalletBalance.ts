@@ -8,16 +8,23 @@ export const useWalletBalance = ({
   walletData: WalletData;
 }) => {
   const { data, isSuccess, isLoading } = useQuery({
-    staleTime: 0,
-    initialData: {
+    staleTime: 5 * 60 * 1000, // 5 minutes
+    placeholderData: {
       ark: "0",
       usd: "0",
     },
-    queryKey: ["rate", walletData.address],
+    queryKey: ["rate", walletData.coin],
     queryFn: async () => {
       const wallet = Wallet(walletData);
 
-      await wallet.syncRates();
+      try {
+        await wallet.syncRates();
+      } catch (error) {
+        console.error(
+          "Error occurred when fetching rates from Coingecko. Details:",
+          error,
+        );
+      }
 
       return {
         ark: wallet.balance().toARK(),

@@ -10,7 +10,8 @@
     "dev:http": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "prettier": "npx prettier '(pages|src)/**/*.{js,ts,jsx,tsx}' --write "
   },
   "dependencies": {
     "@headlessui/react": "^1.7.17",

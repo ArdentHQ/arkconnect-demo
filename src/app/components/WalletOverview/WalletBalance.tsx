@@ -13,7 +13,7 @@ export const WalletBalance = ({
   onSign,
 }: WalletOverviewProperties) => {
   const { t } = useTranslation();
-  const { balance, isSuccess } = useWalletBalance({ walletData });
+  const { balance } = useWalletBalance({ walletData });
 
   return (
     <div
@@ -26,14 +26,14 @@ export const WalletBalance = ({
         <p className="font-medium text-sm leading-[0.938rem] mb-1">
           <span className="text-theme-primary-100">{t("BALANCE")}</span>{" "}
           <span className="text-theme-primary-500">
-            {walletData.network !== NetworkType.MAINNET || !isSuccess
+            {walletData.network !== NetworkType.MAINNET || !balance
               ? t("NA")
               : balance.usd}
           </span>
         </p>
 
         <div className="leading-[1.25rem] w-full font-bold font-sans text-xl">
-          {balance.ark}
+          {balance?.ark}
         </div>
       </div>
 
