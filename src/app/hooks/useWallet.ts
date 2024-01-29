@@ -41,6 +41,7 @@ export const useWallet = (): UseWalletReturnType => {
     refetchOnMount: true,
     queryKey,
     staleTime: 0,
+    refetchInterval: 3 * 60 * 1000, // 3 minutes
     initialData: extension.toJSON(),
     queryFn: async () => {
       const data = queryClient.getQueryData(queryKey) as UseQueryData;
