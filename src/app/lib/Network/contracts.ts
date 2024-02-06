@@ -20,7 +20,7 @@ export enum NetworkTransactionsList {
 
 export enum NetworkTransactionLink {
   DEVNET = "https://test.arkscan.io/transactions/",
-  MAINNET = "https://live.arkscan.io/api/transactions/",
+  MAINNET = "https://live.arkscan.io/transactions/",
 }
 
 export enum WalletsLink {
