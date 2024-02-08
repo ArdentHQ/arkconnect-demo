@@ -1,15 +1,6 @@
-import {
-  LabelVariant,
-  SizeVariant,
-} from "@/app/components/Label/Label.contracts";
+import { LabelVariant } from "@/app/components/Label/Label.contracts";
 
-export const useLabelClasses = ({
-  variant,
-  size,
-}: {
-  variant: LabelVariant;
-  size?: SizeVariant;
-}) => {
+export const useLabelClasses = ({ variant }: { variant: LabelVariant }) => {
   const base = "rounded-[0.25rem] text-center min-w-[2.5rem] inline-block";
   const padding = "px-1 py-[0.188rem]";
   const colors = {
@@ -21,12 +12,9 @@ export const useLabelClasses = ({
     danger: "bg-theme-error-50 text-theme-error-600 font-medium leading-[125%]",
   };
 
-  const textSize = size === "sm" ? "text-sm" : "";
-
   return {
     base,
     padding,
     colors: colors[variant],
-    textSize,
   };
 };
