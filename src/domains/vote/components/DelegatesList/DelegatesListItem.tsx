@@ -64,8 +64,12 @@ export const DelegatesListItem = ({
         },
       )}
     >
-      <div className="text-md text-black font-normal leading-[125%]">
-        {isResigned ? "N/A" : delegate.rank}
+      <div className="text-md text-black font-normal leading-[125%] w-8">
+        {isResigned ? (
+          <span className="text-theme-gray-400 font-medium text-sm">-</span>
+        ) : (
+          delegate.rank
+        )}
       </div>
 
       <div className="w-2/4">
