@@ -21,7 +21,10 @@ export const useWalletVotes = ({ walletData }: { walletData: WalletData }) => {
         // can safely ignore as the votes will be an empty array.
       }
 
-      await wallet.delegates().sync();
+      await Promise.all([
+        wallet.syncVotingDelegate(),
+        wallet.delegates().sync(),
+      ]);
 
       return {
         delegates: wallet.delegates().items(),

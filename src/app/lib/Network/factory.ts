@@ -83,6 +83,19 @@ export function Network({ network }: { network?: NetworkType | string }) {
 
       return url.toString();
     },
+
+    votingDelegateLink(delegatePublicKey: string) {
+      if (!this.isSupported()) {
+        throw new Error(`Network ${network} is not supported`);
+      }
+
+      const url = new URL(
+        this.isTestnet() ? DelegatesLink.DEVNET : DelegatesLink.MAINNET,
+      );
+
+      return [url.toString(), delegatePublicKey].join("/");
+    },
+
     walletVotesLink(address: string) {
       if (!this.isSupported()) {
         throw new Error(`Network ${network} is not supported`);
