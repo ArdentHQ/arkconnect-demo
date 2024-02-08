@@ -31,7 +31,7 @@ export const Delegates = ({
     <DelegatesList
       delegates={filteredDelegates.slice(0, 51)}
       onChange={onChange}
-      currentVote={votingDelegate?.address}
+      votingDelegate={votingDelegate}
     />
   );
 };

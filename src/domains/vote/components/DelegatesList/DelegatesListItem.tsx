@@ -9,6 +9,7 @@ export const DelegatesListItem = ({
   isSelected = false,
   isUnselected = false,
   isCurrent = false,
+  isResigned = false,
   delegate,
   onSelect,
   onDeselect,
@@ -19,6 +20,7 @@ export const DelegatesListItem = ({
   isSelected?: boolean;
   isUnselected?: boolean;
   isCurrent?: boolean;
+  isResigned?: boolean;
   onSelect?: (address: string) => void;
   onDeselect?: (address: string) => void;
   onUnselect?: (address: string) => void;
@@ -63,7 +65,7 @@ export const DelegatesListItem = ({
       )}
     >
       <div className="text-md text-black font-normal leading-[125%]">
-        {delegate.rank}
+        {isResigned ? "N/A" : delegate.rank}
       </div>
 
       <div className="w-2/4">
