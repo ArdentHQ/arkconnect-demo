@@ -148,13 +148,6 @@ export function Wallet(wallet: WalletData) {
      */
     votingDelegate(): DelegateItem | undefined {
       return votingDelegate;
-      // if (votes.currentVotes().length === 0) {
-      //   return undefined;
-      // }
-
-      // const delegates
-      //   .items()
-      //   .find((delegate) => votes.currentVotes().includes(delegate.publicKey));
     },
   };
 }
