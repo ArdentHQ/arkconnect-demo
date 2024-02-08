@@ -2,7 +2,7 @@ import { DelegateItem } from "@/app/lib/Delegates";
 
 export interface DelegatesListProperties {
   delegates: DelegateItem[];
-  votingDelegate?: DelegateItem;
+  currentVote?: string;
   onChange?: ({
     votes,
     unvotes,

@@ -1,34 +1,19 @@
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { DelegatesListItem } from "./DelegatesListItem";
 import { DelegatesListProperties } from "./contracts";
 import { isTruthy } from "@/app/utils/isTruthy";
-import { DelegateItem } from "@/app/lib/Delegates";
 
 export const DelegatesList = ({
   delegates,
   onChange,
-  votingDelegate,
+  currentVote,
 }: DelegatesListProperties) => {
   const [selected, setSelected] = useState<string>();
   const [unselected, setUnselected] = useState<string>();
 
-  const currentVote = votingDelegate?.address;
-
-  const list = useMemo<DelegateItem[]>(() => {
-    const votingDelegateIsPresent = delegates.some(
-      (delegate) => delegate.address === votingDelegate?.address,
-    );
-
-    if (votingDelegateIsPresent || !votingDelegate) {
-      return delegates;
-    }
-
-    return [votingDelegate, ...delegates];
-  }, [delegates, votingDelegate]);
-
   return (
     <div className="space-y-2">
-      {list.map((delegate) => {
+      {delegates.map((delegate) => {
         return (
           <DelegatesListItem
             key={delegate.address}
