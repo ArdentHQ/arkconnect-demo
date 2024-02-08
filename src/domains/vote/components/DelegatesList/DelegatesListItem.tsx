@@ -4,6 +4,7 @@ import { DelegateItem } from "@/app/lib/Delegates";
 import ExternalLink from "@/public/icons/external-link.svg";
 import { Link } from "@/app/components/Link";
 import { TruncateMiddle } from "@/app/components/Truncate";
+import { Label } from "@/app/components/Label";
 
 export const DelegatesListItem = ({
   isSelected = false,
@@ -72,10 +73,16 @@ export const DelegatesListItem = ({
         )}
       </div>
 
-      <div className="w-2/4">
-        <div className="text-md text-black font-normal leading-[125%] overflow-hidden">
+      <div className="w-2/4 flex items-center overflow-auto">
+        <div className="text-md text-black font-normal leading-[125%] overflow-hidden flex-1">
           <TruncateMiddle>{delegate.username}</TruncateMiddle>
         </div>
+
+        {isResigned && (
+          <Label variant="danger" className="flex-shrink-0 text-xs ml-auto">
+            {t("RESIGNED")}
+          </Label>
+        )}
       </div>
 
       <div className="text-center">
