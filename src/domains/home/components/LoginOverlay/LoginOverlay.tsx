@@ -2,10 +2,10 @@ import { useEffect, useState } from "react";
 import { ConnectOverlay } from "./ConnectOverlay";
 import { InstallOverlay } from "./InstallOverlay";
 import { Spinner } from "@/app/components/Spinner";
-import { useWallet } from "@/app/hooks";
+import {useArkConnectContext} from "@/app/contexts/useArkConnectContext";
 
 export const LoginOverlay = () => {
-  const { isInstalled, isLoading } = useWallet();
+  const { isInstalled, isLoading } = useArkConnectContext();
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {

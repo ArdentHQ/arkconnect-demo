@@ -4,13 +4,13 @@ import { ReactElement, useState } from "react";
 import Logo from "@/public/images/logo.svg";
 import Logout from "@/public/icons/logout.svg";
 import { Button, NavbarButton } from "@/app/components/Button";
-import { useWallet } from "@/app/hooks";
 import { UserMenu } from "@/app/components/UserMenu";
 import { Spinner } from "@/app/components/Spinner";
 import { isTruthy } from "@/app/utils/isTruthy";
 import { NetworkType } from "@/app/lib/Network";
 import { WalletData } from "@/app/lib/Wallet/contracts";
 import { Dialog } from "@/app/components/Dialog";
+import {useArkConnectContext} from "@/app/contexts/useArkConnectContext";
 
 interface NavbarProperties {
   wallet: WalletData;
@@ -83,6 +83,7 @@ const NavbarConnecting = () => {
 export const Navbar = () => {
   const { t } = useTranslation();
   const [changeAddressError, setChangeAddressError] = useState<string>();
+
   const {
     isConnected,
     connect,
@@ -91,7 +92,7 @@ export const Navbar = () => {
     isConnecting,
     isLoading,
     isInstalled,
-  } = useWallet();
+  } = useArkConnectContext();
 
   if (isLoading) {
     return (

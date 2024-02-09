@@ -1,1 +1,1 @@
-export * from "./useWallet";
+export * from "./useArkConnect";

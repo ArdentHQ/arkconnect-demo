@@ -2,38 +2,19 @@ import { useEffect, useState } from "react";
 import { QueryKey, useQueryClient } from "@tanstack/react-query";
 import { Layout } from "@/app/components/Layout";
 import { WalletOverview } from "@/app/components/WalletOverview";
-import { useWallet } from "@/app/hooks";
 import { isTruthy } from "@/app/utils/isTruthy";
 import { LoginOverlay } from "@/domains/home/components/LoginOverlay";
 import { SendModal } from "@/domains/transactions/components/SendModal";
 import { VoteModal } from "@/domains/vote/components/VoteModal";
 import { Transactions } from "@/domains/transactions/components/Transactions";
 import { Spinner } from "@/app/components/Spinner";
+import {useArkConnectContext} from "@/app/contexts/useArkConnectContext";
 
 export const Home = () => {
   const { wallet, isConnected, isLoading, signMessage, setNetwork } =
-    useWallet();
+    useArkConnectContext();
   const [showSendModal, setShowSendModal] = useState(false);
   const [showVoteModal, setShowVoteModal] = useState(false);
-
-  const queryClient = useQueryClient();
-
-  useEffect(() => {
-    const queryKey: QueryKey = ["wallet-connection"];
-
-    window.arkconnect?.on("addressChanged", (data) => {
-      setNetwork(data.data.wallet.network);
-      queryClient.refetchQueries({ queryKey });
-    });
-
-    window.arkconnect?.on("disconnected", () => {
-      queryClient.refetchQueries({ queryKey });
-    });
-
-    window.arkconnect?.on("connected", () => {
-      queryClient.refetchQueries({ queryKey });
-    });
-  }, [queryClient]);
 
   return (
     <Layout>

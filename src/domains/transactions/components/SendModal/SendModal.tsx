@@ -6,8 +6,8 @@ import { useEffect } from "react";
 import { Dialog } from "@/app/components/Dialog";
 import { InputGroup } from "@/app/components/InputGroup";
 import { Input } from "@/app/components/Input";
-import { useWallet } from "@/app/hooks";
 import { NetworkType, SignTransactionResponse } from "@/app/lib/Network";
+import {useArkConnectContext} from "@/app/contexts/useArkConnectContext";
 
 type FormSubmitHandler = SubmitHandler<{
   amount: string;
@@ -23,7 +23,7 @@ export const SendModal = ({
 }) => {
   const { t } = useTranslation("transactions");
 
-  const { wallet, signTransaction } = useWallet();
+  const { wallet, signTransaction } = useArkConnectContext();
 
   const {
     register,

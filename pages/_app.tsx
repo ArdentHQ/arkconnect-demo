@@ -9,6 +9,7 @@ import {
   QueryClientProvider,
 } from "@/app/contexts/ReactQuery";
 import { AppFont } from "@/app/components/AppFont";
+import ArkConnectContextProvider from "@/app/contexts/useArkConnectContext";
 
 const App = ({ Component, pageProps }: AppProps) => {
   const [queryClient] = useState(() => ReactQueryClient());
@@ -17,7 +18,9 @@ const App = ({ Component, pageProps }: AppProps) => {
     <>
       <AppFont />
       <QueryClientProvider client={queryClient}>
-        <Component {...pageProps} />
+        <ArkConnectContextProvider>
+          <Component {...pageProps} />
+        </ArkConnectContextProvider>
       </QueryClientProvider>
     </>
   );

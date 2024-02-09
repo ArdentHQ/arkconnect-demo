@@ -5,7 +5,7 @@ import { useTranslation } from "next-i18next";
 import {
   SignedMessage,
   UseQueryData,
-  UseWalletReturnType,
+  ArkConnectState,
 } from "./useWallet.contracts";
 import { useWalletExtension } from "./useWalletExtension";
 import { isTruthy } from "@/app/utils/isTruthy";
@@ -23,7 +23,7 @@ class NoArkExtensionException extends Error {
   }
 }
 
-export const useWallet = (): UseWalletReturnType => {
+export const useArkConnect = (): ArkConnectState => {
   const [isConnecting, setIsConnecting] = useState(false);
   const [isErrored, setIsErrored] = useState(false);
   const [isTransacting, setIsTransacting] = useState(false);
