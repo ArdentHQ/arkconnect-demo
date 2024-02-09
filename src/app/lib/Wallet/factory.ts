@@ -4,7 +4,11 @@ import { Currency } from "@/app/lib/Currency";
 import { Coingecko } from "@/app/lib/Coingecko";
 import { Transactions } from "@/app/lib/Transactions/factory";
 import { WalletVotes } from "@/app/lib/Votes";
-import { DelegateItem, Delegates } from "@/app/lib/Delegates";
+import {
+  DelegateItem,
+  Delegates,
+  SingleDelegateResponse,
+} from "@/app/lib/Delegates";
 
 export function Wallet(wallet: WalletData) {
   const exchange = Coingecko();
@@ -17,6 +21,8 @@ export function Wallet(wallet: WalletData) {
     address: wallet.address,
   });
 
+  let votingDelegate: DelegateItem | undefined;
+
   return {
     /**
      * Fetches the wallet's price data.
@@ -25,6 +31,42 @@ export function Wallet(wallet: WalletData) {
      */
     async syncRates(): Promise<void> {
       await exchange.sync();
+    },
+
+    /**
+     * Fetches the top 51 delegates.
+     *
+     * @returns {Promise<void>}
+     */
+    async syncVotingDelegate(): Promise<void> {
+      const currentVotes = votes.currentVotes();
+
+      const delegatePublicKey =
+        currentVotes.length > 0 ? currentVotes[0] : undefined;
+
+      if (delegatePublicKey === undefined) {
+        return;
+      }
+
+      const response = await fetch(
+        network.votingDelegateLink(delegatePublicKey),
+      );
+
+      if (!response.ok) {
+        throw new Error(
+          `[Wallet#syncVotingDelegate] Failed to retrieve votingDelegate. Error status: ${response.status}`,
+        );
+      }
+
+      const { data } = (await response.json()) as SingleDelegateResponse;
+
+      votingDelegate = {
+        publicKey: data.publicKey,
+        username: data.username,
+        address: data.address,
+        explorerUrl: network.addressExplorerLink(data.address),
+        isResigned: data.isResigned,
+      };
     },
     /**
      * Returns wallet's votes interface.
@@ -98,19 +140,14 @@ export function Wallet(wallet: WalletData) {
     toJSON(): WalletData {
       return wallet;
     },
+
     /**
      * Returns the current voting delegate.
      *
      * @returns {DelegateData | undefined}
      */
     votingDelegate(): DelegateItem | undefined {
-      if (votes.currentVotes().length === 0) {
-        return undefined;
-      }
-
-      return delegates
-        .items()
-        .find((delegate) => votes.currentVotes().includes(delegate.publicKey));
+      return votingDelegate;
     },
   };
 }

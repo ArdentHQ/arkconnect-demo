@@ -21,6 +21,7 @@ export const DelegatesList = ({
             isSelected={selected === delegate.address}
             isCurrent={currentVote === delegate.address}
             isUnselected={unselected === delegate.address}
+            isResigned={delegate.isResigned}
             onSelect={(address) => {
               setSelected(address);
 

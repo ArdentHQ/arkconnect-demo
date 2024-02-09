@@ -9,6 +9,7 @@ export const useLabelClasses = ({ variant }: { variant: LabelVariant }) => {
       "bg-theme-warning-100 text-theme-warning-600 font-medium leading-[125%]",
     success:
       "bg-theme-primary-100 text-theme-primary-700 font-medium leading-[125%]",
+    danger: "bg-theme-error-50 text-theme-error-600 font-medium leading-[125%]",
   };
 
   return {

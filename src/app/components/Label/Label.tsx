@@ -7,7 +7,9 @@ export const Label = ({
   variant = "info",
   ...properties
 }: LabelProperties) => {
-  const { base, padding, colors } = useLabelClasses({ variant });
+  const { base, padding, colors } = useLabelClasses({
+    variant,
+  });
 
   return (
     <div
