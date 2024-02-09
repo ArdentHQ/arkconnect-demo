@@ -1,5 +1,4 @@
-import { useEffect, useState } from "react";
-import { QueryKey, useQueryClient } from "@tanstack/react-query";
+import { useState } from "react";
 import { Layout } from "@/app/components/Layout";
 import { WalletOverview } from "@/app/components/WalletOverview";
 import { isTruthy } from "@/app/utils/isTruthy";
@@ -11,7 +10,7 @@ import { Spinner } from "@/app/components/Spinner";
 import { useArkConnectContext } from "@/app/contexts/useArkConnectContext";
 
 export const Home = () => {
-  const { wallet, isConnected, isLoading, signMessage, setNetwork } =
+  const { wallet, isConnected, isLoading, signMessage } =
     useArkConnectContext();
   const [showSendModal, setShowSendModal] = useState(false);
   const [showVoteModal, setShowVoteModal] = useState(false);

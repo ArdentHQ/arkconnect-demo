@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect } from "react";
+import { QueryKey, useQueryClient } from "@tanstack/react-query";
 import { useArkConnect } from "@/app/hooks";
 import { ArkConnectState } from "@/app/hooks/useWallet.contracts";
-import { QueryKey, useQueryClient } from "@tanstack/react-query";
 
 const ArkConnectContext = createContext<ArkConnectState | undefined>(undefined);
 
