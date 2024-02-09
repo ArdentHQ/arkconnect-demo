@@ -27,7 +27,7 @@ export interface UseQueryData {
   };
 }
 
-export interface UseWalletReturnType {
+export interface ArkConnectState {
   isLoading: boolean;
   isConnecting: boolean;
   isErrored: boolean;

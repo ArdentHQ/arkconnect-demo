@@ -10,8 +10,8 @@ import { Input } from "@/app/components/Input";
 import { InputGroup } from "@/app/components/InputGroup";
 import { NetworkType } from "@/app/lib/Network";
 
-import { useWallet } from "@/app/hooks";
 import { useToasts } from "@/app/hooks/useToasts";
+import { useArkConnectContext } from "@/app/contexts/useArkConnectContext";
 
 export interface VotingState {
   votes: string[];
@@ -38,7 +38,7 @@ export const VoteModal = ({
 }) => {
   const { t } = useTranslation("common");
 
-  const { wallet, signVote } = useWallet();
+  const { wallet, signVote } = useArkConnectContext();
 
   const { showToast } = useToasts();
 

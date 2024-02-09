@@ -3,13 +3,13 @@ import Connect from "@/public/images/connect.svg";
 import { H3 } from "@/app/components/Typography";
 import { Button } from "@/app/components/Button";
 import { Alert } from "@/app/components/Alert/Alert";
-import { useWallet } from "@/app/hooks";
 import { Spinner } from "@/app/components/Spinner";
 import { isTruthy } from "@/app/utils/isTruthy";
+import { useArkConnectContext } from "@/app/contexts/useArkConnectContext";
 
 export const ConnectOverlay = () => {
   const { t } = useTranslation();
-  const { isConnecting, isErrored, connect, error } = useWallet();
+  const { isConnecting, isErrored, connect, error } = useArkConnectContext();
 
   return (
     <div className="bg-white mx-auto w-full sm:w-96 overflow-hidden shadow-sm rounded-xl">
