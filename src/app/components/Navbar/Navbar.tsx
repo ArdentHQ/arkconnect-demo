@@ -10,7 +10,7 @@ import { isTruthy } from "@/app/utils/isTruthy";
 import { NetworkType } from "@/app/lib/Network";
 import { WalletData } from "@/app/lib/Wallet/contracts";
 import { Dialog } from "@/app/components/Dialog";
-import {useArkConnectContext} from "@/app/contexts/useArkConnectContext";
+import { useArkConnectContext } from "@/app/contexts/useArkConnectContext";
 
 interface NavbarProperties {
   wallet: WalletData;

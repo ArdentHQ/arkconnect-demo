@@ -11,7 +11,7 @@ import { InputGroup } from "@/app/components/InputGroup";
 import { NetworkType } from "@/app/lib/Network";
 
 import { useToasts } from "@/app/hooks/useToasts";
-import {useArkConnectContext} from "@/app/contexts/useArkConnectContext";
+import { useArkConnectContext } from "@/app/contexts/useArkConnectContext";
 
 export interface VotingState {
   votes: string[];

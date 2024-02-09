@@ -8,7 +8,7 @@ import { SendModal } from "@/domains/transactions/components/SendModal";
 import { VoteModal } from "@/domains/vote/components/VoteModal";
 import { Transactions } from "@/domains/transactions/components/Transactions";
 import { Spinner } from "@/app/components/Spinner";
-import {useArkConnectContext} from "@/app/contexts/useArkConnectContext";
+import { useArkConnectContext } from "@/app/contexts/useArkConnectContext";
 
 export const Home = () => {
   const { wallet, isConnected, isLoading, signMessage, setNetwork } =

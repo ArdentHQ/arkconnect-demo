@@ -5,7 +5,7 @@ import { Button } from "@/app/components/Button";
 import { Alert } from "@/app/components/Alert/Alert";
 import { Spinner } from "@/app/components/Spinner";
 import { isTruthy } from "@/app/utils/isTruthy";
-import {useArkConnectContext} from "@/app/contexts/useArkConnectContext";
+import { useArkConnectContext } from "@/app/contexts/useArkConnectContext";
 
 export const ConnectOverlay = () => {
   const { t } = useTranslation();
