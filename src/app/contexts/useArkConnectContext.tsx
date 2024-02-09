@@ -35,8 +35,7 @@ const ArkConnectContextProvider = ({ children }: Properties): JSX.Element => {
 
   return (
     <ArkConnectContext.Provider value={arkConnectState}>
-      {" "}
-      {children}{" "}
+      {children}
     </ArkConnectContext.Provider>
   );
 };
