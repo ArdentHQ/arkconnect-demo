@@ -70,7 +70,12 @@ export interface SignVoteRequest {
 export interface SignVoteResponse {
   id: string;
   sender: string;
-  delegate: string;
+  voteDelegateAddress?: string;
+  voteDelegateName?: string;
+  votePublicKey?: string;
+  unvoteDelegateAddress?: string;
+  unvoteDelegateName?: string;
+  unvotePublicKey?: string;
   exchangeCurrency: string;
   fee: number;
   convertedFee: number;
