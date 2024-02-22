@@ -73,6 +73,7 @@ export const WalletBalance = ({
         <Button
           variant="secondary"
           onClick={onSend}
+          disabled={isTransacting}
           className="w-full sm:w-auto"
         >
           <ButtonBody
