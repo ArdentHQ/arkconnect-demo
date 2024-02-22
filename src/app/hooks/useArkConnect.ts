@@ -160,7 +160,6 @@ export const useArkConnect = (): ArkConnectState => {
           message: t("SIGN_TEXT"),
           network: data.wallet.network,
         })) as SignedMessage | undefined;
-      } catch (_error) {
       } finally {
         setIsSigning(false);
       }
