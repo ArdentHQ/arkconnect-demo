@@ -49,10 +49,10 @@ export const WalletBalance = ({
           className="w-full sm:w-auto"
         >
           {isSigning ? (
-            <div className="flex gap-2">
+            <span className="flex gap-2">
               <Spinner className="w-4" />
               {t("SIGNING")}
-            </div>
+            </span>
           ) : (
             t("SIGN")
           )}
