@@ -4,7 +4,6 @@ import { WalletOverviewProperties } from "./WalletOverview.contracts";
 import { Button } from "@/app/components/Button";
 import { useWalletBalance } from "@/app/hooks/useWalletBalance";
 import { NetworkType } from "@/app/lib/Network";
-import { Spinner } from "@/app/components/Spinner";
 import { useArkConnectContext } from "@/app/contexts/useArkConnectContext";
 
 export const WalletBalance = ({
