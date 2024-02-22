@@ -5,17 +5,19 @@ import { Button } from "@/app/components/Button";
 import { useWalletBalance } from "@/app/hooks/useWalletBalance";
 import { NetworkType } from "@/app/lib/Network";
 import { Spinner } from "@/app/components/Spinner";
+import { useArkConnectContext } from "@/app/contexts/useArkConnectContext";
 
 export const WalletBalance = ({
   className,
   walletData,
-  isSigning,
   onSend,
   onVote,
   onSign,
 }: WalletOverviewProperties) => {
   const { t } = useTranslation();
   const { balance } = useWalletBalance({ walletData });
+
+  const { isSigning, isVoting, isTransacting } = useArkConnectContext();
 
   return (
     <div
@@ -48,22 +50,24 @@ export const WalletBalance = ({
           onClick={onSign}
           className="w-full sm:w-auto"
         >
-          {isSigning ? (
-            <span className="flex gap-2">
-              <Spinner className="w-4" />
-              {t("SIGNING")}
-            </span>
-          ) : (
-            t("SIGN")
-          )}
+          <ButtonBody
+            isLoading={isSigning}
+            loadingText={t("SIGNING")}
+            text={t("SIGN")}
+          />
         </Button>
 
         <Button
           variant="secondary-bordered"
           onClick={onVote}
+          disabled={isVoting}
           className="w-full sm:w-auto"
         >
-          {t("VOTE")}
+          <ButtonBody
+            isLoading={isVoting}
+            loadingText={t("VOTING")}
+            text={t("VOTE")}
+          />
         </Button>
 
         <Button
@@ -71,9 +75,33 @@ export const WalletBalance = ({
           onClick={onSend}
           className="w-full sm:w-auto"
         >
-          {t("Send")}
+          <ButtonBody
+            isLoading={isTransacting}
+            loadingText={t("SENDING")}
+            text={t("SEND")}
+          />
         </Button>
       </div>
     </div>
+  );
+};
+
+const ButtonBody = ({
+  isLoading,
+  loadingText,
+  text,
+}: {
+  isLoading: boolean;
+  loadingText: string;
+  text: string;
+}) => {
+  if (!isLoading) {
+    return text;
+  }
+  return (
+    <span className="flex gap-2">
+      <Spinner className="w-4" />
+      {loadingText}
+    </span>
   );
 };
