@@ -10,7 +10,7 @@ import { Spinner } from "@/app/components/Spinner";
 import { useArkConnectContext } from "@/app/contexts/useArkConnectContext";
 
 export const Home = () => {
-  const { wallet, isConnected, isLoading, signMessage } =
+  const { wallet, isConnected, isLoading, signMessage, isSigning } =
     useArkConnectContext();
   const [showSendModal, setShowSendModal] = useState(false);
   const [showVoteModal, setShowVoteModal] = useState(false);
@@ -28,6 +28,7 @@ export const Home = () => {
               <>
                 <WalletOverview
                   walletData={wallet}
+                  isSigning={isSigning}
                   onSign={() => {
                     signMessage();
                   }}

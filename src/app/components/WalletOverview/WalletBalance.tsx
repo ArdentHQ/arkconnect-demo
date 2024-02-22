@@ -4,10 +4,12 @@ import { WalletOverviewProperties } from "./WalletOverview.contracts";
 import { Button } from "@/app/components/Button";
 import { useWalletBalance } from "@/app/hooks/useWalletBalance";
 import { NetworkType } from "@/app/lib/Network";
+import { Spinner } from "@/app/components/Spinner";
 
 export const WalletBalance = ({
   className,
   walletData,
+  isSigning,
   onSend,
   onVote,
   onSign,
@@ -42,10 +44,18 @@ export const WalletBalance = ({
       <div className="flex items-center justify-stretch sm:justify-between space-x-3 w-full sm:w-auto">
         <Button
           variant="secondary-bordered"
+          disabled={isSigning}
           onClick={onSign}
           className="w-full sm:w-auto"
         >
-          {t("SIGN")}
+          {isSigning ? (
+            <div className="flex gap-2">
+              <Spinner className="w-4" />
+              {t("SIGNING")}
+            </div>
+          ) : (
+            t("SIGN")
+          )}
         </Button>
 
         <Button

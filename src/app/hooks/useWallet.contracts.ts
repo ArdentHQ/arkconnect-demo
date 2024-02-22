@@ -31,6 +31,7 @@ export interface ArkConnectState {
   isLoading: boolean;
   isConnecting: boolean;
   isErrored: boolean;
+  isSigning: boolean;
   isInstalled?: boolean;
   isConnected: boolean;
   error?: string;

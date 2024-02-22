@@ -28,6 +28,7 @@ export const useArkConnect = (): ArkConnectState => {
   const [isErrored, setIsErrored] = useState(false);
   const [isTransacting, setIsTransacting] = useState(false);
   const [isVoting, setIsVoting] = useState(false);
+  const [isSigning, setIsSigning] = useState(false);
   const [error, setError] = useState<string>();
   const { t } = useTranslation();
 
@@ -56,6 +57,7 @@ export const useArkConnect = (): ArkConnectState => {
   return {
     isLoading,
     isConnecting,
+    isSigning,
     isInstalled: data.isInstalled,
     isConnected: data.isConnected,
     wallet: data.wallet,
@@ -151,11 +153,17 @@ export const useArkConnect = (): ArkConnectState => {
         throw new NoArkExtensionException();
       }
 
-      const response = (await window.arkconnect.signMessage({
-        message: t("SIGN_TEXT"),
-        network: data.wallet.network,
-      })) as SignedMessage | undefined;
-      console.log({ response });
+      setIsSigning(true);
+
+      try {
+        const _response = (await window.arkconnect.signMessage({
+          message: t("SIGN_TEXT"),
+          network: data.wallet.network,
+        })) as SignedMessage | undefined;
+      } catch (e) {
+      } finally {
+        setIsSigning(false);
+      }
     },
     setNetwork: (network: NetworkType) => {
       queryClient.setQueryData(queryKey, (data: UseQueryData) => {

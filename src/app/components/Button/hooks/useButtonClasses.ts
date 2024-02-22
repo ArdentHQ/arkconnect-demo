@@ -36,7 +36,7 @@ export const useButtonClasses = ({
     transparent: string;
   };
 
-  // Links doesn't have disabled property so we need to handle it differently
+  // Links doesn't have disabled property, so we need to handle it differently
   if (disabled) {
     disabledClass = {
       primary: "bg-theme-gray-100 border-theme-gray-100 text-theme-gray-400",
