@@ -50,11 +50,7 @@ export const WalletBalance = ({
           onClick={onSign}
           className="w-full sm:w-auto"
         >
-          <ButtonBody
-            isLoading={isSigning}
-            loadingText={t("SIGNING")}
-            text={t("SIGN")}
-          />
+          {t("SIGN")}
         </Button>
 
         <Button
@@ -63,11 +59,7 @@ export const WalletBalance = ({
           disabled={isVoting}
           className="w-full sm:w-auto"
         >
-          <ButtonBody
-            isLoading={isVoting}
-            loadingText={t("VOTING")}
-            text={t("VOTE")}
-          />
+          {t("VOTE")}
         </Button>
 
         <Button
@@ -76,33 +68,9 @@ export const WalletBalance = ({
           disabled={isTransacting}
           className="w-full sm:w-auto"
         >
-          <ButtonBody
-            isLoading={isTransacting}
-            loadingText={t("SENDING")}
-            text={t("SEND")}
-          />
+          {t("SEND")}
         </Button>
       </div>
     </div>
-  );
-};
-
-const ButtonBody = ({
-  isLoading,
-  loadingText,
-  text,
-}: {
-  isLoading: boolean;
-  loadingText: string;
-  text: string;
-}) => {
-  if (!isLoading) {
-    return text;
-  }
-  return (
-    <span className="flex gap-2">
-      <Spinner className="w-4" />
-      {loadingText}
-    </span>
   );
 };
