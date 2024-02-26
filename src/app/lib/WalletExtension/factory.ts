@@ -133,11 +133,10 @@ export function WalletExtension() {
     /**
      * Connects to a given network.
      *
-     * @param {NetworkType} network
      * @returns {Promise<void>}
      */
-    async connect(network: NetworkType): Promise<void> {
-      await this.extension()?.connect({ network });
+    async connect(): Promise<void> {
+      await this.extension()?.connect();
     },
     /**
      * Determine whether it's a browser environment.
@@ -147,23 +146,7 @@ export function WalletExtension() {
     isBrowser(): boolean {
       return typeof window !== "undefined";
     },
-    /**
-     * Modify the state of the network and its corresponding coin.
-     *
-     * @param {NetworkType} network
-     * @returns {void}
-     */
-    setNetwork(network?: NetworkType): void {
-      state.set("network", network);
 
-      if (state.get("network") === NetworkType.DEVNET) {
-        state.set("coin", Coin.DARK);
-      }
-
-      if (state.get("network") === NetworkType.MAINNET) {
-        state.set("coin", Coin.ARK);
-      }
-    },
     /**
      * Dumps state into json format.
      *

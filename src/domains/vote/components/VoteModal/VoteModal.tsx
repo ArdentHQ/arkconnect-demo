@@ -19,7 +19,6 @@ export interface VotingState {
 }
 
 export interface VoteInput {
-  network: NetworkType;
   vote?: VoteType;
   unvote?: VoteType;
 }
@@ -52,9 +51,7 @@ export const VoteModal = ({
   assert(wallet);
 
   const handleSubmit = () => {
-    const voteInput: VoteInput = {
-      network: wallet.network,
-    };
+    const voteInput: VoteInput = {};
 
     if (voteState.votes.length > 0) {
       voteInput.vote = {

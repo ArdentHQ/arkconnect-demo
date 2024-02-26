@@ -71,7 +71,7 @@ export const useArkConnect = (): ArkConnectState => {
       setIsConnecting(true);
 
       try {
-        await extension.connect(data.wallet.network);
+        await extension.connect();
         setIsConnecting(false);
       } catch (_error) {
         setIsErrored(true);
@@ -153,7 +153,6 @@ export const useArkConnect = (): ArkConnectState => {
 
       const response = (await window.arkconnect.signMessage({
         message: t("SIGN_TEXT"),
-        network: data.wallet.network,
       })) as SignedMessage | undefined;
       console.log({ response });
     },
