@@ -104,7 +104,7 @@ export interface ArkConnectExtension {
     transactionRequest: SignTransactionRequest,
   ) => Promise<SignTransactionResponse>;
   signVote: (voteRequest: SignVoteRequest) => Promise<SignVoteResponse>;
-  signMessage: (options: { message: string; }) => Promise<{
+  signMessage: (options: { message: string }) => Promise<{
     message: string;
     signatory: string;
     signature: string;
