@@ -130,6 +130,25 @@ export function WalletExtension() {
         //
       }
     },
+
+    /**
+     * Modify the state of the network and its corresponding coin.
+     *
+     * @param {NetworkType} network
+     * @returns {void}
+     */
+    setNetwork(network?: NetworkType): void {
+      state.set("network", network);
+
+      if (state.get("network") === NetworkType.DEVNET) {
+        state.set("coin", Coin.DARK);
+      }
+
+      if (state.get("network") === NetworkType.MAINNET) {
+        state.set("coin", Coin.ARK);
+      }
+    },
+
     /**
      * Connects to a given network.
      *
