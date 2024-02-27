@@ -27,7 +27,6 @@ export default function Document() {
         <meta name="theme-color" content="#ffffff" />
         <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
 
-        <title>Demo App | ARK Connect</title>
         <meta
           name="description"
           content="Discover the power of ARK Connect with our demo app. Seamlessly interact with your ARK addresses: effortlessly view balances, track latest transactions, initiate transfers, sign messages, and even vote for delegates."
