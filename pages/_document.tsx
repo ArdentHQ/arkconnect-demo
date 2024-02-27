@@ -1,4 +1,5 @@
 import { Html, Head, Main, NextScript } from "next/document";
+
 export default function Document() {
   return (
     <Html>
@@ -25,6 +26,31 @@ export default function Document() {
         <meta name="msapplication-TileColor" content="#058751" />
         <meta name="theme-color" content="#ffffff" />
         <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
+
+        <title>Demo App | ARK Connect</title>
+        <meta
+          name="description"
+          content="Discover the power of ARK Connect with our demo app. Seamlessly interact with your ARK addresses: effortlessly view balances, track latest transactions, initiate transfers, sign messages, and even vote for delegates."
+        />
+        <meta property="og:title" content="Demo App | ARK Connect" />
+        <meta
+          property="og:description"
+          content="Discover the power of ARK Connect with our demo app. Seamlessly interact with your ARK addresses: effortlessly view balances, track latest transactions, initiate transfers, sign messages, and even vote for delegates."
+        />
+        <meta
+          property="og:image"
+          content="https://demo.arkconnect.io/images/meta/home.png"
+        />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Demo App | ARK Connect" />
+        <meta
+          name="twitter:description"
+          content="Discover the power of ARK Connect with our demo app. Seamlessly interact with your ARK addresses: effortlessly view balances, track latest transactions, initiate transfers, sign messages, and even vote for delegates."
+        />
+        <meta
+          name="twitter:image"
+          content="https://demo.arkconnect.io/images/meta/home.png"
+        />
       </Head>
       <body className="bg-theme-gray-50">
         <Main />
