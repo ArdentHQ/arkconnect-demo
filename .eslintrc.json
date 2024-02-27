@@ -66,7 +66,11 @@
     "@typescript-eslint/no-unused-expressions": "warn",
     "@typescript-eslint/no-unused-vars": [
       "error",
-      { "varsIgnorePattern": "_" }
+      {
+        "argsIgnorePattern": "^_",
+        "varsIgnorePattern": "^_",
+        "caughtErrorsIgnorePattern": "^_"
+      }
     ],
     "@typescript-eslint/no-var-requires": "warn",
     "@typescript-eslint/prefer-regexp-exec": "warn",
