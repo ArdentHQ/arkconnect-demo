@@ -16,6 +16,9 @@ module.exports = {
       borderRadius: {
         "2.5xl": "1.25rem",
       },
+      lineHeight: {
+        4.5: "17.5px",
+      },
     },
 
     colors: {
