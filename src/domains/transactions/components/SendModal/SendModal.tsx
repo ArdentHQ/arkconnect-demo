@@ -2,12 +2,13 @@
 import assert from "assert";
 import { useTranslation } from "next-i18next";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useEffect } from "react";
+import React, {useEffect, useState} from "react";
 import { Dialog } from "@/app/components/Dialog";
 import { InputGroup } from "@/app/components/InputGroup";
 import { Input } from "@/app/components/Input";
 import { NetworkType, SignTransactionResponse } from "@/app/lib/Network";
 import { useArkConnectContext } from "@/app/contexts/useArkConnectContext";
+import cn from "classnames";
 
 type FormSubmitHandler = SubmitHandler<{
   amount: string;
@@ -146,7 +147,44 @@ export const SendModal = ({
             })}
           />
         </InputGroup>
+
+        <FeeInput/>
+
       </div>
     </Dialog>
   );
 };
+
+const FeeInput = () => {
+  const [advancedView, showAdvancedView] = useState(false);
+
+  return (
+    <div
+      className={cn("inline-flex flex-col space-y-1.5")}
+    >
+      <div className="flex justify-between">
+        <label htmlFor='' className="text-sm font-medium text-theme-gray-500">
+          Transaction Fee
+        </label>
+
+        <label className="inline-flex items-center cursor-pointer space-x-2">
+          <input type="checkbox" checked={advancedView} className="sr-only peer" onChange={() => showAdvancedView(!advancedView)}/>
+          <span className={cn("ms-3 text-sm font-medium", {
+            "text-theme-gray-900 dark:text-gray-300": !advancedView,
+            "text-theme-gray-500": advancedView
+          })}>Simple</span>
+          <div
+            className="relative w-9 h-5 bg-theme-primary-700 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-theme-primary-700 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-600"></div>
+          <span className={cn("ms-3 text-sm font-medium", {
+            "text-theme-gray-900 dark:text-gray-300": advancedView,
+            "text-theme-gray-500": !advancedView
+          })}>Advanced</span>
+        </label>
+      </div>
+
+
+      salam
+
+    </div>
+  )
+}
