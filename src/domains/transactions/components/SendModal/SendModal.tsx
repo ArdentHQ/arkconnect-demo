@@ -8,6 +8,7 @@ import { InputGroup } from "@/app/components/InputGroup";
 import { Input } from "@/app/components/Input";
 import { NetworkType, SignTransactionResponse } from "@/app/lib/Network";
 import { useArkConnectContext } from "@/app/contexts/useArkConnectContext";
+import ArrowUp from "@/public/icons/arrow-up.svg";
 import cn from "classnames";
 
 type FormSubmitHandler = SubmitHandler<{
@@ -160,8 +161,12 @@ const FeeInput = () => {
   return (
     <div className={cn("inline-flex flex-col space-y-1.5")}>
       <div className="flex justify-between">
-        <label htmlFor="" className="text-sm font-medium text-theme-gray-500">
-          Transaction Fee
+        <label
+          htmlFor="advancedFee"
+          className="text-sm font-medium text-theme-gray-500"
+        >
+          <span className="hidden sm:block">Transaction Fee</span>
+          <span className="block sm:hidden">Fee</span>
         </label>
 
         <label className="inline-flex items-center cursor-pointer space-x-2">
@@ -179,7 +184,7 @@ const FeeInput = () => {
           >
             Simple
           </span>
-          <div className="relative w-9 h-5 bg-theme-primary-700 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-theme-primary-700 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-600"></div>
+          <div className="relative w-9 h-5 bg-theme-primary-700 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-theme-gray-300 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-theme-primary-700 after:border after:rounded-full after:h-4 after:w-4 after:transition-all"></div>
           <span
             className={cn("ms-3 text-sm font-medium", {
               "text-theme-gray-900 dark:text-gray-300": advancedView,
@@ -200,7 +205,32 @@ const FeeInput = () => {
 };
 
 const AdvancedFeeView = () => {
-  return <p>advanced view</p>;
+  return (
+    <div className="relative flex w-full h-[52px]">
+      <Input
+        id="advancedFee"
+        placeholder="0.00"
+        step="0.01"
+        type="number"
+        min="0"
+        className="border-theme-gray-400 rounded-l-lg px-3 text-md leading-5 block w-full py-2.5 focus:ring-1 ring-theme-gray-400 rounded-e-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+      />
+      <div className="flex flex-col border border-l-0 overflow-hidden rounded-e-lg border-theme-gray-400 w-10 shrink-0">
+        <button
+          type="button"
+          className="flex items-center justify-center hover:bg-theme-gray-50 basis-1/2 w-full focus:ring-gray-100 focus:ring-2 focus:outline-none"
+        >
+          <ArrowUp className="w-2.5 h-2.5" />
+        </button>
+        <button
+          type="button"
+          className="flex items-center relative -top-px justify-center hover:bg-theme-gray-50 basis-1/2 text-center border-t border-theme-gray-400 w-full focus:ring-gray-100 focus:ring-2 focus:outline-none"
+        >
+          <ArrowUp className="w-2.5 h-2.5 rotate-180" />
+        </button>
+      </div>
+    </div>
+  );
 };
 
 const SimpleFeeView = () => {
@@ -240,11 +270,18 @@ const FeeOption = ({
         },
       )}
     >
-      <span className="flex flex-row sm:flex-col justify-between flex-1 items-center sm:pb-2">
-        <span className="font-medium pb-1 leading-5"> {title} </span>
+      <span className="flex flex-row sm:flex-col justify-between flex-1 items-center sm:pb-2 text-theme-gray-500">
+        <span
+          className={cn("font-medium sm:pb-1 leading-5", {
+            "text-black": isSelected,
+          })}
+        >
+          {" "}
+          {title}{" "}
+        </span>
         <span className="leading-4.5"> {cryptoAmount} ARK </span>
       </span>
-      <span className="text-theme-gray-500 font-medium leading-4.5">
+      <span className="font-medium leading-4.5 text-theme-gray-400">
         ${fiatAmount}{" "}
       </span>
     </button>

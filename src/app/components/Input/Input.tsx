@@ -5,6 +5,7 @@ import {
   useInputGroupContext,
   InputGroupVariant,
 } from "@/app/components/InputGroup";
+import { twMerge } from "tailwind-merge";
 
 export interface InputProperties extends React.HTMLProps<HTMLInputElement> {
   isFocused?: boolean;
@@ -57,15 +58,13 @@ export const Input = forwardRef<HTMLInputElement, InputProperties>(
       <input
         id={inputId}
         name={inputName}
-        className={classNames(
+        className={twMerge(
           inputEnabledColorClasses[inputVariant],
           "py-3",
           inputStyleClasses,
-          {
-            "px-4": iconPosition === undefined,
-            "pl-4 pr-10": iconPosition === "right",
-            "pr-4 pl-10": iconPosition === "left",
-          },
+          iconPosition === undefined ? "px-4" : "",
+          iconPosition === "right" ? "pl-4 pr-10" : "",
+          iconPosition === "left" ? "pr-4 pl-10" : "",
           className,
         )}
         ref={isFocused ? focusReference : reference}
