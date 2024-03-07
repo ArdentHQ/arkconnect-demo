@@ -33,13 +33,9 @@ export enum Coin {
   DARK = "DARK",
 }
 
-export interface ConnectRequest {
-  network: NetworkType;
-}
 export interface SignTransactionRequest {
   amount: number;
   receiverAddress: string;
-  network: NetworkType;
 }
 
 export interface SignTransactionResponse {
@@ -64,7 +60,6 @@ export interface SignVoteRequest {
     amount: number;
     delegateAddress: string;
   };
-  network: NetworkType;
 }
 
 export interface SignVoteResponse {
@@ -95,7 +90,7 @@ export interface AddressChangedEventData {
 type ExtensionSupportedEvent = "addressChanged" | "disconnected" | "connected";
 
 export interface ArkConnectExtension {
-  connect: (request?: ConnectRequest) => Promise<void>;
+  connect: () => Promise<void>;
   disconnect: () => Promise<void>;
   isConnected: () => Promise<boolean>;
   on: (
@@ -109,7 +104,7 @@ export interface ArkConnectExtension {
     transactionRequest: SignTransactionRequest,
   ) => Promise<SignTransactionResponse>;
   signVote: (voteRequest: SignVoteRequest) => Promise<SignVoteResponse>;
-  signMessage: (options: { message: string; network: NetworkType }) => Promise<{
+  signMessage: (options: { message: string }) => Promise<{
     message: string;
     signatory: string;
     signature: string;

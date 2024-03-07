@@ -8,7 +8,6 @@ import { Delegates } from "@/domains/vote/components/Delegates";
 import { Dialog } from "@/app/components/Dialog";
 import { Input } from "@/app/components/Input";
 import { InputGroup } from "@/app/components/InputGroup";
-import { NetworkType } from "@/app/lib/Network";
 
 import { useToasts } from "@/app/hooks/useToasts";
 import { useArkConnectContext } from "@/app/contexts/useArkConnectContext";
@@ -19,7 +18,6 @@ export interface VotingState {
 }
 
 export interface VoteInput {
-  network: NetworkType;
   vote?: VoteType;
   unvote?: VoteType;
 }
@@ -52,9 +50,7 @@ export const VoteModal = ({
   assert(wallet);
 
   const handleSubmit = () => {
-    const voteInput: VoteInput = {
-      network: wallet.network,
-    };
+    const voteInput: VoteInput = {};
 
     if (voteState.votes.length > 0) {
       voteInput.vote = {

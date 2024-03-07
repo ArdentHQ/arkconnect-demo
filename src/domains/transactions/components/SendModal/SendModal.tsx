@@ -62,7 +62,6 @@ export const SendModal = ({
       const response: SignTransactionResponse = await signTransaction({
         amount: Number(amount),
         receiverAddress,
-        network: wallet.network,
       });
 
       onClose();
