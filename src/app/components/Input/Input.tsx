@@ -1,11 +1,10 @@
-import classNames from "classnames";
 import React, { useRef, forwardRef, useEffect } from "react";
+import { twMerge } from "tailwind-merge";
 import { useInputIconContext } from "@/app/components/InputIcon";
 import {
   useInputGroupContext,
   InputGroupVariant,
 } from "@/app/components/InputGroup";
-import { twMerge } from "tailwind-merge";
 
 export interface InputProperties extends React.HTMLProps<HTMLInputElement> {
   isFocused?: boolean;
