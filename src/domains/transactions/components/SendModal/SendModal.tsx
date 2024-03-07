@@ -258,7 +258,7 @@ const FeeOption = ({
   fiatAmount,
   isSelected,
 }: {
-  title: number;
+  title: string;
   cryptoAmount: number;
   fiatAmount: number;
   isSelected?: boolean;
