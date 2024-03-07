@@ -3,13 +3,13 @@ import assert from "assert";
 import { useTranslation } from "next-i18next";
 import { SubmitHandler, useForm } from "react-hook-form";
 import React, { useEffect, useState } from "react";
+import cn from "classnames";
 import { Dialog } from "@/app/components/Dialog";
 import { InputGroup } from "@/app/components/InputGroup";
 import { Input } from "@/app/components/Input";
 import { NetworkType, SignTransactionResponse } from "@/app/lib/Network";
 import { useArkConnectContext } from "@/app/contexts/useArkConnectContext";
 import ArrowUp from "@/public/icons/arrow-up.svg";
-import cn from "classnames";
 
 type FormSubmitHandler = SubmitHandler<{
   amount: string;
@@ -167,8 +167,8 @@ const FeeInput = () => {
           htmlFor="advancedFee"
           className="text-sm font-medium text-theme-gray-500"
         >
-          <span className="hidden sm:block">{ t("TRANSACTION_FEE") }</span>
-          <span className="block sm:hidden">{ t("FEE") }</span>
+          <span className="hidden sm:block">{t("TRANSACTION_FEE")}</span>
+          <span className="block sm:hidden">{t("FEE")}</span>
         </label>
 
         <label className="inline-flex items-center cursor-pointer space-x-2">
@@ -184,7 +184,7 @@ const FeeInput = () => {
               "text-theme-gray-500": advancedView,
             })}
           >
-            { t("SIMPLE") }
+            {t("SIMPLE")}
           </span>
           <div className="relative w-9 h-5 bg-theme-primary-700 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-theme-gray-300 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-theme-primary-700 after:border after:rounded-full after:h-4 after:w-4 after:transition-all"></div>
           <span
@@ -193,7 +193,7 @@ const FeeInput = () => {
               "text-theme-gray-500": !advancedView,
             })}
           >
-            { t("ADVANCED") }
+            {t("ADVANCED")}
           </span>
         </label>
       </div>
@@ -240,14 +240,14 @@ const SimpleFeeView = () => {
 
   return (
     <div className="flex flex-col sm:flex-row justify-space-between space-y-1.5 sm:space-y-0 sm:space-x-1.5 flex-1">
-      <FeeOption title={t('SLOW')} cryptoAmount={0.9875} fiatAmount={0.45} />
+      <FeeOption title={t("SLOW")} cryptoAmount={0.9875} fiatAmount={0.45} />
       <FeeOption
-        title={t('AVERAGE')}
+        title={t("AVERAGE")}
         cryptoAmount={0.9875}
         fiatAmount={0.45}
         isSelected={true}
       />
-      <FeeOption title={t('FAST')} cryptoAmount={0.9875} fiatAmount={0.45} />
+      <FeeOption title={t("FAST")} cryptoAmount={0.9875} fiatAmount={0.45} />
     </div>
   );
 };
