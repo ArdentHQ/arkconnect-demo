@@ -156,6 +156,8 @@ export const SendModal = ({
 };
 
 const FeeInput = () => {
+  const { t } = useTranslation("transactions");
+
   const [advancedView, showAdvancedView] = useState(false);
 
   return (
@@ -234,6 +236,8 @@ const AdvancedFeeView = () => {
 };
 
 const SimpleFeeView = () => {
+  const { t } = useTranslation("transactions");
+
   return (
     <div className="flex flex-col sm:flex-row justify-space-between space-y-1.5 sm:space-y-0 sm:space-x-1.5 flex-1">
       <FeeOption title={t('SLOW')} cryptoAmount={0.9875} fiatAmount={0.45} />
