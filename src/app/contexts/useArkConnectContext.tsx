@@ -33,9 +33,7 @@ const ArkConnectContextProvider = ({ children }: Properties): JSX.Element => {
       queryClient.refetchQueries({ queryKey });
     });
 
-    window.arkconnect?.on(ExtensionSupportedEvent.LockToggled, (data) => {
-      // here
-      console.log(data);
+    window.arkconnect?.on(ExtensionSupportedEvent.LockToggled, () => {
       queryClient.refetchQueries({ queryKey });
     });
   }, [queryClient]);
