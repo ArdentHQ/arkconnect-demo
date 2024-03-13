@@ -34,7 +34,7 @@ const ArkConnectContextProvider = ({ children }: Properties): JSX.Element => {
 
     window.arkconnect?.on("lockToggled", () => {
       queryClient.refetchQueries({ queryKey });
-    })
+    });
   }, [queryClient]);
 
   return (
