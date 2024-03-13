@@ -92,7 +92,7 @@ export interface AddressChangedEventData {
   };
 }
 
-type ExtensionSupportedEvent = "addressChanged" | "disconnected" | "connected";
+type ExtensionSupportedEvent = "addressChanged" | "disconnected" | "connected" | "lockToggled";
 
 export interface ArkConnectExtension {
   connect: (request?: ConnectRequest) => Promise<void>;
