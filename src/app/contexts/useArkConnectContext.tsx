@@ -1,7 +1,8 @@
-import { createContext, useContext, useEffect } from "react";
-import { QueryKey, useQueryClient } from "@tanstack/react-query";
-import { useArkConnect } from "@/app/hooks";
-import { ArkConnectState } from "@/app/hooks/useWallet.contracts";
+import {createContext, useContext, useEffect} from "react";
+import {QueryKey, useQueryClient} from "@tanstack/react-query";
+import {useArkConnect} from "@/app/hooks";
+import {ArkConnectState} from "@/app/hooks/useWallet.contracts";
+import {ExtensionSupportedEvent} from "@/app/lib/Network";
 
 const ArkConnectContext = createContext<ArkConnectState | undefined>(undefined);
 
@@ -19,20 +20,22 @@ const ArkConnectContextProvider = ({ children }: Properties): JSX.Element => {
   useEffect(() => {
     const queryKey: QueryKey = ["wallet-connection"];
 
-    window.arkconnect?.on("addressChanged", (data) => {
+    window.arkconnect?.on(ExtensionSupportedEvent.AddressChanged, (data) => {
       setNetwork(data.data.wallet.network);
       queryClient.refetchQueries({ queryKey });
     });
 
-    window.arkconnect?.on("disconnected", () => {
+    window.arkconnect?.on(ExtensionSupportedEvent.Disconnected, () => {
       queryClient.refetchQueries({ queryKey });
     });
 
-    window.arkconnect?.on("connected", () => {
+    window.arkconnect?.on(ExtensionSupportedEvent.Connected, () => {
       queryClient.refetchQueries({ queryKey });
     });
 
-    window.arkconnect?.on("lockToggled", () => {
+    window.arkconnect?.on(ExtensionSupportedEvent.LockToggled, (data) => {
+      // here
+      console.log(data)
       queryClient.refetchQueries({ queryKey });
     });
   }, [queryClient]);

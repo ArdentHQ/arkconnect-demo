@@ -82,29 +82,42 @@ export interface SignVoteResponse {
 }
 
 export interface AddressChangedEventData {
+  type: ExtensionSupportedEvent.AddressChanged
   data: {
     wallet: {
       address: string;
       coin: string;
       network: NetworkType;
     };
-    type: ExtensionSupportedEvent;
   };
 }
 
-type ExtensionSupportedEvent =
-  | "addressChanged"
-  | "disconnected"
-  | "connected"
-  | "lockToggled";
+export interface LockToggledEventData {
+  type: ExtensionSupportedEvent.AddressChanged
+  data: {
+    isLocked: boolean;
+  };
+}
+
+export enum ExtensionSupportedEvent {
+  AddressChanged = "addressChanged",
+  Disconnected = "disconnected",
+  Connected = "connected",
+  LockToggled = "lockToggled"
+}
+
+export type EventResponse = {
+  [ExtensionSupportedEvent.AddressChanged]: AddressChangedEventData;
+  [ExtensionSupportedEvent.LockToggled]: LockToggledEventData;
+};
 
 export interface ArkConnectExtension {
   connect: (request?: ConnectRequest) => Promise<void>;
   disconnect: () => Promise<void>;
   isConnected: () => Promise<boolean>;
-  on: (
-    eventName: ExtensionSupportedEvent,
-    callback: (data: AddressChangedEventData) => void,
+  on: <T extends ExtensionSupportedEvent>(
+    eventName: T,
+    callback: (data: EventResponse[T]) => void
   ) => void;
   getAddress: () => Promise<string>;
   getNetwork: () => Promise<string>;
