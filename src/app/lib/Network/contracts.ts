@@ -82,7 +82,7 @@ export interface SignVoteResponse {
 }
 
 export interface AddressChangedEventData {
-  type: ExtensionSupportedEvent.AddressChanged
+  type: ExtensionSupportedEvent.AddressChanged;
   data: {
     wallet: {
       address: string;
@@ -93,7 +93,7 @@ export interface AddressChangedEventData {
 }
 
 export interface LockToggledEventData {
-  type: ExtensionSupportedEvent.AddressChanged
+  type: ExtensionSupportedEvent.AddressChanged;
   data: {
     isLocked: boolean;
   };
@@ -103,7 +103,7 @@ export enum ExtensionSupportedEvent {
   AddressChanged = "addressChanged",
   Disconnected = "disconnected",
   Connected = "connected",
-  LockToggled = "lockToggled"
+  LockToggled = "lockToggled",
 }
 
 export type EventResponse = {
@@ -117,7 +117,7 @@ export interface ArkConnectExtension {
   isConnected: () => Promise<boolean>;
   on: <T extends ExtensionSupportedEvent>(
     eventName: T,
-    callback: (data: EventResponse[T]) => void
+    callback: (data: EventResponse[T]) => void,
   ) => void;
   getAddress: () => Promise<string>;
   getNetwork: () => Promise<string>;

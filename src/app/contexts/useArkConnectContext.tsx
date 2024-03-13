@@ -1,8 +1,8 @@
-import {createContext, useContext, useEffect} from "react";
-import {QueryKey, useQueryClient} from "@tanstack/react-query";
-import {useArkConnect} from "@/app/hooks";
-import {ArkConnectState} from "@/app/hooks/useWallet.contracts";
-import {ExtensionSupportedEvent} from "@/app/lib/Network";
+import { createContext, useContext, useEffect } from "react";
+import { QueryKey, useQueryClient } from "@tanstack/react-query";
+import { useArkConnect } from "@/app/hooks";
+import { ArkConnectState } from "@/app/hooks/useWallet.contracts";
+import { ExtensionSupportedEvent } from "@/app/lib/Network";
 
 const ArkConnectContext = createContext<ArkConnectState | undefined>(undefined);
 
@@ -35,7 +35,7 @@ const ArkConnectContextProvider = ({ children }: Properties): JSX.Element => {
 
     window.arkconnect?.on(ExtensionSupportedEvent.LockToggled, (data) => {
       // here
-      console.log(data)
+      console.log(data);
       queryClient.refetchQueries({ queryKey });
     });
   }, [queryClient]);
