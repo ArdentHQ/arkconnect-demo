@@ -106,12 +106,12 @@ export enum ExtensionSupportedEvent {
   LockToggled = "lockToggled",
 }
 
-export type EventResponse = {
+interface EventResponse {
   [ExtensionSupportedEvent.AddressChanged]: AddressChangedEventData;
   [ExtensionSupportedEvent.LockToggled]: LockToggledEventData;
   [ExtensionSupportedEvent.Connected]: never;
   [ExtensionSupportedEvent.Disconnected]: never;
-};
+}
 
 export interface ArkConnectExtension {
   connect: (request?: ConnectRequest) => Promise<void>;
