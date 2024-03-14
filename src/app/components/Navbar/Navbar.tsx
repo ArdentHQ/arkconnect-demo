@@ -1,8 +1,9 @@
 import Link from "next/link";
 import { useTranslation } from "next-i18next";
 import { ReactElement, useState } from "react";
-import Logo from "@/public/images/logo.svg";
-import Logout from "@/public/icons/logout.svg";
+import LogoLight from "@/public/images/logo-light.svg";
+import LogoDark from "@/public/images/logo-dark.svg";
+import SmallLogo from "@/public/icons/logo.svg";
 import Moon from "@/public/icons/moon.svg";
 import Sun from "@/public/icons/sun.svg";
 import { Button, NavbarButton } from "@/app/components/Button";
@@ -22,19 +23,27 @@ interface NavbarProperties {
 
 const NetworkBox = ({ network }: { network: NetworkType }) => {
   return (
-    <span className="px-4 hidden sm:block py-[0.625rem] max-w-[8.75rem] rounded-2xl text-black font-medium text-sm bg-theme-primary-100 active:bg-theme-primary-100 hover:bg-theme-primary-100 !border-none focus:outline-none min-h-[2.5rem]">
+    <span className="px-4 hidden sm:block py-[0.625rem] max-w-[8.75rem] rounded-2xl text-black font-medium text-sm bg-theme-primary-100 active:bg-theme-primary-100 hover:bg-theme-primary-100 focus:outline-none min-h-[2.5rem] border border-transparent dark:border-theme-primary-600 dark:bg-subtle-black dark:hover:bg-dark-green dark:text-theme-primary-600 cursor-default transition-default">
       {network}
     </span>
   );
 };
 
 const NavbarWrapper = ({ children }: { children: ReactElement }) => {
+  const { darkMode } = useDarkMode();
+
   return (
-    <nav className="sticky inset-x-0 top-0 bg-white min-h-[4rem] flex items-center border-b md:border-none border-theme-gray-100 z-10">
+    <nav className="sticky inset-x-0 top-0 bg-white min-h-[4rem] flex items-center border-b md:border-none border-theme-gray-100 z-10 dark:bg-subtle-black">
       <ul className="flex justify-between items-center container mx-auto px-6 whitespace-nowrap">
         <li>
-          <Link href="/" className="w-36 sm:w-48 block">
-            <Logo />
+          <Link href="/" className="block h-6 sm:w-48 w-6">
+            <span className="hidden sm:block">
+              {darkMode ? <LogoDark /> : <LogoLight />}
+            </span>
+
+            <span className="sm:hidden">
+              <SmallLogo className="text-theme-primary-700 dark:text-theme-primary-600 h-6 w-6 transition-default" />
+            </span>
           </Link>
         </li>
 
@@ -46,6 +55,7 @@ const NavbarWrapper = ({ children }: { children: ReactElement }) => {
 
 const NavbarConnected = ({ wallet, onDisconnect }: NavbarProperties) => {
   const { toggleDarkMode, darkMode } = useDarkMode();
+
   return (
     <NavbarWrapper>
       <li className="flex items-center justify-end space-x-2">
@@ -57,25 +67,13 @@ const NavbarConnected = ({ wallet, onDisconnect }: NavbarProperties) => {
           }}
         />
 
-        <div className="hidden sm:block">
-          <NavbarButton
-            onClick={() => {
-              void onDisconnect();
-            }}
-          >
-            <Logout className="w-4" />
-          </NavbarButton>
-        </div>
-
-        <div className="hidden sm:block">
-          <NavbarButton
-            onClick={() => {
-              void toggleDarkMode();
-            }}
-          >
-            {darkMode ? <Moon className="w-4" /> : <Sun className="w-4" />}
-          </NavbarButton>
-        </div>
+        <NavbarButton
+          onClick={() => {
+            void toggleDarkMode();
+          }}
+        >
+          {darkMode ? <Moon className="w-4" /> : <Sun className="w-4" />}
+        </NavbarButton>
       </li>
     </NavbarWrapper>
   );
