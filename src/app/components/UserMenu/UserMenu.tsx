@@ -1,5 +1,4 @@
 import { useTranslation } from "next-i18next";
-import { twMerge } from "tailwind-merge";
 import { TruncateMiddle } from "@/app/components/Truncate";
 import { NavbarButton } from "@/app/components/Button";
 import { Dropdown, DropdownItem } from "@/app/components/Dropdown";
@@ -7,14 +6,21 @@ import Logout from "@/public/icons/logout.svg";
 
 const AddressButton = ({
   address,
+  onClick,
 }: {
   address?: string;
   onClick?: () => void;
 }) => (
-  <NavbarButton>
-    <span className="max-w-[8.75rem]">
-      <TruncateMiddle>{address}</TruncateMiddle>
+  <NavbarButton onClick={onClick} className="group">
+    <span className="max-w-[94px]">
+      <TruncateMiddle key={address} className="group-hover:no-underline">
+        {address}
+      </TruncateMiddle>
     </span>
+    <span className="group-hover:text-theme-primary-500 transition-default">
+      |
+    </span>
+    <Logout className="w-4" />
   </NavbarButton>
 );
 
@@ -29,17 +35,13 @@ export const UserMenu = ({
 
   return (
     <>
-      <span
-        className={twMerge(
-          "px-4 hidden sm:block py-[0.625rem] max-w-[8.75rem] rounded-2xl text-black font-medium text-sm bg-theme-primary-100 active:bg-theme-primary-100 hover:bg-theme-primary-100 !border-none focus:outline-none min-h-[2.5rem]",
-        )}
-      >
-        <TruncateMiddle key={address}>{address}</TruncateMiddle>
+      <span className="hidden sm:block">
+        <AddressButton address={address} onClick={onDisconnect} />
       </span>
 
       <Dropdown
         className="sm:hidden"
-        trigger={<AddressButton address={address} />}
+        trigger={<AddressButton address={address} onClick={onDisconnect} />}
       >
         <DropdownItem>
           <button
