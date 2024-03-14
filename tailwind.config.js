@@ -108,6 +108,9 @@ module.exports = {
       "theme-gray-600": "rgb(var(--theme-color-gray-600) / <alpha-value>)",
       "theme-gray-700": "rgb(var(--theme-color-gray-700) / <alpha-value>)",
       "theme-gray-800": "rgb(var(--theme-color-gray-800) / <alpha-value>)",
+
+      // dark green
+      "dark-green": "rgb(var(--theme-color-dark-green) / <alpha-value>)",
     },
   },
 };
