@@ -45,7 +45,7 @@ export const useDarkMode = () => {
 
   if (context === undefined) {
     throw new Error(
-      "useArkConnectContext must be within ArkConnectContext.Provider",
+      "useDarkModeContext must be within ArkConnectContext.Provider",
     );
   }
 
