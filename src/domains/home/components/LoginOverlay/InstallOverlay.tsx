@@ -28,14 +28,14 @@ export const InstallOverlay = () => {
 
           {isChrome && (
             <LinkButton href={process.env.ARK_CHROME_EXTENSION_URL} isExternal>
-              <WalletLogo className="w-4" />
+              <WalletLogo className="w-4 text-[#FAFAFA]" />
               <span>{t("INSTALL_WALLET")}</span>
             </LinkButton>
           )}
 
           {isFirefox && (
             <LinkButton href={process.env.ARK_FIREFOX_EXTENSION_URL} isExternal>
-              <WalletLogo className="w-4" />
+              <WalletLogo className="w-4 text-[#FAFAFA]" />
               <span>{t("INSTALL_WALLET")}</span>
             </LinkButton>
           )}
