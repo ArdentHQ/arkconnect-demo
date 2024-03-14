@@ -48,7 +48,7 @@ export const useButtonClasses = ({
   } else {
     disabledClass = {
       primary:
-        "disabled:bg-theme-gray-100 disabled:border-theme-gray-100 disabled:text-theme-gray-400",
+        "disabled:bg-theme-gray-100 disabled:border-theme-gray-100 disabled:text-theme-gray-400 dark:disabled:bg-theme-gray-600 dark:disabled:border-theme-gray-600 dark:disabled:text-theme-gray-300",
       secondary: "disabled:text-theme-gray-300 disabled:border-theme-gray-100",
       "secondary-bordered":
         "disabled:text-theme-gray-300 disabled:border-theme-gray-300",
