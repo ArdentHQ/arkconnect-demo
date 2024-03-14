@@ -21,10 +21,13 @@ export const DarkModeProvider = ({ children }) => {
   }, []);
 
   useEffect(() => {
-    if (darkMode) {
-      document.body.classList.add("dark");
-    } else {
-      document.body.classList.remove("dark");
+    const appElement = document.querySelector("#app");
+    if (appElement) {
+      if (darkMode) {
+        appElement.classList.add("dark");
+      } else {
+        appElement.classList.remove("dark");
+      }
     }
   }, [darkMode]);
 

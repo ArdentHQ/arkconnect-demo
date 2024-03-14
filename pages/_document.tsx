@@ -2,7 +2,7 @@ import { Html, Head, Main, NextScript } from "next/document";
 
 export default function Document() {
   return (
-    <Html>
+    <Html id="app">
       <Head>
         <link
           rel="apple-touch-icon"
@@ -51,7 +51,7 @@ export default function Document() {
           content="https://demo.arkconnect.io/images/meta/home.png"
         />
       </Head>
-      <body className="bg-theme-gray-50">
+      <body className="bg-theme-gray-50 dark:bg-black">
         <Main />
         <NextScript />
       </body>
