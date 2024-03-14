@@ -74,4 +74,7 @@
 
   /* subtle black */
   --theme-color-subtle-black: 56 56 56; /* #383838 */
+
+  /* dark green */
+  --theme-color-dark-green: 38 55 48; /* #263730 */
 }
