@@ -55,9 +55,25 @@ const NavbarWrapper = ({ children }: { children: ReactElement }) => {
   );
 };
 
-const NavbarConnected = ({ wallet, onDisconnect }: NavbarProperties) => {
+const DarkModeToggleButton = (): JSX.Element => {
   const { toggleDarkMode, darkMode } = useDarkMode();
 
+  if (!DARK_MODE_ENABLED) {
+    return <></>;
+  }
+
+  return (
+    <NavbarButton
+      onClick={() => {
+        void toggleDarkMode();
+      }}
+    >
+      {darkMode ? <Moon className="w-4" /> : <Sun className="w-4" />}
+    </NavbarButton>
+  );
+};
+
+const NavbarConnected = ({ wallet, onDisconnect }: NavbarProperties) => {
   return (
     <NavbarWrapper>
       <li className="flex items-center justify-end space-x-2">
@@ -69,15 +85,7 @@ const NavbarConnected = ({ wallet, onDisconnect }: NavbarProperties) => {
           }}
         />
 
-        {DARK_MODE_ENABLED && (
-          <NavbarButton
-            onClick={() => {
-              void toggleDarkMode();
-            }}
-          >
-            {darkMode ? <Moon className="w-4" /> : <Sun className="w-4" />}
-          </NavbarButton>
-        )}
+        <DarkModeToggleButton />
       </li>
     </NavbarWrapper>
   );
@@ -171,6 +179,8 @@ export const Navbar = () => {
           >
             {t("CONNECT")}
           </Button>
+
+          <DarkModeToggleButton />
         </li>
       </NavbarWrapper>
     </>
