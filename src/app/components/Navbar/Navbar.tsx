@@ -3,6 +3,8 @@ import { useTranslation } from "next-i18next";
 import { ReactElement, useState } from "react";
 import Logo from "@/public/images/logo.svg";
 import Logout from "@/public/icons/logout.svg";
+import Moon from "@/public/icons/moon.svg";
+import Sun from "@/public/icons/sun.svg";
 import { Button, NavbarButton } from "@/app/components/Button";
 import { UserMenu } from "@/app/components/UserMenu";
 import { Spinner } from "@/app/components/Spinner";
@@ -11,6 +13,9 @@ import { NetworkType } from "@/app/lib/Network";
 import { WalletData } from "@/app/lib/Wallet/contracts";
 import { Dialog } from "@/app/components/Dialog";
 import { useArkConnectContext } from "@/app/contexts/useArkConnectContext";
+import { useDarkMode } from "@/app/contexts/useDarkModeContext";
+
+const DARK_MODE_ENABLED = process.env.NEXT_PUBLIC_DARK_MODE_ENABLED === "true";
 
 interface NavbarProperties {
   wallet: WalletData;
@@ -41,29 +46,44 @@ const NavbarWrapper = ({ children }: { children: ReactElement }) => {
   );
 };
 
-const NavbarConnected = ({ wallet, onDisconnect }: NavbarProperties) => (
-  <NavbarWrapper>
-    <li className="flex items-center justify-end space-x-2">
-      <NetworkBox network={wallet.network} />
-      <UserMenu
-        address={wallet.address}
-        onDisconnect={() => {
-          void onDisconnect();
-        }}
-      />
-
-      <div className="hidden sm:block">
-        <NavbarButton
-          onClick={() => {
+const NavbarConnected = ({ wallet, onDisconnect }: NavbarProperties) => {
+  const { toggleDarkMode, darkMode } = useDarkMode();
+  return (
+    <NavbarWrapper>
+      <li className="flex items-center justify-end space-x-2">
+        <NetworkBox network={wallet.network} />
+        <UserMenu
+          address={wallet.address}
+          onDisconnect={() => {
             void onDisconnect();
           }}
-        >
-          <Logout className="w-4" />
-        </NavbarButton>
-      </div>
-    </li>
-  </NavbarWrapper>
-);
+        />
+
+        <div className="hidden sm:block">
+          <NavbarButton
+            onClick={() => {
+              void onDisconnect();
+            }}
+          >
+            <Logout className="w-4" />
+          </NavbarButton>
+        </div>
+
+        {DARK_MODE_ENABLED && (
+          <div className="hidden sm:block">
+            <NavbarButton
+              onClick={() => {
+                void toggleDarkMode();
+              }}
+            >
+              {darkMode ? <Moon className="w-4" /> : <Sun className="w-4" />}
+            </NavbarButton>
+          </div>
+        )}
+      </li>
+    </NavbarWrapper>
+  );
+};
 
 const NavbarConnecting = () => {
   const { t } = useTranslation();

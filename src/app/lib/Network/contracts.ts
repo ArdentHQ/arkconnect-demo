@@ -33,13 +33,9 @@ export enum Coin {
   DARK = "DARK",
 }
 
-export interface ConnectRequest {
-  network: NetworkType;
-}
 export interface SignTransactionRequest {
   amount: number;
   receiverAddress: string;
-  network: NetworkType;
 }
 
 export interface SignTransactionResponse {
@@ -64,7 +60,6 @@ export interface SignVoteRequest {
     amount: number;
     delegateAddress: string;
   };
-  network: NetworkType;
 }
 
 export interface SignVoteResponse {
@@ -82,25 +77,44 @@ export interface SignVoteResponse {
 }
 
 export interface AddressChangedEventData {
+  type: ExtensionSupportedEvent.AddressChanged;
   data: {
     wallet: {
       address: string;
       coin: string;
       network: NetworkType;
     };
-    type: ExtensionSupportedEvent;
   };
 }
 
-type ExtensionSupportedEvent = "addressChanged" | "disconnected" | "connected";
+export interface LockToggledEventData {
+  type: ExtensionSupportedEvent.AddressChanged;
+  data: {
+    isLocked: boolean;
+  };
+}
+
+export enum ExtensionSupportedEvent {
+  AddressChanged = "addressChanged",
+  Disconnected = "disconnected",
+  Connected = "connected",
+  LockToggled = "lockToggled",
+}
+
+interface EventResponse {
+  [ExtensionSupportedEvent.AddressChanged]: AddressChangedEventData;
+  [ExtensionSupportedEvent.LockToggled]: LockToggledEventData;
+  [ExtensionSupportedEvent.Connected]: never;
+  [ExtensionSupportedEvent.Disconnected]: never;
+}
 
 export interface ArkConnectExtension {
-  connect: (request?: ConnectRequest) => Promise<void>;
+  connect: () => Promise<void>;
   disconnect: () => Promise<void>;
   isConnected: () => Promise<boolean>;
-  on: (
-    eventName: ExtensionSupportedEvent,
-    callback: (data: AddressChangedEventData) => void,
+  on: <T extends ExtensionSupportedEvent>(
+    eventName: T,
+    callback: (data: EventResponse[T]) => void,
   ) => void;
   getAddress: () => Promise<string>;
   getNetwork: () => Promise<string>;
@@ -109,7 +123,7 @@ export interface ArkConnectExtension {
     transactionRequest: SignTransactionRequest,
   ) => Promise<SignTransactionResponse>;
   signVote: (voteRequest: SignVoteRequest) => Promise<SignVoteResponse>;
-  signMessage: (options: { message: string; network: NetworkType }) => Promise<{
+  signMessage: (options: { message: string }) => Promise<{
     message: string;
     signatory: string;
     signature: string;
