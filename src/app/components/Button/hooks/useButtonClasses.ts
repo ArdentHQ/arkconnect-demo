@@ -22,7 +22,8 @@ export const useButtonClasses = ({
   hover: string;
 } => {
   const colors = {
-    primary: "bg-theme-primary-700 text-white border-theme-primary-700",
+    primary:
+      "bg-theme-primary-700 text-white border-theme-primary-700 dark:bg-theme-primary-600 dark:border-theme-primary-600",
     secondary: "border border-white bg-white text-theme-primary-700",
     "secondary-bordered": "border border-white",
     transparent:
@@ -63,7 +64,7 @@ export const useButtonClasses = ({
 
   const hover =
     hoverClassName ??
-    "hover:bg-theme-primary-600 hover:text-white hover:border-theme-primary-600";
+    "hover:bg-theme-primary-600 hover:text-white hover:border-theme-primary-600 dark:hover:bg-theme-primary-700 dark:hover:border-theme-primary-700";
 
   return {
     disabled: busy
