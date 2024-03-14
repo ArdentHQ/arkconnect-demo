@@ -15,6 +15,8 @@ import { Dialog } from "@/app/components/Dialog";
 import { useArkConnectContext } from "@/app/contexts/useArkConnectContext";
 import { useDarkMode } from "@/app/contexts/useDarkModeContext";
 
+const DARK_MODE_ENABLED = process.env.DARK_MODE_ENABLED !== "true";
+
 interface NavbarProperties {
   wallet: WalletData;
   onDisconnect: () => void;
@@ -67,15 +69,17 @@ const NavbarConnected = ({ wallet, onDisconnect }: NavbarProperties) => {
           </NavbarButton>
         </div>
 
-        <div className="hidden sm:block">
-          <NavbarButton
-            onClick={() => {
-              void toggleDarkMode();
-            }}
-          >
-            {darkMode ? <Moon className="w-4" /> : <Sun className="w-4" />}
-          </NavbarButton>
-        </div>
+        {DARK_MODE_ENABLED && (
+          <div className="hidden sm:block">
+            <NavbarButton
+              onClick={() => {
+                void toggleDarkMode();
+              }}
+            >
+              {darkMode ? <Moon className="w-4" /> : <Sun className="w-4" />}
+            </NavbarButton>
+          </div>
+        )}
       </li>
     </NavbarWrapper>
   );
