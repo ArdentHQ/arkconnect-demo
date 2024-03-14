@@ -6,7 +6,6 @@ Please make sure you're familiar with and follow the instructions in the [contri
 Please fill out the information below to expedite the review and (hopefully) merge of your pull request!
 -->
 
-# [Title](URL)
 
 ## Summary
 
