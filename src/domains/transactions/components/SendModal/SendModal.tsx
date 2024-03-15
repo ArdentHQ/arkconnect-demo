@@ -88,7 +88,7 @@ export const SendModal = ({
       <div className="flex flex-col space-y-4">
         <InputGroup label={t("SENDER")}>
           <div className="relative inline-flex items-center flex-row-reverse">
-            <span className="block px-2 py-1 rounded-lg bg-theme-gray-300 text-black text-sm font-medium absolute mr-3 pointer-events-none">
+            <span className="block px-2 py-1 rounded-lg bg-theme-gray-300 text-black text-sm font-medium absolute mr-3 pointer-events-none dark:text-theme-gray-400 dark:bg-theme-gray-700">
               {t("YOU", { ns: "common" })}
             </span>
 
@@ -120,8 +120,8 @@ export const SendModal = ({
             <span className="inline-flex justify-between flex-1 w-full">
               <span>{t("AMOUNT", { ns: "common" })}</span>
 
-              <span>
-                <span className="text-theme-gray-400">{t("AVAILABLE")}</span>{" "}
+              <span className="text-theme-gray-400 text-sm">
+                <span>{t("AVAILABLE")}</span>{" "}
                 <span>{`${wallet.balance} ${coin}`}</span>
               </span>
             </span>

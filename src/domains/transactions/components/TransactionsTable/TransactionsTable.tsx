@@ -50,7 +50,11 @@ export const TransactionsTable = ({
   ];
 
   if (!isTruthy(isLoading) && transactions.length === 0) {
-    return <div className="p-4 text-center">{t("NO_TRANSACTIONS")}</div>;
+    return (
+      <div className="p-4 text-center dark:text-white">
+        {t("NO_TRANSACTIONS")}
+      </div>
+    );
   }
 
   return (

@@ -23,7 +23,7 @@ export const InputGroup = ({
         {label && (
           <label
             htmlFor={inputName}
-            className="text-sm font-medium text-theme-gray-500"
+            className="text-sm font-medium text-theme-gray-500 dark:text-theme-gray-200"
           >
             {label}
           </label>

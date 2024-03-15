@@ -22,8 +22,10 @@ export const useButtonClasses = ({
   hover: string;
 } => {
   const colors = {
-    primary: "bg-theme-primary-700 text-white border-theme-primary-700",
-    secondary: "border border-white bg-white text-theme-primary-700",
+    primary:
+      "bg-theme-primary-700 text-white border-theme-primary-700 dark:bg-theme-primary-600 dark:border-theme-primary-600",
+    secondary:
+      "border border-white bg-white text-theme-primary-700 dark:bg-theme-primary-600 dark:border-theme-primary-600 dark:text-white",
     "secondary-bordered": "border border-white",
     transparent:
       "border-transparent bg-transparent focus-visible:bg-transparent focus-visible:border-theme-primary-700",
@@ -47,7 +49,7 @@ export const useButtonClasses = ({
   } else {
     disabledClass = {
       primary:
-        "disabled:bg-theme-gray-100 disabled:border-theme-gray-100 disabled:text-theme-gray-400",
+        "disabled:bg-theme-gray-100 disabled:border-theme-gray-100 disabled:text-theme-gray-400 dark:disabled:bg-theme-gray-600 dark:disabled:border-theme-gray-600 dark:disabled:text-theme-gray-300",
       secondary: "disabled:text-theme-gray-300 disabled:border-theme-gray-100",
       "secondary-bordered":
         "disabled:text-theme-gray-300 disabled:border-theme-gray-300",
@@ -63,7 +65,7 @@ export const useButtonClasses = ({
 
   const hover =
     hoverClassName ??
-    "hover:bg-theme-primary-600 hover:text-white hover:border-theme-primary-600";
+    "hover:bg-theme-primary-600 hover:text-white hover:border-theme-primary-600 dark:hover:bg-theme-primary-700 dark:hover:border-theme-primary-700";
 
   return {
     disabled: busy

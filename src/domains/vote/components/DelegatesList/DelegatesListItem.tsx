@@ -58,14 +58,16 @@ export const DelegatesListItem = ({
       className={classNames(
         "flex items-center w-full justify-between py-3 px-4 rounded-lg border",
         {
-          "border-theme-primary-700 bg-theme-primary-50":
+          "border-theme-primary-700 bg-theme-primary-50 dark:border-theme-primary-650 dark:bg-theme-primary-650/10":
             isOnlyCurrent || isOnlySelected,
-          "border-theme-error-600 bg-theme-error-50": isUnselected,
-          "border-theme-gray-200": isDefault,
+          "border-theme-error-600 bg-theme-error-50 dark:border-theme-error-500 dark:bg-theme-error-500/[15%]":
+            isUnselected,
+          "border-theme-gray-200 dark:border-theme-gray-700 dark:bg-base-black":
+            isDefault,
         },
       )}
     >
-      <div className="text-md text-black font-normal leading-[125%] w-8">
+      <div className="text-md text-black font-normal leading-[125%] w-8 dark:text-white">
         {isResigned ? (
           <span className="text-theme-gray-400 font-medium text-sm">-</span>
         ) : (
@@ -74,7 +76,7 @@ export const DelegatesListItem = ({
       </div>
 
       <div className="w-2/4 flex items-center overflow-auto">
-        <div className="text-md text-black font-normal leading-[125%] overflow-hidden flex-1">
+        <div className="text-md text-black font-normal leading-[125%] overflow-hidden flex-1 dark:text-white">
           <TruncateMiddle>{delegate.username}</TruncateMiddle>
         </div>
 
@@ -96,7 +98,8 @@ export const DelegatesListItem = ({
           href="#"
           target="_blank"
           className={classNames("font-bold", {
-            "text-theme-error-600 hover:text-theme-error-700": isUnselected,
+            "text-theme-error-600 hover:text-theme-error-700 dark:text-theme-error-500":
+              isUnselected,
           })}
           onClick={(event) => {
             event.preventDefault();

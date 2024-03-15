@@ -47,5 +47,6 @@
   "SIGN_TEXT": "I sign this to prove ownership of my wallet",
   "NETWORK_SWITCH_ERROR_TITLE": "Error while switching network",
   "NETWORK_SWITCH_ERROR_DESCRIPTION": "You are trying to change to {{network}} without any wallets on that network. Please create a wallet first before switching networks.",
-  "RESIGNED": "Resigned"
+  "RESIGNED": "Resigned",
+  "NO_DELEGATES_FOUND": "The Delegate is either unregistered or resigned. Check you search term and try again."
 }
