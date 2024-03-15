@@ -9,7 +9,8 @@ export const useLabelClasses = ({ variant }: { variant: LabelVariant }) => {
       "bg-theme-warning-100 text-theme-warning-600 font-medium leading-[125%] dark:bg-transparent dark:text-[#F39B9B] dark:outline dark:outline-[#AA6868]",
     success:
       "bg-theme-primary-100 text-theme-primary-700 font-medium leading-[125%] dark:bg-transparent dark:text-theme-primary-600 dark:outline dark:outline-theme-primary-600",
-    danger: "bg-theme-error-50 text-theme-error-600 font-medium leading-[125%]",
+    danger:
+      "bg-theme-error-50 text-theme-error-600 font-medium leading-[125%] dark:bg-theme-error-500/[55%] dark:text-theme-error-500",
   };
 
   return {
