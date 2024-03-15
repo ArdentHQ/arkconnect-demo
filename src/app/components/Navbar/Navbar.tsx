@@ -33,7 +33,7 @@ const NavbarWrapper = ({ children }: { children: ReactElement }) => {
   const { darkMode } = useDarkMode();
 
   return (
-    <nav className="sticky inset-x-0 top-0 bg-white min-h-[4rem] flex items-center border-b md:border-none border-theme-gray-100 z-10 dark:bg-subtle-black">
+    <nav className="sticky inset-x-0 top-0 bg-white min-h-[4rem] flex items-center border-b md:border-none border-theme-gray-100 z-10 dark:bg-subtle-black dark:border-theme-gray-700">
       <ul className="flex justify-between items-center container mx-auto px-6 whitespace-nowrap">
         <li>
           <Link href="/" className="block h-6 sm:w-48 w-6">
