@@ -16,8 +16,6 @@ import { Dialog } from "@/app/components/Dialog";
 import { useArkConnectContext } from "@/app/contexts/useArkConnectContext";
 import { useDarkMode } from "@/app/contexts/useDarkModeContext";
 
-const DARK_MODE_ENABLED = process.env.NEXT_PUBLIC_DARK_MODE_ENABLED === "true";
-
 interface NavbarProperties {
   wallet: WalletData;
   onDisconnect: () => void;
@@ -57,10 +55,6 @@ const NavbarWrapper = ({ children }: { children: ReactElement }) => {
 
 const DarkModeToggleButton = (): JSX.Element => {
   const { toggleDarkMode, darkMode } = useDarkMode();
-
-  if (!DARK_MODE_ENABLED) {
-    return <></>;
-  }
 
   return (
     <NavbarButton
