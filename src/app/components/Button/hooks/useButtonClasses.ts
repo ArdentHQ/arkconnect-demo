@@ -24,7 +24,8 @@ export const useButtonClasses = ({
   const colors = {
     primary:
       "bg-theme-primary-700 text-white border-theme-primary-700 dark:bg-theme-primary-600 dark:border-theme-primary-600",
-    secondary: "border border-white bg-white text-theme-primary-700",
+    secondary:
+      "border border-white bg-white text-theme-primary-700 dark:bg-theme-primary-600 dark:border-theme-primary-600 dark:text-white",
     "secondary-bordered": "border border-white",
     transparent:
       "border-transparent bg-transparent focus-visible:bg-transparent focus-visible:border-theme-primary-700",
