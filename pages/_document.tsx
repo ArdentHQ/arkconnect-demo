@@ -51,7 +51,7 @@ export default function Document() {
           content="https://demo.arkconnect.io/images/meta/home.png"
         />
       </Head>
-      <body className="bg-theme-gray-50">
+      <body>
         <Main />
         <NextScript />
       </body>

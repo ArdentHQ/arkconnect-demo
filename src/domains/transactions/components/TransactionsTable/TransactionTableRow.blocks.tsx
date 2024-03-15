@@ -54,7 +54,9 @@ export const TransactionAddress = ({
         <Label variant="warning" className="text-xs">
           {t("TO")}{" "}
         </Label>
-        <span className="text-black text-sm font-medium">{t("Contract")}</span>
+        <span className="text-black text-sm font-medium dark:text-white">
+          {t("Contract")}
+        </span>
       </>
     );
   }
