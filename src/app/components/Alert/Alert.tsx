@@ -6,14 +6,14 @@ type AlertProperties = HTMLAttributes<HTMLElement> & {
 
 const AlertSuccess = (properties: HTMLAttributes<HTMLElement>): JSX.Element => (
   <div
-    className="border-t border-theme-primary-600 bg-theme-primary-100 text-theme-primary-700 text-sm px-8 py-3"
+    className="border-t border-theme-primary-600 bg-theme-primary-100 text-theme-primary-700 text-sm px-8 py-3 dark:bg-theme-primary-650/20 dark:text-theme-primary-600 dark:border-theme-primary-650"
     {...properties}
   />
 );
 
 const AlertError = (properties: HTMLAttributes<HTMLElement>): JSX.Element => (
   <div
-    className="border-t border-theme- bg-theme-error-100 text-theme-error-700 text-sm px-8 py-3"
+    className="border-t border-t-theme-error-700 bg-theme-error-100 text-theme-error-700 text-sm px-8 py-3 dark:bg-theme-error-800/20 dark:text-theme-error-500 dark:border-t-theme-error-700"
     {...properties}
   />
 );
