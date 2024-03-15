@@ -44,7 +44,7 @@ export const TransactionTableRow = ({
           </div>
         </TableCell>
 
-        <TableCell className="hidden lg:table-cell text-sm text-black font-medium leading-[125%]">
+        <TableCell className="hidden lg:table-cell text-sm text-black font-medium leading-[125%] dark:text-white">
           {tx.timestamp().timeAgo()}
         </TableCell>
 
@@ -69,7 +69,7 @@ export const TransactionTableRow = ({
         </TableCell>
 
         <TableCell>
-          <div className="flex justify-end text-sm text-black font-medium leading-[125%]">
+          <div className="flex justify-end text-sm text-black font-medium leading-[125%] dark:text-white">
             {tx.fee().toCrypto()}
           </div>
         </TableCell>

@@ -21,6 +21,7 @@ module.exports = {
     colors: {
       black: "rgb(var(--theme-color-black) / <alpha-value>)",
       "subtle-black": "rgb(var(--theme-color-subtle-black) / <alpha-value>)",
+      "base-black": "rgb(var(--theme-color-base-black) / <alpha-value>)",
 
       white: "rgb(var(--theme-color-white) / <alpha-value>)",
       "subtle-white": "rgb(var(--theme-color-subtle-white) / <alpha-value>)",

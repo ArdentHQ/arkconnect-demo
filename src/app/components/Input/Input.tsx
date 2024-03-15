@@ -13,14 +13,14 @@ export interface InputProperties extends React.HTMLProps<HTMLInputElement> {
 
 export const inputEnabledColorClasses = {
   default:
-    "enabled:bg-white enabled:ring-theme-gray-400 enabled:active:ring-black enabled:focus:ring-black",
+    "enabled:bg-white enabled:ring-theme-gray-400 enabled:active:ring-black enabled:focus:ring-black dark:enabled:bg-subtle-black dark:enabled:ring-theme-gray-500",
   error:
-    "enabled:bg-white enabled:ring-theme-error-200 enabled:active:ring-theme-error-500 enabled:focus:ring-theme-error-500",
+    "enabled:bg-white enabled:ring-theme-error-200 enabled:active:ring-theme-error-500 enabled:focus:ring-theme-error-500 dark:enabled:bg-subtle-black dark:enabled:ring-theme-error-500",
 };
 
 export const inputStyleClasses = [
-  "placeholder-theme-gray-400 rounded-lg ring-1 ring-inset text-black",
-  "disabled:ring-theme-gray-200 disabled:bg-theme-gray-100",
+  "placeholder-theme-gray-400 rounded-lg ring-1 ring-inset text-black dark:placeholder-theme-gray-400 dark:text-white",
+  "disabled:ring-theme-gray-200 disabled:bg-theme-gray-100 dark:disabled:bg-base-black dark:disabled:text-theme-gray-400 dark:disabled:ring-theme-gray-600",
   "focus:outline-none",
 ];
 

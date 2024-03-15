@@ -33,14 +33,14 @@ export const Dialog = ({
         }}
         className="flex flex-col"
       >
-        <div className="bg-theme-gray-100 flex justify-between items-center px-10 py-5">
-          <HeadlessDialog.Title className=" text-xl text-black font-medium">
+        <div className="bg-theme-gray-100 flex justify-between items-center px-10 py-5 dark:bg-theme-gray-700">
+          <HeadlessDialog.Title className="text-xl text-black font-medium dark:text-white">
             {title}
           </HeadlessDialog.Title>
 
           <button
             type="button"
-            className="text-black hover:bg-theme-gray-300 w-8 h-8 justify-center items-center flex rounded-lg"
+            className="text-black hover:bg-theme-gray-300 w-8 h-8 justify-center items-center flex rounded-lg transition-default dark:text-white dark:hover:bg-theme-gray-600"
             onClick={onClose}
           >
             <X className="w-5 h-5" />

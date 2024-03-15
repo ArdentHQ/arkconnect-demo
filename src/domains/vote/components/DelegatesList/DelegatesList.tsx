@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { DelegatesListItem } from "./DelegatesListItem";
 import { DelegatesListProperties } from "./contracts";
 import { isTruthy } from "@/app/utils/isTruthy";
@@ -10,6 +11,15 @@ export const DelegatesList = ({
 }: DelegatesListProperties) => {
   const [selected, setSelected] = useState<string>();
   const [unselected, setUnselected] = useState<string>();
+  const { t } = useTranslation("common");
+
+  if (delegates.length === 0) {
+    return (
+      <div className="w-full text-base font-normal leading-[1.25rem] text-center text-theme-gray-500 dark:text-theme-gray-300">
+        {t("NO_DELEGATES_FOUND")}
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-2">
