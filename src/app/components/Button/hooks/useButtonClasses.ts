@@ -2,6 +2,7 @@ export type ButtonVariant =
   | "primary"
   | "secondary"
   | "transparent"
+  | "primary-bordered"
   | "secondary-bordered";
 
 export const useButtonClasses = ({
@@ -29,6 +30,8 @@ export const useButtonClasses = ({
     "secondary-bordered": "border border-white",
     transparent:
       "border-transparent bg-transparent focus-visible:bg-transparent focus-visible:border-theme-primary-700",
+    "primary-bordered":
+      "dark:border-theme-primary-600 dark:text-theme-primary-600 dark:hover:!bg-dark-green",
   };
 
   let disabledClass: {
