@@ -22,14 +22,14 @@ export const WalletAddress = ({ walletData }: WalletOverviewProperties) => {
   return (
     <div className="flex items-end justify-between w-full p-6 sm:p-5">
       <div className="w-full">
-        <p className="text-theme-gray-500 font-medium text-sm leading-[0.938rem] mb-[0.563rem]">
+        <p className="text-theme-gray-500 font-medium text-sm leading-[0.938rem] mb-[0.563rem] dark:text-theme-gray-300">
           <span className="hidden lg:block">
             {t("CONNECTED_WITH_ARK_CONNECT")}
           </span>
           <span className="block lg:hidden">{t("CONNECTED")}</span>
         </p>
 
-        <div className="leading-[1.25rem] font-medium font-sans w-2/3 xs:3/4 sm:w-full">
+        <div className="leading-[1.25rem] font-medium font-sans w-2/3 xs:3/4 sm:w-full dark:text-white">
           <TruncateMiddle>{walletData.address}</TruncateMiddle>
         </div>
       </div>

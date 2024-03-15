@@ -1,28 +1,31 @@
 import { useTranslation } from "next-i18next";
-import Install from "@/public/images/install.svg";
+import InstallLight from "@/public/images/install-light.svg";
+import InstallDark from "@/public/images/install-dark.svg";
 import { H3 } from "@/app/components/Typography";
 import { LinkButton } from "@/app/components/Button";
 import WalletLogo from "@/public/icons/logo.svg";
+import { useDarkMode } from "@/app/contexts/useDarkModeContext";
 
 export const InstallOverlay = () => {
   const { t } = useTranslation();
+  const { darkMode } = useDarkMode();
 
   const isFirefox = navigator.userAgent.includes("Firefox");
   const isChrome = navigator.userAgent.includes("Chrome");
 
   return (
-    <div className="bg-white mx-auto w-full sm:w-96 overflow-hidden shadow-sm rounded-xl">
+    <div className="bg-white mx-auto w-full sm:w-96 overflow-hidden shadow-sm rounded-xl dark:bg-subtle-black">
       <div className="p-8">
-        <div className="text-center flex flex-col items-center">
+        <div className="text-center flex flex-col items-center dark:text-white">
           <H3>{t("WELCOME")}</H3>
 
           <div className="mb-6">
-            <p className="text-md mb-4 text-theme-gray-500">
+            <p className="text-md mb-4 text-theme-gray-500 dark:text-theme-gray-300">
               {t("INSTALL_ARK_CONNECT_TO_START")}
             </p>
 
             <div className="w-2/3 mx-auto">
-              <Install />
+              {darkMode ? <InstallDark /> : <InstallLight />}
             </div>
           </div>
 

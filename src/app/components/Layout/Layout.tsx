@@ -9,7 +9,10 @@ import { Navbar } from "@/app/components/Navbar";
 export const Layout = ({ children }: { children: ReactElement }) => {
   const { t } = useTranslation();
   return (
-    <div id="layout" className="flex flex-col min-h-screen">
+    <div
+      id="layout"
+      className="flex flex-col min-h-screen bg-theme-gray-50 dark:bg-black"
+    >
       <Head>
         <title>{t("PAGE_TITLE")}</title>
       </Head>
