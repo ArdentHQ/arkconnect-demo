@@ -12,3 +12,20 @@ body {
 #__next {
   @apply flex flex-col flex-1;
 }
+
+.table-row {
+  @apply border-t border-theme-gray-200 first:border-none dark:border-theme-gray-700 relative;
+}
+
+.table-row > td {
+  @apply relative z-10;
+}
+
+.table-row::after {
+  @apply absolute inset-0 pointer-events-none z-0 -mx-6 border-x-2 border-y-2 border-white opacity-0 bg-theme-gray-50 transition-default dark:bg-base-black dark:border-subtle-black;
+  content: "";
+}
+
+.table-row:hover::after {
+  @apply opacity-100;
+}
