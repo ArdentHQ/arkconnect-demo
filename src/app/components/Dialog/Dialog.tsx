@@ -3,7 +3,6 @@ import { FormEventHandler } from "react";
 import { ModalProperties, Modal } from "@/app/components/Modal";
 import X from "@/public/icons/x.svg";
 import { Button } from "@/app/components/Button";
-import { useDarkMode } from "@/app/contexts/useDarkModeContext";
 
 interface Properties extends ModalProperties {
   title: string;
@@ -25,8 +24,6 @@ export const Dialog = ({
   onSubmit,
   ...modalProperties
 }: Properties): JSX.Element => {
-  const { darkMode } = useDarkMode();
-
   return (
     <Modal {...modalProperties} onClose={onClose}>
       <form
@@ -58,7 +55,7 @@ export const Dialog = ({
               <Button
                 className="flex-1 sm:flex-none"
                 onClick={onClose}
-                variant={darkMode ? "primary-bordered" : "secondary"}
+                variant={"secondary"}
               >
                 <span className="text-center w-full">{closeButtonLabel}</span>
               </Button>
