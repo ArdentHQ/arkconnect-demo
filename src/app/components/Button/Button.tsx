@@ -96,16 +96,16 @@ export const LinkButton = ({
 export const RoundButton = (properties: ButtonProperties) => (
   <Button
     {...properties}
-    className="p-[0.438rem] rounded-full text-sm aspect-square"
-    hoverClassName="hover:bg-theme-gray-100"
+    className="p-[0.438rem] rounded-full text-sm aspect-square dark:text-white focus-visible:border focus-visible:border-theme-primary-700 disabled:text-theme-gray-500"
+    hoverClassName="hover:bg-theme-gray-100 dark:hover:bg-theme-gray-700"
   />
 );
 
 export const RoundLinkButton = (properties: LinkButtonProperties) => (
   <LinkButton
     {...properties}
-    className="p-[0.438rem] rounded-full text-sm"
-    hoverClassName="hover:bg-theme-gray-100"
+    className="p-[0.438rem] rounded-full text-sm dark:text-white focus-visible:border focus-visible:border-theme-primary-700 disabled:text-theme-gray-500"
+    hoverClassName="hover:bg-theme-gray-100 dark:hover:bg-theme-gray-700"
   />
 );
 
@@ -116,7 +116,7 @@ export const NavbarButton = ({
 }: ButtonProperties) => (
   <Button
     className={twMerge(
-      "px-4 py-[0.625rem] rounded-2xl text-black font-medium text-sm bg-theme-primary-100 active:bg-theme-primary-100 hover:bg-theme-primary-600 hover:text-white hover:border-theme-primary-600 !border-none focus:outline-none min-h-[2.5rem] group",
+      "px-4 py-[0.625rem] rounded-2xl text-black font-medium text-sm bg-theme-primary-100 active:bg-theme-primary-100 hover:bg-theme-primary-600 hover:text-white hover:border-theme-primary-600 border border-transparent focus:outline-none min-h-[2.5rem] group dark:border-theme-primary-600 dark:bg-subtle-black dark:hover:bg-dark-green dark:text-theme-primary-600 transition-default",
       className,
     )}
     {...properties}

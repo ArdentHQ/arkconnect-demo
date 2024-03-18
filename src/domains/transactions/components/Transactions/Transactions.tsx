@@ -24,9 +24,9 @@ export const Transactions = ({ walletData }: { walletData: WalletData }) => {
   });
 
   return (
-    <div className="md:bg-white md:rounded-2.5xl md:mt-6 md:shadow-sm">
-      <div className="px-6 py-6 pb-4">
-        <h3 className="break-words md:text-xl md:leading-[1.563rem] font-medium">
+    <div className="md:bg-white md:rounded-2.5xl md:mt-6 md:shadow-sm dark:md:bg-subtle-black">
+      <div className="px-6 py-6 pb-4 md:px-0">
+        <h3 className="break-words md:text-xl md:leading-[1.563rem] font-medium dark:text-white md:pl-6">
           {t("LATEST_10_TRANSACTIONS")}
         </h3>
       </div>

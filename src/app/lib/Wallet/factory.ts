@@ -1,7 +1,7 @@
+import BigNumber from "bignumber.js";
 import { WalletData } from "./contracts";
 import { Coin, Network } from "@/app/lib/Network";
 import { Currency } from "@/app/lib/Currency";
-import { Coingecko } from "@/app/lib/Coingecko";
 import { Transactions } from "@/app/lib/Transactions/factory";
 import { WalletVotes } from "@/app/lib/Votes";
 import {
@@ -11,7 +11,6 @@ import {
 } from "@/app/lib/Delegates";
 
 export function Wallet(wallet: WalletData) {
-  const exchange = Coingecko();
   const network = Network(wallet);
   const votes = WalletVotes(wallet);
   const delegates = Delegates(wallet);
@@ -24,15 +23,6 @@ export function Wallet(wallet: WalletData) {
   let votingDelegate: DelegateItem | undefined;
 
   return {
-    /**
-     * Fetches the wallet's price data.
-     *
-     * @returns {Promise<void>}
-     */
-    async syncRates(): Promise<void> {
-      await exchange.sync();
-    },
-
     /**
      * Fetches the top 51 delegates.
      *
@@ -125,10 +115,10 @@ export function Wallet(wallet: WalletData) {
      *
      * @returns {ReturnType<typeof Currency>}
      */
-    balance(): ReturnType<typeof Currency> {
+    balance(rate: BigNumber): ReturnType<typeof Currency> {
       return Currency({
         coin: this.coin(),
-        rate: this.network().isMainnet() ? exchange.price().toString() : 0,
+        rate: this.network().isMainnet() ? rate.toString() : 0,
         value: wallet.balance?.toString() ?? 0,
       });
     },

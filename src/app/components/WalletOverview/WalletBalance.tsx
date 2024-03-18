@@ -18,22 +18,20 @@ export const WalletBalance = ({
   return (
     <div
       className={cn(
-        "flex flex-col items-start sm:items-end sm:flex-row justify-between w-full p-6 bg-theme-primary-700 text-white",
+        "flex flex-col items-start sm:items-end sm:flex-row justify-between w-full p-6 bg-theme-primary-700 text-white dark:bg-theme-primary-900",
         className,
       )}
     >
       <div className="flex flex-col  items-start">
-        <p className="font-medium text-sm leading-[0.938rem] mb-1">
+        <p className="font-medium text-xs leading-[0.938rem] mb-1">
           <span className="text-theme-primary-100">{t("BALANCE")}</span>{" "}
-          <span className="text-theme-primary-500">
-            {walletData.network !== NetworkType.MAINNET || !balance
-              ? t("NA")
-              : balance.usd}
+          <span className="text-theme-primary-500 dark:text-theme-primary-100">
+            {walletData.network === NetworkType.MAINNET ? balance.usd : t("NA")}
           </span>
         </p>
 
-        <div className="leading-[1.25rem] w-full font-bold font-sans text-xl">
-          {balance?.ark}
+        <div className="leading-[1.25rem] w-full font-bold font-sans text-xl dark:text-white">
+          {balance.ark}
         </div>
       </div>
 
@@ -59,7 +57,7 @@ export const WalletBalance = ({
         <Button
           variant="secondary"
           onClick={onSend}
-          className="w-full sm:w-auto"
+          className="w-full sm:w-auto dark:bg-theme-primary-600 dark:border-theme-primary-600 dark:text-white dark:hover:bg-theme-primary-700 dark:hover:border-theme-primary-700"
         >
           {t("Send")}
         </Button>

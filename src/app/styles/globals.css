@@ -24,6 +24,10 @@
   @apply bg-theme-primary-700 rounded-[10px] border-4 border-solid border-transparent bg-clip-padding;
 }
 
+.dark ::-webkit-scrollbar-thumb {
+  @apply bg-theme-primary-600;
+}
+
 ::-webkit-scrollbar-thumb:hover {
   @apply bg-theme-primary-800
 }
@@ -32,4 +36,8 @@
   .delegates-list-parent {
     @apply pr-[14px]
   }
+}
+
+.dark {
+  @apply bg-subtle-black
 }
