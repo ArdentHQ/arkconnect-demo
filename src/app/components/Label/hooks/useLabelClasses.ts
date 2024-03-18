@@ -6,7 +6,7 @@ export const useLabelClasses = ({ variant }: { variant: LabelVariant }) => {
   const colors = {
     info: "bg-theme-gray-100 text-theme-gray-500 font-medium leading-[125%] dark:bg-theme-gray-700 dark:text-theme-gray-300",
     warning:
-      "bg-theme-warning-100 text-theme-warning-600 font-medium leading-[125%] dark:bg-transparent dark:text-[#F39B9B] dark:outline dark:outline-[#AA6868]",
+      "bg-theme-warning-100 text-theme-warning-600 font-medium leading-[125%] dark:bg-transparent dark:text-[#F39B9B] dark:border dark:border-[#AA6868]",
     success:
       "bg-theme-primary-100 text-theme-primary-700 font-medium leading-[125%] dark:bg-transparent dark:text-theme-primary-600 dark:border dark:border-theme-primary-600",
     danger:
