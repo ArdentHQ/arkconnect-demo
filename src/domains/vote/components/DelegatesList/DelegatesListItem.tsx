@@ -80,7 +80,7 @@ export const DelegatesListItem = ({
           <TruncateMiddle>{delegate.username}</TruncateMiddle>
         </div>
 
-        {isResigned && (
+        {!isResigned && (
           <Label variant="danger" className="flex-shrink-0 text-xs ml-auto">
             {t("RESIGNED")}
           </Label>
