@@ -15,9 +15,7 @@ interface TableProperties<T> {
 }
 
 export const TableRow = ({ children }: HTMLAttributes<HTMLTableRowElement>) => (
-  <tr className="border-t border-theme-gray-200 first:border-none dark:border-theme-gray-700">
-    {children}
-  </tr>
+  <tr className="table-row">{children}</tr>
 );
 
 export const TableCell = ({
