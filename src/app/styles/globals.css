@@ -37,3 +37,7 @@
     @apply pr-[14px]
   }
 }
+
+.dark {
+  @apply bg-subtle-black
+}

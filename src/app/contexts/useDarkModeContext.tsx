@@ -17,6 +17,11 @@ export const DarkModeProvider = ({ children }) => {
     const isDarkMode = localStorage.getItem("darkMode");
     if (isDarkMode) {
       setDarkMode(!!JSON.parse(isDarkMode));
+    } else {
+      const prefersDarkMode = window.matchMedia(
+        "(prefers-color-scheme: dark)",
+      ).matches;
+      setDarkMode(prefersDarkMode);
     }
   }, []);
 

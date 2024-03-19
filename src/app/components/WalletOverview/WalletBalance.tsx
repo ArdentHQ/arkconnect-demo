@@ -57,7 +57,7 @@ export const WalletBalance = ({
         <Button
           variant="secondary"
           onClick={onSend}
-          className="w-full sm:w-auto"
+          className="w-full sm:w-auto dark:bg-theme-primary-600 dark:border-theme-primary-600 dark:text-white dark:hover:bg-theme-primary-700 dark:hover:border-theme-primary-700"
         >
           {t("Send")}
         </Button>

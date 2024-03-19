@@ -53,9 +53,9 @@ export const Dialog = ({
           {showActionButtons && (
             <div className="flex space-x-3 justify-end mt-4">
               <Button
-                variant="secondary"
                 className="flex-1 sm:flex-none"
                 onClick={onClose}
+                variant={"secondary"}
               >
                 <span className="text-center w-full">{closeButtonLabel}</span>
               </Button>

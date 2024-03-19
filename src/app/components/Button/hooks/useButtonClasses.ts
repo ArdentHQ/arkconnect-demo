@@ -25,7 +25,7 @@ export const useButtonClasses = ({
     primary:
       "bg-theme-primary-700 text-white border-theme-primary-700 dark:bg-theme-primary-600 dark:border-theme-primary-600",
     secondary:
-      "border border-white bg-white text-theme-primary-700 dark:bg-theme-primary-600 dark:border-theme-primary-600 dark:text-white",
+      "border border-white bg-white text-theme-primary-700 dark:bg-transparent dark:border-theme-primary-600 dark:text-theme-primary-600 dark:hover:bg-dark-green",
     "secondary-bordered": "border border-white",
     transparent:
       "border-transparent bg-transparent focus-visible:bg-transparent focus-visible:border-theme-primary-700",
@@ -64,8 +64,9 @@ export const useButtonClasses = ({
   const padding = "py-[0.625rem] px-[1.25rem]";
 
   const hover =
-    hoverClassName ??
-    "hover:bg-theme-primary-600 hover:text-white hover:border-theme-primary-600 dark:hover:bg-theme-primary-700 dark:hover:border-theme-primary-700";
+    hoverClassName ?? variant === "secondary"
+      ? ""
+      : "hover:bg-theme-primary-600 hover:text-white hover:border-theme-primary-600 dark:hover:bg-theme-primary-700 dark:hover:border-theme-primary-700";
 
   return {
     disabled: busy
