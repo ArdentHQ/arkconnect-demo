@@ -98,7 +98,7 @@ export const SendModal = ({
       },
       validate: (value, formValues) => {
         if (
-          Number(value) + Number(formValues.amount ?? 0) >
+          Number(value) + Number(formValues.amount) >
           Number(wallet.balance ?? 0)
         ) {
           return t("FEE_EXCEEDS_BALANCE");
