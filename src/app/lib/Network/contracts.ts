@@ -35,6 +35,7 @@ export enum Coin {
 
 export interface SignTransactionRequest {
   amount: number;
+  fee: number;
   receiverAddress: string;
 }
 
