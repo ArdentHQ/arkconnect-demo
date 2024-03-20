@@ -118,7 +118,7 @@ export const SendModal = ({
       show={show}
       onClose={onClose}
       // eslint-disable-next-line @typescript-eslint/no-misused-promises
-      onSubmit={handleSubmit(submitHandler, errors)}
+      onSubmit={handleSubmit(submitHandler)}
       continueDisabled={!isValid}
       title={t("SEND_ARK")}
     >
