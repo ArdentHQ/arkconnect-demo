@@ -87,7 +87,7 @@ export const SendModal = ({
 
   useEffect(() => {
     const inputProperties = register("fee", {
-      required: t("FEE"),
+      required: t("FEE_IS_REQUIRED"),
       min: {
         value: 0.000_000_01,
         message: t("FEE_TOO_LOW"),
