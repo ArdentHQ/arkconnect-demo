@@ -2,7 +2,7 @@
 import assert from "assert";
 import { useTranslation } from "next-i18next";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useEffect } from "react";
+import { FormEvent, useEffect } from "react";
 import { Dialog } from "@/app/components/Dialog";
 import { InputGroup } from "@/app/components/InputGroup";
 import { Input } from "@/app/components/Input";
@@ -132,6 +132,11 @@ export const SendModal = ({
             min="0"
             placeholder="Enter Amount"
             step="0.00000001"
+            onInput={(event: FormEvent<HTMLInputElement>) => {
+              event.currentTarget.value = Number(
+                event.currentTarget.value,
+              ).toFixed(8);
+            }}
             {...register("amount", {
               required: t("AMOUNT_REQUIRED"),
               min: {
