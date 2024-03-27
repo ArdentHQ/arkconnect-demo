@@ -1,17 +1,19 @@
 /* eslint-disable max-lines-per-function */
 import assert from "assert";
 import { useTranslation } from "next-i18next";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { useEffect } from "react";
+import { SubmitHandler, useForm, UseFormRegisterReturn } from "react-hook-form";
+import React, { useEffect, useState } from "react";
 import { Dialog } from "@/app/components/Dialog";
 import { InputGroup } from "@/app/components/InputGroup";
 import { Input } from "@/app/components/Input";
 import { NetworkType, SignTransactionResponse } from "@/app/lib/Network";
 import { useArkConnectContext } from "@/app/contexts/useArkConnectContext";
+import { FeeInput } from "@/domains/transactions/components/SendModal/SendModal.blocks";
 
 type FormSubmitHandler = SubmitHandler<{
   amount: string;
   receiverAddress: string;
+  fee: number;
 }>;
 
 export const SendModal = ({
@@ -30,14 +32,17 @@ export const SendModal = ({
     handleSubmit,
     formState: { errors, isValid },
     reset,
+    setValue,
   } = useForm<{
     amount: string;
     receiverAddress: string;
+    fee: number;
   }>({
     mode: "all",
     defaultValues: {
       amount: "",
       receiverAddress: "",
+      fee: 0,
     },
   });
 
@@ -55,6 +60,7 @@ export const SendModal = ({
   const submitHandler: FormSubmitHandler = async ({
     amount,
     receiverAddress,
+    fee,
   }) => {
     try {
       // @TODO: handle success response
@@ -62,6 +68,7 @@ export const SendModal = ({
       const response: SignTransactionResponse = await signTransaction({
         amount: Number(amount),
         receiverAddress,
+        fee: Number(fee),
       });
 
       onClose();
@@ -73,6 +80,38 @@ export const SendModal = ({
 
   // @TODO: is this the best way to get the coin name?
   const coin = wallet.network === NetworkType.DEVNET ? "DARK" : "ARK";
+
+  const [feeInputProperties, setFeeInputProperties] = useState(
+    {} as UseFormRegisterReturn,
+  );
+
+  useEffect(() => {
+    const inputProperties = register("fee", {
+      required: t("FEE_IS_REQUIRED"),
+      min: {
+        value: 0.000_000_01,
+        message: t("FEE_TOO_LOW"),
+      },
+      max: {
+        value: 1,
+        message: t("FEE_TOO_HIGH"),
+      },
+      validate: (value, formValues) => {
+        if (
+          Number(value) + Number(formValues.amount) >
+          Number(wallet.balance ?? 0)
+        ) {
+          return t("FEE_EXCEEDS_BALANCE");
+        }
+      },
+    });
+
+    setFeeInputProperties(inputProperties);
+  }, [register, wallet]);
+
+  const handleFeeOptionSelect = (value: number) => {
+    setValue("fee", value, { shouldValidate: true });
+  };
 
   return (
     <Dialog
@@ -145,6 +184,13 @@ export const SendModal = ({
             })}
           />
         </InputGroup>
+
+        <FeeInput
+          feeInputProperties={feeInputProperties}
+          onFeeOptionSelect={handleFeeOptionSelect}
+          error={errors.fee}
+          network={wallet.network}
+        />
       </div>
     </Dialog>
   );
