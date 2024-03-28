@@ -7,6 +7,7 @@ import { NetworkType } from "@/app/lib/Network";
 import { Input } from "@/app/components/Input";
 import ArrowUp from "@/public/icons/arrow-up.svg";
 import { useNetworkFees } from "@/app/hooks/useNetworkFees";
+import { getNetworkCoin } from "@/app/utils/network";
 
 export const FeeInput = ({
   feeInputProperties,
@@ -182,6 +183,7 @@ const SimpleFeeView = ({
         cryptoAmount={fees.min?.crypto ?? "0"}
         fiatAmount={fees.min?.fiat ?? "0"}
         isSelected={selected === "slow"}
+        network={network}
         onSelect={() => onFeeSelect(fees.min?.crypto ?? "0", "slow")}
       />
       <FeeOption
@@ -189,6 +191,7 @@ const SimpleFeeView = ({
         cryptoAmount={fees.avg?.crypto ?? "0"}
         fiatAmount={fees.avg?.fiat ?? "0"}
         isSelected={selected === "average"}
+        network={network}
         onSelect={() => onFeeSelect(fees.avg?.crypto ?? "0", "average")}
       />
       <FeeOption
@@ -196,6 +199,7 @@ const SimpleFeeView = ({
         cryptoAmount={fees.max?.crypto ?? "0"}
         fiatAmount={fees.max?.fiat ?? "0"}
         isSelected={selected === "fast"}
+        network={network}
         onSelect={() => onFeeSelect(fees.max?.crypto ?? "0", "fast")}
       />
     </div>
@@ -208,12 +212,14 @@ const FeeOption = ({
   fiatAmount,
   isSelected,
   onSelect,
+  network,
 }: {
   title: string;
   cryptoAmount: string;
   fiatAmount: string;
   isSelected?: boolean;
   onSelect: (v: string) => void;
+  network: NetworkType;
 }) => {
   return (
     <button
@@ -238,7 +244,10 @@ const FeeOption = ({
           {" "}
           {title}{" "}
         </span>
-        <span className="leading-4.5"> {cryptoAmount} ARK </span>
+        <span className="leading-4.5">
+          {" "}
+          {cryptoAmount} {getNetworkCoin(network)}
+        </span>
       </span>
       <span className="font-medium leading-4.5 text-theme-gray-400 dark:text-theme-gray-400">
         ${fiatAmount}{" "}
