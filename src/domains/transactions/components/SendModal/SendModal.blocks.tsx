@@ -1,7 +1,8 @@
 import { FieldError, UseFormRegisterReturn } from "react-hook-form";
 import { useTranslation } from "next-i18next";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import cn from "classnames";
+import BigNumber from "bignumber.js";
 import { NetworkType } from "@/app/lib/Network";
 import { Input } from "@/app/components/Input";
 import ArrowUp from "@/public/icons/arrow-up.svg";
@@ -9,12 +10,12 @@ import { useNetworkFees } from "@/app/hooks/useNetworkFees";
 
 export const FeeInput = ({
   feeInputProperties,
-  onFeeOptionSelect,
+  onFeeChange,
   error,
   network,
 }: {
   feeInputProperties: UseFormRegisterReturn;
-  onFeeOptionSelect: (fee: number) => void;
+  onFeeChange: (fee: string) => void;
   error: FieldError | undefined;
   network: NetworkType;
 }) => {
@@ -48,7 +49,7 @@ export const FeeInput = ({
           >
             {t("SIMPLE")}
           </span>
-          <div className="relative w-9 h-5 bg-theme-primary-700 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-theme-gray-300 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-theme-primary-700 after:border after:rounded-full after:h-4 after:w-4 after:transition-all"></div>
+          <div className="relative w-9 h-5 bg-theme-primary-700 peer-focus-visible:outline-none peer-focus-visible:ring-4 peer-focus-visible:ring-theme-gray-300 rounded-full peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-theme-primary-700 after:border after:rounded-full after:h-4 after:w-4 after:transition-all"></div>
           <span
             className={cn("ms-3 text-sm font-medium", {
               "text-theme-gray-900 dark:text-theme-gray-200": advancedView,
@@ -62,11 +63,12 @@ export const FeeInput = ({
 
       <div className="mt-1.5">
         {!advancedView && (
-          <SimpleFeeView onSelect={onFeeOptionSelect} network={network} />
+          <SimpleFeeView onSelect={onFeeChange} network={network} />
         )}
         <AdvancedFeeView
           feeInputProperties={feeInputProperties}
           visible={advancedView}
+          onFeeChange={onFeeChange}
         />
         {error?.message && (
           <span className="text-sm text-theme-error-500">{error.message}</span>
@@ -79,10 +81,15 @@ export const FeeInput = ({
 const AdvancedFeeView = ({
   feeInputProperties,
   visible,
+  onFeeChange,
 }: {
   feeInputProperties: UseFormRegisterReturn;
   visible: boolean;
+  onFeeChange: (value: string) => void;
 }) => {
+  const { ref } = feeInputProperties;
+  const feeInputReference = useRef<HTMLInputElement | null>(null);
+
   return (
     <>
       <div
@@ -97,17 +104,43 @@ const AdvancedFeeView = ({
           step="0.00000001"
           type="number"
           {...feeInputProperties}
+          ref={(element) => {
+            ref(element);
+            feeInputReference.current = element;
+          }}
           className="border-theme-gray-400 rounded-l-lg px-3 text-md leading-5 block w-full py-2.5 focus:ring-1 ring-theme-gray-400 rounded-e-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
         />
         <div className="flex flex-col border border-l-0 dark:border-theme-gray-500 overflow-hidden rounded-e-lg border-theme-gray-400 w-10 shrink-0">
           <button
             type="button"
+            onClick={() => {
+              const nextValue = new BigNumber(
+                feeInputReference.current?.value ?? 0,
+              ).plus(0.01);
+
+              const formatted = Number(nextValue.toString()).toFixed(8);
+
+              onFeeChange(new BigNumber(formatted).toFixed());
+            }}
             className="flex items-center justify-center hover:bg-theme-gray-50 dark:hover:bg-theme-gray-600 basis-1/2 w-full focus:ring-gray-100 focus:ring-2 focus:outline-none relative after:content-[''] after:absolute after:border-t after:bottom-0 after:border-theme-gray-400 after:w-full"
           >
             <ArrowUp className="w-2.5 h-2.5 dark:text-white" />
           </button>
           <button
             type="button"
+            onClick={() => {
+              const nextValue = new BigNumber(
+                feeInputReference.current?.value ?? 0,
+              ).minus(0.01);
+
+              if (!nextValue.isLessThanOrEqualTo(0)) {
+                const formatted = Number(
+                  nextValue.decimalPlaces(8).toFixed(8),
+                ).toFixed(8);
+
+                onFeeChange(new BigNumber(formatted).toFixed());
+              }
+            }}
             className="flex items-center relative hover:bg-theme-gray-50 dark:hover:bg-theme-gray-600 justify-center basis-1/2 text-center  w-full focus:ring-gray-100 focus:ring-2 focus:outline-none"
           >
             <ArrowUp className="w-2.5 h-2.5 rotate-180 dark:text-white" />
@@ -122,7 +155,7 @@ const SimpleFeeView = ({
   onSelect,
   network,
 }: {
-  onSelect: (v: number) => void;
+  onSelect: (v: string) => void;
   network: NetworkType;
 }) => {
   const { t } = useTranslation("transactions");
@@ -130,7 +163,7 @@ const SimpleFeeView = ({
   const [selected, setSelected] = useState("average");
 
   const onFeeSelect = (fee: string, type: string) => {
-    onSelect(Number(fee));
+    onSelect(fee);
     setSelected(type);
   };
 
@@ -180,12 +213,12 @@ const FeeOption = ({
   cryptoAmount: string;
   fiatAmount: string;
   isSelected?: boolean;
-  onSelect: (v: number) => void;
+  onSelect: (v: string) => void;
 }) => {
   return (
     <button
       type="button"
-      onClick={() => onSelect(Number(cryptoAmount))}
+      onClick={() => onSelect(cryptoAmount)}
       className={cn(
         "flex flex-row sm:flex-col flex-1 space-x-1 sm:space-x-0 items-center border p-3 rounded-md",
         {
