@@ -13,7 +13,7 @@ import { FeeInput } from "@/domains/transactions/components/SendModal/SendModal.
 type FormSubmitHandler = SubmitHandler<{
   amount: string;
   receiverAddress: string;
-  fee: number;
+  fee: string;
 }>;
 
 export const SendModal = ({
@@ -36,13 +36,13 @@ export const SendModal = ({
   } = useForm<{
     amount: string;
     receiverAddress: string;
-    fee: number;
+    fee: string;
   }>({
     mode: "all",
     defaultValues: {
       amount: "",
       receiverAddress: "",
-      fee: 0,
+      fee: "0",
     },
   });
 
@@ -96,6 +96,7 @@ export const SendModal = ({
         value: 1,
         message: t("FEE_TOO_HIGH"),
       },
+      valueAsNumber: true,
       validate: (value, formValues) => {
         if (
           Number(value) + Number(formValues.amount) >
@@ -109,7 +110,7 @@ export const SendModal = ({
     setFeeInputProperties(inputProperties);
   }, [register, wallet]);
 
-  const handleFeeOptionSelect = (value: number) => {
+  const handleFeeChange = (value: string) => {
     setValue("fee", value, { shouldValidate: true });
   };
 
@@ -187,7 +188,7 @@ export const SendModal = ({
 
         <FeeInput
           feeInputProperties={feeInputProperties}
-          onFeeOptionSelect={handleFeeOptionSelect}
+          onFeeChange={handleFeeChange}
           error={errors.fee}
           network={wallet.network}
         />
