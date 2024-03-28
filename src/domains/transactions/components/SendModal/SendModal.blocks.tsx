@@ -135,7 +135,7 @@ const AdvancedFeeView = ({
 
               if (!nextValue.isLessThanOrEqualTo(0)) {
                 const formatted = Number(
-                  nextValue.decimalPlaces(8).toFixed(8)
+                  nextValue.decimalPlaces(8).toFixed(8),
                 ).toFixed(8);
 
                 onFeeChange(new BigNumber(formatted).toFixed());
