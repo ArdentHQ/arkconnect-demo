@@ -249,9 +249,11 @@ const FeeOption = ({
           {cryptoAmount} {getNetworkCoin(network)}
         </span>
       </span>
-      <span className="font-medium leading-4.5 text-theme-gray-400 dark:text-theme-gray-400">
-        ${fiatAmount}{" "}
-      </span>
+      {network === NetworkType.MAINNET && (
+        <span className="font-medium leading-4.5 text-theme-gray-400 dark:text-theme-gray-400">
+          ${fiatAmount}{" "}
+        </span>
+      )}
     </button>
   );
 };
