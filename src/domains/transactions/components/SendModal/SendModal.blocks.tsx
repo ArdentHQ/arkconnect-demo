@@ -15,7 +15,7 @@ export const FeeInput = ({
   error,
   network,
 }: {
-  feeInputProperties: UseFormRegisterReturn;
+  feeInputProperties: UseFormRegisterReturn | undefined;
   onFeeChange: (fee: string) => void;
   error: FieldError | undefined;
   network: NetworkType;
@@ -84,11 +84,11 @@ const AdvancedFeeView = ({
   visible,
   onFeeChange,
 }: {
-  feeInputProperties: UseFormRegisterReturn;
+  feeInputProperties: UseFormRegisterReturn | undefined;
   visible: boolean;
   onFeeChange: (value: string) => void;
 }) => {
-  const { ref } = feeInputProperties;
+  const { ref } = feeInputProperties ?? {};
   const feeInputReference = useRef<HTMLInputElement | null>(null);
 
   return (
@@ -106,7 +106,7 @@ const AdvancedFeeView = ({
           type="number"
           {...feeInputProperties}
           ref={(element) => {
-            ref(element);
+            ref?.(element);
             feeInputReference.current = element;
           }}
           className="border-theme-gray-400 rounded-l-lg px-3 text-md leading-5 block w-full py-2.5 focus:ring-1 ring-theme-gray-400 rounded-e-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"

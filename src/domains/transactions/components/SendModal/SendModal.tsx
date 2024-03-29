@@ -9,6 +9,7 @@ import { Input } from "@/app/components/Input";
 import { NetworkType, SignTransactionResponse } from "@/app/lib/Network";
 import { useArkConnectContext } from "@/app/contexts/useArkConnectContext";
 import { FeeInput } from "@/domains/transactions/components/SendModal/SendModal.blocks";
+import { getNetworkCoin } from "@/app/utils/network";
 
 type FormSubmitHandler = SubmitHandler<{
   amount: string;
@@ -33,6 +34,9 @@ export const SendModal = ({
     formState: { errors, isValid },
     reset,
     setValue,
+    trigger,
+    getValues,
+    getFieldState,
   } = useForm<{
     amount: string;
     receiverAddress: string;
@@ -79,11 +83,11 @@ export const SendModal = ({
   };
 
   // @TODO: is this the best way to get the coin name?
-  const coin = wallet.network === NetworkType.DEVNET ? "DARK" : "ARK";
+  const coin = getNetworkCoin(wallet.network);
 
-  const [feeInputProperties, setFeeInputProperties] = useState(
-    {} as UseFormRegisterReturn,
-  );
+  const [feeInputProperties, setFeeInputProperties] = useState<
+    UseFormRegisterReturn | undefined
+  >(undefined);
 
   useEffect(() => {
     const inputProperties = register("fee", {
@@ -102,16 +106,24 @@ export const SendModal = ({
           Number(value) + Number(formValues.amount) >
           Number(wallet.balance ?? 0)
         ) {
-          return t("FEE_EXCEEDS_BALANCE");
+          return Number(formValues.amount) > 0
+            ? t("FEE_AND_AMOUNT_EXCEEDS_BALANCE")
+            : t("FEE_EXCEEDS_BALANCE");
         }
       },
+      deps: ["amount"],
     });
 
     setFeeInputProperties(inputProperties);
   }, [register, wallet]);
 
   const handleFeeChange = (value: string) => {
-    setValue("fee", value, { shouldValidate: true });
+    setValue("fee", value, {
+      shouldValidate: true,
+      shouldTouch: true,
+      shouldDirty: true,
+    });
+    getValues("amount") && void trigger("amount");
   };
 
   return (
@@ -164,8 +176,14 @@ export const SendModal = ({
               </span>
             </span>
           }
-          variant={errors.amount?.message ? "error" : undefined}
-          help={errors.amount?.message}
+          variant={
+            getFieldState("amount").isDirty && errors.amount?.message
+              ? "error"
+              : undefined
+          }
+          help={
+            getFieldState("amount").isDirty ? errors.amount?.message : undefined
+          }
         >
           <Input
             type="number"
@@ -182,6 +200,15 @@ export const SendModal = ({
                 value: Number(wallet.balance ?? 0),
                 message: t("BALANCE_TOO_LOW"),
               },
+              validate: (value, formValues) => {
+                if (
+                  Number(value) + Number(formValues.fee) >
+                  Number(wallet.balance ?? 0)
+                ) {
+                  return t("FEE_AND_AMOUNT_EXCEEDS_BALANCE");
+                }
+              },
+              deps: ["fee"],
             })}
           />
         </InputGroup>
@@ -189,7 +216,7 @@ export const SendModal = ({
         <FeeInput
           feeInputProperties={feeInputProperties}
           onFeeChange={handleFeeChange}
-          error={errors.fee}
+          error={getFieldState("fee").isTouched ? errors.fee : undefined}
           network={wallet.network}
         />
       </div>
