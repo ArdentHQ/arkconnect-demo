@@ -1,6 +1,8 @@
 @import "./variables.css";
 @import "./typography.css";
 @import "./app.css";
+@import 'react-loading-skeleton/dist/skeleton.css';
+
 
 @tailwind base;
 @tailwind components;

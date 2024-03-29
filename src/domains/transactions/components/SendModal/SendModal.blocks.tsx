@@ -8,6 +8,7 @@ import { Input } from "@/app/components/Input";
 import ArrowUp from "@/public/icons/arrow-up.svg";
 import { useNetworkFees } from "@/app/hooks/useNetworkFees";
 import { getNetworkCoin } from "@/app/utils/network";
+import { Skeleton } from "@/app/components/Skeleton";
 
 export const FeeInput = ({
   feeInputProperties,
@@ -171,36 +172,47 @@ const SimpleFeeView = ({
   const { fees, status } = useNetworkFees(network);
 
   useEffect(() => {
-    if (status === "ok" && fees.avg) {
+    if (status === "ok" && fees?.avg) {
       onFeeSelect(fees.avg.crypto, "average");
     }
   }, [status]);
+
+  if (!fees || status === "loading") {
+    const isMainNet = network === NetworkType.MAINNET;
+    return (
+      <div className="flex flex-col sm:flex-row justify-space-between space-y-1.5 sm:space-y-0 sm:space-x-1.5 flex-1">
+        <FeeOptionSkeleton withFiat={isMainNet} />
+        <FeeOptionSkeleton withFiat={isMainNet} />
+        <FeeOptionSkeleton withFiat={isMainNet} />
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col sm:flex-row justify-space-between space-y-1.5 sm:space-y-0 sm:space-x-1.5 flex-1">
       <FeeOption
         title={t("SLOW")}
-        cryptoAmount={fees.min?.crypto ?? "0"}
-        fiatAmount={fees.min?.fiat ?? "0"}
+        cryptoAmount={fees.min.crypto}
+        fiatAmount={fees.min.fiat}
         isSelected={selected === "slow"}
         network={network}
-        onSelect={() => onFeeSelect(fees.min?.crypto ?? "0", "slow")}
+        onSelect={() => onFeeSelect(fees.min.crypto, "slow")}
       />
       <FeeOption
         title={t("AVERAGE")}
-        cryptoAmount={fees.avg?.crypto ?? "0"}
-        fiatAmount={fees.avg?.fiat ?? "0"}
+        cryptoAmount={fees.avg.crypto}
+        fiatAmount={fees.avg.fiat}
         isSelected={selected === "average"}
         network={network}
-        onSelect={() => onFeeSelect(fees.avg?.crypto ?? "0", "average")}
+        onSelect={() => onFeeSelect(fees.avg.crypto, "average")}
       />
       <FeeOption
         title={t("FAST")}
-        cryptoAmount={fees.max?.crypto ?? "0"}
-        fiatAmount={fees.max?.fiat ?? "0"}
+        cryptoAmount={fees.max.crypto}
+        fiatAmount={fees.max.fiat}
         isSelected={selected === "fast"}
         network={network}
-        onSelect={() => onFeeSelect(fees.max?.crypto ?? "0", "fast")}
+        onSelect={() => onFeeSelect(fees.max.crypto, "fast")}
       />
     </div>
   );
@@ -255,5 +267,23 @@ const FeeOption = ({
         </span>
       )}
     </button>
+  );
+};
+
+const FeeOptionSkeleton = ({ withFiat = true }) => {
+  return (
+    <div
+      className={cn(
+        "flex flex-1 sm:justify-center items-center flex-row sm:flex-col border p-3 rounded-md space-x-1 sm:space-x-0 sm:space-y-1 border-theme-gray-400",
+        { "h-[93px]": withFiat },
+        { "h-[75.5px]": !withFiat },
+      )}
+    >
+      <div className="flex justify-between sm:flex-col items-center flex-1">
+        <Skeleton className="w-16 h-5 sm:mb-1 self-center" />
+        <Skeleton className="w-20 h-4.5 self-center" />
+      </div>
+      {withFiat && <Skeleton className="w-16 h-4.5 self-center" />}
+    </div>
   );
 };
