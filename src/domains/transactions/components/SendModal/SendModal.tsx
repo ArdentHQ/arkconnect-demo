@@ -36,7 +36,6 @@ export const SendModal = ({
     setValue,
     trigger,
     getValues,
-    getFieldState,
   } = useForm<{
     amount: string;
     receiverAddress: string;
