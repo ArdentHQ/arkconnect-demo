@@ -6,7 +6,7 @@ import React, { useEffect, useState } from "react";
 import { Dialog } from "@/app/components/Dialog";
 import { InputGroup } from "@/app/components/InputGroup";
 import { Input } from "@/app/components/Input";
-import { NetworkType, SignTransactionResponse } from "@/app/lib/Network";
+import { SignTransactionResponse } from "@/app/lib/Network";
 import { useArkConnectContext } from "@/app/contexts/useArkConnectContext";
 import { FeeInput } from "@/domains/transactions/components/SendModal/SendModal.blocks";
 import { getNetworkCoin } from "@/app/utils/network";
