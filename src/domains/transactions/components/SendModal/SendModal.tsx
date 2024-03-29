@@ -102,13 +102,15 @@ export const SendModal = ({
       },
       valueAsNumber: true,
       validate: (value, formValues) => {
+        if (formValues.amount !== "") {
+          return true;
+        }
+
         if (
           Number(value) + Number(formValues.amount) >
           Number(wallet.balance ?? 0)
         ) {
-          return Number(formValues.amount) > 0
-            ? t("FEE_AND_AMOUNT_EXCEEDS_BALANCE")
-            : t("FEE_EXCEEDS_BALANCE");
+          return t("FEE_EXCEEDS_BALANCE");
         }
       },
       deps: ["amount"],
@@ -176,14 +178,8 @@ export const SendModal = ({
               </span>
             </span>
           }
-          variant={
-            getFieldState("amount").isDirty && errors.amount?.message
-              ? "error"
-              : undefined
-          }
-          help={
-            getFieldState("amount").isDirty ? errors.amount?.message : undefined
-          }
+          variant={errors.amount?.message ? "error" : undefined}
+          help={errors.amount?.message}
         >
           <Input
             type="number"
@@ -216,7 +212,7 @@ export const SendModal = ({
         <FeeInput
           feeInputProperties={feeInputProperties}
           onFeeChange={handleFeeChange}
-          error={getFieldState("fee").isTouched ? errors.fee : undefined}
+          error={errors.fee}
           network={wallet.network}
         />
       </div>
