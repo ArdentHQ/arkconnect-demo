@@ -2,8 +2,9 @@
 import assert from "assert";
 import { useTranslation } from "next-i18next";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
+import { useForm, UseFormRegisterReturn } from "react-hook-form";
 import { Delegates } from "@/domains/vote/components/Delegates";
 import { Dialog } from "@/app/components/Dialog";
 import { Input } from "@/app/components/Input";
@@ -11,6 +12,7 @@ import { InputGroup } from "@/app/components/InputGroup";
 
 import { useToasts } from "@/app/hooks/useToasts";
 import { useArkConnectContext } from "@/app/contexts/useArkConnectContext";
+import { FeeInput } from "@/domains/transactions/components/SendModal/SendModal.blocks";
 
 export interface VotingState {
   votes: string[];
@@ -20,6 +22,7 @@ export interface VotingState {
 export interface VoteInput {
   vote?: VoteType;
   unvote?: VoteType;
+  fee: number;
 }
 
 export interface VoteType {
@@ -34,9 +37,53 @@ export const VoteModal = ({
   show: boolean;
   onClose: () => void;
 }) => {
-  const { t } = useTranslation("common");
+  const { t } = useTranslation();
 
   const { wallet, signVote } = useArkConnectContext();
+
+  const {
+    register,
+    formState: { errors, isValid },
+    setValue,
+    getValues,
+  } = useForm<{
+    fee: string;
+  }>({
+    mode: "all",
+    defaultValues: {
+      fee: "0",
+    },
+  });
+
+  const [feeInputProperties, setFeeInputProperties] = useState(
+    {} as UseFormRegisterReturn,
+  );
+
+  useEffect(() => {
+    const inputProperties = register("fee", {
+      required: t("transactions:FEE_IS_REQUIRED"),
+      min: {
+        value: 0.000_000_01,
+        message: t("transactions:FEE_TOO_LOW"),
+      },
+      max: {
+        value: 1,
+        message: t("transactions:FEE_TOO_HIGH"),
+      },
+      valueAsNumber: true,
+      validate: (value) => {
+        if (Number(value) > Number(wallet.balance ?? 0)) {
+          return t("transactions:FEE_EXCEEDS_BALANCE");
+        }
+      },
+    });
+
+    setFeeInputProperties(inputProperties);
+  }, [register, wallet]);
+
+  const handleFeeChange = (value: string) => {
+    setValue("fee", value, { shouldValidate: true });
+  };
 
   const { showToast } = useToasts();
 
@@ -50,7 +97,9 @@ export const VoteModal = ({
   assert(wallet);
 
   const handleSubmit = () => {
-    const voteInput: VoteInput = {};
+    const voteInput: VoteInput = {
+      fee: Number(getValues("fee")),
+    };
 
     if (voteState.votes.length > 0) {
       voteInput.vote = {
@@ -69,7 +118,7 @@ export const VoteModal = ({
     // eslint-disable-next-line promise/catch-or-return
     signVote(voteInput).then(() => {
       onClose();
-      showToast({ message: t("CHANGES_REGISTERED"), type: "success" });
+      showToast({ message: t("common:CHANGES_REGISTERED"), type: "success" });
       return 0;
     });
   };
@@ -79,15 +128,17 @@ export const VoteModal = ({
       show={show}
       onClose={onClose}
       onSubmit={handleSubmit}
-      title={t("VOTE_FOR_DELEGATE")}
+      title={t("common:VOTE_FOR_DELEGATE")}
       continueDisabled={
-        voteState.votes.length === 0 && voteState.unvotes.length === 0
+        voteState.votes.length === 0 &&
+        voteState.unvotes.length === 0 &&
+        isValid
       }
     >
       <div className="flex flex-col space-y-4">
         <InputGroup>
           <Input
-            placeholder={t("ENTER_DELEGATE_NAME")}
+            placeholder={t("common:ENTER_DELEGATE_NAME")}
             value={search}
             onChange={(event) => {
               setSearch(
@@ -106,6 +157,13 @@ export const VoteModal = ({
             searchTerm={search}
           />
         </div>
+
+        <FeeInput
+          feeInputProperties={feeInputProperties}
+          onFeeChange={handleFeeChange}
+          error={errors.fee}
+          network={wallet.network}
+        />
       </div>
     </Dialog>
   );
