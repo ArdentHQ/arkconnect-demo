@@ -23,9 +23,9 @@ export const useButtonClasses = ({
 } => {
   const colors = {
     primary:
-      "bg-theme-primary-700 text-white border-theme-primary-700 dark:bg-theme-primary-600 dark:border-theme-primary-600",
+      "bg-theme-primary-700 text-white border-theme-primary-700 dark:bg-theme-primary-600 dark:border-theme-primary-600 focus-visible:shadow-button",
     secondary:
-      "border border-white bg-white text-theme-primary-700 dark:bg-transparent dark:border-theme-primary-600 dark:text-theme-primary-600 dark:hover:bg-dark-green",
+      "border border-theme-primary-700 bg-white text-theme-primary-700 dark:bg-transparent dark:border-theme-primary-600 dark:text-theme-primary-600 dark:hover:bg-dark-green focus-visible:shadow-button",
     "secondary-bordered": "border border-white",
     transparent:
       "border-transparent bg-transparent focus-visible:bg-transparent focus-visible:border-theme-primary-700",
@@ -65,7 +65,7 @@ export const useButtonClasses = ({
 
   const hover =
     hoverClassName ?? variant === "secondary"
-      ? ""
+      ? "hover:bg-theme-primary-50 dark:hover:bg-dark-green"
       : "hover:bg-theme-primary-600 hover:text-white hover:border-theme-primary-600 dark:hover:bg-theme-primary-700 dark:hover:border-theme-primary-700";
 
   return {
