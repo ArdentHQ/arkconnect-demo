@@ -64,6 +64,6 @@ export const useNetworkFees = (network: NetworkType) => {
 
   return {
     status: "loading",
-    fees: {},
+    fees: undefined,
   };
 };
