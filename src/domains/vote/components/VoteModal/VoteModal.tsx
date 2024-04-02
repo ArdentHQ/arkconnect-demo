@@ -163,6 +163,7 @@ export const VoteModal = ({
           onFeeChange={handleFeeChange}
           error={errors.fee}
           network={wallet.network}
+          className="pt-3"
         />
       </div>
     </Dialog>
