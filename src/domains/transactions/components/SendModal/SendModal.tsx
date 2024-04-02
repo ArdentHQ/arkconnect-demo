@@ -173,7 +173,7 @@ export const SendModal = ({
 
               <span className="text-theme-gray-400 text-sm">
                 <span>{t("AVAILABLE")}</span>{" "}
-                <span>{`${wallet.balance} ${coin}`}</span>
+                <span className="text-theme-gray-500 dark:text-theme-gray-400">{`${wallet.balance} ${coin}`}</span>
               </span>
             </span>
           }
