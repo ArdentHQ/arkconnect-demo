@@ -44,7 +44,7 @@ export const FeeInput = ({
           />
           <span
             className={cn("ms-3 text-sm font-medium", {
-              "text-theme-gray-00 dark:text-theme-gray-200": !advancedView,
+              "text-theme-gray-500 dark:text-theme-gray-200": !advancedView,
               "text-theme-gray-400 dark:text-theme-gray-400": advancedView,
             })}
           >
