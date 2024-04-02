@@ -61,6 +61,7 @@ export interface SignVoteRequest {
     amount: number;
     delegateAddress: string;
   };
+  fee: number;
 }
 
 export interface SignVoteResponse {
