@@ -11,6 +11,7 @@
   "AMOUNT_REQUIRED": "Amount is required",
   "SEND_ARK": "Send ARK",
   "TRANSACTION_FEE": "Transaction Fee",
+  "FEE": "Fee",
   "FEE_IS_REQUIRED": "Fee is required",
   "ADVANCED": "Advanced",
   "SIMPLE": "Simple",
