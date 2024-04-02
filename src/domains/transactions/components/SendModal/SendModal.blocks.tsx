@@ -51,7 +51,7 @@ export const FeeInput = ({
           >
             {t("SIMPLE")}
           </span>
-          <div className="relative w-9 h-5 bg-theme-primary-700 peer-focus-visible:outline-none peer-focus-visible:ring-4 peer-focus-visible:ring-theme-gray-300 rounded-full peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-theme-primary-700 after:border after:rounded-full after:h-4 after:w-4 after:transition-all"></div>
+          <div className="relative w-9 h-5 bg-theme-primary-700 peer-focus-visible:outline-none peer-focus-visible:ring-2 ring-offset-1 peer-focus-visible:ring-theme-gray-300 rounded-full peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-theme-primary-700 after:border after:rounded-full after:h-4 after:w-4 after:transition-all"></div>
           <span
             className={cn("ms-3 text-sm font-medium", {
               "text-theme-gray-900 dark:text-theme-gray-200": advancedView,
