@@ -3,6 +3,7 @@ import { useTranslation } from "next-i18next";
 import React, { useEffect, useRef, useState } from "react";
 import cn from "classnames";
 import BigNumber from "bignumber.js";
+import { twMerge } from "tailwind-merge";
 import { NetworkType } from "@/app/lib/Network";
 import { Input } from "@/app/components/Input";
 import ArrowUp from "@/public/icons/arrow-up.svg";
@@ -15,18 +16,20 @@ export const FeeInput = ({
   onFeeChange,
   error,
   network,
+  className,
 }: {
   feeInputProperties: UseFormRegisterReturn | undefined;
   onFeeChange: (fee: string) => void;
   error: FieldError | undefined;
   network: NetworkType;
+  className?: string;
 }) => {
   const { t } = useTranslation("transactions");
 
   const [advancedView, showAdvancedView] = useState(false);
 
   return (
-    <div className="inline-flex flex-col space-y-1.5">
+    <div className={twMerge("inline-flex flex-col space-y-1.5", className)}>
       <div className="flex justify-between">
         <label
           htmlFor="advancedFee"
