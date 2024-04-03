@@ -5,7 +5,7 @@ import { SubmitHandler, useForm, UseFormRegisterReturn } from "react-hook-form";
 import React, { useEffect, useState } from "react";
 import { Dialog } from "@/app/components/Dialog";
 import { InputGroup } from "@/app/components/InputGroup";
-import { Input } from "@/app/components/Input";
+import { Input, NumericInput } from "@/app/components/Input";
 import { SignTransactionResponse } from "@/app/lib/Network";
 import { useArkConnectContext } from "@/app/contexts/useArkConnectContext";
 import { FeeInput } from "@/domains/transactions/components/SendModal/SendModal.blocks";
@@ -180,11 +180,27 @@ export const SendModal = ({
           variant={errors.amount?.message ? "error" : undefined}
           help={errors.amount?.message}
         >
-          <Input
-            type="number"
+          <NumericInput
+            decimalScale={8}
             min="0"
+            displayType="input"
             placeholder="Enter Amount"
-            step="0.00000001"
+            value={getValues("amount")}
+            setValue={(value?: string) =>
+              setValue("amount", value ?? "", {
+                shouldValidate: true,
+                shouldTouch: true,
+                shouldDirty: true,
+              })
+            }
+            onValueChange={({ floatValue }: { floatValue?: number }) => {
+              setValue("amount", floatValue?.toString() ?? "", {
+                shouldValidate: true,
+                shouldTouch: true,
+                shouldDirty: true,
+              });
+              void trigger("amount");
+            }}
             {...register("amount", {
               required: t("AMOUNT_REQUIRED"),
               min: {
