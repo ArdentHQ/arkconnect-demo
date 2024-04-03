@@ -27,7 +27,7 @@ export const NumericInput = ({
   value,
   setValue,
   onValueChange,
-  step = 0.000_000_01,
+  step = 0.01,
   variant,
   ...properties
 }: NumericInputProperties) => {
