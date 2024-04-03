@@ -12,6 +12,7 @@ module.exports = {
       boxShadow: {
         sm: "0px 1px 4px 0px rgba(0, 0, 0, 0.05)",
         xl: "0px 15px 35px 0px rgba(46, 46, 46, 0.14)",
+        button: "0px 0px 0px 4px rgba(229, 243, 237,1)",
       },
       borderRadius: {
         "2.5xl": "1.25rem",
