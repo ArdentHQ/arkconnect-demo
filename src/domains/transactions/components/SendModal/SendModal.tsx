@@ -87,9 +87,12 @@ export const SendModal = ({
   const [feeInputProperties, setFeeInputProperties] = useState<
     UseFormRegisterReturn | undefined
   >(undefined);
+  const [amountInputProperties, setAmountInputProperties] = useState<
+    UseFormRegisterReturn | undefined
+  >(undefined);
 
   useEffect(() => {
-    const inputProperties = register("fee", {
+    const inputFeeProperties = register("fee", {
       required: t("FEE_IS_REQUIRED"),
       min: {
         value: 0.000_000_01,
@@ -115,7 +118,29 @@ export const SendModal = ({
       deps: ["amount"],
     });
 
-    setFeeInputProperties(inputProperties);
+    const inputAmountProperties = register("amount", {
+      required: t("AMOUNT_REQUIRED"),
+      min: {
+        value: 0.000_000_01,
+        message: t("AMOUNT_TOO_LOW"),
+      },
+      max: {
+        value: Number(wallet.balance ?? 0),
+        message: t("BALANCE_TOO_LOW"),
+      },
+      validate: (value, formValues) => {
+        if (
+          Number(value) + Number(formValues.fee) >
+          Number(wallet.balance ?? 0)
+        ) {
+          return t("FEE_AND_AMOUNT_EXCEEDS_BALANCE");
+        }
+      },
+      deps: ["fee"],
+    });
+
+    setFeeInputProperties(inputFeeProperties);
+    setAmountInputProperties(inputAmountProperties);
   }, [register, wallet]);
 
   const handleFeeChange = (value: string) => {
@@ -181,46 +206,17 @@ export const SendModal = ({
           help={errors.amount?.message}
         >
           <NumericInput
-            decimalScale={8}
-            min="0"
-            displayType="input"
+            id="amount"
             placeholder="Enter Amount"
-            value={getValues("amount")}
-            setValue={(value?: string) =>
-              setValue("amount", value ?? "", {
-                shouldValidate: true,
-                shouldTouch: true,
-                shouldDirty: true,
-              })
-            }
-            onValueChange={({ floatValue }: { floatValue?: number }) => {
-              setValue("amount", floatValue?.toString() ?? "", {
+            onValueChange={(value: string) => {
+              setValue("amount", value || "", {
                 shouldValidate: true,
                 shouldTouch: true,
                 shouldDirty: true,
               });
               void trigger("amount");
             }}
-            {...register("amount", {
-              required: t("AMOUNT_REQUIRED"),
-              min: {
-                value: 0.000_000_01,
-                message: t("AMOUNT_TOO_LOW"),
-              },
-              max: {
-                value: Number(wallet.balance ?? 0),
-                message: t("BALANCE_TOO_LOW"),
-              },
-              validate: (value, formValues) => {
-                if (
-                  Number(value) + Number(formValues.fee) >
-                  Number(wallet.balance ?? 0)
-                ) {
-                  return t("FEE_AND_AMOUNT_EXCEEDS_BALANCE");
-                }
-              },
-              deps: ["fee"],
-            })}
+            inputFormProperties={amountInputProperties}
           />
         </InputGroup>
 
