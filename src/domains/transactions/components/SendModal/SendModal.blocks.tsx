@@ -3,7 +3,7 @@ import { useTranslation } from "next-i18next";
 import React, { useEffect, useState } from "react";
 import cn from "classnames";
 import { twMerge } from "tailwind-merge";
-import { NetworkType } from "@/app/lib/Network";
+import { NetworkType, TransactionType } from "@/app/lib/Network";
 import { NumericInput } from "@/app/components/Input";
 import { useNetworkFees } from "@/app/hooks/useNetworkFees";
 import { getNetworkCoin } from "@/app/utils/network";
@@ -15,12 +15,14 @@ export const FeeInput = ({
   error,
   network,
   className,
+  type,
 }: {
   feeInputProperties: UseFormRegisterReturn | undefined;
   onFeeChange: (fee: string) => void;
   error: FieldError | undefined;
   network: NetworkType;
   className?: string;
+  type: TransactionType;
 }) => {
   const { t } = useTranslation("transactions");
 
@@ -66,7 +68,7 @@ export const FeeInput = ({
 
       <div className="mt-1.5">
         {!advancedView && (
-          <SimpleFeeView onSelect={onFeeChange} network={network} />
+          <SimpleFeeView onSelect={onFeeChange} network={network} type={type} />
         )}
         <NumericInput
           id="advancedFee"
@@ -86,9 +88,11 @@ export const FeeInput = ({
 const SimpleFeeView = ({
   onSelect,
   network,
+  type,
 }: {
   onSelect: (v: string) => void;
   network: NetworkType;
+  type: TransactionType;
 }) => {
   const { t } = useTranslation("transactions");
 
@@ -99,7 +103,7 @@ const SimpleFeeView = ({
     setSelected(type);
   };
 
-  const { fees, status } = useNetworkFees(network);
+  const { fees, status } = useNetworkFees(network, type);
 
   useEffect(() => {
     if (status === "ok" && fees?.avg) {

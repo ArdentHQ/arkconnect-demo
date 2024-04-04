@@ -13,6 +13,7 @@ import { InputGroup } from "@/app/components/InputGroup";
 import { useToasts } from "@/app/hooks/useToasts";
 import { useArkConnectContext } from "@/app/contexts/useArkConnectContext";
 import { FeeInput } from "@/domains/transactions/components/SendModal/SendModal.blocks";
+import { TransactionType } from "@/app/lib/Network";
 
 export interface VotingState {
   votes: string[];
@@ -164,6 +165,7 @@ export const VoteModal = ({
           error={errors.fee}
           network={wallet.network}
           className="pt-3"
+          type={TransactionType.VOTE}
         />
       </div>
     </Dialog>
