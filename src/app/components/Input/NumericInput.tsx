@@ -1,38 +1,26 @@
-import React from "react";
+import React, { useRef } from "react";
 import cn from "classnames";
-import {
-  NumericFormat,
-  NumericFormatProps,
-  OnValueChange,
-} from "react-number-format";
 import BigNumber from "bignumber.js";
-import { inputEnabledColorClasses, inputStyleClasses } from "./Input";
-import {
-  InputGroupVariant,
-  useInputGroupContext,
-} from "@/app/components/InputGroup";
+import { UseFormRegisterReturn } from "react-hook-form";
+import { Input } from "./Input";
 import ArrowUp from "@/public/icons/arrow-up.svg";
 
-interface NumericInputProperties extends NumericFormatProps {
+interface InputProperties extends React.InputHTMLAttributes<HTMLInputElement> {
   visible?: boolean;
-  value?: string;
-  onValueChange: OnValueChange;
-  setValue: (value?: string) => void;
   step?: number;
-  variant?: InputGroupVariant;
+  inputFormProperties?: UseFormRegisterReturn;
+  onValueChange: (value: string) => void;
 }
 
 export const NumericInput = ({
   visible = true,
-  value,
-  setValue,
-  onValueChange,
   step = 0.01,
-  variant,
+  inputFormProperties,
+  onValueChange,
   ...properties
-}: NumericInputProperties) => {
-  const { groupVariant } = useInputGroupContext();
-  const inputVariant = variant ?? groupVariant ?? "default";
+}: InputProperties) => {
+  const { ref } = inputFormProperties ?? {};
+  const inputReference = useRef<HTMLInputElement | null>(null);
 
   return (
     <>
@@ -42,26 +30,28 @@ export const NumericInput = ({
           flex: visible,
         })}
       >
-        <NumericFormat
-          decimalScale={8}
-          displayType="input"
-          className={cn(
-            "border-theme-gray-400 rounded-l-lg px-3 text-md leading-5 block w-full py-2.5 focus:ring-1 ring-theme-gray-400 rounded-e-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none",
-            inputEnabledColorClasses[inputVariant],
-            inputStyleClasses,
-          )}
-          value={value}
-          onValueChange={onValueChange}
+        <Input
+          type="text"
+          step={step}
+          {...inputFormProperties}
+          ref={(element) => {
+            ref?.(element);
+            inputReference.current = element;
+          }}
+          className="border-theme-gray-400 rounded-l-lg px-3 text-md leading-5 block w-full py-2.5 focus:ring-1 ring-theme-gray-400 rounded-e-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
           {...properties}
         />
         <div className="flex flex-col border border-l-0 dark:border-theme-gray-500 overflow-hidden rounded-e-lg border-theme-gray-400 w-10 shrink-0">
           <button
             type="button"
             onClick={() => {
-              const nextValue = new BigNumber(value || 0).plus(step);
+              const nextValue = new BigNumber(
+                inputReference.current?.value || 0,
+              ).plus(step);
+
               const formatted = Number(nextValue.toString()).toFixed(8);
 
-              setValue(new BigNumber(formatted).toFixed());
+              onValueChange(new BigNumber(formatted).toFixed());
             }}
             className="flex items-center justify-center hover:bg-theme-gray-50 dark:hover:bg-theme-gray-600 basis-1/2 w-full focus:ring-gray-100 focus:ring-2 focus:outline-none relative after:content-[''] after:absolute after:border-t after:bottom-0 after:border-theme-gray-400 after:w-full"
           >
@@ -70,17 +60,19 @@ export const NumericInput = ({
           <button
             type="button"
             onClick={() => {
-              const nextValue = new BigNumber(value || 0).minus(step);
+              const nextValue = new BigNumber(
+                inputReference.current?.value || 0,
+              ).minus(step);
 
               if (!nextValue.isLessThanOrEqualTo(0)) {
                 const formatted = Number(
                   nextValue.decimalPlaces(8).toFixed(8),
                 ).toFixed(8);
 
-                setValue(new BigNumber(formatted).toFixed());
+                onValueChange(new BigNumber(formatted).toFixed());
               }
             }}
-            className="flex items-center relative hover:bg-theme-gray-50 dark:hover:bg-theme-gray-600 justify-center basis-1/2 text-center w-full focus:ring-gray-100 focus:ring-2 focus:outline-none"
+            className="flex items-center relative hover:bg-theme-gray-50 dark:hover:bg-theme-gray-600 justify-center basis-1/2 text-center  w-full focus:ring-gray-100 focus:ring-2 focus:outline-none"
           >
             <ArrowUp className="w-2.5 h-2.5 rotate-180 dark:text-white" />
           </button>
