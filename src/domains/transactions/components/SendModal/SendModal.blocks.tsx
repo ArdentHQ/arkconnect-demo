@@ -74,6 +74,7 @@ export const FeeInput = ({
           onValueChange={onFeeChange}
           inputFormProperties={feeInputProperties}
           visible={advancedView}
+          variant={error?.message ? "error" : "default"}
         />
         {error?.message && (
           <span className="text-sm text-theme-error-500">{error.message}</span>
