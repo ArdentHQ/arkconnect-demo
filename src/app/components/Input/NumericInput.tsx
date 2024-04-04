@@ -19,7 +19,7 @@ export const NumericInput = ({
   step = 0.01,
   inputFormProperties,
   onValueChange,
-  variant = "default",
+  variant,
   ...properties
 }: InputProperties) => {
   const { ref } = inputFormProperties ?? {};
