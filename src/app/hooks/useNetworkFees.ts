@@ -51,31 +51,23 @@ export const useNetworkFees = (network: NetworkType, type: TransactionType) => {
     [NetworkType.MAINNET]: "https://wallets.ark.io/api/transactions/fees",
   };
 
-  const { data: dynamicFees } = useQuery({
+  const { data: dynamicFeesData } = useQuery({
     queryKey: ["dynamic-network-fees", network],
     staleTime: 0,
     refetchInterval: 3 * 60 * 1000, // 3 minutes
     queryFn: async () => {
       const jsonResponse = await fetch(dynamicFeeNetworkUrls[network]);
-      const response = (await jsonResponse.json()) as DynamicFeesApiResponse;
-
-      return type === TransactionType.VOTE
-        ? response.data["1"].vote
-        : response.data["1"].transfer;
+      return (await jsonResponse.json()) as DynamicFeesApiResponse; // Return the entire response object
     },
   });
 
-  const { data: staticFee } = useQuery({
+  const { data: staticFeesData } = useQuery({
     queryKey: ["static-network-fees", network],
     staleTime: 0,
     refetchInterval: 3 * 60 * 1000, // 3 minutes
     queryFn: async () => {
       const jsonResponse = await fetch(staticFeeNetworksUrls[network]);
-      const response = (await jsonResponse.json()) as StaticFeesApiResponse;
-
-      return type === TransactionType.VOTE
-        ? response.data["1"].vote
-        : response.data["1"].transfer;
+      return (await jsonResponse.json()) as StaticFeesApiResponse;
     },
   });
 
@@ -83,7 +75,17 @@ export const useNetworkFees = (network: NetworkType, type: TransactionType) => {
     network === NetworkType.DEVNET ? Coin.DARK : Coin.ARK,
   );
 
-  if (dynamicFees && rate && staticFee) {
+  if (dynamicFeesData && rate && staticFeesData) {
+    const dynamicFees =
+      type === TransactionType.VOTE
+        ? dynamicFeesData.data["1"].vote
+        : dynamicFeesData.data["1"].transfer;
+
+    const staticFee =
+      type === TransactionType.VOTE
+        ? staticFeesData.data["1"].vote
+        : staticFeesData.data["1"].transfer;
+
     return {
       status: "ok",
       fees: {
