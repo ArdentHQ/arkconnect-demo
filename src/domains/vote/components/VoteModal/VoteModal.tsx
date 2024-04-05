@@ -130,9 +130,9 @@ export const VoteModal = ({
       onSubmit={handleSubmit}
       title={t("common:VOTE_FOR_DELEGATE")}
       continueDisabled={
-        voteState.votes.length === 0 &&
-        voteState.unvotes.length === 0 &&
-        isValid
+        (voteState.votes.length === 0 && voteState.unvotes.length === 0) ||
+        !isValid ||
+        getValues("fee") === "0"
       }
     >
       <div className="flex flex-col space-y-4">
