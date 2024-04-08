@@ -3,6 +3,7 @@ import cn from "classnames";
 import BigNumber from "bignumber.js";
 import { UseFormRegisterReturn } from "react-hook-form";
 import { Input } from "./Input";
+import { InputGroupVariant } from "@/app/components/InputGroup";
 import ArrowUp from "@/public/icons/arrow-up.svg";
 
 interface InputProperties extends React.InputHTMLAttributes<HTMLInputElement> {
@@ -10,6 +11,7 @@ interface InputProperties extends React.InputHTMLAttributes<HTMLInputElement> {
   step?: number;
   inputFormProperties?: UseFormRegisterReturn;
   onValueChange: (value: string) => void;
+  variant?: InputGroupVariant;
 }
 
 export const NumericInput = ({
@@ -17,6 +19,7 @@ export const NumericInput = ({
   step = 0.01,
   inputFormProperties,
   onValueChange,
+  variant,
   ...properties
 }: InputProperties) => {
   const { ref } = inputFormProperties ?? {};
@@ -39,6 +42,7 @@ export const NumericInput = ({
             inputReference.current = element;
           }}
           className="border-theme-gray-400 rounded-l-lg px-3 text-md leading-5 block w-full py-2.5 focus:ring-1 ring-theme-gray-400 rounded-e-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+          variant={variant}
           {...properties}
         />
         <div className="flex flex-col border border-l-0 dark:border-theme-gray-500 overflow-hidden rounded-e-lg border-theme-gray-400 w-10 shrink-0">
