@@ -86,11 +86,16 @@ export const useNetworkFees = (network: NetworkType, type: TransactionType) => {
         ? staticFeesData.data["1"].vote
         : staticFeesData.data["1"].transfer;
 
+    const avgFee =
+      BigNumber(dynamicFees.avg).comparedTo(staticFee) > 0
+        ? staticFee
+        : dynamicFees.avg;
+
     return {
       status: "ok",
       fees: {
         min: formatFee(dynamicFees.min, rate),
-        avg: formatFee(dynamicFees.avg, rate),
+        avg: formatFee(avgFee, rate),
         max: formatFee(staticFee, rate),
       },
     };
