@@ -3,6 +3,11 @@ export enum NetworkType {
   MAINNET = "Mainnet",
 }
 
+export enum TransactionType {
+  TRANSFER = "transfer",
+  VOTE = "vote",
+}
+
 export enum NetworkAddressLink {
   DEVNET = "https://test.arkscan.io/addresses/",
   MAINNET = "https://live.arkscan.io/addresses/",

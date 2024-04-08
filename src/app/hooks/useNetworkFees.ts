@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import BigNumber from "bignumber.js";
 import { useCoingecko } from "@/app/hooks/useCoingecko";
-import { Coin, NetworkType } from "@/app/lib/Network";
+import { Coin, NetworkType, TransactionType } from "@/app/lib/Network";
 import { CurrencyFormatter } from "@/app/utils/currencyFormatter";
 
 interface Fees {
@@ -10,10 +10,19 @@ interface Fees {
   min: string;
 }
 
-interface FeesApiResponse {
+interface DynamicFeesApiResponse {
   data: {
     "1": {
       transfer: Fees;
+      vote: Fees;
+    };
+  };
+}
+interface StaticFeesApiResponse {
+  data: {
+    "1": {
+      transfer: string;
+      vote: string;
     };
   };
 }
@@ -25,25 +34,40 @@ const formatFee = (fee: string, rate: BigNumber) => {
     fiat: CurrencyFormatter.cryptoToCurrency(cryptoAmount, rate, {
       decimals: 2,
     }),
-    crypto: cryptoAmount.decimalPlaces(4).toFixed(4),
+    crypto: Number.parseFloat(
+      cryptoAmount.decimalPlaces(4).toFixed(4),
+    ).toString(),
   };
 };
 
-export const useNetworkFees = (network: NetworkType) => {
-  const networkUrls = {
+export const useNetworkFees = (network: NetworkType, type: TransactionType) => {
+  const dynamicFeeNetworkUrls = {
     [NetworkType.DEVNET]: "https://dwallets.ark.io/api/node/fees",
     [NetworkType.MAINNET]: "https://wallets.ark.io/api/node/fees",
   };
 
-  const { data: fees } = useQuery({
-    queryKey: ["network-fees", network],
+  const staticFeeNetworksUrls = {
+    [NetworkType.DEVNET]: "https://dwallets.ark.io/api/transactions/fees",
+    [NetworkType.MAINNET]: "https://wallets.ark.io/api/transactions/fees",
+  };
+
+  const { data: dynamicFeesData } = useQuery({
+    queryKey: ["dynamic-network-fees", network],
     staleTime: 0,
     refetchInterval: 3 * 60 * 1000, // 3 minutes
     queryFn: async () => {
-      const jsonResponse = await fetch(networkUrls[network]);
-      const response = (await jsonResponse.json()) as FeesApiResponse;
+      const jsonResponse = await fetch(dynamicFeeNetworkUrls[network]);
+      return (await jsonResponse.json()) as DynamicFeesApiResponse; // Return the entire response object
+    },
+  });
 
-      return response.data["1"].transfer;
+  const { data: staticFeesData } = useQuery({
+    queryKey: ["static-network-fees", network],
+    staleTime: 0,
+    refetchInterval: 3 * 60 * 1000, // 3 minutes
+    queryFn: async () => {
+      const jsonResponse = await fetch(staticFeeNetworksUrls[network]);
+      return (await jsonResponse.json()) as StaticFeesApiResponse;
     },
   });
 
@@ -51,13 +75,23 @@ export const useNetworkFees = (network: NetworkType) => {
     network === NetworkType.DEVNET ? Coin.DARK : Coin.ARK,
   );
 
-  if (fees && rate) {
+  if (dynamicFeesData && rate && staticFeesData) {
+    const dynamicFees =
+      type === TransactionType.VOTE
+        ? dynamicFeesData.data["1"].vote
+        : dynamicFeesData.data["1"].transfer;
+
+    const staticFee =
+      type === TransactionType.VOTE
+        ? staticFeesData.data["1"].vote
+        : staticFeesData.data["1"].transfer;
+
     return {
       status: "ok",
       fees: {
-        min: formatFee(fees.min, rate),
-        avg: formatFee(fees.avg, rate),
-        max: formatFee(fees.max, rate),
+        min: formatFee(dynamicFees.min, rate),
+        avg: formatFee(dynamicFees.avg, rate),
+        max: formatFee(staticFee, rate),
       },
     };
   }

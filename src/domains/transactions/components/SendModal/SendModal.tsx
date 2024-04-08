@@ -6,7 +6,7 @@ import React, { useEffect, useState } from "react";
 import { Dialog } from "@/app/components/Dialog";
 import { InputGroup } from "@/app/components/InputGroup";
 import { Input, NumericInput } from "@/app/components/Input";
-import { SignTransactionResponse } from "@/app/lib/Network";
+import { SignTransactionResponse, TransactionType } from "@/app/lib/Network";
 import { useArkConnectContext } from "@/app/contexts/useArkConnectContext";
 import { FeeInput } from "@/domains/transactions/components/SendModal/SendModal.blocks";
 import { getNetworkCoin } from "@/app/utils/network";
@@ -225,6 +225,7 @@ export const SendModal = ({
           onFeeChange={handleFeeChange}
           error={errors.fee}
           network={wallet.network}
+          type={TransactionType.TRANSFER}
         />
       </div>
     </Dialog>
