@@ -23,9 +23,9 @@ export const useButtonClasses = ({
 } => {
   const colors = {
     primary:
-      "bg-theme-primary-700 text-white border-theme-primary-700 dark:bg-theme-primary-600 dark:border-theme-primary-600",
+      "bg-theme-primary-700 text-white border-theme-primary-700 dark:bg-theme-primary-600 dark:border-theme-primary-600 focus-visible:shadow-button dark:focus-visible:shadow-[#2B3D35]",
     secondary:
-      "border border-white bg-white text-theme-primary-700 dark:bg-transparent dark:border-theme-primary-600 dark:text-theme-primary-600 dark:hover:bg-dark-green",
+      "border border-theme-primary-700 bg-white text-theme-primary-700 border-theme-primary-700 dark:bg-transparent dark:border-theme-primary-600 dark:text-theme-primary-600 dark:hover:bg-dark-green focus-visible:shadow-button dark:focus-visible:shadow-[#2B3D35]",
     "secondary-bordered": "border border-white",
     transparent:
       "border-transparent bg-transparent focus-visible:bg-transparent focus-visible:border-theme-primary-700",
@@ -59,13 +59,13 @@ export const useButtonClasses = ({
   }
 
   const base =
-    "flex justify-center items-center font-bold rounded-2xl whitespace-nowrap space-x-[0.6rem] leading-[1.25rem] transition-default border focus:outline-none focus:shadow-outline-primary";
+    "flex justify-center items-center font-bold rounded-2xl whitespace-nowrap space-x-[0.6rem] leading-[1.25rem] transition-default border focus:outline-none focus-visible:ring-2 ring-offset-1 ring-theme-gray-300";
 
   const padding = "py-[0.625rem] px-[1.25rem]";
 
   const hover =
     hoverClassName ?? variant === "secondary"
-      ? ""
+      ? "hover:bg-theme-primary-50 dark:hover:bg-dark-green"
       : "hover:bg-theme-primary-600 hover:text-white hover:border-theme-primary-600 dark:hover:bg-theme-primary-700 dark:hover:border-theme-primary-700";
 
   return {

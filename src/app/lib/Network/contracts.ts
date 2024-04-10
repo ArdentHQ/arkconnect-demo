@@ -3,6 +3,11 @@ export enum NetworkType {
   MAINNET = "Mainnet",
 }
 
+export enum TransactionType {
+  TRANSFER = "transfer",
+  VOTE = "vote",
+}
+
 export enum NetworkAddressLink {
   DEVNET = "https://test.arkscan.io/addresses/",
   MAINNET = "https://live.arkscan.io/addresses/",
@@ -35,6 +40,7 @@ export enum Coin {
 
 export interface SignTransactionRequest {
   amount: number;
+  fee: number;
   receiverAddress: string;
 }
 
@@ -60,6 +66,7 @@ export interface SignVoteRequest {
     amount: number;
     delegateAddress: string;
   };
+  fee: number;
 }
 
 export interface SignVoteResponse {

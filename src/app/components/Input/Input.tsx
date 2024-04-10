@@ -1,5 +1,5 @@
-import classNames from "classnames";
 import React, { useRef, forwardRef, useEffect } from "react";
+import { twMerge } from "tailwind-merge";
 import { useInputIconContext } from "@/app/components/InputIcon";
 import {
   useInputGroupContext,
@@ -57,15 +57,13 @@ export const Input = forwardRef<HTMLInputElement, InputProperties>(
       <input
         id={inputId}
         name={inputName}
-        className={classNames(
+        className={twMerge(
           inputEnabledColorClasses[inputVariant],
           "py-3",
           inputStyleClasses,
-          {
-            "px-4": iconPosition === undefined,
-            "pl-4 pr-10": iconPosition === "right",
-            "pr-4 pl-10": iconPosition === "left",
-          },
+          iconPosition === undefined ? "px-4" : "",
+          iconPosition === "right" ? "pl-4 pr-10" : "",
+          iconPosition === "left" ? "pr-4 pl-10" : "",
           className,
         )}
         ref={isFocused ? focusReference : reference}
