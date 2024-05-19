@@ -60,11 +60,11 @@ export interface SignTransactionResponse {
 export interface SignVoteRequest {
   vote?: {
     amount: number;
-    delegateAddress: string;
+    address: string;
   };
   unvote?: {
     amount: number;
-    delegateAddress: string;
+    address: string;
   };
   fee: number;
 }
@@ -72,11 +72,11 @@ export interface SignVoteRequest {
 export interface SignVoteResponse {
   id: string;
   sender: string;
-  voteDelegateAddress?: string;
-  voteDelegateName?: string;
+  voteAddress?: string;
+  voteName?: string;
   votePublicKey?: string;
-  unvoteDelegateAddress?: string;
-  unvoteDelegateName?: string;
+  unvoteAddress?: string;
+  unvoteName?: string;
   unvotePublicKey?: string;
   exchangeCurrency: string;
   fee: number;
