@@ -28,7 +28,7 @@ export interface VoteInput {
 
 export interface VoteType {
   amount: number;
-  delegateAddress: string;
+  address: string;
 }
 
 export const VoteModal = ({
@@ -105,14 +105,14 @@ export const VoteModal = ({
     if (voteState.votes.length > 0) {
       voteInput.vote = {
         amount: 0,
-        delegateAddress: voteState.votes[0],
+        address: voteState.votes[0],
       };
     }
 
     if (voteState.unvotes.length > 0) {
       voteInput.unvote = {
         amount: 0,
-        delegateAddress: voteState.unvotes[0],
+        address: voteState.unvotes[0],
       };
     }
 
