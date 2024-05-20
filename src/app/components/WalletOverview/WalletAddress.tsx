@@ -57,7 +57,7 @@ export const WalletAddress = ({ walletData }: WalletOverviewProperties) => {
           {votingDelegate !== undefined && (
             <Tooltip
               content={t("VOTING_FOR", {
-                delegateName: votingDelegate.username,
+                name: votingDelegate.username,
               })}
             >
               <div>

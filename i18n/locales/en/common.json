@@ -42,7 +42,7 @@
   "SELECT": "Select",
   "CLOSE_TOAST": "Close toast",
   "CHANGES_REGISTERED": "Changes registered!",
-  "VOTING_FOR": "Voting For {{delegateName}} ",
+  "VOTING_FOR": "Voting For {{name}} ",
   "OPEN_IN_EXPLORER": "Open in Explorer",
   "SIGN_TEXT": "I sign this to prove ownership of my wallet",
   "NETWORK_SWITCH_ERROR_TITLE": "Error while switching network",
