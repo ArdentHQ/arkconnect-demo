@@ -55,7 +55,7 @@ export const Dialog = ({
               <Button
                 className="flex-1 sm:flex-none"
                 onClick={onClose}
-                variant={"secondary"}
+                variant="secondary-transparent"
               >
                 <span className="text-center w-full">{closeButtonLabel}</span>
               </Button>

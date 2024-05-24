@@ -177,7 +177,7 @@ const FeeOption = ({
         {
           "border-theme-primary-600 bg-theme-primary-50 dark:bg-theme-dark-primary-900 dark:border-theme-dark-primary-600":
             isSelected,
-          "border-theme-gray-400 dark:border-theme-gray-500 hover:border-black hover:bg-theme-gray-50 dark:hover:bg-theme-gray-700 dark:hover:border-white":
+          "border-theme-gray-400 dark:border-theme-gray-500 dark:bg-subtle-black hover:border-black hover:bg-theme-gray-   dark:hover:bg-theme-gray-700 dark:hover:border-white":
             !isSelected,
         },
       )}
