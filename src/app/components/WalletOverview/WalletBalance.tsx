@@ -25,7 +25,7 @@ export const WalletBalance = ({
       <div className="flex flex-col  items-start">
         <p className="font-medium text-xs leading-[0.938rem] mb-1">
           <span className="text-theme-primary-100">{t("BALANCE")}</span>{" "}
-          <span className="text-theme-primary-500 dark:text-theme-primary-100">
+          <span className="text-theme-primary-200 dark:text-theme-primary-100">
             {walletData.network === NetworkType.MAINNET ? balance.usd : t("NA")}
           </span>
         </p>

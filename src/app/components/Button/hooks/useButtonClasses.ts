@@ -71,7 +71,7 @@ export const useButtonClasses = ({
       "secondary-bordered":
         "hover:bg-theme-primary-500 hover:text-white hover:border-theme-primary-500",
     }[variant] ??
-    "hover:bg-theme-primary-600 hover:text-white hover:border-theme-primary-600 dark:hover:bg-theme-primary-600 dark:hover:border-theme-primary-600";
+    "hover:bg-theme-primary-500 hover:text-white hover:border-theme-primary-500 dark:hover:bg-theme-primary-600 dark:hover:border-theme-primary-600";
 
   return {
     disabled: busy
