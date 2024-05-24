@@ -69,6 +69,47 @@ export interface SignVoteRequest {
   fee: number;
 }
 
+export type Version = null | string;
+
+export interface VoteTypeV1_9 {
+  amount: number;
+  address: string;
+}
+
+export interface VoteTypeV1_0 {
+  amount: number;
+  delegateAddress: string;
+}
+export interface SignVoteRequestVersioned<V extends Version = Version> {
+  vote?: V extends "1.0.0" | "1.8.0" | null ? VoteTypeV1_0 : VoteTypeV1_9;
+  unvote?: V extends "1.0.0" | "1.8.0" | null ? VoteTypeV1_0 : VoteTypeV1_9;
+  fee: number;
+}
+
+export interface ResponseVoteTypeV1_9 {
+  voteAddress?: string;
+  votePublicKey?: string;
+  unvoteAddress?: string;
+  unvotePublicKey?: string;
+}
+
+export interface ResponseVoteTypeV1_0 {
+  voteDelegateAddress?: string;
+  voteDelegateName?: string;
+  unvoteDelegateAddress?: string;
+  unvoteDelegateName?: string;
+}
+
+export type SignVoteResponseVersioned<V extends Version = Version> = {
+  id: string;
+  sender: string;
+  exchangeCurrency: string;
+  fee: number;
+  convertedFee: number;
+} & (V extends "1.0.0" | "1.8.0" | null
+  ? ResponseVoteTypeV1_0
+  : ResponseVoteTypeV1_9);
+
 export interface SignVoteResponse {
   id: string;
   sender: string;
@@ -129,11 +170,14 @@ export interface ArkConnectExtension {
   signTransaction: (
     transactionRequest: SignTransactionRequest,
   ) => Promise<SignTransactionResponse>;
-  signVote: (voteRequest: SignVoteRequest) => Promise<SignVoteResponse>;
+  signVote: <V extends Version = Version>(
+    voteRequest: SignVoteRequestVersioned<V>,
+  ) => Promise<SignVoteResponseVersioned<V>>;
   signMessage: (options: { message: string }) => Promise<{
     message: string;
     signatory: string;
     signature: string;
   }>;
+  version: () => string;
   loaded: boolean;
 }
