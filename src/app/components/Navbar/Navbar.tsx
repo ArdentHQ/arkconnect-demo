@@ -42,7 +42,7 @@ const NavbarWrapper = ({ children }: { children: ReactElement }) => {
             </span>
 
             <span className="sm:hidden">
-              <SmallLogo className="text-theme-primary-600 dark:text-theme-primary-500 h-6 w-6 transition-default" />
+              <SmallLogo className="text-theme-primary-600 dark:text-theme-dark-primary-500 h-6 w-6 transition-default" />
             </span>
           </Link>
         </li>
