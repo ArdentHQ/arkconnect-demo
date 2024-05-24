@@ -53,6 +53,28 @@ module.exports = {
       "theme-primary-900":
         "rgb(var(--theme-color-primary-900) / <alpha-value>)",
 
+      // dark-primary
+      "theme-dark-primary-50":
+        "rgb(var(--theme-color-dark-primary-50) / <alpha-value>)",
+      "theme-dark-primary-100":
+        "rgb(var(--theme-color-dark-primary-100) / <alpha-value>)",
+      "theme-dark-primary-200":
+        "rgb(var(--theme-color-dark-primary-200) / <alpha-value>)",
+      "theme-dark-primary-300":
+        "rgb(var(--theme-color-dark-primary-300) / <alpha-value>)",
+      "theme-dark-primary-400":
+        "rgb(var(--theme-color-dark-primary-400) / <alpha-value>)",
+      "theme-dark-primary-500":
+        "rgb(var(--theme-color-dark-primary-500) / <alpha-value>)",
+      "theme-dark-primary-600":
+        "rgb(var(--theme-color-dark-primary-600) / <alpha-value>)",
+      "theme-dark-primary-700":
+        "rgb(var(--theme-color-dark-primary-700) / <alpha-value>)",
+      "theme-dark-primary-800":
+        "rgb(var(--theme-color-dark-primary-800) / <alpha-value>)",
+      "theme-dark-primary-900":
+        "rgb(var(--theme-color-dark-primary-900) / <alpha-value>)",
+
       // error
       "theme-error-25": "rgb(var(--theme-color-error-25) / <alpha-value>)",
       "theme-error-50": "rgb(var(--theme-color-error-50) / <alpha-value>)",
@@ -120,9 +142,6 @@ module.exports = {
       "theme-gray-600": "rgb(var(--theme-color-gray-600) / <alpha-value>)",
       "theme-gray-700": "rgb(var(--theme-color-gray-700) / <alpha-value>)",
       "theme-gray-800": "rgb(var(--theme-color-gray-800) / <alpha-value>)",
-
-      // dark green
-      "dark-green": "rgb(var(--theme-color-dark-green) / <alpha-value>)",
     },
   },
 };

@@ -23,7 +23,7 @@ interface NavbarProperties {
 
 const NetworkBox = ({ network }: { network: NetworkType }) => {
   return (
-    <span className="px-4 hidden sm:block py-[0.625rem] max-w-[8.75rem] rounded-2xl text-black font-medium text-sm bg-theme-primary-100 active:bg-theme-primary-100 hover:bg-theme-primary-100 focus:outline-none min-h-[2.5rem] border border-transparent dark:border-theme-primary-600 dark:bg-subtle-black dark:hover:bg-dark-green dark:text-theme-primary-600 cursor-default transition-default">
+    <span className="px-4 hidden sm:block py-[0.625rem] max-w-[8.75rem] rounded-2xl text-black font-medium text-sm bg-theme-primary-100 active:bg-theme-primary-100 hover:bg-theme-primary-100 focus:outline-none min-h-[2.5rem] border border-transparent dark:border-theme-dark-primary-500 dark:bg-subtle-black dark:hover:bg-dark-blue dark:text-theme-dark-primary-500 cursor-default transition-default">
       {network}
     </span>
   );
@@ -42,7 +42,7 @@ const NavbarWrapper = ({ children }: { children: ReactElement }) => {
             </span>
 
             <span className="sm:hidden">
-              <SmallLogo className="text-theme-primary-600 dark:text-theme-primary-600 h-6 w-6 transition-default" />
+              <SmallLogo className="text-theme-primary-600 dark:text-theme-primary-500 h-6 w-6 transition-default" />
             </span>
           </Link>
         </li>

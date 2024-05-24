@@ -23,9 +23,9 @@ export const useButtonClasses = ({
 } => {
   const colors = {
     primary:
-      "bg-theme-primary-600 text-white border-theme-primary-600 dark:bg-theme-primary-600 dark:border-theme-primary-600 focus-visible:shadow-button dark:focus-visible:shadow-[#2B3D35]",
+      "bg-theme-primary-600 text-white border-theme-primary-600 dark:bg-theme-primary-600 dark:border-theme-dark-primary-500 focus-visible:shadow-button dark:focus-visible:shadow-[#2B3D35]",
     secondary:
-      "border border-theme-primary-700 bg-white text-theme-primary-700 border-theme-primary-700 dark:bg-transparent dark:border-theme-primary-600 dark:text-theme-primary-600 dark:hover:bg-dark-green focus-visible:shadow-button dark:focus-visible:shadow-[#2B3D35]",
+      "border border-theme-primary-700 bg-white text-theme-primary-700 border-theme-primary-700 dark:bg-transparent dark:border-theme-primary-600 dark:text-theme-primary-600 dark:hover:bg-dark-blue focus-visible:shadow-button dark:focus-visible:shadow-[#2B3D35]",
     "secondary-bordered": "border border-theme-primary-400",
     transparent:
       "border-transparent bg-transparent focus-visible:bg-transparent focus-visible:border-theme-primary-600",

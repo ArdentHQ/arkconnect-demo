@@ -116,7 +116,7 @@ export const NavbarButton = ({
 }: ButtonProperties) => (
   <Button
     className={twMerge(
-      "px-4 py-[0.625rem] rounded-2xl text-black font-medium text-sm bg-theme-primary-100 active:bg-theme-primary-100 hover:bg-theme-primary-600 hover:text-white hover:border-theme-primary-600 border border-transparent focus:outline-none min-h-[2.5rem] group dark:border-theme-primary-600 dark:bg-subtle-black dark:hover:bg-dark-green dark:text-theme-primary-600 transition-default",
+      "px-4 py-[0.625rem] rounded-2xl text-black font-medium text-sm bg-theme-primary-100 active:bg-theme-primary-100 hover:bg-theme-primary-500 hover:text-white hover:border-theme-primary-500 border border-transparent focus:outline-none min-h-[2.5rem] group dark:border-theme-dark-primary-500 dark:bg-subtle-black dark:hover:bg-theme-dark-primary-900 dark:text-theme-dark-primary-500 transition-default",
       className,
     )}
     {...properties}

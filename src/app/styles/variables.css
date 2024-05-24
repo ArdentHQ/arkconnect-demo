@@ -11,6 +11,18 @@
   --theme-color-primary-800: 7 55 105; /* #073769 */
   --theme-color-primary-900: 6 42 80; /* #062A50 */
 
+  /* dark primary */
+  --theme-color-dark-primary-50: 224 241 255; /* #E0F1FF */
+  --theme-color-dark-primary-100: 197 229 255; /* #C5E5FF */
+  --theme-color-dark-primary-200: 155 208 251; /* #9BD0FB */
+  --theme-color-dark-primary-300: 114 191 251; /* #72BFFB */
+  --theme-color-dark-primary-400: 69 162 235; /* #45A2EB */
+  --theme-color-dark-primary-500: 35 145 231; /* #2391E7 */
+  --theme-color-dark-primary-600: 13 126 214; /* #0D7ED6 */
+  --theme-color-dark-primary-700: 14 108 181; /* #0E6CB5 */
+  --theme-color-dark-primary-800: 14 87 144; /* #0E5790 */
+  --theme-color-dark-primary-900: 26 72 107; /* #1A486B */
+
   /* error */
   --theme-color-error-25: 255 251 250; /* #fffbfa */
   --theme-color-error-50: 254 243 242; /* #fef3f2 */
@@ -77,6 +89,6 @@
   /* base black */
   --theme-color-base-black: 43 43 43; /* #2B2B2B */
 
-  /* dark green */
-  --theme-color-dark-green: 38 55 48; /* #263730 */
+  /* dark blue */
+  --theme-color-dark-blue: 35 145 231; /* #2391E7 */
 }
