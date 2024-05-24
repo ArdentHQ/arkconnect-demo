@@ -25,8 +25,9 @@ export const useButtonClasses = ({
     primary:
       "bg-theme-primary-600 text-white border-theme-primary-600 dark:bg-theme-primary-600 dark:border-theme-dark-primary-500 focus-visible:shadow-button dark:focus-visible:shadow-[#2B3D35]",
     secondary:
-      "border border-theme-primary-700 bg-white text-theme-primary-700 border-theme-primary-700 dark:bg-transparent dark:border-theme-primary-600 dark:text-theme-primary-600 dark:hover:bg-dark-blue focus-visible:shadow-button dark:focus-visible:shadow-[#2B3D35]",
-    "secondary-bordered": "border border-theme-primary-400",
+      "border border-theme-primary-700 bg-white text-theme-primary-700 border-theme-primary-700 dark:bg-theme-dark-primary-600 dark:border-theme-primary-600 dark:text-white focus-visible:shadow-button dark:focus-visible:shadow-[#2B3D35]",
+    "secondary-bordered":
+      "border border-theme-primary-400 dark:border-theme-dark-primary-400",
     transparent:
       "border-transparent bg-transparent focus-visible:bg-transparent focus-visible:border-theme-primary-600",
   };
@@ -65,13 +66,7 @@ export const useButtonClasses = ({
 
   const hover =
     hoverClassName ??
-    {
-      secondary:
-        "hover:bg-theme-primary-500 hover:text-white hover:border-theme-primary-500",
-      "secondary-bordered":
-        "hover:bg-theme-primary-500 hover:text-white hover:border-theme-primary-500",
-    }[variant] ??
-    "hover:bg-theme-primary-500 hover:text-white hover:border-theme-primary-500 dark:hover:bg-theme-primary-600 dark:hover:border-theme-primary-600";
+    "hover:bg-theme-primary-500 hover:text-white hover:border-theme-primary-500 dark:hover:bg-theme-dark-primary-500";
 
   return {
     disabled: busy
