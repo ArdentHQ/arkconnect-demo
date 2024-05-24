@@ -22,8 +22,8 @@ export default function Document() {
           href="/favicon-16x16.png"
         />
         <link rel="manifest" href="/site.webmanifest" />
-        <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#058751" />
-        <meta name="msapplication-TileColor" content="#058751" />
+        <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#2b5797" />
+        <meta name="msapplication-TileColor" content="#2b5797" />
         <meta name="theme-color" content="#ffffff" />
         <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
 
