@@ -54,7 +54,7 @@ export const FeeInput = ({
           >
             {t("SIMPLE")}
           </span>
-          <div className="relative w-9 h-5 bg-theme-primary-700 peer-focus-visible:outline-none peer-focus-visible:ring-2 ring-offset-1 peer-focus-visible:ring-theme-gray-300 rounded-full peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-theme-primary-700 after:border after:rounded-full after:h-4 after:w-4 after:transition-all"></div>
+          <div className="relative w-9 h-5 bg-theme-primary-600 peer-focus-visible:outline-none peer-focus-visible:ring-2 ring-offset-1 peer-focus-visible:ring-theme-gray-300 rounded-full peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-theme-primary-600 after:border after:rounded-full after:h-4 after:w-4 after:transition-all"></div>
           <span
             className={cn("ms-3 text-sm font-medium", {
               "text-theme-gray-500 dark:text-theme-gray-200": advancedView,
@@ -175,7 +175,7 @@ const FeeOption = ({
       className={cn(
         "flex flex-row sm:flex-col flex-1 space-x-1 sm:space-x-0 items-center border p-3 rounded-md",
         {
-          "border-theme-primary-700 bg-theme-primary-50 dark:bg-[#02a86326] dark:border-theme-primary-650":
+          "border-theme-primary-600 bg-theme-primary-50 dark:bg-[#02a86326] dark:border-theme-primary-600":
             isSelected,
           "border-theme-gray-400 dark:border-theme-gray-500 hover:border-black hover:bg-theme-gray-50 dark:hover:bg-theme-gray-700 dark:hover:border-white":
             !isSelected,

@@ -23,12 +23,12 @@ export const useButtonClasses = ({
 } => {
   const colors = {
     primary:
-      "bg-theme-primary-700 text-white border-theme-primary-700 dark:bg-theme-primary-600 dark:border-theme-primary-600 focus-visible:shadow-button dark:focus-visible:shadow-[#2B3D35]",
+      "bg-theme-primary-600 text-white border-theme-primary-600 dark:bg-theme-primary-600 dark:border-theme-primary-600 focus-visible:shadow-button dark:focus-visible:shadow-[#2B3D35]",
     secondary:
       "border border-theme-primary-700 bg-white text-theme-primary-700 border-theme-primary-700 dark:bg-transparent dark:border-theme-primary-600 dark:text-theme-primary-600 dark:hover:bg-dark-green focus-visible:shadow-button dark:focus-visible:shadow-[#2B3D35]",
-    "secondary-bordered": "border border-white",
+    "secondary-bordered": "border border-theme-primary-400",
     transparent:
-      "border-transparent bg-transparent focus-visible:bg-transparent focus-visible:border-theme-primary-700",
+      "border-transparent bg-transparent focus-visible:bg-transparent focus-visible:border-theme-primary-600",
   };
 
   let disabledClass: {
@@ -64,13 +64,18 @@ export const useButtonClasses = ({
   const padding = "py-[0.625rem] px-[1.25rem]";
 
   const hover =
-    hoverClassName ?? variant === "secondary"
-      ? "hover:bg-theme-primary-50 dark:hover:bg-dark-green"
-      : "hover:bg-theme-primary-600 hover:text-white hover:border-theme-primary-600 dark:hover:bg-theme-primary-700 dark:hover:border-theme-primary-700";
+    hoverClassName ??
+    {
+      secondary:
+        "hover:bg-theme-primary-500 hover:text-white hover:border-theme-primary-500",
+      "secondary-bordered":
+        "hover:bg-theme-primary-500 hover:text-white hover:border-theme-primary-500",
+    }[variant] ??
+    "hover:bg-theme-primary-600 hover:text-white hover:border-theme-primary-600 dark:hover:bg-theme-primary-600 dark:hover:border-theme-primary-600";
 
   return {
     disabled: busy
-      ? "disabled:bg-theme-primary-700 disabled:border-theme-primary-700"
+      ? "disabled:bg-theme-primary-600 disabled:border-theme-primary-600"
       : disabledClass[variant],
     base: base,
     colors: colors[variant],

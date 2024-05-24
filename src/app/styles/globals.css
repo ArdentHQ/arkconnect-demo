@@ -3,7 +3,6 @@
 @import "./skeletons.css";
 @import "./app.css";
 
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -30,7 +29,7 @@
   }
 
   .table-row:hover::after {
-    @apply opacity-100 content-[""]; 
+    @apply opacity-100 content-[""];
   }
 }
 
@@ -49,7 +48,7 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply bg-theme-primary-700 rounded-[10px] border-4 border-solid border-transparent bg-clip-padding;
+  @apply bg-theme-primary-600 rounded-[10px] border-4 border-solid border-transparent bg-clip-padding;
 }
 
 .dark ::-webkit-scrollbar-thumb {
@@ -57,15 +56,15 @@
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  @apply bg-theme-primary-800
+  @apply bg-theme-primary-800;
 }
 
 @-moz-document url-prefix() {
   .delegates-list-parent {
-    @apply pr-[14px]
+    @apply pr-[14px];
   }
 }
 
 .dark {
-  @apply bg-subtle-black
+  @apply bg-subtle-black;
 }

@@ -46,8 +46,6 @@ module.exports = {
         "rgb(var(--theme-color-primary-500) / <alpha-value>)",
       "theme-primary-600":
         "rgb(var(--theme-color-primary-600) / <alpha-value>)",
-      "theme-primary-650":
-        "rgb(var(--theme-color-primary-650) / <alpha-value>)",
       "theme-primary-700":
         "rgb(var(--theme-color-primary-700) / <alpha-value>)",
       "theme-primary-800":
@@ -92,15 +90,24 @@ module.exports = {
 
       // success
       "theme-success-50": "rgb(var(--theme-color-success-50) / <alpha-value>)",
-      "theme-success-100": "rgb(var(--theme-color-success-100) / <alpha-value>)",
-      "theme-success-200": "rgb(var(--theme-color-success-200) / <alpha-value>)",
-      "theme-success-300": "rgb(var(--theme-color-success-300) / <alpha-value>)",
-      "theme-success-400": "rgb(var(--theme-color-success-400) / <alpha-value>)",
-      "theme-success-500": "rgb(var(--theme-color-success-500) / <alpha-value>)",
-      "theme-success-600": "rgb(var(--theme-color-success-600) / <alpha-value>)",
-      "theme-success-700": "rgb(var(--theme-color-success-700) / <alpha-value>)",
-      "theme-success-800": "rgb(var(--theme-color-success-800) / <alpha-value>)",
-      "theme-success-900": "rgb(var(--theme-color-success-900) / <alpha-value>)",
+      "theme-success-100":
+        "rgb(var(--theme-color-success-100) / <alpha-value>)",
+      "theme-success-200":
+        "rgb(var(--theme-color-success-200) / <alpha-value>)",
+      "theme-success-300":
+        "rgb(var(--theme-color-success-300) / <alpha-value>)",
+      "theme-success-400":
+        "rgb(var(--theme-color-success-400) / <alpha-value>)",
+      "theme-success-500":
+        "rgb(var(--theme-color-success-500) / <alpha-value>)",
+      "theme-success-600":
+        "rgb(var(--theme-color-success-600) / <alpha-value>)",
+      "theme-success-700":
+        "rgb(var(--theme-color-success-700) / <alpha-value>)",
+      "theme-success-800":
+        "rgb(var(--theme-color-success-800) / <alpha-value>)",
+      "theme-success-900":
+        "rgb(var(--theme-color-success-900) / <alpha-value>)",
 
       // gray
       "theme-gray-25": "rgb(var(--theme-color-gray-25) / <alpha-value>)",

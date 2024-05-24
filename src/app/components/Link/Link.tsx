@@ -12,7 +12,7 @@ export const Link = ({ href, className, ...properties }: LinkProperties) => {
       href={href}
       {...properties}
       className={twMerge(
-        "text-theme-primary-700 text-sm font-medium leading-[125%] hover:text-theme-primary-600 group hover:underline transition-default focus:outline-none focus:shadow-outline-primary dark:text-theme-primary-600",
+        "text-theme-primary-600 text-sm font-medium leading-[125%] hover:text-theme-primary-600 group hover:underline transition-default focus:outline-none focus:shadow-outline-primary dark:text-theme-primary-600",
         className,
       )}
     />

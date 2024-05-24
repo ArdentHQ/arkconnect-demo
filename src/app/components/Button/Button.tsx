@@ -96,7 +96,7 @@ export const LinkButton = ({
 export const RoundButton = (properties: ButtonProperties) => (
   <Button
     {...properties}
-    className="p-[0.438rem] rounded-full text-sm aspect-square dark:text-white focus-visible:border focus-visible:border-theme-primary-700 disabled:text-theme-gray-500"
+    className="p-[0.438rem] rounded-full text-sm aspect-square dark:text-white focus-visible:border focus-visible:border-theme-primary-600 disabled:text-theme-gray-500"
     hoverClassName="hover:bg-theme-gray-100 dark:hover:bg-theme-gray-700"
   />
 );
@@ -104,7 +104,7 @@ export const RoundButton = (properties: ButtonProperties) => (
 export const RoundLinkButton = (properties: LinkButtonProperties) => (
   <LinkButton
     {...properties}
-    className="p-[0.438rem] rounded-full text-sm dark:text-white focus-visible:border focus-visible:border-theme-primary-700 disabled:text-theme-gray-500"
+    className="p-[0.438rem] rounded-full text-sm dark:text-white focus-visible:border focus-visible:border-theme-primary-600 disabled:text-theme-gray-500"
     hoverClassName="hover:bg-theme-gray-100 dark:hover:bg-theme-gray-700"
   />
 );

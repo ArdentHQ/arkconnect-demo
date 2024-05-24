@@ -18,7 +18,7 @@ export const WalletBalance = ({
   return (
     <div
       className={cn(
-        "flex flex-col items-start sm:items-end sm:flex-row justify-between w-full p-6 bg-theme-primary-700 text-white dark:bg-theme-primary-900",
+        "flex flex-col items-start sm:items-end sm:flex-row justify-between w-full p-6 bg-theme-primary-600 text-white dark:bg-theme-primary-900",
         className,
       )}
     >
@@ -35,7 +35,7 @@ export const WalletBalance = ({
         </div>
       </div>
 
-      <div className="my-2 bg-theme h-px bg-theme-primary-650 w-full sm:hidden" />
+      <div className="my-2 bg-theme h-px bg-theme-primary-600 w-full sm:hidden" />
 
       <div className="flex items-center justify-stretch sm:justify-between space-x-3 w-full sm:w-auto">
         <Button
@@ -57,7 +57,7 @@ export const WalletBalance = ({
         <Button
           variant="secondary"
           onClick={onSend}
-          className="w-full sm:w-auto dark:bg-theme-primary-600 dark:border-theme-primary-600 dark:text-white dark:hover:bg-theme-primary-700 dark:hover:border-theme-primary-700"
+          className="w-full sm:w-auto dark:bg-theme-primary-600 dark:border-theme-primary-600 dark:text-white dark:hover:bg-theme-primary-600 dark:hover:border-theme-primary-600"
         >
           {t("Send")}
         </Button>
