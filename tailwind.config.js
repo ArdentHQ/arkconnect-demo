@@ -75,6 +75,30 @@ module.exports = {
       "theme-dark-primary-900":
         "rgb(var(--theme-color-dark-primary-900) / <alpha-value>)",
 
+      // dark-primary-green
+      "theme-primary-green-50":
+        "rgb(var(--theme-color-primary-green-50) / <alpha-value>)",
+      "theme-primary-green-100":
+        "rgb(var(--theme-color-primary-green-100) / <alpha-value>)",
+      "theme-primary-green-200":
+        "rgb(var(--theme-color-primary-green-200) / <alpha-value>)",
+      "theme-primary-green-300":
+        "rgb(var(--theme-color-primary-green-300) / <alpha-value>)",
+      "theme-primary-green-400":
+        "rgb(var(--theme-color-primary-green-400) / <alpha-value>)",
+      "theme-primary-green-500":
+        "rgb(var(--theme-color-primary-green-500) / <alpha-value>)",
+      "theme-primary-green-600":
+        "rgb(var(--theme-color-primary-green-600) / <alpha-value>)",
+      "theme-primary-green-650":
+        "rgb(var(--theme-color-primary-green-650) / <alpha-value>)",
+      "theme-primary-green-700":
+        "rgb(var(--theme-color-primary-green-700) / <alpha-value>)",
+      "theme-primary-green-800":
+        "rgb(var(--theme-color-primary-green-800) / <alpha-value>)",
+      "theme-primary-green-900":
+        "rgb(var(--theme-color-primary-green-900) / <alpha-value>)",
+
       // error
       "theme-error-25": "rgb(var(--theme-color-error-25) / <alpha-value>)",
       "theme-error-50": "rgb(var(--theme-color-error-50) / <alpha-value>)",
