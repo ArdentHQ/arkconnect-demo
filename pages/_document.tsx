@@ -38,7 +38,7 @@ export default function Document() {
         />
         <meta
           property="og:image"
-          content="https://demo.arkconnect.io/images/meta/home.png"
+          content="https://demo.arkconnect.io/images/meta/home.png?i=1"
         />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="Demo App | ARK Connect" />
@@ -48,7 +48,7 @@ export default function Document() {
         />
         <meta
           name="twitter:image"
-          content="https://demo.arkconnect.io/images/meta/home.png"
+          content="https://demo.arkconnect.io/images/meta/home.png?i=1"
         />
       </Head>
       <body>
