@@ -8,7 +8,7 @@ export const useLabelClasses = ({ variant }: { variant: LabelVariant }) => {
     warning:
       "bg-theme-warning-100 text-theme-warning-600 font-medium leading-[125%] dark:bg-transparent dark:text-[#F39B9B] dark:border dark:border-[#AA6868]",
     success:
-      "bg-theme-primary-100 text-theme-primary-700 font-medium leading-[125%] dark:bg-transparent dark:text-theme-primary-600 dark:border dark:border-theme-primary-600",
+      "bg-theme-primary-green-100 text-theme-primary-green-700 font-medium leading-[125%] dark:bg-transparent dark:text-theme-primary-green-600 dark:border dark:border-theme-primary-green-600",
     danger:
       "bg-theme-error-50 text-theme-error-600 font-medium leading-[125%] dark:bg-theme-error-800/[55%] dark:text-theme-error-500",
   };

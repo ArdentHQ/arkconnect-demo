@@ -58,7 +58,7 @@ export const DelegatesListItem = ({
       className={classNames(
         "flex items-center w-full justify-between py-3 px-4 rounded-lg border",
         {
-          "border-theme-primary-700 bg-theme-primary-50 dark:border-theme-primary-650 dark:bg-theme-primary-650/10":
+          "border-theme-primary-600 bg-theme-primary-50 dark:border-theme-primary-600 dark:bg-theme-dark-primary-600/10":
             isOnlyCurrent || isOnlySelected,
           "border-theme-error-600 bg-theme-error-50 dark:border-theme-error-500 dark:bg-theme-error-500/[15%]":
             isUnselected,

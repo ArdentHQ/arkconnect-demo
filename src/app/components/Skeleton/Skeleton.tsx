@@ -22,7 +22,7 @@ export const Skeleton = ({
     circle={isCircle}
     style={{ width, height }}
     className={twMerge(
-      "z-0 dark:bg-theme-dark-green",
+      "z-0 dark:bg-theme-dark-blue",
       !isCircle && "rounded-lg",
       className,
     )}
