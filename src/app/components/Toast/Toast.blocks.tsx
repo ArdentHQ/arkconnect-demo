@@ -27,7 +27,7 @@ export const ToastCloseButton = ({
           type === "warning",
         "hover:bg-theme-danger-200 hover:text-theme-danger-800 dark:hover:bg-theme-danger-300 dark:hover:text-white":
           type === "error",
-        "hover:bg-theme-primary-200 hover:text-theme-primary-800 dark:hover:bg-theme-primary-700 dark:hover:text-white":
+        "hover:bg-theme-primary-200 hover:text-theme-primary-800 dark:hover:bg-theme-dark-primary-600 dark:hover:text-white":
           type === "info",
       })}
     >
