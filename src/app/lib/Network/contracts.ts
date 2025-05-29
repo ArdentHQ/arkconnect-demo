@@ -14,13 +14,13 @@ export enum NetworkAddressLink {
 }
 
 export enum DelegatesLink {
-  DEVNET = "https://ark-test.arkvault.io/api/delegates",
-  MAINNET = "https://api.ark.io/api/delegates",
+  DEVNET = "https://dwallets-evm.ihost.org/api/validators",
+  MAINNET = "https://dwallets-evm.ihost.org/api/validators",
 }
 
 export enum NetworkTransactionsList {
-  DEVNET = "https://ark-test.arkvault.io/api/transactions",
-  MAINNET = "https://ark-live.arkvault.io/api/transactions",
+  DEVNET = "https://dwallets-evm.ihost.org/api/transactions",
+  MAINNET = "https://dwallets-evm.ihost.org/api/transactions",
 }
 
 export enum NetworkTransactionLink {
@@ -29,8 +29,8 @@ export enum NetworkTransactionLink {
 }
 
 export enum WalletsLink {
-  DEVNET = "https://ark-test.arkvault.io/api/wallets",
-  MAINNET = "https://api.ark.io/api/wallets",
+  DEVNET = "https://dwallets-evm.ihost.org/api/wallets",
+  MAINNET = "https://dwallets-evm.ihost.org/api/wallets",
 }
 
 export enum Coin {
