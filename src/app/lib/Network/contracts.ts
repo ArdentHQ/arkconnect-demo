@@ -15,12 +15,12 @@ export enum NetworkAddressLink {
 
 export enum DelegatesLink {
   DEVNET = "https://dwallets-evm.ihost.org/api/validators",
-  MAINNET = "https://dwallets-evm.ihost.org/api/validators",
+  MAINNET = "https://wallets-evm.ihost.org/api/validators",
 }
 
 export enum NetworkTransactionsList {
   DEVNET = "https://dwallets-evm.ihost.org/api/transactions",
-  MAINNET = "https://dwallets-evm.ihost.org/api/transactions",
+  MAINNET = "https://wallets-evm.ihost.org/api/transactions",
 }
 
 export enum NetworkTransactionLink {
@@ -30,7 +30,7 @@ export enum NetworkTransactionLink {
 
 export enum WalletsLink {
   DEVNET = "https://dwallets-evm.ihost.org/api/wallets",
-  MAINNET = "https://dwallets-evm.ihost.org/api/wallets",
+  MAINNET = "https://wallets-evm.ihost.org/api/wallets",
 }
 
 export enum Coin {
