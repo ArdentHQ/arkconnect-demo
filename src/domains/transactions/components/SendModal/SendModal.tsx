@@ -10,6 +10,7 @@ import { SignTransactionResponse, TransactionType } from "@/app/lib/Network";
 import { useArkConnectContext } from "@/app/contexts/useArkConnectContext";
 import { FeeInput } from "@/domains/transactions/components/SendModal/SendModal.blocks";
 import { getNetworkCoin } from "@/app/utils/network";
+import {BigNumber} from "bignumber.js";
 
 type FormSubmitHandler = SubmitHandler<{
   amount: string;
@@ -39,13 +40,15 @@ export const SendModal = ({
   } = useForm<{
     amount: string;
     receiverAddress: string;
-    fee: string;
+    gasPrice: BigNumber,
+    gasLimit: BigNumber
   }>({
     mode: "all",
     defaultValues: {
       amount: "",
       receiverAddress: "",
-      fee: "0",
+      gasPrice: BigNumber(0),
+      gasLimit: BigNumber(0)
     },
   });
 
@@ -84,7 +87,10 @@ export const SendModal = ({
   // @TODO: is this the best way to get the coin name?
   const coin = getNetworkCoin(wallet.network);
 
-  const [feeInputProperties, setFeeInputProperties] = useState<
+  const [gasPriceInputProperties, setGasPriceInputProperties] = useState<
+    UseFormRegisterReturn | undefined
+  >(undefined);
+  const [gasLimitInputProperties, setGasLimitInputProperties] = useState<
     UseFormRegisterReturn | undefined
   >(undefined);
   const [amountInputProperties, setAmountInputProperties] = useState<
@@ -92,7 +98,7 @@ export const SendModal = ({
   >(undefined);
 
   useEffect(() => {
-    const inputFeeProperties = register("fee", {
+    const inputGasPriceProperties = register("gasPrice", {
       required: t("FEE_IS_REQUIRED"),
       min: {
         value: 0.000_000_01,
@@ -102,7 +108,7 @@ export const SendModal = ({
         value: 1,
         message: t("FEE_TOO_HIGH"),
       },
-      valueAsNumber: true,
+      valueAsNumber: false,
       validate: (value, formValues) => {
         if (formValues.amount !== "") {
           return true;
@@ -115,7 +121,33 @@ export const SendModal = ({
           return t("FEE_EXCEEDS_BALANCE");
         }
       },
-      deps: ["amount"],
+      deps: ["amount", "gasLimit"],
+    });
+
+    const inputGasLimitProperties = register("gasLimit", {
+      required: t("FEE_IS_REQUIRED"),
+      min: {
+        value: 0.000_000_01,
+        message: t("FEE_TOO_LOW"),
+      },
+      max: {
+        value: 1,
+        message: t("FEE_TOO_HIGH"),
+      },
+      valueAsNumber: false,
+      validate: (value, formValues) => {
+        if (formValues.amount !== "") {
+          return true;
+        }
+
+        if (
+          Number(value) + Number(formValues.amount) >
+          Number(wallet.balance ?? 0)
+        ) {
+          return t("FEE_EXCEEDS_BALANCE");
+        }
+      },
+      deps: ["amount", "gasPrice"],
     });
 
     const inputAmountProperties = register("amount", {
@@ -136,20 +168,32 @@ export const SendModal = ({
           return t("FEE_AND_AMOUNT_EXCEEDS_BALANCE");
         }
       },
-      deps: ["fee"],
+      deps: ["gasPrice", "gasLimit"],
     });
 
-    setFeeInputProperties(inputFeeProperties);
+    setGasLimitInputProperties(inputGasLimitProperties);
+    setGasPriceInputProperties(inputGasPriceProperties);
     setAmountInputProperties(inputAmountProperties);
   }, [register, wallet]);
 
-  const handleFeeChange = (value: string) => {
-    setValue("fee", value, {
+  const handleGasPriceChange = (value: BigNumber) => {
+    setValue("gasPrice", value, {
       shouldValidate: true,
       shouldTouch: true,
       shouldDirty: true,
     });
     getValues("amount") && void trigger("amount");
+    getValues("gasLimit") && void trigger("gasLimit");
+  };
+
+  const handleGasLimitChange = (value: BigNumber) => {
+    setValue("gasLimit", value, {
+      shouldValidate: true,
+      shouldTouch: true,
+      shouldDirty: true,
+    });
+    getValues("amount") && void trigger("amount");
+    getValues("gasPrice") && void trigger("gasPrice");
   };
 
   return (
@@ -221,9 +265,11 @@ export const SendModal = ({
         </InputGroup>
 
         <FeeInput
-          feeInputProperties={feeInputProperties}
-          onFeeChange={handleFeeChange}
-          error={errors.fee}
+          gasPriceInputProperties={gasPriceInputProperties}
+          gasLimitInputProperties={gasLimitInputProperties}
+          onGasPriceChange={handleGasPriceChange}
+          onGasLimitChange={handleGasLimitChange}
+          errors={errors}
           network={wallet.network}
           type={TransactionType.TRANSFER}
         />

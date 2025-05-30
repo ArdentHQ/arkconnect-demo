@@ -12,62 +12,54 @@ interface Fees {
 
 interface DynamicFeesApiResponse {
   data: {
-    "1": {
-      transfer: Fees;
-      vote: Fees;
-    };
-  };
-}
-interface StaticFeesApiResponse {
-  data: {
-    "1": {
-      transfer: string;
-      vote: string;
+    evmCall: {
+      avg: string;
+      min: string;
+      max: string;
+      sum: string;
     };
   };
 }
 
-const formatFee = (fee: string, rate: BigNumber) => {
-  const cryptoAmount = BigNumber(fee).multipliedBy(0.000_000_01);
+const GWEI_MULTIPLIER = 1000000000; // 1e9
+
+export const GasLimit: Record<Lowercase<keyof typeof TransactionType>, BigNumber> = {
+  transfer: BigNumber(21_000),
+  vote: BigNumber(200_000),
+};
+
+const calculateFee = (gasPrice: BigNumber, gasLimit: BigNumber) => {
+  return gasPrice.multipliedBy(gasLimit).dividedBy(GWEI_MULTIPLIER);
+}
+
+
+const formatFee = (gasPrice: string, gasLimit: BigNumber, rate: BigNumber) => {
+  const gasPriceBig = new BigNumber(gasPrice).dividedBy(GWEI_MULTIPLIER);
+  const fee = calculateFee(gasPriceBig, gasLimit);
 
   return {
-    fiat: CurrencyFormatter.cryptoToCurrency(cryptoAmount, rate, {
+    fiat: CurrencyFormatter.cryptoToCurrency(fee, rate, {
       decimals: 2,
     }),
-    crypto: Number.parseFloat(
-      cryptoAmount.decimalPlaces(4).toFixed(4),
-    ).toString(),
+    gasPrice: gasPriceBig,
+    gasLimit: gasLimit,
+    fee,
   };
 };
 
 export const useNetworkFees = (network: NetworkType, type: TransactionType) => {
-  const dynamicFeeNetworkUrls = {
-    [NetworkType.DEVNET]: "https://dwallets.ark.io/api/node/fees",
-    [NetworkType.MAINNET]: "https://wallets.ark.io/api/node/fees",
+  const networkFeeUrls = {
+    [NetworkType.DEVNET]: "https://dwallets-evm.mainsailhq.com/api/node/fees",
+    [NetworkType.MAINNET]: "https://dwallets-evm.mainsailhq.com/api/node/fees",
   };
 
-  const staticFeeNetworksUrls = {
-    [NetworkType.DEVNET]: "https://dwallets.ark.io/api/transactions/fees",
-    [NetworkType.MAINNET]: "https://wallets.ark.io/api/transactions/fees",
-  };
-
-  const { data: dynamicFeesData } = useQuery({
-    queryKey: ["dynamic-network-fees", network],
+  const { data: fees } = useQuery({
+    queryKey: ["fees", network],
     staleTime: 0,
     refetchInterval: 3 * 60 * 1000, // 3 minutes
     queryFn: async () => {
-      const jsonResponse = await fetch(dynamicFeeNetworkUrls[network]);
+      const jsonResponse = await fetch(networkFeeUrls[network]);
       return (await jsonResponse.json()) as DynamicFeesApiResponse; // Return the entire response object
-    },
-  });
-
-  const { data: staticFeesData } = useQuery({
-    queryKey: ["static-network-fees", network],
-    staleTime: 0,
-    refetchInterval: 3 * 60 * 1000, // 3 minutes
-    queryFn: async () => {
-      const jsonResponse = await fetch(staticFeeNetworksUrls[network]);
-      return (await jsonResponse.json()) as StaticFeesApiResponse;
     },
   });
 
@@ -75,34 +67,25 @@ export const useNetworkFees = (network: NetworkType, type: TransactionType) => {
     network === NetworkType.DEVNET ? Coin.DARK : Coin.ARK,
   );
 
-  if (dynamicFeesData && rate && staticFeesData) {
-    const dynamicFees =
-      type === TransactionType.VOTE
-        ? dynamicFeesData.data["1"].vote
-        : dynamicFeesData.data["1"].transfer;
+  const gasLimit = GasLimit[type];
 
-    const staticFee =
-      type === TransactionType.VOTE
-        ? staticFeesData.data["1"].vote
-        : staticFeesData.data["1"].transfer;
-
-    const avgFee =
-      BigNumber(dynamicFees.avg).comparedTo(staticFee) > 0
-        ? staticFee
-        : dynamicFees.avg;
+  if (fees && rate) {
+    const { min, max, avg } = fees.data.evmCall;
 
     return {
       status: "ok",
+      gasLimit,
       fees: {
-        min: formatFee(dynamicFees.min, rate),
-        avg: formatFee(avgFee, rate),
-        max: formatFee(staticFee, rate),
+        min: formatFee(min, gasLimit, rate),
+        avg: formatFee(avg, gasLimit, rate),
+        max: formatFee(max, gasLimit, rate),
       },
     };
   }
 
   return {
     status: "loading",
+    gasLimit,
     fees: undefined,
   };
 };
