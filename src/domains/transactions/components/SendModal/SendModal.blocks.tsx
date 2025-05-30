@@ -1,4 +1,4 @@
-import { FieldError, FieldErrors, UseFormRegisterReturn } from "react-hook-form";
+import { FieldErrors, UseFormRegisterReturn } from "react-hook-form";
 import { useTranslation } from "next-i18next";
 import React, { useEffect, useState } from "react";
 import cn from "classnames";
@@ -9,6 +9,7 @@ import { useNetworkFees } from "@/app/hooks/useNetworkFees";
 import { getNetworkCoin } from "@/app/utils/network";
 import { Skeleton } from "@/app/components/Skeleton";
 import { BigNumber } from "bignumber.js";
+import { InputGroup } from "@/app/components/InputGroup";
 
 export const FeeInput = ({
   gasPriceInputProperties,
@@ -24,7 +25,7 @@ export const FeeInput = ({
   gasLimitInputProperties: UseFormRegisterReturn | undefined;
   onGasPriceChange: (gasPrice: BigNumber) => void;
   onGasLimitChange: (gasLimit: BigNumber) => void;
-  errors:  FieldErrors;
+  errors: FieldErrors;
   network: NetworkType;
   className?: string;
   type: TransactionType;
@@ -83,57 +84,76 @@ export const FeeInput = ({
           />
         )}
 
-        {advancedView && (<AdvancedFeeView
-          gasPriceInputProperties={gasPriceInputProperties}
-          gasLimitInputProperties={gasLimitInputProperties}
-          onGasPriceChange={onGasPriceChange}
-          onGasLimitChange={onGasLimitChange}
-        />)}
-
-        {/*{errors?.message && (*/}
-        {/*  <span className="text-sm text-theme-error-500">{error.message}</span>*/}
-        {/*)}*/}
+        {advancedView && (
+          <AdvancedFeeView
+            gasPriceInputProperties={gasPriceInputProperties}
+            gasLimitInputProperties={gasLimitInputProperties}
+            onGasPriceChange={onGasPriceChange}
+            onGasLimitChange={onGasLimitChange}
+            errors={errors}
+          />
+        )}
       </div>
     </div>
   );
 };
 
-const AdvancedFeeView = ({gasPriceInputProperties, gasLimitInputProperties, onGasPriceChange, onGasLimitChange}: {
+const AdvancedFeeView = ({
+  gasPriceInputProperties,
+  gasLimitInputProperties,
+  onGasPriceChange,
+  onGasLimitChange,
+  errors,
+}: {
   gasPriceInputProperties: UseFormRegisterReturn | undefined;
   gasLimitInputProperties: UseFormRegisterReturn | undefined;
   onGasPriceChange: (gasPrice: BigNumber) => void;
   onGasLimitChange: (gasLimit: BigNumber) => void;
+  errors: FieldErrors;
 }) => {
+  const { t } = useTranslation("transactions");
 
   return (
-    <>
-      <div>
-        <NumericInput
-          id="gasPrice"
-          placeholder="0.00"
-          step={1}
-          inputFormProperties={gasPriceInputProperties}
-          onValueChange={(value: string) => {
-            onGasPriceChange(BigNumber(value));
-          }}
-          // variant={error?.message ? "error" : "default"}
-        />
+    <div className="border-theme-gray-400 dark:border-theme-gray-500 -mx-4 overflow-hidden rounded-xl border">
+      <div className="space-y-4 p-4">
+        <InputGroup
+          label={t("GAS_PRICE_GWEI")}
+          className="w-full"
+          variant={errors?.gasPrice?.message ? "error" : undefined}
+          help={errors?.gasPrice?.message}
+        >
+          <NumericInput
+            id="gasPrice"
+            placeholder="0.00"
+            step={1}
+            inputFormProperties={gasPriceInputProperties}
+            onValueChange={(value: string) => {
+              onGasPriceChange(BigNumber(value));
+            }}
+            variant={errors?.gasPrice?.message ? "error" : "default"}
+          />
+        </InputGroup>
+        <InputGroup
+          label={t("GAS_LIMIT")}
+          className="w-full"
+          variant={errors?.gasLimit?.message ? "error" : undefined}
+          help={errors?.gasLimit?.message}
+        >
+          <NumericInput
+            id="gasLimit"
+            placeholder="0.00"
+            step={1000}
+            inputFormProperties={gasLimitInputProperties}
+            onValueChange={(value: string) => {
+              onGasLimitChange(BigNumber(value));
+            }}
+            variant={errors?.gasLimit?.message ? "error" : "default"}
+          />
+        </InputGroup>
       </div>
-      <div>
-        <NumericInput
-          id="advancedFee"
-          placeholder="0.00"
-          step={1000}
-          inputFormProperties={gasLimitInputProperties}
-          onValueChange={(value: string) => {
-            onGasLimitChange(BigNumber(value));
-          }}
-          // variant={error?.message ? "error" : "default"}
-        />
-      </div>
-    </>
-  )
-}
+    </div>
+  );
+};
 
 const SimpleFeeView = ({
   onSelect,
@@ -148,7 +168,11 @@ const SimpleFeeView = ({
 
   const [selected, setSelected] = useState("average");
 
-  const onFeeSelect = (gasPrice: BigNumber, gasLimit: BigNumber, type: string) => {
+  const onFeeSelect = (
+    gasPrice: BigNumber,
+    gasLimit: BigNumber,
+    type: string,
+  ) => {
     onSelect(gasPrice, gasLimit);
     setSelected(type);
   };
@@ -172,31 +196,39 @@ const SimpleFeeView = ({
     );
   }
 
+  const formatFee = (fee: BigNumber) => fee.decimalPlaces(7).toString();
+
   return (
     <div className="flex flex-col sm:flex-row justify-space-between space-y-1.5 sm:space-y-0 sm:space-x-1.5 flex-1">
       <FeeOption
         title={t("SLOW")}
-        cryptoAmount={fees.min.fee.toString()}
+        cryptoAmount={formatFee(fees.min.fee)}
         fiatAmount={fees.min.fiat}
         isSelected={selected === "slow"}
         network={network}
-        onSelect={() => onFeeSelect(fees?.min.gasPrice, fees?.min.gasLimit, "slow")}
+        onSelect={() =>
+          onFeeSelect(fees?.min.gasPrice, fees?.min.gasLimit, "slow")
+        }
       />
       <FeeOption
         title={t("AVERAGE")}
-        cryptoAmount={fees.avg.fee.toString()}
+        cryptoAmount={formatFee(fees.avg.fee)}
         fiatAmount={fees.avg.fiat}
         isSelected={selected === "average"}
         network={network}
-        onSelect={() => onFeeSelect(fees?.avg.gasPrice, fees?.avg.gasLimit, "average")}
+        onSelect={() =>
+          onFeeSelect(fees?.avg.gasPrice, fees?.avg.gasLimit, "average")
+        }
       />
       <FeeOption
         title={t("FAST")}
-        cryptoAmount={fees.max.fee.toString()}
+        cryptoAmount={formatFee(fees.max.fee)}
         fiatAmount={fees.max.fiat}
         isSelected={selected === "fast"}
         network={network}
-        onSelect={() => onFeeSelect(fees?.max.gasPrice, fees?.max.gasLimit, "fast")}
+        onSelect={() =>
+          onFeeSelect(fees?.max.gasPrice, fees?.max.gasLimit, "fast")
+        }
       />
     </div>
   );

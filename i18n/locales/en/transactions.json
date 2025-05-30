@@ -29,5 +29,7 @@
   "ADDRESSING": "Addressing",
   "VALUE_ARK": "Value (ARK)",
   "FEE_ARK": "Fee (ARK)",
-  "NO_TRANSACTIONS": "No transactions found."
+  "NO_TRANSACTIONS": "No transactions found.",
+  "GAS_PRICE_GWEI": "Gas Price (Gwei)",
+  "GAS_LIMIT": "Gas Limit"
 }

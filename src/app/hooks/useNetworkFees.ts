@@ -23,15 +23,17 @@ interface DynamicFeesApiResponse {
 
 const GWEI_MULTIPLIER = 1000000000; // 1e9
 
-export const GasLimit: Record<Lowercase<keyof typeof TransactionType>, BigNumber> = {
+export const GasLimit: Record<
+  Lowercase<keyof typeof TransactionType>,
+  BigNumber
+> = {
   transfer: BigNumber(21_000),
   vote: BigNumber(200_000),
 };
 
-const calculateFee = (gasPrice: BigNumber, gasLimit: BigNumber) => {
+export const calculateFee = (gasPrice: BigNumber, gasLimit: BigNumber) => {
   return gasPrice.multipliedBy(gasLimit).dividedBy(GWEI_MULTIPLIER);
-}
-
+};
 
 const formatFee = (gasPrice: string, gasLimit: BigNumber, rate: BigNumber) => {
   const gasPriceBig = new BigNumber(gasPrice).dividedBy(GWEI_MULTIPLIER);

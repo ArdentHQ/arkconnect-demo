@@ -10,7 +10,8 @@ import { SignTransactionResponse, TransactionType } from "@/app/lib/Network";
 import { useArkConnectContext } from "@/app/contexts/useArkConnectContext";
 import { FeeInput } from "@/domains/transactions/components/SendModal/SendModal.blocks";
 import { getNetworkCoin } from "@/app/utils/network";
-import {BigNumber} from "bignumber.js";
+import { BigNumber } from "bignumber.js";
+import { calculateFee } from "@/app/hooks/useNetworkFees";
 
 type FormSubmitHandler = SubmitHandler<{
   amount: string;
@@ -40,15 +41,15 @@ export const SendModal = ({
   } = useForm<{
     amount: string;
     receiverAddress: string;
-    gasPrice: BigNumber,
-    gasLimit: BigNumber
+    gasPrice: BigNumber;
+    gasLimit: BigNumber;
   }>({
-    mode: "all",
+    mode: "onChange",
     defaultValues: {
       amount: "",
       receiverAddress: "",
       gasPrice: BigNumber(0),
-      gasLimit: BigNumber(0)
+      gasLimit: BigNumber(0),
     },
   });
 
@@ -66,7 +67,8 @@ export const SendModal = ({
   const submitHandler: FormSubmitHandler = async ({
     amount,
     receiverAddress,
-    fee,
+    gasPrice,
+    gasLimit,
   }) => {
     try {
       // @TODO: handle success response
@@ -74,7 +76,8 @@ export const SendModal = ({
       const response: SignTransactionResponse = await signTransaction({
         amount: Number(amount),
         receiverAddress,
-        fee: Number(fee),
+        gasPrice: gasPrice.toString(),
+        gasLimit: gasLimit.toString(),
       });
 
       onClose();
@@ -97,15 +100,33 @@ export const SendModal = ({
     UseFormRegisterReturn | undefined
   >(undefined);
 
+  const validateBalance = (formValues: object, message: string) => {
+    const { amount: amountStr, gasPrice, gasLimit } = formValues;
+
+    const amount = BigNumber(amountStr);
+
+    const fee = calculateFee(gasPrice, gasLimit);
+
+    if (
+      BigNumber.sum(amount, fee).isGreaterThan(BigNumber(wallet.balance ?? 0))
+    ) {
+      return message;
+    }
+  };
+
   useEffect(() => {
     const inputGasPriceProperties = register("gasPrice", {
       required: t("FEE_IS_REQUIRED"),
+      onChange: (event) => {
+        const value = event.target.value === "" ? 0 : event.target.value;
+        handleGasPriceChange(BigNumber(value));
+      },
       min: {
-        value: 0.000_000_01,
+        value: 5,
         message: t("FEE_TOO_LOW"),
       },
       max: {
-        value: 1,
+        value: 10_000,
         message: t("FEE_TOO_HIGH"),
       },
       valueAsNumber: false,
@@ -114,24 +135,23 @@ export const SendModal = ({
           return true;
         }
 
-        if (
-          Number(value) + Number(formValues.amount) >
-          Number(wallet.balance ?? 0)
-        ) {
-          return t("FEE_EXCEEDS_BALANCE");
-        }
+        return validateBalance(formValues, t("FEE_EXCEEDS_BALANCE"));
       },
       deps: ["amount", "gasLimit"],
     });
 
     const inputGasLimitProperties = register("gasLimit", {
       required: t("FEE_IS_REQUIRED"),
+      onChange: (event) => {
+        const value = event.target.value === "" ? 0 : event.target.value;
+        handleGasLimitChange(BigNumber(value));
+      },
       min: {
-        value: 0.000_000_01,
+        value: 21_000,
         message: t("FEE_TOO_LOW"),
       },
       max: {
-        value: 1,
+        value: 2_000_000,
         message: t("FEE_TOO_HIGH"),
       },
       valueAsNumber: false,
@@ -140,12 +160,7 @@ export const SendModal = ({
           return true;
         }
 
-        if (
-          Number(value) + Number(formValues.amount) >
-          Number(wallet.balance ?? 0)
-        ) {
-          return t("FEE_EXCEEDS_BALANCE");
-        }
+        return validateBalance(formValues, t("FEE_EXCEEDS_BALANCE"));
       },
       deps: ["amount", "gasPrice"],
     });
@@ -161,12 +176,7 @@ export const SendModal = ({
         message: t("BALANCE_TOO_LOW"),
       },
       validate: (value, formValues) => {
-        if (
-          Number(value) + Number(formValues.fee) >
-          Number(wallet.balance ?? 0)
-        ) {
-          return t("FEE_AND_AMOUNT_EXCEEDS_BALANCE");
-        }
+        return validateBalance(formValues, t("FEE_AND_AMOUNT_EXCEEDS_BALANCE"));
       },
       deps: ["gasPrice", "gasLimit"],
     });

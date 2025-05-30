@@ -40,7 +40,8 @@ export enum Coin {
 
 export interface SignTransactionRequest {
   amount: number;
-  fee: number;
+  gasPrice: string;
+  gasLimit: string;
   receiverAddress: string;
 }
 
