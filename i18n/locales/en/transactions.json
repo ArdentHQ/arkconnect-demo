@@ -31,5 +31,7 @@
   "FEE_ARK": "Fee (ARK)",
   "NO_TRANSACTIONS": "No transactions found.",
   "GAS_PRICE_GWEI": "Gas Price (Gwei)",
-  "GAS_LIMIT": "Gas Limit"
+  "GAS_LIMIT": "Gas Limit",
+  "MAX_FEE": "Max Fee",
+  "CONFIRMATION_TIME": "Confirmation Time"
 }

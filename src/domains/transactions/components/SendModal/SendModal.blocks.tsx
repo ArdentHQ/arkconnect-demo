@@ -5,17 +5,21 @@ import cn from "classnames";
 import { twMerge } from "tailwind-merge";
 import { NetworkType, TransactionType } from "@/app/lib/Network";
 import { NumericInput } from "@/app/components/Input";
-import { useNetworkFees } from "@/app/hooks/useNetworkFees";
+import { calculateFee, useNetworkFees } from "@/app/hooks/useNetworkFees";
 import { getNetworkCoin } from "@/app/utils/network";
 import { Skeleton } from "@/app/components/Skeleton";
 import { BigNumber } from "bignumber.js";
 import { InputGroup } from "@/app/components/InputGroup";
+
+export const formatFee = (fee: BigNumber) => fee.decimalPlaces(7).toString();
 
 export const FeeInput = ({
   gasPriceInputProperties,
   gasLimitInputProperties,
   onGasPriceChange,
   onGasLimitChange,
+  gasPrice,
+  gasLimit,
   errors,
   network,
   className,
@@ -25,6 +29,8 @@ export const FeeInput = ({
   gasLimitInputProperties: UseFormRegisterReturn | undefined;
   onGasPriceChange: (gasPrice: BigNumber) => void;
   onGasLimitChange: (gasLimit: BigNumber) => void;
+  gasPrice: BigNumber;
+  gasLimit: BigNumber;
   errors: FieldErrors;
   network: NetworkType;
   className?: string;
@@ -90,6 +96,8 @@ export const FeeInput = ({
             gasLimitInputProperties={gasLimitInputProperties}
             onGasPriceChange={onGasPriceChange}
             onGasLimitChange={onGasLimitChange}
+            gasPrice={gasPrice}
+            gasLimit={gasLimit}
             errors={errors}
           />
         )}
@@ -103,15 +111,21 @@ const AdvancedFeeView = ({
   gasLimitInputProperties,
   onGasPriceChange,
   onGasLimitChange,
+  gasPrice,
+  gasLimit,
   errors,
 }: {
   gasPriceInputProperties: UseFormRegisterReturn | undefined;
   gasLimitInputProperties: UseFormRegisterReturn | undefined;
   onGasPriceChange: (gasPrice: BigNumber) => void;
   onGasLimitChange: (gasLimit: BigNumber) => void;
+  gasPrice: BigNumber;
+  gasLimit: BigNumber;
   errors: FieldErrors;
 }) => {
   const { t } = useTranslation("transactions");
+
+  const fee = calculateFee(gasPrice, gasLimit);
 
   return (
     <div className="border-theme-gray-400 dark:border-theme-gray-500 -mx-4 overflow-hidden rounded-xl border">
@@ -150,6 +164,16 @@ const AdvancedFeeView = ({
             variant={errors?.gasLimit?.message ? "error" : "default"}
           />
         </InputGroup>
+      </div>
+      <div className="bg-white sm:shadow-sm dark:bg-subtle-black text-theme-gray-500 dark:text-theme-gray-300 flex flex-col space-y-2 px-4 py-3 text-xs leading-[15px] font-semibold sm:flex-row sm:items-center sm:justify-between sm:space-y-0 sm:py-2">
+        <div className="space-x-1">
+          <span>{t('MAX_FEE')}</span>
+          <span>{formatFee(fee)} DARK</span>
+        </div>
+        <div className="space-x-1">
+          <span>{t('CONFIRMATION_TIME')}</span>
+          <span>~10s</span>
+        </div>
       </div>
     </div>
   );
@@ -195,8 +219,6 @@ const SimpleFeeView = ({
       </div>
     );
   }
-
-  const formatFee = (fee: BigNumber) => fee.decimalPlaces(7).toString();
 
   return (
     <div className="flex flex-col sm:flex-row justify-space-between space-y-1.5 sm:space-y-0 sm:space-x-1.5 flex-1">
