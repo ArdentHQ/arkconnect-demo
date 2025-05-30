@@ -16,7 +16,8 @@ import { calculateFee } from "@/app/hooks/useNetworkFees";
 type FormSubmitHandler = SubmitHandler<{
   amount: string;
   receiverAddress: string;
-  fee: string;
+  gasPrice: BigNumber;
+  gasLimit: BigNumber;
 }>;
 
 export const SendModal = ({
@@ -100,7 +101,10 @@ export const SendModal = ({
     UseFormRegisterReturn | undefined
   >(undefined);
 
-  const validateBalance = (formValues: object, message: string) => {
+  const validateBalance = (
+    formValues: Record<string, any>,
+    message: string,
+  ) => {
     const { amount: amountStr, gasPrice, gasLimit } = formValues;
 
     const amount = BigNumber(amountStr);
