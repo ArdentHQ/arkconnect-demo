@@ -116,18 +116,18 @@ export const SendModal = ({
 
   useEffect(() => {
     const inputGasPriceProperties = register("gasPrice", {
-      required: t("FEE_IS_REQUIRED"),
+      required: t("GAS_PRICE_IS_REQUIRED"),
       onChange: (event) => {
         const value = event.target.value === "" ? 0 : event.target.value;
         handleGasPriceChange(BigNumber(value));
       },
       min: {
         value: 5,
-        message: t("FEE_TOO_LOW"),
+        message: t("GAS_PRICE_TOO_LOW"),
       },
       max: {
         value: 10_000,
-        message: t("FEE_TOO_HIGH"),
+        message: t("GAS_PRICE_TOO_HIGH"),
       },
       valueAsNumber: false,
       validate: (value, formValues) => {
@@ -141,18 +141,18 @@ export const SendModal = ({
     });
 
     const inputGasLimitProperties = register("gasLimit", {
-      required: t("FEE_IS_REQUIRED"),
+      required: t("GAS_LIMIT_IS_REQUIRED"),
       onChange: (event) => {
         const value = event.target.value === "" ? 0 : event.target.value;
         handleGasLimitChange(BigNumber(value));
       },
       min: {
         value: 21_000,
-        message: t("FEE_TOO_LOW"),
+        message: t("GAS_LIMIT_TOO_LOW"),
       },
       max: {
         value: 2_000_000,
-        message: t("FEE_TOO_HIGH"),
+        message: t("GAS_LIMIT_TOO_HIGH"),
       },
       valueAsNumber: false,
       validate: (value, formValues) => {
@@ -279,8 +279,8 @@ export const SendModal = ({
           gasLimitInputProperties={gasLimitInputProperties}
           onGasPriceChange={handleGasPriceChange}
           onGasLimitChange={handleGasLimitChange}
-          gasPrice={getValues('gasPrice')}
-          gasLimit={getValues('gasLimit')}
+          gasPrice={getValues("gasPrice")}
+          gasLimit={getValues("gasLimit")}
           errors={errors}
           network={wallet.network}
           type={TransactionType.TRANSFER}

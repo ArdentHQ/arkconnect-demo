@@ -134,7 +134,11 @@ const AdvancedFeeView = ({
           label={t("GAS_PRICE_GWEI")}
           className="w-full"
           variant={errors?.gasPrice?.message ? "error" : undefined}
-          help={errors?.gasPrice?.message}
+          help={
+            typeof errors?.gasPrice?.message === "string"
+              ? errors.gasPrice.message
+              : undefined
+          }
         >
           <NumericInput
             id="gasPrice"
@@ -151,7 +155,11 @@ const AdvancedFeeView = ({
           label={t("GAS_LIMIT")}
           className="w-full"
           variant={errors?.gasLimit?.message ? "error" : undefined}
-          help={errors?.gasLimit?.message}
+          help={
+            typeof errors?.gasLimit?.message === "string"
+              ? errors.gasLimit.message
+              : undefined
+          }
         >
           <NumericInput
             id="gasLimit"
@@ -167,11 +175,11 @@ const AdvancedFeeView = ({
       </div>
       <div className="bg-white sm:shadow-sm dark:bg-subtle-black text-theme-gray-500 dark:text-theme-gray-300 flex flex-col space-y-2 px-4 py-3 text-xs leading-[15px] font-semibold sm:flex-row sm:items-center sm:justify-between sm:space-y-0 sm:py-2">
         <div className="space-x-1">
-          <span>{t('MAX_FEE')}</span>
+          <span>{t("MAX_FEE")}</span>
           <span>{formatFee(fee)} DARK</span>
         </div>
         <div className="space-x-1">
-          <span>{t('CONFIRMATION_TIME')}</span>
+          <span>{t("CONFIRMATION_TIME")}</span>
           <span>~10s</span>
         </div>
       </div>
