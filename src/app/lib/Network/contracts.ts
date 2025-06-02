@@ -40,7 +40,8 @@ export enum Coin {
 
 export interface SignTransactionRequest {
   amount: number;
-  fee: number;
+  gasPrice: string;
+  gasLimit: string;
   receiverAddress: string;
 }
 
@@ -66,7 +67,8 @@ export interface SignVoteRequest {
     amount: number;
     address: string;
   };
-  fee: number;
+  gasPrice: string;
+  gasLimit: string;
 }
 
 export type Version = null | string;
@@ -83,7 +85,8 @@ export interface VoteTypeV1_0 {
 export interface SignVoteRequestVersioned<V extends Version = Version> {
   vote?: V extends "1.0.0" | "1.8.0" | null ? VoteTypeV1_0 : VoteTypeV1_9;
   unvote?: V extends "1.0.0" | "1.8.0" | null ? VoteTypeV1_0 : VoteTypeV1_9;
-  fee: number;
+  gasPrice: string;
+  gasLimit: string;
 }
 
 export interface ResponseVoteTypeV1_9 {
