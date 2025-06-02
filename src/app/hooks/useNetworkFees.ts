@@ -15,7 +15,7 @@ interface DynamicFeesApiResponse {
   };
 }
 
-const GWEI_MULTIPLIER = 1000000000; // 1e9
+const GWEI_MULTIPLIER = 1_000_000_000; // 1e9
 
 export const GasLimit: Record<
   Lowercase<keyof typeof TransactionType>,

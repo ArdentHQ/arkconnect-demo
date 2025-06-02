@@ -233,15 +233,17 @@ const AdvancedFeeView = ({
 
   const fee = calculateFee(gasPrice, gasLimit);
 
+  const confirmationTime = "~10s";
+
   return (
     <div className="border-theme-gray-400 dark:border-theme-gray-500 -mx-4 overflow-hidden rounded-xl border">
       <div className="space-y-4 p-4">
         <InputGroup
           label={t("GAS_PRICE_GWEI")}
           className="w-full"
-          variant={errors?.gasPrice?.message ? "error" : undefined}
+          variant={errors.gasPrice?.message ? "error" : undefined}
           help={
-            typeof errors?.gasPrice?.message === "string"
+            typeof errors.gasPrice?.message === "string"
               ? errors.gasPrice.message
               : undefined
           }
@@ -254,15 +256,15 @@ const AdvancedFeeView = ({
             onValueChange={(value: string) => {
               onGasPriceChange(BigNumber(value));
             }}
-            variant={errors?.gasPrice?.message ? "error" : "default"}
+            variant={errors.gasPrice?.message ? "error" : "default"}
           />
         </InputGroup>
         <InputGroup
           label={t("GAS_LIMIT")}
           className="w-full"
-          variant={errors?.gasLimit?.message ? "error" : undefined}
+          variant={errors.gasLimit?.message ? "error" : undefined}
           help={
-            typeof errors?.gasLimit?.message === "string"
+            typeof errors.gasLimit?.message === "string"
               ? errors.gasLimit.message
               : undefined
           }
@@ -275,7 +277,7 @@ const AdvancedFeeView = ({
             onValueChange={(value: string) => {
               onGasLimitChange(BigNumber(value));
             }}
-            variant={errors?.gasLimit?.message ? "error" : "default"}
+            variant={errors.gasLimit?.message ? "error" : "default"}
           />
         </InputGroup>
       </div>
@@ -286,7 +288,7 @@ const AdvancedFeeView = ({
         </div>
         <div className="space-x-1">
           <span>{t("CONFIRMATION_TIME")}</span>
-          <span>~10s</span>
+          <span>{confirmationTime}</span>
         </div>
       </div>
     </div>
