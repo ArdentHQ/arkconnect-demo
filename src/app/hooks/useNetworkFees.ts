@@ -4,12 +4,6 @@ import { useCoingecko } from "@/app/hooks/useCoingecko";
 import { Coin, NetworkType, TransactionType } from "@/app/lib/Network";
 import { CurrencyFormatter } from "@/app/utils/currencyFormatter";
 
-interface Fees {
-  avg: string;
-  max: string;
-  min: string;
-}
-
 interface DynamicFeesApiResponse {
   data: {
     evmCall: {

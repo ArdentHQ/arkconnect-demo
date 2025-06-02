@@ -5,7 +5,7 @@ import {
   UseFormSetValue,
 } from "react-hook-form";
 import { useTranslation } from "next-i18next";
-import React, {ChangeEvent, MouseEventHandler, useEffect, useState} from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import cn from "classnames";
 import { twMerge } from "tailwind-merge";
 import { BigNumber } from "bignumber.js";
