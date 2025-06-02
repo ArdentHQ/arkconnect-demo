@@ -17,6 +17,12 @@ import { Skeleton } from "@/app/components/Skeleton";
 import { InputGroup } from "@/app/components/InputGroup";
 import { WalletData } from "@/app/lib/Wallet/contracts";
 
+interface FormValues {
+  gasPrice: BigNumber;
+  gasLimit: BigNumber;
+  amount?: string;
+}
+
 export const formatFee = (fee: BigNumber) => fee.decimalPlaces(7).toString();
 
 export const FeeInput = ({
@@ -83,7 +89,7 @@ export const FeeInput = ({
         message: t("GAS_PRICE_TOO_HIGH"),
       },
       valueAsNumber: false,
-      validate: (value, formValues) => {
+      validate: (value, formValues: FormValues) => {
         if (formValues.amount !== "") {
           return true;
         }
@@ -112,7 +118,7 @@ export const FeeInput = ({
         message: t("GAS_LIMIT_TOO_HIGH"),
       },
       valueAsNumber: false,
-      validate: (value, formValues) => {
+      validate: (value, formValues: FormValues) => {
         if (formValues.amount !== "") {
           return true;
         }
@@ -197,7 +203,7 @@ export const FeeInput = ({
 };
 
 export const validateBalance = (
-  formValues: Record<string, any>,
+  formValues: FormValues,
   message: string,
   balance?: number,
 ) => {
@@ -345,7 +351,7 @@ const SimpleFeeView = ({
         isSelected={selected === "slow"}
         network={network}
         onSelect={() =>
-          onFeeSelect(fees?.min.gasPrice, fees?.min.gasLimit, "slow")
+          onFeeSelect(fees.min.gasPrice, fees.min.gasLimit, "slow")
         }
       />
       <FeeOption
@@ -355,7 +361,7 @@ const SimpleFeeView = ({
         isSelected={selected === "average"}
         network={network}
         onSelect={() =>
-          onFeeSelect(fees?.avg.gasPrice, fees?.avg.gasLimit, "average")
+          onFeeSelect(fees.avg.gasPrice, fees.avg.gasLimit, "average")
         }
       />
       <FeeOption
@@ -365,7 +371,7 @@ const SimpleFeeView = ({
         isSelected={selected === "fast"}
         network={network}
         onSelect={() =>
-          onFeeSelect(fees?.max.gasPrice, fees?.max.gasLimit, "fast")
+          onFeeSelect(fees.max.gasPrice, fees.max.gasLimit, "fast")
         }
       />
     </div>
