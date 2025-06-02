@@ -1,44 +1,134 @@
-import { FieldErrors, UseFormRegisterReturn } from "react-hook-form";
+import {
+  FieldErrors,
+  UseFormRegister,
+  UseFormRegisterReturn,
+  UseFormSetValue,
+} from "react-hook-form";
 import { useTranslation } from "next-i18next";
 import React, { useEffect, useState } from "react";
 import cn from "classnames";
 import { twMerge } from "tailwind-merge";
+import { BigNumber } from "bignumber.js";
 import { NetworkType, TransactionType } from "@/app/lib/Network";
 import { NumericInput } from "@/app/components/Input";
 import { calculateFee, useNetworkFees } from "@/app/hooks/useNetworkFees";
 import { getNetworkCoin } from "@/app/utils/network";
 import { Skeleton } from "@/app/components/Skeleton";
-import { BigNumber } from "bignumber.js";
 import { InputGroup } from "@/app/components/InputGroup";
+import { WalletData } from "@/app/lib/Wallet/contracts";
 
 export const formatFee = (fee: BigNumber) => fee.decimalPlaces(7).toString();
 
 export const FeeInput = ({
-  gasPriceInputProperties,
-  gasLimitInputProperties,
-  onGasPriceChange,
-  onGasLimitChange,
+  register,
+  setValue,
   gasPrice,
   gasLimit,
   errors,
-  network,
+  wallet,
   className,
   type,
 }: {
-  gasPriceInputProperties: UseFormRegisterReturn | undefined;
-  gasLimitInputProperties: UseFormRegisterReturn | undefined;
-  onGasPriceChange: (gasPrice: BigNumber) => void;
-  onGasLimitChange: (gasLimit: BigNumber) => void;
+  register: UseFormRegister<any>;
+  setValue: UseFormSetValue<any>;
   gasPrice: BigNumber;
   gasLimit: BigNumber;
   errors: FieldErrors;
-  network: NetworkType;
+  wallet: WalletData;
   className?: string;
   type: TransactionType;
 }) => {
   const { t } = useTranslation("transactions");
 
   const [advancedView, showAdvancedView] = useState(false);
+
+  const network = wallet.network;
+
+  const [gasPriceInputProperties, setGasPriceInputProperties] = useState<
+    UseFormRegisterReturn | undefined
+  >(undefined);
+  const [gasLimitInputProperties, setGasLimitInputProperties] = useState<
+    UseFormRegisterReturn | undefined
+  >(undefined);
+
+  const onGasPriceChange = (value: BigNumber) => {
+    setValue("gasPrice", value, {
+      shouldValidate: true,
+      shouldTouch: true,
+      shouldDirty: true,
+    });
+  };
+
+  const onGasLimitChange = (value: BigNumber) => {
+    setValue("gasLimit", value, {
+      shouldValidate: true,
+      shouldTouch: true,
+      shouldDirty: true,
+    });
+  };
+
+  useEffect(() => {
+    const inputGasPriceProperties = register("gasPrice", {
+      required: t("GAS_PRICE_IS_REQUIRED"),
+      onChange: (event) => {
+        const value = event.target.value === "" ? 0 : event.target.value;
+        onGasPriceChange(BigNumber(value));
+      },
+      min: {
+        value: 5,
+        message: t("GAS_PRICE_TOO_LOW"),
+      },
+      max: {
+        value: 10_000,
+        message: t("GAS_PRICE_TOO_HIGH"),
+      },
+      valueAsNumber: false,
+      validate: (value, formValues) => {
+        if (formValues.amount !== "") {
+          return true;
+        }
+
+        return validateBalance(
+          wallet.balance,
+          formValues,
+          t("FEE_EXCEEDS_BALANCE"),
+        );
+      },
+      deps: ["amount", "gasLimit"],
+    });
+
+    const inputGasLimitProperties = register("gasLimit", {
+      required: t("GAS_LIMIT_IS_REQUIRED"),
+      onChange: (event) => {
+        const value = event.target.value === "" ? 0 : event.target.value;
+        onGasLimitChange(BigNumber(value));
+      },
+      min: {
+        value: 21_000,
+        message: t("GAS_LIMIT_TOO_LOW"),
+      },
+      max: {
+        value: 2_000_000,
+        message: t("GAS_LIMIT_TOO_HIGH"),
+      },
+      valueAsNumber: false,
+      validate: (value, formValues) => {
+        if (formValues.amount !== "") {
+          return true;
+        }
+
+        return validateBalance(
+          wallet.balance,
+          formValues,
+          t("FEE_EXCEEDS_BALANCE"),
+        );
+      },
+      deps: ["amount", "gasPrice"],
+    });
+
+    setGasLimitInputProperties(inputGasLimitProperties);
+    setGasPriceInputProperties(inputGasPriceProperties);
+  }, [register, wallet]);
 
   return (
     <div className={twMerge("inline-flex flex-col space-y-1.5", className)}>
@@ -104,6 +194,22 @@ export const FeeInput = ({
       </div>
     </div>
   );
+};
+
+export const validateBalance = (
+  balance: number,
+  formValues: Record<string, any>,
+  message: string,
+) => {
+  const { amount: amountString, gasPrice, gasLimit } = formValues;
+
+  const amount = BigNumber(amountString ?? 0);
+
+  const fee = calculateFee(gasPrice, gasLimit);
+
+  if (BigNumber.sum(amount, fee).isGreaterThan(BigNumber(balance))) {
+    return message;
+  }
 };
 
 const AdvancedFeeView = ({
