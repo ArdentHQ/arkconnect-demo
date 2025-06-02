@@ -5,7 +5,7 @@ import {
   UseFormSetValue,
 } from "react-hook-form";
 import { useTranslation } from "next-i18next";
-import React, { useEffect, useState } from "react";
+import React, {ChangeEvent, MouseEventHandler, useEffect, useState} from "react";
 import cn from "classnames";
 import { twMerge } from "tailwind-merge";
 import { BigNumber } from "bignumber.js";
@@ -70,7 +70,7 @@ export const FeeInput = ({
   useEffect(() => {
     const inputGasPriceProperties = register("gasPrice", {
       required: t("GAS_PRICE_IS_REQUIRED"),
-      onChange: (event) => {
+      onChange: (event: ChangeEvent<HTMLInputElement>) => {
         const value = event.target.value === "" ? 0 : event.target.value;
         onGasPriceChange(BigNumber(value));
       },
@@ -99,7 +99,7 @@ export const FeeInput = ({
 
     const inputGasLimitProperties = register("gasLimit", {
       required: t("GAS_LIMIT_IS_REQUIRED"),
-      onChange: (event) => {
+      onChange: (event: ChangeEvent<HTMLInputElement>) => {
         const value = event.target.value === "" ? 0 : event.target.value;
         onGasLimitChange(BigNumber(value));
       },
@@ -207,7 +207,7 @@ export const validateBalance = (
 
   const fee = calculateFee(gasPrice, gasLimit);
 
-  if (BigNumber.sum(amount, fee).isGreaterThan(BigNumber(balance))) {
+  if (BigNumber.sum(amount, fee).isGreaterThan(BigNumber(balance ?? 0))) {
     return message;
   }
 };
