@@ -89,9 +89,9 @@ export const FeeInput = ({
         }
 
         return validateBalance(
-          wallet.balance,
           formValues,
           t("FEE_EXCEEDS_BALANCE"),
+          wallet.balance,
         );
       },
       deps: ["amount", "gasLimit"],
@@ -118,9 +118,9 @@ export const FeeInput = ({
         }
 
         return validateBalance(
-          wallet.balance,
           formValues,
           t("FEE_EXCEEDS_BALANCE"),
+          wallet.balance,
         );
       },
       deps: ["amount", "gasPrice"],
@@ -197,9 +197,9 @@ export const FeeInput = ({
 };
 
 export const validateBalance = (
-  balance: number,
   formValues: Record<string, any>,
   message: string,
+  balance?: number,
 ) => {
   const { amount: amountString, gasPrice, gasLimit } = formValues;
 

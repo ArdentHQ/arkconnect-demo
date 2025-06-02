@@ -107,9 +107,9 @@ export const SendModal = ({
       },
       validate: (value, formValues) => {
         return validateBalance(
-          wallet.balance,
           formValues,
           t("FEE_AND_AMOUNT_EXCEEDS_BALANCE"),
+          wallet.balance,
         );
       },
       deps: ["gasPrice", "gasLimit"],
