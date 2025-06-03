@@ -3,11 +3,13 @@ import { useCallback, useEffect, useState } from "react";
 import { BrowserProvider, JsonRpcSigner } from "ethers";
 import { Ethereum, MetaMaskState } from "@/app/hooks/useMetaMask.contracts";
 
+const isBrowser = () => typeof window !== "undefined";
+
 const hasMetaMask = (): boolean =>
-  typeof window === "object" && window.ethereum?.isMetaMask === true;
+  isBrowser() && window.ethereum?.isMetaMask === true;
 
 const getEthereum = (): Ethereum | undefined => {
-  if (hasMetaMask()) {
+  if (isBrowser()) {
     return window.ethereum as Ethereum;
   }
 };
@@ -16,6 +18,10 @@ const getEthereum = (): Ethereum | undefined => {
 // Opera are based on Chromium, we can just check for Chrome and Firefox
 // @see https://metamask.io/download/
 const isMetaMaskSupportedBrowser = (): boolean => {
+  if (!isBrowser()) {
+    return false;
+  }
+
   // If the user has MetaMask installed, we can assume they are on a supported browser
   if (hasMetaMask()) {
     return true;

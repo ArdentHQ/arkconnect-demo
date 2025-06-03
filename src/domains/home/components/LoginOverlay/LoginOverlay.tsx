@@ -7,7 +7,7 @@ import { useMetaMaskContext } from "@/app/contexts/MetaMaskContext";
 
 export const LoginOverlay = () => {
   const { isInstalled, isLoading } = useArkConnectContext();
-  const { initialized, connecting } = useMetaMaskContext();
+  const { initialized, connecting, needsMetaMask } = useMetaMaskContext();
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
@@ -26,7 +26,7 @@ export const LoginOverlay = () => {
     );
   }
 
-  if (isInstalled) {
+  if (isInstalled || !needsMetaMask) {
     return <ConnectOverlay />;
   }
 

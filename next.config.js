@@ -20,6 +20,10 @@ const nextConfig = {
       "https://chromewebstore.google.com/detail/ark-connect/efcfcaonapdhdljmikbpmikhiklhfbhm?hl=en",
     ARK_FIREFOX_EXTENSION_URL:
       "https://addons.mozilla.org/en-US/firefox/addon/ark-connect/",
+    METAMASK_CHROME_EXTENSION_URL:
+      "https://chromewebstore.google.com/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn",
+    METAMASK_FIREFOX_EXTENSION_URL:
+      "https://addons.mozilla.org/en-US/firefox/addon/ether-metamask",
   },
   images: {
     remotePatterns: [
