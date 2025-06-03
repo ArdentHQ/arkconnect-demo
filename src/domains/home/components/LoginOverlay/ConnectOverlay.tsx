@@ -17,7 +17,6 @@ import ConnectArkMetamaskLight from "@/public/images/connect-ark-metamask-light.
 import ConnectArkMetamaskDark from "@/public/images/connect-ark-metamask-dark.svg";
 import ConnectMetamaskLight from "@/public/images/connect-metamask-light.svg";
 import ConnectMetamaskDark from "@/public/images/connect-metamask-dark.svg";
-import { Divider } from "@/domains/home/components/LoginOverlay/InstallOverlay";
 import { useExtensionUrls } from "@/app/hooks/useExtensionUrls";
 import InstallDark from "@/public/images/install-dark.svg";
 import InstallLight from "@/public/images/install-light.svg";
@@ -84,6 +83,15 @@ export const ConnectOverlay = () => {
     return <IconComponent />;
   };
 
+  const dividerText = useMemo(() => {
+    return {
+      [InstallationStatus.NONE]: t("OR"),
+      [InstallationStatus.BOTH]: t("OR"),
+      [InstallationStatus.METAMASK]: t("OR_INSTALL_ARK_CONNECT"),
+      [InstallationStatus.ARK_CONNECT]: t("OR_INSTALL_METAMASK"),
+    }[installationStatus];
+  }, [installationStatus, t]);
+
   return (
     <div className="bg-white mx-auto w-full sm:w-96 overflow-hidden shadow-sm rounded-xl dark:bg-subtle-black">
       <div className="text-center flex flex-col items-center p-8 dark:text-white">
@@ -91,7 +99,9 @@ export const ConnectOverlay = () => {
 
         <div>
           <p className="text-md mb-4 text-theme-gray-500 dark:text-theme-gray-300">
-            {t("CONNECT_ARK_CONNECT_TO_START")}
+            {installationStatus === InstallationStatus.NONE
+              ? t("INSTALL_EXTENSION")
+              : t("CONNECT_ARK_CONNECT_TO_START")}
           </p>
 
           <div className="w-2/3 mx-auto">
@@ -140,7 +150,7 @@ export const ConnectOverlay = () => {
                 </Button>
               )}
 
-              <Divider text={"or"} />
+              <Divider text={dividerText} />
 
               {!metaMaskInstalled && (
                 <LinkButton
@@ -199,3 +209,11 @@ export const ConnectOverlay = () => {
     </div>
   );
 };
+
+export const Divider = ({ text }: { text: string }) => (
+  <div className="flex items-center px-2.5 w-full mt-2">
+    <hr className="flex-grow border-[#d3d3d3] dark:border-theme-gray-700 border-t border-dashed border-gray-300" />
+    <span className="mx-3 text-theme-gray-500 text-xs">{text}</span>
+    <hr className="flex-grow border-[#d3d3d3] dark:border-theme-gray-700 border-t border-dashed border-gray-300" />
+  </div>
+);
