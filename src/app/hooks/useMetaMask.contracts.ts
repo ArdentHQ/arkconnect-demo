@@ -25,4 +25,5 @@ export interface MetaMaskState {
   needsMetaMask: boolean;
   supportsMetaMask: boolean;
   errorMessage?: string;
+  error?: string;
 }

@@ -42,7 +42,6 @@ export const useMetaMask = (): MetaMaskState => {
   const [chainId, setChainId] = useState<bigint>();
   const [account, setAccount] = useState<JsonRpcSigner | undefined>();
   const [ethereumProvider, setEthereumProvider] = useState<BrowserProvider>();
-  const [isErrored, setIsErrored] = useState(false);
   const [error, setError] = useState<string>();
   const [requiresSwitch, setRequiresSwitch] = useState<boolean>(false);
 
@@ -193,6 +192,5 @@ export const useMetaMask = (): MetaMaskState => {
     connecting,
     connected,
     error,
-    isErrored,
   };
 };

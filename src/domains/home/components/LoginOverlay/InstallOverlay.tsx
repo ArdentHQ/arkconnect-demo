@@ -6,24 +6,13 @@ import { LinkButton } from "@/app/components/Button";
 import ArkConnectLogo from "@/public/icons/logo.svg";
 import MetaMaskLogo from "@/public/icons/metamask-logo.svg";
 import { useDarkMode } from "@/app/contexts/useDarkModeContext";
+import { useExtensionUrls } from "@/app/hooks/useExtensionUrls";
 
 export const InstallOverlay = () => {
   const { t } = useTranslation();
   const { darkMode } = useDarkMode();
 
-  const isFirefox = navigator.userAgent.includes("Firefox");
-  const isChrome = navigator.userAgent.includes("Chrome");
-
-  let arkExtensionUrl: string|undefined;
-  let metaMaskExtensionUrl: string|undefined;
-
-  if (isChrome) {
-    arkExtensionUrl = process.env.ARK_CHROME_EXTENSION_URL;
-    metaMaskExtensionUrl = process.env.METAMASK_CHROME_EXTENSION_URL;
-  } else if (isFirefox) {
-    arkExtensionUrl = process.env.ARK_FIREFOX_EXTENSION_URL;
-    metaMaskExtensionUrl = process.env.METAMASK_FIREFOX_EXTENSION_URL;
-  }
+  const { arkExtensionUrl, metaMaskExtensionUrl } = useExtensionUrls();
 
   return (
     <div className="bg-white mx-auto w-full sm:w-96 overflow-hidden shadow-sm rounded-xl dark:bg-subtle-black">
@@ -56,6 +45,8 @@ export const InstallOverlay = () => {
                 </div>
               </LinkButton>
 
+              <Divider text={"or"} />
+
               <LinkButton
                 href={metaMaskExtensionUrl}
                 isExternal
@@ -75,3 +66,11 @@ export const InstallOverlay = () => {
     </div>
   );
 };
+
+export const Divider = ({ text }: { text: string }) => (
+  <div className="flex items-center px-2.5 w-full mt-2">
+    <hr className="flex-grow border-[#d3d3d3] dark:border-theme-gray-700 border-t border-dashed border-gray-300" />
+    <span className="mx-3 text-theme-gray-500 text-xs">{text}</span>
+    <hr className="flex-grow border-[#d3d3d3] dark:border-theme-gray-700 border-t border-dashed border-gray-300" />
+  </div>
+);
