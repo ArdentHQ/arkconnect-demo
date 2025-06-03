@@ -14,13 +14,13 @@ export enum NetworkAddressLink {
 }
 
 export enum DelegatesLink {
-  DEVNET = "https://ark-test.arkvault.io/api/delegates",
-  MAINNET = "https://api.ark.io/api/delegates",
+  DEVNET = "https://dwallets-evm.ihost.org/api/validators",
+  MAINNET = "https://wallets-evm.ihost.org/api/validators",
 }
 
 export enum NetworkTransactionsList {
-  DEVNET = "https://ark-test.arkvault.io/api/transactions",
-  MAINNET = "https://ark-live.arkvault.io/api/transactions",
+  DEVNET = "https://dwallets-evm.ihost.org/api/transactions",
+  MAINNET = "https://wallets-evm.ihost.org/api/transactions",
 }
 
 export enum NetworkTransactionLink {
@@ -29,8 +29,8 @@ export enum NetworkTransactionLink {
 }
 
 export enum WalletsLink {
-  DEVNET = "https://ark-test.arkvault.io/api/wallets",
-  MAINNET = "https://api.ark.io/api/wallets",
+  DEVNET = "https://dwallets-evm.ihost.org/api/wallets",
+  MAINNET = "https://wallets-evm.ihost.org/api/wallets",
 }
 
 export enum Coin {
@@ -40,7 +40,8 @@ export enum Coin {
 
 export interface SignTransactionRequest {
   amount: number;
-  fee: number;
+  gasPrice: string;
+  gasLimit: string;
   receiverAddress: string;
 }
 
@@ -66,7 +67,8 @@ export interface SignVoteRequest {
     amount: number;
     address: string;
   };
-  fee: number;
+  gasPrice: string;
+  gasLimit: string;
 }
 
 export type Version = null | string;
@@ -83,7 +85,8 @@ export interface VoteTypeV1_0 {
 export interface SignVoteRequestVersioned<V extends Version = Version> {
   vote?: V extends "1.0.0" | "1.8.0" | null ? VoteTypeV1_0 : VoteTypeV1_9;
   unvote?: V extends "1.0.0" | "1.8.0" | null ? VoteTypeV1_0 : VoteTypeV1_9;
-  fee: number;
+  gasPrice: string;
+  gasLimit: string;
 }
 
 export interface ResponseVoteTypeV1_9 {
