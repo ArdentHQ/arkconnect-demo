@@ -3,19 +3,26 @@ import assert from "assert";
 import { useTranslation } from "next-i18next";
 import { SubmitHandler, useForm, UseFormRegisterReturn } from "react-hook-form";
 import React, { useEffect, useState } from "react";
+import { BigNumber } from "bignumber.js";
 import { Dialog } from "@/app/components/Dialog";
 import { InputGroup } from "@/app/components/InputGroup";
 import { Input, NumericInput } from "@/app/components/Input";
 import { SignTransactionResponse, TransactionType } from "@/app/lib/Network";
 import { useArkConnectContext } from "@/app/contexts/useArkConnectContext";
-import { FeeInput } from "@/domains/transactions/components/SendModal/SendModal.blocks";
+import {
+  FeeInput,
+  validateBalance,
+} from "@/domains/transactions/components/SendModal/SendModal.blocks";
 import { getNetworkCoin } from "@/app/utils/network";
 
-type FormSubmitHandler = SubmitHandler<{
+interface FormValues {
   amount: string;
   receiverAddress: string;
-  fee: string;
-}>;
+  gasPrice: BigNumber;
+  gasLimit: BigNumber;
+}
+
+type FormSubmitHandler = SubmitHandler<FormValues>;
 
 export const SendModal = ({
   show,
@@ -36,16 +43,13 @@ export const SendModal = ({
     setValue,
     trigger,
     getValues,
-  } = useForm<{
-    amount: string;
-    receiverAddress: string;
-    fee: string;
-  }>({
-    mode: "all",
+  } = useForm<FormValues>({
+    mode: "onChange",
     defaultValues: {
       amount: "",
       receiverAddress: "",
-      fee: "0",
+      gasPrice: BigNumber(0),
+      gasLimit: BigNumber(0),
     },
   });
 
@@ -63,7 +67,8 @@ export const SendModal = ({
   const submitHandler: FormSubmitHandler = async ({
     amount,
     receiverAddress,
-    fee,
+    gasPrice,
+    gasLimit,
   }) => {
     try {
       // @TODO: handle success response
@@ -71,7 +76,8 @@ export const SendModal = ({
       const response: SignTransactionResponse = await signTransaction({
         amount: Number(amount),
         receiverAddress,
-        fee: Number(fee),
+        gasPrice: gasPrice.toString(),
+        gasLimit: gasLimit.toString(),
       });
 
       onClose();
@@ -84,40 +90,11 @@ export const SendModal = ({
   // @TODO: is this the best way to get the coin name?
   const coin = getNetworkCoin(wallet.network);
 
-  const [feeInputProperties, setFeeInputProperties] = useState<
-    UseFormRegisterReturn | undefined
-  >(undefined);
   const [amountInputProperties, setAmountInputProperties] = useState<
     UseFormRegisterReturn | undefined
   >(undefined);
 
   useEffect(() => {
-    const inputFeeProperties = register("fee", {
-      required: t("FEE_IS_REQUIRED"),
-      min: {
-        value: 0.000_000_01,
-        message: t("FEE_TOO_LOW"),
-      },
-      max: {
-        value: 1,
-        message: t("FEE_TOO_HIGH"),
-      },
-      valueAsNumber: true,
-      validate: (value, formValues) => {
-        if (formValues.amount !== "") {
-          return true;
-        }
-
-        if (
-          Number(value) + Number(formValues.amount) >
-          Number(wallet.balance ?? 0)
-        ) {
-          return t("FEE_EXCEEDS_BALANCE");
-        }
-      },
-      deps: ["amount"],
-    });
-
     const inputAmountProperties = register("amount", {
       required: t("AMOUNT_REQUIRED"),
       min: {
@@ -129,28 +106,17 @@ export const SendModal = ({
         message: t("BALANCE_TOO_LOW"),
       },
       validate: (value, formValues) => {
-        if (
-          Number(value) + Number(formValues.fee) >
-          Number(wallet.balance ?? 0)
-        ) {
-          return t("FEE_AND_AMOUNT_EXCEEDS_BALANCE");
-        }
+        return validateBalance(
+          formValues,
+          t("FEE_AND_AMOUNT_EXCEEDS_BALANCE"),
+          wallet.balance,
+        );
       },
-      deps: ["fee"],
+      deps: ["gasPrice", "gasLimit"],
     });
 
-    setFeeInputProperties(inputFeeProperties);
     setAmountInputProperties(inputAmountProperties);
   }, [register, wallet]);
-
-  const handleFeeChange = (value: string) => {
-    setValue("fee", value, {
-      shouldValidate: true,
-      shouldTouch: true,
-      shouldDirty: true,
-    });
-    getValues("amount") && void trigger("amount");
-  };
 
   return (
     <Dialog
@@ -221,10 +187,12 @@ export const SendModal = ({
         </InputGroup>
 
         <FeeInput
-          feeInputProperties={feeInputProperties}
-          onFeeChange={handleFeeChange}
-          error={errors.fee}
-          network={wallet.network}
+          register={register}
+          setValue={setValue}
+          gasPrice={getValues("gasPrice")}
+          gasLimit={getValues("gasLimit")}
+          errors={errors}
+          wallet={wallet}
           type={TransactionType.TRANSFER}
         />
       </div>
