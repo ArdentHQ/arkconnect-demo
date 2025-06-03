@@ -171,7 +171,7 @@ export const useMetaMask = (): MetaMaskState => {
     setConnecting(true);
     setError(undefined);
 
-    const { chainId, account } = await requestChainAndAccount();
+    const { account } = await requestChainAndAccount();
 
     if (account === undefined) {
       onError("No account found");
@@ -192,5 +192,6 @@ export const useMetaMask = (): MetaMaskState => {
     connecting,
     connected,
     error,
+    connectWallet,
   };
 };

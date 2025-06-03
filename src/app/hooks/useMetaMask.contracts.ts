@@ -26,4 +26,5 @@ export interface MetaMaskState {
   supportsMetaMask: boolean;
   errorMessage?: string;
   error?: string;
+  connectWallet: () => Promise<void>;
 }

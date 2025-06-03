@@ -48,10 +48,6 @@ export const ConnectOverlay = () => {
   const metaMaskInstalled = !needsMetaMask;
 
   const installationStatus = useMemo(() => {
-    if (!arkInstalled && !metaMaskInstalled) {
-      return InstallationStatus.NONE;
-    }
-
     if (arkInstalled && metaMaskInstalled) {
       return InstallationStatus.BOTH;
     }
@@ -60,7 +56,11 @@ export const ConnectOverlay = () => {
       return InstallationStatus.ARK_CONNECT;
     }
 
-    return InstallationStatus.METAMASK;
+    if (metaMaskInstalled) {
+      return InstallationStatus.METAMASK;
+    }
+
+    return InstallationStatus.NONE;
   }, [arkInstalled, metaMaskInstalled]);
 
   const Icon = (): JSX.Element => {
