@@ -3,9 +3,11 @@ import { ConnectOverlay } from "./ConnectOverlay";
 import { InstallOverlay } from "./InstallOverlay";
 import { Spinner } from "@/app/components/Spinner";
 import { useArkConnectContext } from "@/app/contexts/useArkConnectContext";
+import { useMetaMaskContext } from "@/app/contexts/MetaMaskContext";
 
 export const LoginOverlay = () => {
   const { isInstalled, isLoading } = useArkConnectContext();
+  const { initialized, connecting } = useMetaMaskContext();
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
