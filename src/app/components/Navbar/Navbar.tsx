@@ -15,6 +15,7 @@ import { WalletData } from "@/app/lib/Wallet/contracts";
 import { Dialog } from "@/app/components/Dialog";
 import { useArkConnectContext } from "@/app/contexts/useArkConnectContext";
 import { useDarkMode } from "@/app/contexts/useDarkModeContext";
+import { useActiveWallet } from "@/app/hooks/useActiveWallet";
 
 interface NavbarProperties {
   wallet: WalletData;
@@ -104,15 +105,10 @@ export const Navbar = () => {
   const { t } = useTranslation();
   const [changeAddressError, setChangeAddressError] = useState<string>();
 
-  const {
-    isConnected,
-    connect,
-    wallet,
-    disconnect,
-    isConnecting,
-    isLoading,
-    isInstalled,
-  } = useArkConnectContext();
+  const { connect, disconnect } = useArkConnectContext();
+
+  const { isLoading, wallet, isConnected, isConnecting, isInstalled } =
+    useActiveWallet();
 
   if (isLoading) {
     return (

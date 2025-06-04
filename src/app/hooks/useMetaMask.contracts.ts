@@ -1,5 +1,6 @@
 import type { Eip1193Provider } from "ethers";
 import type { MetaMaskInpageProvider } from "@metamask/providers";
+import { WalletExtensionState } from "@/app/lib/WalletExtension";
 
 interface EthereumEvent {
   connect: {
@@ -27,4 +28,5 @@ export interface MetaMaskState {
   errorMessage?: string;
   error?: string;
   connectWallet: () => Promise<void>;
+  wallet: WalletExtensionState["wallet"];
 }

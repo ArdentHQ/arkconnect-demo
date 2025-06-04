@@ -1,7 +1,8 @@
 /* eslint-disable max-lines-per-function */
 import { useCallback, useEffect, useState } from "react";
-import { BrowserProvider, JsonRpcSigner } from "ethers";
+import { BrowserProvider } from "ethers";
 import { Ethereum, MetaMaskState } from "@/app/hooks/useMetaMask.contracts";
+import { Coin, NetworkType } from "@/app/lib/Network";
 
 const isBrowser = () => typeof window !== "undefined";
 
@@ -35,12 +36,13 @@ const isMetaMaskSupportedBrowser = (): boolean => {
   return isCompatible && !isMobile;
 };
 
+const MAINSAIL_CHAIN_ID = "10000";
+
 export const useMetaMask = (): MetaMaskState => {
   const [initialized, setInitialized] = useState<boolean>(false);
   const [connecting, setConnecting] = useState<boolean>(false);
-  const [connected, setConnected] = useState<boolean>(false);
-  const [chainId, setChainId] = useState<bigint>();
-  const [account, setAccount] = useState<JsonRpcSigner | undefined>();
+  const [chainId, setChainId] = useState<string | undefined>();
+  const [account, setAccount] = useState<string | undefined>();
   const [ethereumProvider, setEthereumProvider] = useState<BrowserProvider>();
   const [error, setError] = useState<string>();
   const [requiresSwitch, setRequiresSwitch] = useState<boolean>(false);
@@ -53,7 +55,6 @@ export const useMetaMask = (): MetaMaskState => {
     setConnecting(false);
   }, []);
 
-  console.log("useMetaMask", { account, initialized, chainId });
   // Initialize the Browser when the page loads
   useEffect(() => {
     if (!supportsMetaMask || needsMetaMask) {
@@ -71,8 +72,9 @@ export const useMetaMask = (): MetaMaskState => {
         provider.listAccounts(),
       ]);
 
-      const account = accounts.length > 0 ? accounts[0] : undefined;
-      const chainId = chain.chainId;
+      const account =
+        accounts.length > 0 ? await accounts[0].getAddress() : undefined;
+      const chainId = chain.chainId.toString();
 
       setAccount(account);
 
@@ -87,27 +89,42 @@ export const useMetaMask = (): MetaMaskState => {
   }, []);
 
   useEffect(() => {
+    if (requiresSwitch) {
+      const handleSwitch = async () => {
+        setRequiresSwitch(false);
+        const { account, chainId } = await requestChainAndAccount();
+
+        setAccount(account);
+
+        if (account === undefined) {
+          onError("account not found");
+          return;
+        }
+
+        if (chainId !== MAINSAIL_CHAIN_ID) {
+          onError("mainsail chain id needed");
+          return;
+        }
+
+        setChainId(chainId);
+      };
+
+      void handleSwitch();
+    }
+  }, [requiresSwitch, account, chainId]);
+
+  useEffect(() => {
     if (!initialized || !supportsMetaMask || needsMetaMask) {
       return;
     }
 
     const ethereum = getEthereum() as Ethereum;
 
-    const accountChangedListener = (accounts: string[]): void => {
-      console.log("accountChangedListener", accounts);
-      // setAccount(accounts.length > 0 ? accounts[0] : undefined);
-      //
-      // if (accounts.length === 0) {
-      //   // log out
-      // } else {
-      //   setRequiresSwitch(true);
-      // }
+    const accountChangedListener = (_accounts: string[]): void => {
+      setRequiresSwitch(true);
     };
 
-    const chainChangedListener = (chainId: string): void => {
-      // Chain ID came in as a hex string, so we need to convert it to decimal
-      setChainId(BigInt(Number.parseInt(chainId, 16)));
-
+    const chainChangedListener = (_chainId: string): void => {
       setRequiresSwitch(true);
     };
 
@@ -149,7 +166,7 @@ export const useMetaMask = (): MetaMaskState => {
         ethereumProvider.send("eth_chainId", []),
       ])) as [string[], string];
 
-      const chainId = BigInt(Number.parseInt(chainIdAsHex, 16));
+      const chainId = Number.parseInt(chainIdAsHex, 16).toString();
 
       return {
         account: accounts.length > 0 ? accounts[0] : undefined,
@@ -164,34 +181,41 @@ export const useMetaMask = (): MetaMaskState => {
   }, [ethereumProvider]);
 
   const connectWallet = useCallback(async () => {
-    if (requiresSwitch) {
-      return;
-    }
-
     setConnecting(true);
     setError(undefined);
 
-    const { account } = await requestChainAndAccount();
+    const { chainId, account } = await requestChainAndAccount();
 
     if (account === undefined) {
-      onError("No account found");
+      onError("account not found");
       return;
     }
 
-    setConnected(true);
+    if (chainId !== MAINSAIL_CHAIN_ID) {
+      onError("mainsail chain id needed");
+      return;
+    }
 
-    setError(undefined);
+    setAccount(account);
+
+    setChainId(chainId);
 
     setConnecting(false);
-  }, [requiresSwitch, requestChainAndAccount]);
+  }, [onError, requestChainAndAccount]);
 
   return {
     initialized,
     needsMetaMask,
     supportsMetaMask,
     connecting,
-    connected,
+    connected: !!account && !!chainId,
     error,
     connectWallet,
+    wallet: {
+      network: NetworkType.DEVNET,
+      address: account,
+      balance: 0,
+      coin: Coin.DARK,
+    },
   };
 };
