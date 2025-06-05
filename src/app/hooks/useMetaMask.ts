@@ -67,7 +67,7 @@ export const useMetaMask = (): MetaMaskState => {
   const [initialized, setInitialized] = useState<boolean>(false);
   const [isConnecting, setIsConnecting] = useState<boolean>(false);
   const [account, setAccount] = useState<string | undefined>();
-  const [walletClient, setWalletClient] = useState<WalletClient>();
+  const [, setWalletClient] = useState<WalletClient>();
   const [error, setError] = useState<string>();
   const [requiresRefresh, setRequiresRefresh] = useState<boolean>(true);
 
