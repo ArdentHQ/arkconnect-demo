@@ -38,9 +38,10 @@ const isMetaMaskSupportedBrowser = (): boolean => {
 };
 
 const MAINSAIL_CHAIN_ID = 10_000;
+const MAINSAIL_CHAIN_ID_HEX = "0x" + MAINSAIL_CHAIN_ID.toString(16);
 
 const mainsailChainConfig = {
-  chainId: "0x" + MAINSAIL_CHAIN_ID.toString(16),
+  chainId: MAINSAIL_CHAIN_ID_HEX,
   chainName: "Mainsail Testnet",
   nativeCurrency: {
     name: "ARK",
@@ -90,7 +91,7 @@ export const useMetaMask = (): MetaMaskState => {
     setIsConnecting(false);
   }, []);
 
-  const updateAccount = (account?: Address) => {
+  const refreshAccount = (account?: Address) => {
     const walletClient = createWalletClient({
       account,
       chain: mainnet,
@@ -116,7 +117,7 @@ export const useMetaMask = (): MetaMaskState => {
       const chainId = await getChainId();
 
       if (!isMainsailChain(chainId)) {
-        updateAccount();
+        refreshAccount();
         return;
       }
 
@@ -124,7 +125,7 @@ export const useMetaMask = (): MetaMaskState => {
         method: "eth_accounts",
       })) as [Address | undefined];
 
-      updateAccount(account);
+      refreshAccount(account);
       setInitialized(true);
     };
 
@@ -183,13 +184,25 @@ export const useMetaMask = (): MetaMaskState => {
 
       try {
         await ethereum.request({
-          method: "wallet_addEthereumChain",
-          params: [mainsailChainConfig],
+          method: "wallet_switchEthereumChain",
+          params: [{ chainId: MAINSAIL_CHAIN_ID_HEX }],
         });
+      } catch (switchError: any) {
+        console.log("switchError", switchError);
+        // Chain not added yet
+        if (switchError.code === 4902) {
+          try {
+            await ethereum.request({
+              method: "wallet_addEthereumChain",
+              params: [mainsailChainConfig],
+            });
 
-        hasMainsailChain = true;
-      } catch {
-        // ignore error
+            hasMainsailChain = true;
+          } catch (addError) {
+            console.error(addError);
+            // ignore
+          }
+        }
       }
     }
 
@@ -200,7 +213,7 @@ export const useMetaMask = (): MetaMaskState => {
 
     const account = await requestAccounts();
 
-    updateAccount(account);
+    refreshAccount(account);
 
     setIsConnecting(false);
   }, [onError]);
