@@ -22,7 +22,7 @@ export const useActiveWallet = () => {
     isConnected: arkState.isConnected || metaMaskState.connected,
     error: arkState.error || metaMaskState.error,
     isLoading: arkState.isLoading,
-    isConnecting: arkState.isConnecting || metaMaskState.connecting,
-    isInstalled: arkState.isInstalled || !metaMaskState.needsMetaMask,
+    isConnecting: arkState.isConnecting || metaMaskState.isConnecting,
+    isInstalled: arkState.isInstalled || !metaMaskState.isInstalled,
   };
 };

@@ -38,8 +38,8 @@ export const ConnectOverlay = () => {
     error: arkError,
   } = useArkConnectContext();
   const {
-    needsMetaMask,
-    connecting: metaMaskConnecting,
+    isInstalled: metaMaskInstalled,
+    isConnecting: metaMaskConnecting,
     connectWallet: connectMetaMask,
     error: metaMaskError,
   } = useMetaMaskContext();
@@ -48,8 +48,6 @@ export const ConnectOverlay = () => {
 
   const connecting = arkConnecting || metaMaskConnecting;
   const error = arkError || metaMaskError;
-
-  const metaMaskInstalled = !needsMetaMask;
 
   const installationStatus = useMemo(() => {
     if (arkInstalled && metaMaskInstalled) {

@@ -41,27 +41,39 @@ const MAINSAIL_CHAIN_ID = 10_000;
 
 export const useMetaMask = (): MetaMaskState => {
   const [initialized, setInitialized] = useState<boolean>(false);
-  const [connecting, setConnecting] = useState<boolean>(false);
-  const [chainId, setChainId] = useState<number | undefined>();
+  const [isConnecting, setIsConnecting] = useState<boolean>(false);
   const [account, setAccount] = useState<string | undefined>();
   const [walletClient, setWalletClient] = useState<WalletClient>();
   const [error, setError] = useState<string>();
-  const [requiresSwitch, setRequiresSwitch] = useState<boolean>(false);
+  const [requiresRefresh, setRequiresRefresh] = useState<boolean>(true);
 
   const supportsMetaMask = isMetaMaskSupportedBrowser();
   const needsMetaMask = !hasMetaMask() || !supportsMetaMask;
 
   const onError = useCallback((errorMessage?: string) => {
     setError(errorMessage);
-    setConnecting(false);
+    setIsConnecting(false);
   }, []);
 
-  // Initialize the Browser when the page loads
+  const updateAccount = (account?: Address) => {
+    const walletClient = createWalletClient({
+      account,
+      chain: mainnet,
+      transport: custom(getEthereum() as Ethereum),
+    });
+
+    setWalletClient(walletClient);
+    setAccount(account);
+  };
+
+  // Initialize the WalletClient when the page loads
   useEffect(() => {
-    if (!supportsMetaMask || needsMetaMask) {
+    if (!supportsMetaMask || needsMetaMask || !requiresRefresh) {
       setInitialized(true);
       return;
     }
+
+    setRequiresRefresh(false);
 
     const ethereum = getEthereum() as Ethereum;
 
@@ -69,6 +81,7 @@ export const useMetaMask = (): MetaMaskState => {
       const chainId = await getChainId();
 
       if (!isMainsailChain(chainId)) {
+        updateAccount();
         return;
       }
 
@@ -76,30 +89,12 @@ export const useMetaMask = (): MetaMaskState => {
         method: "eth_accounts",
       })) as [Address | undefined];
 
-      const walletClient = refreshWalletClient(account);
-
-      setAccount(account);
-
-      setChainId(chainId);
-
-      setWalletClient(walletClient);
-
+      updateAccount(account);
       setInitialized(true);
     };
 
     void initWalletClient();
-  }, []);
-
-  useEffect(() => {
-    if (requiresSwitch && initialized) {
-      const handleSwitch = async () => {
-        setRequiresSwitch(false);
-
-      };
-
-      void handleSwitch();
-    }
-  }, [requiresSwitch, account, chainId, initialized]);
+  }, [requiresRefresh]);
 
   useEffect(() => {
     if (!initialized || !supportsMetaMask || needsMetaMask) {
@@ -111,18 +106,15 @@ export const useMetaMask = (): MetaMaskState => {
     const accountChangedListener = (_accounts: string[]): void => {};
 
     const chainChangedListener = (_chainId: string): void => {
-      console.log("chain triggered",);
-      setRequiresSwitch(true);
+      setRequiresRefresh(true);
     };
 
     const connectListener = ({ chainId }: { chainId: string }): void => {
-      console.log("connect triggered",);
       chainChangedListener(chainId);
     };
 
     const disconnectListener = (): void => {
-      console.log("disconnect triggered",);
-      setChainId(undefined);
+      setRequiresRefresh(true);
     };
 
     ethereum.on("accountsChanged", accountChangedListener);
@@ -142,18 +134,6 @@ export const useMetaMask = (): MetaMaskState => {
       ethereum.removeListener("disconnect", disconnectListener);
     };
   }, [initialized]);
-
-  const refreshWalletClient = (account: Address | undefined) => {
-    const walletClient = createWalletClient({
-      account,
-      chain: mainnet,
-      transport: custom(getEthereum() as Ethereum),
-    });
-
-    setWalletClient(walletClient);
-
-    return walletClient;
-  };
 
   const getChainId = async () => {
     const ethereum = getEthereum() as Ethereum;
@@ -180,7 +160,7 @@ export const useMetaMask = (): MetaMaskState => {
   };
 
   const connectWallet = useCallback(async () => {
-    setConnecting(true);
+    setIsConnecting(true);
     setError(undefined);
 
     const chainId = await getChainId();
@@ -192,26 +172,17 @@ export const useMetaMask = (): MetaMaskState => {
 
     const account = await requestAccounts();
 
-    if (account === undefined) {
-      onError("account not found");
-      return;
-    }
+    updateAccount(account);
 
-    refreshWalletClient(account);
-
-    setAccount(account);
-
-    setChainId(chainId);
-
-    setConnecting(false);
-  }, [onError, requestChainAndAccount]);
+    setIsConnecting(false);
+  }, [onError]);
 
   return {
     initialized,
-    needsMetaMask,
+    isInstalled: !needsMetaMask,
     supportsMetaMask,
-    connecting,
-    connected: !!account && !!chainId,
+    isConnecting,
+    connected: !!account,
     error,
     connectWallet,
     wallet: {

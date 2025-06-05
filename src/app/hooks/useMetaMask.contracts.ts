@@ -1,4 +1,3 @@
-import type { Eip1193Provider } from "ethers";
 import type { MetaMaskInpageProvider } from "@metamask/providers";
 import { WalletExtensionState } from "@/app/lib/WalletExtension";
 
@@ -14,16 +13,19 @@ type EventKeys = keyof EthereumEvent;
 
 type EventHandler<K extends EventKeys> = (event: EthereumEvent[K]) => void;
 
-export type Ethereum = Eip1193Provider &
-  MetaMaskInpageProvider & {
-    on: <K extends EventKeys>(event: K, eventHandler: EventHandler<K>) => void;
-  };
+export type Ethereum = MetaMaskInpageProvider & {
+  on: <K extends EventKeys>(event: K, eventHandler: EventHandler<K>) => void;
+  request: (arguments_: {
+    method: string;
+    params?: unknown[];
+  }) => Promise<unknown>;
+};
 
 export interface MetaMaskState {
-  connecting: boolean;
+  isConnecting: boolean;
+  isInstalled: boolean;
   connected: boolean;
   initialized: boolean;
-  needsMetaMask: boolean;
   supportsMetaMask: boolean;
   errorMessage?: string;
   error?: string;
