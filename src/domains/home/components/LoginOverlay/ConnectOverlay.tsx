@@ -40,7 +40,7 @@ export const ConnectOverlay = () => {
   const {
     isInstalled: metaMaskInstalled,
     isConnecting: metaMaskConnecting,
-    connectWallet: connectMetaMask,
+    connect: connectMetaMask,
     error: metaMaskError,
   } = useMetaMaskContext();
 

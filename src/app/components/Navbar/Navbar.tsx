@@ -105,10 +105,7 @@ export const Navbar = () => {
   const { t } = useTranslation();
   const [changeAddressError, setChangeAddressError] = useState<string>();
 
-  const { connect, disconnect } = useArkConnectContext();
-
-  const { isLoading, wallet, isConnected, isConnecting, isInstalled } =
-    useActiveWallet();
+  const { isLoading, wallet, isConnected, isConnecting, disconnect } = useActiveWallet();
 
   if (isLoading) {
     return (
@@ -150,26 +147,6 @@ export const Navbar = () => {
     <>
       <NavbarWrapper>
         <li className="flex items-center justify-end space-x-2">
-          <Button
-            disabled={!isInstalled}
-            className="hidden sm:block"
-            onClick={() => {
-              void connect();
-            }}
-          >
-            {t("CONNECT_WALLET")}
-          </Button>
-
-          <Button
-            disabled={!isInstalled}
-            className="block sm:hidden"
-            onClick={() => {
-              void connect();
-            }}
-          >
-            {t("CONNECT")}
-          </Button>
-
           <DarkModeToggleButton />
         </li>
       </NavbarWrapper>

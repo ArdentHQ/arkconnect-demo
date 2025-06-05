@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useMemo, } from "react";
 import { useArkConnectContext } from "@/app/contexts/useArkConnectContext";
 import { useMetaMaskContext } from "@/app/contexts/MetaMaskContext";
 
@@ -17,12 +17,33 @@ export const useActiveWallet = () => {
     }
   }, [arkState.isConnected, metaMaskState.connected]);
 
+  const connectedWith = useMemo(() => {
+    if (arkState.isConnected) {
+      return "ark";
+    }
+
+    if (metaMaskState.connected) {
+      return "metaMask";
+    }
+  }, [arkState.isConnected, metaMaskState.connected]);
+
   return {
     wallet,
+    activeExtension: connectedWith,
     isConnected: arkState.isConnected || metaMaskState.connected,
     error: arkState.error || metaMaskState.error,
     isLoading: arkState.isLoading,
     isConnecting: arkState.isConnecting || metaMaskState.isConnecting,
     isInstalled: arkState.isInstalled || !metaMaskState.isInstalled,
+    disconnect: () => {
+      if (!connectedWith) {
+        return;
+      }
+      if (connectedWith === "ark") {
+        arkState.disconnect();
+      }
+
+      metaMaskState.disconnect();
+    },
   };
 };

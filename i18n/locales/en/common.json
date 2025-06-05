@@ -7,6 +7,8 @@
   "OR_INSTALL_METAMASK": "or Install MetaMask",
   "PAGE_TITLE": "Demo App | ARK Connect",
   "CONNECT_WALLET": "Connect Wallet",
+  "REJECTED_ADDING_CHAIN": "Mainsail Testnet is required to use this app. Approve the network request in your wallet to continue.",
+  "REJECTED_CONNECTION_REQUEST": "Connection request declined. Please connect your wallet to continue.",
   "CONNECT": "Connect",
   "RETRY": "Retry",
   "CONNECTING": "Connecting ...",

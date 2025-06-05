@@ -2,6 +2,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { mainnet } from "viem/chains";
 import { Address, createWalletClient, custom, WalletClient } from "viem";
+import { useTranslation } from "next-i18next";
 import { Ethereum, MetaMaskState } from "@/app/hooks/useMetaMask.contracts";
 import { Coin, NetworkType } from "@/app/lib/Network";
 
@@ -45,7 +46,7 @@ const mainsailChainConfig = {
   chainName: "Mainsail Testnet",
   nativeCurrency: {
     name: "ARK",
-    symbol: "TѦ",
+    symbol: "ARK",
     decimals: 18,
   },
   rpcUrls: ["https://dwallets-evm.ihost.org/evm/api"],
@@ -76,6 +77,7 @@ const isMainsailChain = (chainId: number) => {
 };
 
 export const useMetaMask = (): MetaMaskState => {
+  const { t } = useTranslation();
   const [initialized, setInitialized] = useState<boolean>(false);
   const [isConnecting, setIsConnecting] = useState<boolean>(false);
   const [account, setAccount] = useState<string | undefined>();
@@ -110,6 +112,7 @@ export const useMetaMask = (): MetaMaskState => {
     }
 
     setRequiresRefresh(false);
+    setError(undefined);
 
     const ethereum = getEthereum() as Ethereum;
 
@@ -171,7 +174,7 @@ export const useMetaMask = (): MetaMaskState => {
     };
   }, [initialized]);
 
-  const connectWallet = useCallback(async () => {
+  const connect = useCallback(async () => {
     setIsConnecting(true);
     setError(undefined);
 
@@ -184,30 +187,20 @@ export const useMetaMask = (): MetaMaskState => {
 
       try {
         await ethereum.request({
-          method: "wallet_switchEthereumChain",
-          params: [{ chainId: MAINSAIL_CHAIN_ID_HEX }],
+          method: "wallet_addEthereumChain",
+          params: [mainsailChainConfig],
         });
-      } catch (switchError: any) {
-        console.log("switchError", switchError);
-        // Chain not added yet
-        if (switchError.code === 4902) {
-          try {
-            await ethereum.request({
-              method: "wallet_addEthereumChain",
-              params: [mainsailChainConfig],
-            });
 
-            hasMainsailChain = true;
-          } catch (addError) {
-            console.error(addError);
-            // ignore
-          }
-        }
+        hasMainsailChain = true;
+      } catch {
+        // if error occurs check if the chain added already
+        const chainId = await getChainId();
+        hasMainsailChain = isMainsailChain(chainId);
       }
     }
 
     if (!hasMainsailChain) {
-      onError("mainsail chain is required");
+      onError(t("REJECTED_ADDING_CHAIN"));
       return;
     }
 
@@ -215,7 +208,7 @@ export const useMetaMask = (): MetaMaskState => {
       const account = await requestAccounts();
       refreshAccount(account);
     } catch {
-      onError("user rejected");
+      onError(t("REJECTED_CONNECTION_REQUEST"));
       return;
     }
 
@@ -229,7 +222,8 @@ export const useMetaMask = (): MetaMaskState => {
     isConnecting,
     connected: !!account,
     error,
-    connectWallet,
+    connect,
+    disconnect: () => refreshAccount(),
     wallet: {
       network: NetworkType.DEVNET,
       address: account,
