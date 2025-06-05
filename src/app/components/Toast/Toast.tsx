@@ -49,7 +49,7 @@ export const Toast = forwardRef<HTMLDivElement, ToastProperties>(
           })}
         >
           <div className="flex items-center space-x-2 px-6 py-3">
-            <p>{isExpanded ? toastTitle ?? title : message}</p>
+            <p>{isExpanded ? (toastTitle ?? title) : message}</p>
           </div>
 
           {!isStatic && onClose !== undefined && (

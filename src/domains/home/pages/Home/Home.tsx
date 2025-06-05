@@ -8,10 +8,13 @@ import { VoteModal } from "@/domains/vote/components/VoteModal";
 import { Transactions } from "@/domains/transactions/components/Transactions";
 import { Spinner } from "@/app/components/Spinner";
 import { useArkConnectContext } from "@/app/contexts/useArkConnectContext";
+import { useMetaMaskContext } from "@/app/contexts/MetaMaskContext";
 
 export const Home = () => {
   const { wallet, isConnected, isLoading, signMessage } =
     useArkConnectContext();
+
+  const { connected } = useMetaMaskContext();
   const [showSendModal, setShowSendModal] = useState(false);
   const [showVoteModal, setShowVoteModal] = useState(false);
 
@@ -24,40 +27,42 @@ export const Home = () => {
           </div>
         ) : (
           <>
-            {isConnected && isTruthy(wallet) && isTruthy(wallet.address) && (
-              <>
-                <WalletOverview
-                  walletData={wallet}
-                  onSign={() => {
-                    signMessage();
-                  }}
-                  onSend={() => {
-                    setShowSendModal(true);
-                  }}
-                  onVote={() => {
-                    setShowVoteModal(true);
-                  }}
-                />
+            {(isConnected || connected) &&
+              isTruthy(wallet) &&
+              isTruthy(wallet.address) && (
+                <>
+                  <WalletOverview
+                    walletData={wallet}
+                    onSign={() => {
+                      signMessage();
+                    }}
+                    onSend={() => {
+                      setShowSendModal(true);
+                    }}
+                    onVote={() => {
+                      setShowVoteModal(true);
+                    }}
+                  />
 
-                <SendModal
-                  show={showSendModal}
-                  onClose={() => setShowSendModal(false)}
-                />
+                  <SendModal
+                    show={showSendModal}
+                    onClose={() => setShowSendModal(false)}
+                  />
 
-                <VoteModal
-                  show={showVoteModal}
-                  onClose={() => setShowVoteModal(false)}
-                />
-              </>
-            )}
+                  <VoteModal
+                    show={showVoteModal}
+                    onClose={() => setShowVoteModal(false)}
+                  />
+                </>
+              )}
 
-            {!isConnected && (
+            {!isConnected && !connected && (
               <div className="sm:flex sm:items-center sm:h-full sm:w-full sm:mt-[8vw]">
                 <LoginOverlay />
               </div>
             )}
 
-            {isConnected && <Transactions walletData={wallet} />}
+            {(isConnected || connected) && <Transactions walletData={wallet} />}
           </>
         )}
       </div>

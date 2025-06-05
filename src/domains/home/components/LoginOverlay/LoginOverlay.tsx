@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
 import { ConnectOverlay } from "./ConnectOverlay";
-import { InstallOverlay } from "./InstallOverlay";
 import { Spinner } from "@/app/components/Spinner";
 import { useArkConnectContext } from "@/app/contexts/useArkConnectContext";
 
 export const LoginOverlay = () => {
-  const { isInstalled, isLoading } = useArkConnectContext();
+  const { isLoading } = useArkConnectContext();
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
@@ -24,9 +23,5 @@ export const LoginOverlay = () => {
     );
   }
 
-  if (isInstalled) {
-    return <ConnectOverlay />;
-  }
-
-  return <InstallOverlay />;
+  return <ConnectOverlay />;
 };

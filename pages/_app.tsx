@@ -11,6 +11,7 @@ import {
 import { AppFont } from "@/app/components/AppFont";
 import ArkConnectContextProvider from "@/app/contexts/useArkConnectContext";
 import { DarkModeProvider } from "@/app/contexts/useDarkModeContext";
+import MetaMaskContextProvider from "@/app/contexts/MetaMaskContext";
 
 const App = ({ Component, pageProps }: AppProps) => {
   const [queryClient] = useState(() => ReactQueryClient());
@@ -19,11 +20,13 @@ const App = ({ Component, pageProps }: AppProps) => {
     <>
       <AppFont />
       <QueryClientProvider client={queryClient}>
-        <ArkConnectContextProvider>
-          <DarkModeProvider>
-            <Component {...pageProps} />
-          </DarkModeProvider>
-        </ArkConnectContextProvider>
+        <MetaMaskContextProvider>
+          <ArkConnectContextProvider>
+            <DarkModeProvider>
+              <Component {...pageProps} />
+            </DarkModeProvider>
+          </ArkConnectContextProvider>
+        </MetaMaskContextProvider>
       </QueryClientProvider>
     </>
   );
