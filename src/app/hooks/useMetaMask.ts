@@ -39,6 +39,30 @@ const isMetaMaskSupportedBrowser = (): boolean => {
 
 const MAINSAIL_CHAIN_ID = 10_000;
 
+const getChainId = async () => {
+  const ethereum = getEthereum() as Ethereum;
+
+  const chainIdAsHex = (await ethereum.request({
+    method: "eth_chainId",
+  })) as string;
+
+  return Number.parseInt(chainIdAsHex, 16);
+};
+
+const requestAccounts = async () => {
+  const ethereum = getEthereum() as Ethereum;
+
+  const [account] = (await ethereum.request({
+    method: "eth_requestAccounts",
+  })) as Array<Address | undefined>;
+
+  return account;
+};
+
+const isMainsailChain = (chainId: number) => {
+  return chainId === MAINSAIL_CHAIN_ID;
+};
+
 export const useMetaMask = (): MetaMaskState => {
   const [initialized, setInitialized] = useState<boolean>(false);
   const [isConnecting, setIsConnecting] = useState<boolean>(false);
@@ -134,30 +158,6 @@ export const useMetaMask = (): MetaMaskState => {
       ethereum.removeListener("disconnect", disconnectListener);
     };
   }, [initialized]);
-
-  const getChainId = async () => {
-    const ethereum = getEthereum() as Ethereum;
-
-    const chainIdAsHex = (await ethereum.request({
-      method: "eth_chainId",
-    })) as string;
-
-    return Number.parseInt(chainIdAsHex, 16);
-  };
-
-  const requestAccounts = async () => {
-    const ethereum = getEthereum() as Ethereum;
-
-    const [account] = (await ethereum.request({
-      method: "eth_requestAccounts",
-    })) as Array<Address | undefined>;
-
-    return account;
-  };
-
-  const isMainsailChain = (chainId: number) => {
-    return chainId === MAINSAIL_CHAIN_ID;
-  };
 
   const connectWallet = useCallback(async () => {
     setIsConnecting(true);
