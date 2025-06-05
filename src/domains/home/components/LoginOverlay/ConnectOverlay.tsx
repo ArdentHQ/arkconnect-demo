@@ -213,8 +213,8 @@ export const ConnectOverlay = () => {
 
 export const Divider = ({ text }: { text: string }) => (
   <div className="flex items-center px-2.5 w-full mt-2">
-    <hr className="flex-grow border-[#d3d3d3] dark:border-theme-gray-700 border-t border-dashed border-gray-300" />
+    <hr className="flex-grow border-theme-gray-200 dark:border-theme-gray-700 border-t border-dashed border-gray-300" />
     <span className="mx-3 text-theme-gray-500 text-xs">{text}</span>
-    <hr className="flex-grow border-[#d3d3d3] dark:border-theme-gray-700 border-t border-dashed border-gray-300" />
+    <hr className="flex-grow border-theme-gray-200 dark:border-theme-gray-700 border-t border-dashed border-gray-300" />
   </div>
 );
