@@ -13,7 +13,6 @@ import { isTruthy } from "@/app/utils/isTruthy";
 import { NetworkType } from "@/app/lib/Network";
 import { WalletData } from "@/app/lib/Wallet/contracts";
 import { Dialog } from "@/app/components/Dialog";
-import { useArkConnectContext } from "@/app/contexts/useArkConnectContext";
 import { useDarkMode } from "@/app/contexts/useDarkModeContext";
 import { useActiveWallet } from "@/app/hooks/useActiveWallet";
 
@@ -105,7 +104,8 @@ export const Navbar = () => {
   const { t } = useTranslation();
   const [changeAddressError, setChangeAddressError] = useState<string>();
 
-  const { isLoading, wallet, isConnected, isConnecting, disconnect } = useActiveWallet();
+  const { isLoading, wallet, isConnected, isConnecting, disconnect } =
+    useActiveWallet();
 
   if (isLoading) {
     return (

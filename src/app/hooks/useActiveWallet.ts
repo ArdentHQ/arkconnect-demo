@@ -1,4 +1,4 @@
-import { useMemo, } from "react";
+import { useMemo } from "react";
 import { useArkConnectContext } from "@/app/contexts/useArkConnectContext";
 import { useMetaMaskContext } from "@/app/contexts/MetaMaskContext";
 
