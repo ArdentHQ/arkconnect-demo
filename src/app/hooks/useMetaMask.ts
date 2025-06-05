@@ -142,7 +142,9 @@ export const useMetaMask = (): MetaMaskState => {
 
     const ethereum = getEthereum() as Ethereum;
 
-    const accountChangedListener = (_accounts: string[]): void => {};
+    const accountChangedListener = (_accounts: string[]): void => {
+      setRequiresRefresh(true);
+    };
 
     const chainChangedListener = (_chainId: string): void => {
       setRequiresRefresh(true);
