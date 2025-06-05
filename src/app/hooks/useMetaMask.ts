@@ -211,9 +211,13 @@ export const useMetaMask = (): MetaMaskState => {
       return;
     }
 
-    const account = await requestAccounts();
-
-    refreshAccount(account);
+    try {
+      const account = await requestAccounts();
+      refreshAccount(account);
+    } catch {
+      onError("user rejected");
+      return;
+    }
 
     setIsConnecting(false);
   }, [onError]);
