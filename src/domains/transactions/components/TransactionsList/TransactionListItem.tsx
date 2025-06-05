@@ -26,7 +26,7 @@ export const TransactionListItem = ({
   const { t } = useTranslation("transactions");
 
   return (
-    <div className="border rounded-2.5xl border-[#d3d3d3] flex flex-col overflow-hidden bg-white dark:border-theme-gray-700 dark:bg-subtle-black">
+    <div className="border rounded-2.5xl border-theme-gray-200 flex flex-col overflow-hidden bg-white dark:border-theme-gray-700 dark:bg-subtle-black">
       <div className="bg-theme-gray-100 px-4 py-3 justify-between flex dark:bg-theme-gray-700">
         <Link
           href={tx.explorerLink()}

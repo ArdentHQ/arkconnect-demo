@@ -125,7 +125,7 @@ export const ConnectOverlay = () => {
                   href={arkExtensionUrl}
                   isExternal
                   variant="transparent"
-                  className="mt-2 w-full border rounded-lg border-[#d3d3d3] dark:border-theme-gray-500 justify-start px-5 py-4 group hover:border-transparent dark:hover:border-transparent"
+                  className="mt-2 w-full border rounded-lg border-theme-gray-200 dark:border-theme-gray-500 justify-start px-5 py-4 group hover:border-transparent dark:hover:border-transparent"
                 >
                   <div className="space-x-3 flex items-center group-hover:text-white">
                     <ArkConnectLogo className="w-5 text-theme-primary-green-700 dark:text-theme-primary-green-600 group-hover:text-white" />
@@ -139,9 +139,8 @@ export const ConnectOverlay = () => {
                   onClick={() => {
                     void connect();
                   }}
-                  isExternal
                   variant="transparent"
-                  className="mt-2 w-full border rounded-lg border-[#d3d3d3] dark:border-theme-gray-500 justify-start px-5 py-4 group hover:border-transparent dark:hover:border-transparent"
+                  className="mt-2 w-full border rounded-lg border-theme-gray-200 dark:border-theme-gray-500 justify-start px-5 py-4 group hover:border-transparent dark:hover:border-transparent"
                 >
                   <div className="space-x-3 flex items-center group-hover:text-white">
                     <ArkConnectLogo className="w-5 text-theme-primary-green-700 dark:text-theme-primary-green-600 group-hover:text-white" />
@@ -157,7 +156,7 @@ export const ConnectOverlay = () => {
                   href={metaMaskExtensionUrl}
                   isExternal
                   variant="transparent"
-                  className="mt-2 w-full border rounded-lg border-[#d3d3d3] dark:border-theme-gray-500 justify-start px-5 py-4 group hover:border-transparent dark:hover:border-transparent"
+                  className="mt-2 w-full border rounded-lg border-theme-gray-200 dark:border-theme-gray-500 justify-start px-5 py-4 group hover:border-transparent dark:hover:border-transparent"
                 >
                   <div className="space-x-3 flex items-center group-hover:text-white">
                     <MetaMaskLogo className="w-5 text-theme-primary-green-700" />
@@ -172,7 +171,7 @@ export const ConnectOverlay = () => {
                     console.log("start MM");
                   }}
                   variant="transparent"
-                  className="mt-2 w-full border rounded-lg border-[#d3d3d3] dark:border-theme-gray-500 justify-start px-5 py-4 group hover:border-transparent dark:hover:border-transparent"
+                  className="mt-2 w-full border rounded-lg border-theme-gray-200 dark:border-theme-gray-500 justify-start px-5 py-4 group hover:border-transparent dark:hover:border-transparent"
                 >
                   <div className="space-x-3 flex items-center group-hover:text-white">
                     <MetaMaskLogo className="w-5 text-theme-primary-green-700" />
@@ -212,8 +211,8 @@ export const ConnectOverlay = () => {
 
 export const Divider = ({ text }: { text: string }) => (
   <div className="flex items-center px-2.5 w-full mt-2">
-    <hr className="flex-grow border-[#d3d3d3] dark:border-theme-gray-700 border-t border-dashed border-gray-300" />
+    <hr className="flex-grow border-theme-gray-200 dark:border-theme-gray-700 border-t border-dashed border-gray-300" />
     <span className="mx-3 text-theme-gray-500 text-xs">{text}</span>
-    <hr className="flex-grow border-[#d3d3d3] dark:border-theme-gray-700 border-t border-dashed border-gray-300" />
+    <hr className="flex-grow border-theme-gray-200 dark:border-theme-gray-700 border-t border-dashed border-gray-300" />
   </div>
 );
