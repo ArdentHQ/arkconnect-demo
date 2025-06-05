@@ -39,6 +39,17 @@ const isMetaMaskSupportedBrowser = (): boolean => {
 
 const MAINSAIL_CHAIN_ID = 10_000;
 
+const mainsailChainConfig = {
+  chainId: "0x" + MAINSAIL_CHAIN_ID.toString(16),
+  chainName: "Mainsail Testnet",
+  nativeCurrency: {
+    name: "ARK",
+    symbol: "TѦ",
+    decimals: 18,
+  },
+  rpcUrls: ["https://dwallets-evm.ihost.org/evm/api"],
+};
+
 const getChainId = async () => {
   const ethereum = getEthereum() as Ethereum;
 
@@ -165,10 +176,27 @@ export const useMetaMask = (): MetaMaskState => {
 
     const chainId = await getChainId();
 
-    // if (!isMainsailChain(chainId)) {
-    //   onError("mainsail chain id needed");
-    //   return;
-    // }
+    let hasMainsailChain = isMainsailChain(chainId);
+
+    if (!hasMainsailChain) {
+      const ethereum = getEthereum() as Ethereum;
+
+      try {
+        await ethereum.request({
+          method: "wallet_addEthereumChain",
+          params: [mainsailChainConfig],
+        });
+
+        hasMainsailChain = true;
+      } catch {
+        // ignore error
+      }
+    }
+
+    if (!hasMainsailChain) {
+      onError("mainsail chain is required");
+      return;
+    }
 
     const account = await requestAccounts();
 
