@@ -1,6 +1,7 @@
 /* eslint-disable max-lines-per-function */
 import { useCallback, useEffect, useState } from "react";
-import { BrowserProvider } from "ethers";
+import { mainnet } from "viem/chains";
+import { Address, createWalletClient, custom, WalletClient } from "viem";
 import { Ethereum, MetaMaskState } from "@/app/hooks/useMetaMask.contracts";
 import { Coin, NetworkType } from "@/app/lib/Network";
 
@@ -36,14 +37,14 @@ const isMetaMaskSupportedBrowser = (): boolean => {
   return isCompatible && !isMobile;
 };
 
-const MAINSAIL_CHAIN_ID = "10000";
+const MAINSAIL_CHAIN_ID = 10_000;
 
 export const useMetaMask = (): MetaMaskState => {
   const [initialized, setInitialized] = useState<boolean>(false);
   const [connecting, setConnecting] = useState<boolean>(false);
-  const [chainId, setChainId] = useState<string | undefined>();
+  const [chainId, setChainId] = useState<number | undefined>();
   const [account, setAccount] = useState<string | undefined>();
-  const [ethereumProvider, setEthereumProvider] = useState<BrowserProvider>();
+  const [walletClient, setWalletClient] = useState<WalletClient>();
   const [error, setError] = useState<string>();
   const [requiresSwitch, setRequiresSwitch] = useState<boolean>(false);
 
@@ -64,54 +65,41 @@ export const useMetaMask = (): MetaMaskState => {
 
     const ethereum = getEthereum() as Ethereum;
 
-    const initProvider = async (): Promise<void> => {
-      const provider = new BrowserProvider(ethereum, "any");
+    const initWalletClient = async (): Promise<void> => {
+      const chainId = await getChainId();
 
-      const [chain, accounts] = await Promise.all([
-        provider.getNetwork(),
-        provider.listAccounts(),
-      ]);
+      if (!isMainsailChain(chainId)) {
+        return;
+      }
 
-      const account =
-        accounts.length > 0 ? await accounts[0].getAddress() : undefined;
-      const chainId = chain.chainId.toString();
+      const [account] = (await ethereum.request({
+        method: "eth_accounts",
+      })) as [Address | undefined];
+
+      const walletClient = refreshWalletClient(account);
 
       setAccount(account);
 
       setChainId(chainId);
 
-      setEthereumProvider(provider);
+      setWalletClient(walletClient);
 
       setInitialized(true);
     };
 
-    void initProvider();
+    void initWalletClient();
   }, []);
 
   useEffect(() => {
-    if (requiresSwitch) {
+    if (requiresSwitch && initialized) {
       const handleSwitch = async () => {
         setRequiresSwitch(false);
-        const { account, chainId } = await requestChainAndAccount();
 
-        setAccount(account);
-
-        if (account === undefined) {
-          onError("account not found");
-          return;
-        }
-
-        if (chainId !== MAINSAIL_CHAIN_ID) {
-          onError("mainsail chain id needed");
-          return;
-        }
-
-        setChainId(chainId);
       };
 
       void handleSwitch();
     }
-  }, [requiresSwitch, account, chainId]);
+  }, [requiresSwitch, account, chainId, initialized]);
 
   useEffect(() => {
     if (!initialized || !supportsMetaMask || needsMetaMask) {
@@ -120,19 +108,20 @@ export const useMetaMask = (): MetaMaskState => {
 
     const ethereum = getEthereum() as Ethereum;
 
-    const accountChangedListener = (_accounts: string[]): void => {
-      setRequiresSwitch(true);
-    };
+    const accountChangedListener = (_accounts: string[]): void => {};
 
     const chainChangedListener = (_chainId: string): void => {
+      console.log("chain triggered",);
       setRequiresSwitch(true);
     };
 
     const connectListener = ({ chainId }: { chainId: string }): void => {
+      console.log("connect triggered",);
       chainChangedListener(chainId);
     };
 
     const disconnectListener = (): void => {
+      console.log("disconnect triggered",);
       setChainId(undefined);
     };
 
@@ -154,47 +143,61 @@ export const useMetaMask = (): MetaMaskState => {
     };
   }, [initialized]);
 
-  const requestChainAndAccount = useCallback(async () => {
-    try {
-      if (ethereumProvider === undefined) {
-        throw new Error("Missing ethereum provider");
-      }
+  const refreshWalletClient = (account: Address | undefined) => {
+    const walletClient = createWalletClient({
+      account,
+      chain: mainnet,
+      transport: custom(getEthereum() as Ethereum),
+    });
 
-      // At this point we know for sure that the `ethereumProvider` is set
-      const [accounts, chainIdAsHex] = (await Promise.all([
-        ethereumProvider.send("eth_requestAccounts", []),
-        ethereumProvider.send("eth_chainId", []),
-      ])) as [string[], string];
+    setWalletClient(walletClient);
 
-      const chainId = Number.parseInt(chainIdAsHex, 16).toString();
+    return walletClient;
+  };
 
-      return {
-        account: accounts.length > 0 ? accounts[0] : undefined,
-        chainId,
-      };
-    } catch {
-      return {
-        account: undefined,
-        chainId: undefined,
-      };
-    }
-  }, [ethereumProvider]);
+  const getChainId = async () => {
+    const ethereum = getEthereum() as Ethereum;
+
+    const chainIdAsHex = (await ethereum.request({
+      method: "eth_chainId",
+    })) as string;
+
+    return Number.parseInt(chainIdAsHex, 16);
+  };
+
+  const requestAccounts = async () => {
+    const ethereum = getEthereum() as Ethereum;
+
+    const [account] = (await ethereum.request({
+      method: "eth_requestAccounts",
+    })) as Array<Address | undefined>;
+
+    return account;
+  };
+
+  const isMainsailChain = (chainId: number) => {
+    return chainId === MAINSAIL_CHAIN_ID;
+  };
 
   const connectWallet = useCallback(async () => {
     setConnecting(true);
     setError(undefined);
 
-    const { chainId, account } = await requestChainAndAccount();
+    const chainId = await getChainId();
+
+    // if (!isMainsailChain(chainId)) {
+    //   onError("mainsail chain id needed");
+    //   return;
+    // }
+
+    const account = await requestAccounts();
 
     if (account === undefined) {
       onError("account not found");
       return;
     }
 
-    if (chainId !== MAINSAIL_CHAIN_ID) {
-      onError("mainsail chain id needed");
-      return;
-    }
+    refreshWalletClient(account);
 
     setAccount(account);
 
