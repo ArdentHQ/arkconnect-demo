@@ -13,8 +13,8 @@ import { isTruthy } from "@/app/utils/isTruthy";
 import { NetworkType } from "@/app/lib/Network";
 import { WalletData } from "@/app/lib/Wallet/contracts";
 import { Dialog } from "@/app/components/Dialog";
-import { useArkConnectContext } from "@/app/contexts/useArkConnectContext";
 import { useDarkMode } from "@/app/contexts/useDarkModeContext";
+import { useActiveWallet } from "@/app/hooks/useActiveWallet";
 
 interface NavbarProperties {
   wallet: WalletData;
@@ -104,15 +104,8 @@ export const Navbar = () => {
   const { t } = useTranslation();
   const [changeAddressError, setChangeAddressError] = useState<string>();
 
-  const {
-    isConnected,
-    connect,
-    wallet,
-    disconnect,
-    isConnecting,
-    isLoading,
-    isInstalled,
-  } = useArkConnectContext();
+  const { isLoading, wallet, isConnected, isConnecting, disconnect } =
+    useActiveWallet();
 
   if (isLoading) {
     return (
@@ -154,26 +147,6 @@ export const Navbar = () => {
     <>
       <NavbarWrapper>
         <li className="flex items-center justify-end space-x-2">
-          <Button
-            disabled={!isInstalled}
-            className="hidden sm:block"
-            onClick={() => {
-              void connect();
-            }}
-          >
-            {t("CONNECT_WALLET")}
-          </Button>
-
-          <Button
-            disabled={!isInstalled}
-            className="block sm:hidden"
-            onClick={() => {
-              void connect();
-            }}
-          >
-            {t("CONNECT")}
-          </Button>
-
           <DarkModeToggleButton />
         </li>
       </NavbarWrapper>

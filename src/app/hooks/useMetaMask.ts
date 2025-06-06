@@ -1,7 +1,10 @@
 /* eslint-disable max-lines-per-function */
 import { useCallback, useEffect, useState } from "react";
-import { BrowserProvider, JsonRpcSigner } from "ethers";
+import { mainnet } from "viem/chains";
+import { Address, createWalletClient, custom, WalletClient } from "viem";
+import { useTranslation } from "next-i18next";
 import { Ethereum, MetaMaskState } from "@/app/hooks/useMetaMask.contracts";
+import { Coin, NetworkType } from "@/app/lib/Network";
 
 const isBrowser = () => typeof window !== "undefined";
 
@@ -35,56 +38,102 @@ const isMetaMaskSupportedBrowser = (): boolean => {
   return isCompatible && !isMobile;
 };
 
+const MAINSAIL_CHAIN_ID = 10_000;
+const MAINSAIL_CHAIN_ID_HEX = "0x" + MAINSAIL_CHAIN_ID.toString(16);
+
+const mainsailChainConfig = {
+  chainId: MAINSAIL_CHAIN_ID_HEX,
+  chainName: "Mainsail Testnet",
+  nativeCurrency: {
+    name: "ARK",
+    symbol: "ARK",
+    decimals: 18,
+  },
+  rpcUrls: ["https://dwallets-evm.ihost.org/evm/api"],
+};
+
+const getChainId = async () => {
+  const ethereum = getEthereum() as Ethereum;
+
+  const chainIdAsHex = (await ethereum.request({
+    method: "eth_chainId",
+  })) as string;
+
+  return Number.parseInt(chainIdAsHex, 16);
+};
+
+const requestAccounts = async () => {
+  const ethereum = getEthereum() as Ethereum;
+
+  const [account] = (await ethereum.request({
+    method: "eth_requestAccounts",
+  })) as Array<Address | undefined>;
+
+  return account;
+};
+
+const isMainsailChain = (chainId: number) => {
+  return chainId === MAINSAIL_CHAIN_ID;
+};
+
 export const useMetaMask = (): MetaMaskState => {
+  const { t } = useTranslation();
   const [initialized, setInitialized] = useState<boolean>(false);
-  const [connecting, setConnecting] = useState<boolean>(false);
-  const [connected, setConnected] = useState<boolean>(false);
-  const [chainId, setChainId] = useState<bigint>();
-  const [account, setAccount] = useState<JsonRpcSigner | undefined>();
-  const [ethereumProvider, setEthereumProvider] = useState<BrowserProvider>();
+  const [isConnecting, setIsConnecting] = useState<boolean>(false);
+  const [account, setAccount] = useState<string | undefined>();
+  const [, setWalletClient] = useState<WalletClient>();
   const [error, setError] = useState<string>();
-  const [requiresSwitch, setRequiresSwitch] = useState<boolean>(false);
+  const [requiresRefresh, setRequiresRefresh] = useState<boolean>(true);
 
   const supportsMetaMask = isMetaMaskSupportedBrowser();
   const needsMetaMask = !hasMetaMask() || !supportsMetaMask;
 
   const onError = useCallback((errorMessage?: string) => {
     setError(errorMessage);
-    setConnecting(false);
+    setIsConnecting(false);
   }, []);
 
-  console.log("useMetaMask", { account, initialized, chainId });
-  // Initialize the Browser when the page loads
+  const refreshAccount = (account?: Address) => {
+    const walletClient = createWalletClient({
+      account,
+      chain: mainnet,
+      transport: custom(getEthereum() as Ethereum),
+    });
+
+    setWalletClient(walletClient);
+    setAccount(account);
+  };
+
+  // Initialize the WalletClient when the page loads
   useEffect(() => {
-    if (!supportsMetaMask || needsMetaMask) {
+    if (!supportsMetaMask || needsMetaMask || !requiresRefresh) {
       setInitialized(true);
       return;
     }
 
+    setRequiresRefresh(false);
+    setError(undefined);
+
     const ethereum = getEthereum() as Ethereum;
 
-    const initProvider = async (): Promise<void> => {
-      const provider = new BrowserProvider(ethereum, "any");
+    const initWalletClient = async (): Promise<void> => {
+      const chainId = await getChainId();
 
-      const [chain, accounts] = await Promise.all([
-        provider.getNetwork(),
-        provider.listAccounts(),
-      ]);
+      if (!isMainsailChain(chainId)) {
+        refreshAccount();
+        return;
+      }
 
-      const account = accounts.length > 0 ? accounts[0] : undefined;
-      const chainId = chain.chainId;
+      const [account] = (await ethereum.request({
+        method: "eth_accounts",
+      })) as [Address | undefined];
 
-      setAccount(account);
-
-      setChainId(chainId);
-
-      setEthereumProvider(provider);
-
+      refreshAccount(account);
       setInitialized(true);
     };
 
-    void initProvider();
-  }, []);
+    void initWalletClient();
+  }, [requiresRefresh]);
 
   useEffect(() => {
     if (!initialized || !supportsMetaMask || needsMetaMask) {
@@ -93,22 +142,10 @@ export const useMetaMask = (): MetaMaskState => {
 
     const ethereum = getEthereum() as Ethereum;
 
-    const accountChangedListener = (accounts: string[]): void => {
-      console.log("accountChangedListener", accounts);
-      // setAccount(accounts.length > 0 ? accounts[0] : undefined);
-      //
-      // if (accounts.length === 0) {
-      //   // log out
-      // } else {
-      //   setRequiresSwitch(true);
-      // }
-    };
+    const accountChangedListener = (_accounts: string[]): void => {};
 
-    const chainChangedListener = (chainId: string): void => {
-      // Chain ID came in as a hex string, so we need to convert it to decimal
-      setChainId(BigInt(Number.parseInt(chainId, 16)));
-
-      setRequiresSwitch(true);
+    const chainChangedListener = (_chainId: string): void => {
+      setRequiresRefresh(true);
     };
 
     const connectListener = ({ chainId }: { chainId: string }): void => {
@@ -116,7 +153,7 @@ export const useMetaMask = (): MetaMaskState => {
     };
 
     const disconnectListener = (): void => {
-      setChainId(undefined);
+      setRequiresRefresh(true);
     };
 
     ethereum.on("accountsChanged", accountChangedListener);
@@ -137,61 +174,61 @@ export const useMetaMask = (): MetaMaskState => {
     };
   }, [initialized]);
 
-  const requestChainAndAccount = useCallback(async () => {
-    try {
-      if (ethereumProvider === undefined) {
-        throw new Error("Missing ethereum provider");
+  const connect = useCallback(async () => {
+    setIsConnecting(true);
+    setError(undefined);
+
+    const chainId = await getChainId();
+
+    let hasMainsailChain = isMainsailChain(chainId);
+
+    if (!hasMainsailChain) {
+      const ethereum = getEthereum() as Ethereum;
+
+      try {
+        await ethereum.request({
+          method: "wallet_addEthereumChain",
+          params: [mainsailChainConfig],
+        });
+
+        hasMainsailChain = true;
+      } catch {
+        // if error occurs check if the chain added already
+        const chainId = await getChainId();
+        hasMainsailChain = isMainsailChain(chainId);
       }
+    }
 
-      // At this point we know for sure that the `ethereumProvider` is set
-      const [accounts, chainIdAsHex] = (await Promise.all([
-        ethereumProvider.send("eth_requestAccounts", []),
-        ethereumProvider.send("eth_chainId", []),
-      ])) as [string[], string];
+    if (!hasMainsailChain) {
+      onError(t("REJECTED_ADDING_CHAIN"));
+      return;
+    }
 
-      const chainId = BigInt(Number.parseInt(chainIdAsHex, 16));
-
-      return {
-        account: accounts.length > 0 ? accounts[0] : undefined,
-        chainId,
-      };
+    try {
+      const account = await requestAccounts();
+      refreshAccount(account);
     } catch {
-      return {
-        account: undefined,
-        chainId: undefined,
-      };
-    }
-  }, [ethereumProvider]);
-
-  const connectWallet = useCallback(async () => {
-    if (requiresSwitch) {
+      onError(t("REJECTED_CONNECTION_REQUEST"));
       return;
     }
 
-    setConnecting(true);
-    setError(undefined);
-
-    const { account } = await requestChainAndAccount();
-
-    if (account === undefined) {
-      onError("No account found");
-      return;
-    }
-
-    setConnected(true);
-
-    setError(undefined);
-
-    setConnecting(false);
-  }, [requiresSwitch, requestChainAndAccount]);
+    setIsConnecting(false);
+  }, [onError]);
 
   return {
     initialized,
-    needsMetaMask,
+    isInstalled: !needsMetaMask,
     supportsMetaMask,
-    connecting,
-    connected,
+    isConnecting,
+    connected: !!account,
     error,
-    connectWallet,
+    connect,
+    disconnect: () => refreshAccount(),
+    wallet: {
+      network: NetworkType.DEVNET,
+      address: account,
+      balance: 0,
+      coin: Coin.DARK,
+    },
   };
 };

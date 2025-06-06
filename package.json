@@ -26,7 +26,6 @@
     "bignumber.js": "^9.1.2",
     "classnames": "^2.3.2",
     "dayjs": "^1.11.10",
-    "ethers": "^6.14.3",
     "i18next": "^23.7.8",
     "next": "^14.0.4",
     "next-i18next": "^15.1.1",
@@ -41,7 +40,8 @@
     "tailwind-merge": "^2.1.0",
     "tailwindcss": "^3.3.6",
     "tippy.js": "^6.3.7",
-    "typescript": "^5.3.3"
+    "typescript": "^5.3.3",
+    "viem": "^2.30.6"
   },
   "devDependencies": {
     "@svgr/webpack": "^8.1.0",

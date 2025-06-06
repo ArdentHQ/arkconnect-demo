@@ -34,18 +34,20 @@ export const ConnectOverlay = () => {
   const {
     isInstalled: arkInstalled,
     isConnecting: arkConnecting,
-    isErrored,
     connect,
-    error,
+    error: arkError,
   } = useArkConnectContext();
-  const { needsMetaMask, connecting: metaMaskConnecting } =
-    useMetaMaskContext();
+  const {
+    isInstalled: metaMaskInstalled,
+    isConnecting: metaMaskConnecting,
+    connect: connectMetaMask,
+    error: metaMaskError,
+  } = useMetaMaskContext();
 
   const { arkExtensionUrl, metaMaskExtensionUrl } = useExtensionUrls();
 
   const connecting = arkConnecting || metaMaskConnecting;
-
-  const metaMaskInstalled = !needsMetaMask;
+  const error = arkError || metaMaskError;
 
   const installationStatus = useMemo(() => {
     if (arkInstalled && metaMaskInstalled) {
@@ -168,7 +170,7 @@ export const ConnectOverlay = () => {
               {metaMaskInstalled && (
                 <Button
                   onClick={() => {
-                    console.log("start MM");
+                    connectMetaMask();
                   }}
                   variant="transparent"
                   className="mt-2 w-full border rounded-lg border-theme-gray-200 dark:border-theme-gray-500 justify-start px-5 py-4 group hover:border-transparent dark:hover:border-transparent"
@@ -195,7 +197,7 @@ export const ConnectOverlay = () => {
 
       {connecting && <Alert>{t("CLICK_TO_CONFIRM_WALLET_CONNECT")}</Alert>}
 
-      {isErrored && (
+      {error && (
         <Alert type="error">
           <div className="text-center">{t("WALLET_CONNECTION_ERROR")}</div>
           {isTruthy(error) && (
