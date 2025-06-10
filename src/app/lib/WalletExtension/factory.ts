@@ -9,7 +9,7 @@ export interface WalletExtensionState {
   wallet: {
     network: NetworkType;
     address?: string;
-    balance: number | undefined;
+    balance: number | string | undefined;
     coin?: Coin;
   };
 }

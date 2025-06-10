@@ -30,6 +30,6 @@ export interface MetaMaskState {
   errorMessage?: string;
   error?: string;
   connect: () => Promise<void>;
-  disconnect: () => void;
+  disconnect: () => Promise<void>;
   wallet: WalletExtensionState["wallet"];
 }

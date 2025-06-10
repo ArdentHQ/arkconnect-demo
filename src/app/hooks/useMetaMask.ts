@@ -5,6 +5,8 @@ import { Address, createWalletClient, custom, WalletClient } from "viem";
 import { useTranslation } from "next-i18next";
 import { Ethereum, MetaMaskState } from "@/app/hooks/useMetaMask.contracts";
 import { Coin, NetworkType } from "@/app/lib/Network";
+import { useAddressData } from "@/app/hooks/useAddressData";
+import { WalletData } from "@/app/lib/Wallet/contracts";
 
 const isBrowser = () => typeof window !== "undefined";
 
@@ -87,6 +89,16 @@ export const useMetaMask = (): MetaMaskState => {
 
   const supportsMetaMask = isMetaMaskSupportedBrowser();
   const needsMetaMask = !hasMetaMask() || !supportsMetaMask;
+
+  const wallet: WalletData = {
+    network: NetworkType.DEVNET,
+    address: account,
+    balance: undefined,
+    coin: Coin.DARK,
+  };
+
+  const data = useAddressData({ address: account, network: wallet.network });
+  wallet.balance = data?.balance;
 
   const onError = useCallback((errorMessage?: string) => {
     setError(errorMessage);
@@ -217,6 +229,21 @@ export const useMetaMask = (): MetaMaskState => {
     setIsConnecting(false);
   }, [onError]);
 
+  const disconnect = async () => {
+    const ethereum = getEthereum() as Ethereum;
+
+    await ethereum.request({
+      method: "wallet_revokePermissions",
+      params: [
+        {
+          eth_accounts: {},
+        },
+      ],
+    });
+
+    refreshAccount();
+  };
+
   return {
     initialized,
     isInstalled: !needsMetaMask,
@@ -225,12 +252,7 @@ export const useMetaMask = (): MetaMaskState => {
     connected: !!account,
     error,
     connect,
-    disconnect: () => refreshAccount(),
-    wallet: {
-      network: NetworkType.DEVNET,
-      address: account,
-      balance: 0,
-      coin: Coin.DARK,
-    },
+    disconnect,
+    wallet,
   };
 };
