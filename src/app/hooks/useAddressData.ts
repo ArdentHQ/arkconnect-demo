@@ -11,12 +11,12 @@ interface AddressData {
 }
 
 export const useAddressData = ({
+  address,
   network,
 }: {
   address?: string;
   network: NetworkType;
 }) => {
-  const address = "0xA9779c8FD842cE4fa7FaD6E4F49BA2a0935d99B2";
   const queryKey: QueryKey = ["address", address];
 
   const { data, error: _error } = useQuery({

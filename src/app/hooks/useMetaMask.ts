@@ -1,7 +1,13 @@
 /* eslint-disable max-lines-per-function */
 import { useCallback, useEffect, useState } from "react";
 import { mainnet } from "viem/chains";
-import { Address, createWalletClient, custom, WalletClient } from "viem";
+import {
+  Address,
+  createWalletClient,
+  custom,
+  getAddress,
+  WalletClient,
+} from "viem";
 import { useTranslation } from "next-i18next";
 import { Ethereum, MetaMaskState } from "@/app/hooks/useMetaMask.contracts";
 import { Coin, NetworkType } from "@/app/lib/Network";
@@ -97,7 +103,10 @@ export const useMetaMask = (): MetaMaskState => {
     coin: Coin.DARK,
   };
 
-  const data = useAddressData({ address: account, network: wallet.network });
+  const data = useAddressData({
+    address: account && getAddress(account),
+    network: wallet.network,
+  });
   wallet.balance = data?.balance;
 
   const onError = useCallback((errorMessage?: string) => {
