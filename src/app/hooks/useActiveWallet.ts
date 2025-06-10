@@ -15,7 +15,12 @@ export const useActiveWallet = () => {
     if (metaMaskState.connected) {
       return metaMaskState.wallet;
     }
-  }, [arkState.isConnected, metaMaskState.connected]);
+  }, [
+    arkState.isConnected,
+    arkState.wallet.address,
+    metaMaskState.connected,
+    metaMaskState.wallet.address,
+  ]);
 
   const connectedWith = useMemo(() => {
     if (arkState.isConnected) {

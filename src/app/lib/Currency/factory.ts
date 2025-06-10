@@ -1,5 +1,6 @@
-import BigNumber from "bignumber.js";
+import { BigNumber } from "bignumber.js";
 import { Coin } from "@/app/lib/Network";
+import { CurrencyFormatter } from "@/app/utils/currencyFormatter";
 
 export function Currency({
   value,
@@ -10,7 +11,10 @@ export function Currency({
   coin?: Coin;
   rate?: string | number;
 }) {
-  const number = BigNumber(value);
+  const number = CurrencyFormatter.formatUnits(
+    BigNumber(value).toString(),
+    "ark",
+  );
 
   return {
     /**

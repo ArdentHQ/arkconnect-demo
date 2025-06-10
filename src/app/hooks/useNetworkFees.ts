@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import BigNumber from "bignumber.js";
+import { BigNumber } from "bignumber.js";
 import { useCoingecko } from "@/app/hooks/useCoingecko";
 import { Coin, NetworkType, TransactionType } from "@/app/lib/Network";
 import { CurrencyFormatter } from "@/app/utils/currencyFormatter";
@@ -15,8 +15,6 @@ interface DynamicFeesApiResponse {
   };
 }
 
-const GWEI_MULTIPLIER = 1_000_000_000; // 1e9
-
 export const GasLimit: Record<
   Lowercase<keyof typeof TransactionType>,
   BigNumber
@@ -26,11 +24,14 @@ export const GasLimit: Record<
 };
 
 export const calculateFee = (gasPrice: BigNumber, gasLimit: BigNumber) => {
-  return gasPrice.multipliedBy(gasLimit).dividedBy(GWEI_MULTIPLIER);
+  return CurrencyFormatter.formatUnits(
+    gasPrice.multipliedBy(gasLimit).toString(),
+    "gwei",
+  );
 };
 
 const formatFee = (gasPrice: string, gasLimit: BigNumber, rate: BigNumber) => {
-  const gasPriceBig = new BigNumber(gasPrice).dividedBy(GWEI_MULTIPLIER);
+  const gasPriceBig = CurrencyFormatter.formatUnits(gasPrice, "gwei");
   const fee = calculateFee(gasPriceBig, gasLimit);
 
   return {
