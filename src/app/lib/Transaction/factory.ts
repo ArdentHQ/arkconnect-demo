@@ -17,7 +17,7 @@ export enum AbiType {
   "MultiPayment" = "multiPayment",
 }
 
-const decodeData = (data: Hex, abiType: AbiType = AbiType.Consensu) => {
+const decodeData = (data: Hex, abiType: AbiType = AbiType.Consensus) => {
   const abiMap: Record<AbiType, any> = {
     [AbiType.Consensus]: ConsensusAbi.abi,
     [AbiType.Username]: UsernamesAbi.abi,
