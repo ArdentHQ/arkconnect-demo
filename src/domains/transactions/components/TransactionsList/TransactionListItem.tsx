@@ -33,7 +33,7 @@ export const TransactionListItem = ({
           target="_blank"
           className="max-w-[8rem] block w-full"
         >
-          <TruncateMiddle>{tx.id()}</TruncateMiddle>
+          <TruncateMiddle>{tx.hash()}</TruncateMiddle>
         </Link>
         <span className="text-sm text-black font-medium dark:text-white">
           {tx.timestamp().timeAgo()}

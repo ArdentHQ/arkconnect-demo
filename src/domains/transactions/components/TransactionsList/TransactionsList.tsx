@@ -25,7 +25,7 @@ export const TransactionsList = ({
         <TransactionListItem
           transaction={transaction}
           walletData={walletData}
-          key={transaction.id}
+          key={transaction.hash}
         />
       ))}
     </div>

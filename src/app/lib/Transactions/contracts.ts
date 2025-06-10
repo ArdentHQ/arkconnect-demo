@@ -2,29 +2,22 @@ interface MultiPaymentItem {
   amount: string;
   recipientId: string;
 }
-// TODO: Confirm all types are included. Especially for fotes and transfers
+// TODO: Confirm all types are included. Especially for votes and transfers
 export interface TransactionData {
-  id: string;
-  blockId: string;
-  version: number;
-  type: number;
-  typeGroup: number;
-  amount: string;
-  fee: string;
-  sender: string;
-  senderPublicKey: string;
-  recipient: string;
-  signature: string;
   confirmations: number;
-  timestamp: {
-    epoch: number;
-    unix: number;
-    human: string;
-  };
+  hash: string;
+  blockHash: string;
+  version: number;
+  value: string;
+  gas: string;
+  gasPrice: string;
+  from: string;
+  senderPublicKey: string;
+  to: string;
+  signature: string;
+  timestamp: string;
   nonce: string;
-  asset?: {
-    payments: MultiPaymentItem[];
-  };
+  data: string;
 }
 
 export interface TransactionsResponse {
