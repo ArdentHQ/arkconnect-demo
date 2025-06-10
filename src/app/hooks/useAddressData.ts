@@ -24,7 +24,7 @@ export const useAddressData = ({
     refetchOnMount: true,
     queryKey,
     staleTime: 0,
-    refetchInterval: 3 * 60 * 1000, // 3 minutes
+    refetchInterval: 5 * 60 * 1000, // 3 minutes
     queryFn: async () => {
       const apiUrl =
         network === NetworkType.DEVNET
@@ -35,5 +35,5 @@ export const useAddressData = ({
     },
   });
 
-  return data?.data ?? undefined;
+  return data?.data;
 };

@@ -205,7 +205,7 @@ export const FeeInput = ({
 export const validateBalance = (
   formValues: FormValues,
   message: string,
-  balance?: number,
+  balance?: number|string,
 ) => {
   const { amount: amountString, gasPrice, gasLimit } = formValues;
 
