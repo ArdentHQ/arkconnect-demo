@@ -168,7 +168,8 @@ export function Transaction({
         transaction.data as Hex,
         AbiType.MultiPayment,
       );
-      return (decodedData.args[0] as string[]).includes(address);
+
+      return !!address && (decodedData.args[0] as string[]).includes(address);
     },
     /**
      * Returns the explorer link of the sender.
