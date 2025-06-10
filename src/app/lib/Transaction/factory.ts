@@ -9,7 +9,6 @@ import { NetworkType, Network } from "@/app/lib/Network";
 import { TransactionData } from "@/app/lib/Transactions/contracts";
 import { DateTime } from "@/app/lib/DateTime";
 import { Currency } from "@/app/lib/Currency";
-import { isTruthy } from "@/app/utils/isTruthy";
 
 export enum AbiType {
   "Consensus" = "consensus",

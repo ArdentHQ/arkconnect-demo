@@ -1,8 +1,3 @@
-interface MultiPaymentItem {
-  amount: string;
-  recipientId: string;
-}
-// TODO: Confirm all types are included. Especially for votes and transfers
 export interface TransactionData {
   confirmations: number;
   hash: string;
