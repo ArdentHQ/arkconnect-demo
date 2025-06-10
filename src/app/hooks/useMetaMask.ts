@@ -104,7 +104,7 @@ export const useMetaMask = (): MetaMaskState => {
   };
 
   const data = useAddressData({
-    address: account && getAddress(account),
+    address: account,
     network: wallet.network,
   });
   wallet.balance = data?.balance;
@@ -114,7 +114,8 @@ export const useMetaMask = (): MetaMaskState => {
     setIsConnecting(false);
   }, []);
 
-  const refreshAccount = (account?: Address) => {
+  const refreshAccount = (account_?: Address) => {
+    const account = account_ ? getAddress(account_) : undefined;
     const walletClient = createWalletClient({
       account,
       chain: mainnet,
