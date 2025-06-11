@@ -9,6 +9,7 @@ import { NetworkType, Network } from "@/app/lib/Network";
 import { TransactionData } from "@/app/lib/Transactions/contracts";
 import { DateTime } from "@/app/lib/DateTime";
 import { Currency } from "@/app/lib/Currency";
+import { CurrencyFormatter } from "@/app/utils/currencyFormatter";
 
 export enum AbiType {
   "Consensus" = "consensus",
@@ -60,10 +61,12 @@ export function Transaction({
      * @returns {ReturnType<typeof Currency>}
      */
     fee(): ReturnType<typeof Currency> {
+      const fee = BigNumber(transaction.gas)
+        .multipliedBy(transaction.gasPrice)
+        .toString();
+
       return Currency({
-        value: BigNumber(transaction.gas)
-          .multipliedBy(transaction.gasPrice)
-          .toString(),
+        value: CurrencyFormatter.formatUnits(fee, "ark").toString(),
       });
     },
     /**
@@ -73,7 +76,10 @@ export function Transaction({
      */
     amount(): ReturnType<typeof Currency> {
       return Currency({
-        value: transaction.value,
+        value: CurrencyFormatter.formatUnits(
+          transaction.value,
+          "ark",
+        ).toString(),
       });
     },
     /**
