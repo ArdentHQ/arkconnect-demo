@@ -18,7 +18,7 @@ export const TransactionsTable = ({
 
   const columns = [
     {
-      accessorKey: "id",
+      accessorKey: "hash",
       header: () => t("TX_ID"),
       className: "text-left",
     },

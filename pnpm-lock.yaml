@@ -11,6 +11,9 @@ importers:
       '@headlessui/react':
         specifier: ^1.7.17
         version: 1.7.19(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@mainsail/evm-contracts':
+        specifier: 0.0.1-evm.18
+        version: 0.0.1-evm.18
       '@metamask/providers':
         specifier: ^22.1.0
         version: 22.1.0(webextension-polyfill@0.12.0)
@@ -790,6 +793,10 @@ packages:
 
   '@jridgewell/trace-mapping@0.3.25':
     resolution: {integrity: sha512-vNk6aEwybGtawWmy/PzwnGDOjCkLWSD2wqvjGGAgOAwCGWySYXfYoxt00IJkTF+8Lb57DwOb3Aa0o9CApepiYQ==}
+
+  '@mainsail/evm-contracts@0.0.1-evm.18':
+    resolution: {integrity: sha512-WrNJc0SwZYhOSYGkFCP10GmSorKDNPpZMCYbI+iRT/20uZjbJ6YYmuRHHUEqIBB4Kpc0T7feZ4O0oOnAefm7hQ==}
+    engines: {node: '>=20.x'}
 
   '@metamask/json-rpc-engine@10.0.3':
     resolution: {integrity: sha512-p01QhlLIiTFXivEJCRx0LXEvPUaUPCedI9A8qV9jcLGGNSj1UTWM9GeifoeTweOMdmpIk5Rxg10H9f0JPUC9Ig==}
@@ -4118,6 +4125,8 @@ snapshots:
     dependencies:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.0
+
+  '@mainsail/evm-contracts@0.0.1-evm.18': {}
 
   '@metamask/json-rpc-engine@10.0.3':
     dependencies:

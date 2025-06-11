@@ -36,7 +36,7 @@ export const TransactionTableRow = ({
             target="_blank"
             className="max-w-[8rem] block w-full"
           >
-            <TruncateMiddle>{tx.id()}</TruncateMiddle>
+            <TruncateMiddle>{tx.hash()}</TruncateMiddle>
           </Link>
 
           <div className="text-theme-gray-500 text-xs font-medium leading-[125%] block lg:hidden">

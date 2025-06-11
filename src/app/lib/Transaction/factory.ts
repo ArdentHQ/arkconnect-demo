@@ -1,9 +1,31 @@
-import BigNumber from "bignumber.js";
+import { BigNumber } from "bignumber.js";
+import {
+  ConsensusAbi,
+  UsernamesAbi,
+  MultiPaymentAbi,
+} from "@mainsail/evm-contracts";
+import { decodeFunctionData as viemDecodeFunctionData, Hex } from "viem";
 import { NetworkType, Network } from "@/app/lib/Network";
 import { TransactionData } from "@/app/lib/Transactions/contracts";
 import { DateTime } from "@/app/lib/DateTime";
 import { Currency } from "@/app/lib/Currency";
-import { isTruthy } from "@/app/utils/isTruthy";
+import { CurrencyFormatter } from "@/app/utils/currencyFormatter";
+
+export enum AbiType {
+  "Consensus" = "consensus",
+  "Username" = "username",
+  "MultiPayment" = "multiPayment",
+}
+
+const decodeData = (data: Hex, abiType: AbiType = AbiType.Consensus) => {
+  const abiMap: Record<AbiType, any> = {
+    [AbiType.Consensus]: ConsensusAbi.abi,
+    [AbiType.Username]: UsernamesAbi.abi,
+    [AbiType.MultiPayment]: MultiPaymentAbi.abi,
+  };
+
+  return viemDecodeFunctionData({ data, abi: abiMap[abiType] });
+};
 
 export function Transaction({
   transaction,
@@ -22,8 +44,8 @@ export function Transaction({
      *
      * @returns {string}
      */
-    id(): string {
-      return transaction.id;
+    hash(): string {
+      return transaction.hash;
     },
     /**
      * Returns the timestamp of the transaction.
@@ -31,7 +53,7 @@ export function Transaction({
      * @returns {ReturnType<typeof DateTime>}
      */
     timestamp(): ReturnType<typeof DateTime> {
-      return DateTime(transaction.timestamp.human);
+      return DateTime(+transaction.timestamp);
     },
     /**
      * Returns the fee of the transaction.
@@ -39,9 +61,12 @@ export function Transaction({
      * @returns {ReturnType<typeof Currency>}
      */
     fee(): ReturnType<typeof Currency> {
+      const fee = BigNumber(transaction.gas)
+        .multipliedBy(transaction.gasPrice)
+        .toString();
+
       return Currency({
-        // TODO: fix hardcoded satoshi.
-        value: BigNumber(transaction.fee).div(100_000_000).toString(),
+        value: CurrencyFormatter.formatUnits(fee, "ark").toString(),
       });
     },
     /**
@@ -51,8 +76,10 @@ export function Transaction({
      */
     amount(): ReturnType<typeof Currency> {
       return Currency({
-        // TODO: fix hardcoded satoshi.
-        value: BigNumber(transaction.amount).div(100_000_000).toString(),
+        value: CurrencyFormatter.formatUnits(
+          transaction.value,
+          "ark",
+        ).toString(),
       });
     },
     /**
@@ -60,16 +87,16 @@ export function Transaction({
      *
      * @returns {string}
      */
-    recipient(): string {
-      return transaction.recipient;
+    to(): string {
+      return transaction.to;
     },
     /**
      * Returns the sender of the transaction.
      *
      * @returns {string}
      */
-    sender(): string {
-      return transaction.sender;
+    from(): string {
+      return transaction.from;
     },
     /**
      * Determines whether the transaction is a sent transaction.
@@ -77,7 +104,7 @@ export function Transaction({
      * @returns {boolean}
      */
     isReceived(): boolean {
-      return this.recipient() === address;
+      return this.to() === address;
     },
     /**
      * Determines whether the transaction is a sent transaction.
@@ -85,7 +112,7 @@ export function Transaction({
      * @returns {boolean}
      */
     isSent(): boolean {
-      return this.sender() === address;
+      return this.from() === address;
     },
     /**
      * Returns the explorer link of the transaction.
@@ -93,7 +120,7 @@ export function Transaction({
      * @returns {string}
      */
     explorerLink(): string {
-      return network.transactionLink(transaction.id);
+      return network.transactionLink(transaction.hash);
     },
     /**
      *
@@ -102,7 +129,7 @@ export function Transaction({
      * @returns {boolean}
      */
     isTransfer(): boolean {
-      return transaction.type === 0;
+      return transaction.data === "";
     },
     /**
      *
@@ -111,7 +138,7 @@ export function Transaction({
      * @returns {boolean}
      */
     isVote(): boolean {
-      return transaction.type === 3;
+      return transaction.data.includes("0x6dd7d8ea");
     },
     /**
      *
@@ -129,17 +156,7 @@ export function Transaction({
      * @returns {boolean}
      */
     isMultipay(): boolean {
-      if (!this.isTransfer()) {
-        return false;
-      }
-
-      if (!isTruthy(transaction.asset)) {
-        return false;
-      }
-
-      // TODO: fix lookup.
-      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-      return transaction.asset?.payments?.length > 1;
+      return transaction.data.includes("0x084ce708");
     },
     /**
      *
@@ -149,16 +166,15 @@ export function Transaction({
      */
     isReturn(): boolean {
       if (!this.isMultipay()) {
-        return this.recipient() === address;
+        return this.to() === address;
       }
 
-      if (!isTruthy(transaction.asset)) {
-        return false;
-      }
-      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-      return transaction.asset?.payments.some(
-        ({ recipientId }) => recipientId === address,
+      const decodedData = decodeData(
+        transaction.data as Hex,
+        AbiType.MultiPayment,
       );
+
+      return !!address && (decodedData.args[0] as string[]).includes(address);
     },
     /**
      * Returns the explorer link of the sender.
@@ -166,7 +182,7 @@ export function Transaction({
      * @returns {string}
      */
     senderExplorerLink(): string {
-      return network.addressExplorerLink(this.sender());
+      return network.addressExplorerLink(this.from());
     },
     /**
      * Returns the explorer link of the recipient.
@@ -174,7 +190,7 @@ export function Transaction({
      * @returns {string}
      */
     recipientExplorerLink(): string {
-      return network.addressExplorerLink(this.recipient());
+      return network.addressExplorerLink(this.to());
     },
     /**
      * Returns all transaction recipient addresses (multipay).
@@ -182,9 +198,12 @@ export function Transaction({
      * @returns {string}
      */
     recipients(): string[] {
-      return (
-        transaction.asset?.payments.map(({ recipientId }) => recipientId) ?? []
+      const decodedData = decodeData(
+        transaction.data as Hex,
+        AbiType.MultiPayment,
       );
+
+      return decodedData.args[0] as string[];
     },
   };
 }

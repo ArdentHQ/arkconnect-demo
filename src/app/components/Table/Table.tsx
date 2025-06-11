@@ -73,7 +73,7 @@ export function Table<T>({
         <tbody>
           {table.getRowModel().rows.map((rowModel) => ({
             ...row(rowModel.original),
-            key: String(rowModel.getValue("id")),
+            key: String(rowModel.getValue("hash")),
           }))}
         </tbody>
       </table>

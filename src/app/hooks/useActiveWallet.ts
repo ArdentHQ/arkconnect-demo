@@ -17,9 +17,9 @@ export const useActiveWallet = () => {
     }
   }, [
     arkState.isConnected,
-    arkState.wallet.address,
+    arkState.wallet,
     metaMaskState.connected,
-    metaMaskState.wallet.address,
+    metaMaskState.wallet,
   ]);
 
   const connectedWith = useMemo(() => {

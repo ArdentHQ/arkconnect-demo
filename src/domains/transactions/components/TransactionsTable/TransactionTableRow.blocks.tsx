@@ -74,7 +74,7 @@ export const TransactionAddress = ({
     );
   }
 
-  if (transaction.isTransfer() && !transaction.isMultipay()) {
+  if (transaction.isTransfer()) {
     if (transaction.isReceived()) {
       return (
         <>
@@ -83,7 +83,7 @@ export const TransactionAddress = ({
           </Label>
 
           <TransactionAddressLink
-            address={transaction.sender()}
+            address={transaction.from()}
             href={transaction.senderExplorerLink()}
           />
         </>
@@ -97,7 +97,7 @@ export const TransactionAddress = ({
             {t("TO")}{" "}
           </Label>
           <TransactionAddressLink
-            address={transaction.recipient()}
+            address={transaction.to()}
             href={transaction.recipientExplorerLink()}
           />
         </>
