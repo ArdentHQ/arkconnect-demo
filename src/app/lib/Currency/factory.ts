@@ -1,6 +1,5 @@
 import { BigNumber } from "bignumber.js";
 import { Coin } from "@/app/lib/Network";
-import { CurrencyFormatter } from "@/app/utils/currencyFormatter";
 
 export function Currency({
   value,
