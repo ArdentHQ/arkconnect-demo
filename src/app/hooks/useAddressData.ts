@@ -1,5 +1,6 @@
 import { QueryKey, useQuery } from "@tanstack/react-query";
 import { NetworkType, WalletsLink } from "@/app/lib/Network";
+import { CurrencyFormatter } from "@/app/utils/currencyFormatter";
 
 interface AddressData {
   address: string;
@@ -35,5 +36,14 @@ export const useAddressData = ({
     },
   });
 
-  return data?.data;
+  const addressData = data?.data;
+
+  if (addressData) {
+    addressData.balance = CurrencyFormatter.formatUnits(
+      addressData.balance,
+      "ark",
+    ).toString();
+  }
+
+  return addressData;
 };

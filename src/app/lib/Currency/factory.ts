@@ -11,10 +11,7 @@ export function Currency({
   coin?: Coin;
   rate?: string | number;
 }) {
-  const number = CurrencyFormatter.formatUnits(
-    BigNumber(value).toString(),
-    "ark",
-  );
+  const number = BigNumber(value);
 
   return {
     /**
