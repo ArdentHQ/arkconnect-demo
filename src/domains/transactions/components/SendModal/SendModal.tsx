@@ -4,6 +4,7 @@ import { useTranslation } from "next-i18next";
 import { SubmitHandler, useForm, UseFormRegisterReturn } from "react-hook-form";
 import React, { useEffect, useState } from "react";
 import { BigNumber } from "bignumber.js";
+import { Address } from "viem";
 import { Dialog } from "@/app/components/Dialog";
 import { InputGroup } from "@/app/components/InputGroup";
 import { Input, NumericInput } from "@/app/components/Input";
@@ -14,6 +15,7 @@ import {
   validateBalance,
 } from "@/domains/transactions/components/SendModal/SendModal.blocks";
 import { getNetworkCoin } from "@/app/utils/network";
+import { useActiveWallet } from "@/app/hooks/useActiveWallet";
 
 interface FormValues {
   amount: string;
@@ -33,7 +35,7 @@ export const SendModal = ({
 }) => {
   const { t } = useTranslation("transactions");
 
-  const { wallet, signTransaction } = useArkConnectContext();
+  const { wallet, signTransaction } = useActiveWallet();
 
   const {
     register,
@@ -74,8 +76,8 @@ export const SendModal = ({
       // @TODO: handle success response
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const response: SignTransactionResponse = await signTransaction({
-        amount: Number(amount),
-        receiverAddress,
+        value: amount,
+        to: receiverAddress as Address,
         gasPrice: gasPrice.toString(),
         gasLimit: gasLimit.toString(),
       });
@@ -149,9 +151,9 @@ export const SendModal = ({
               required: t("RECIPIENT_REQUIRED"),
               validate: (value) => {
                 // @TODO: add a better validation
-                if (value.length !== 34) {
-                  return t("INVALID_ADDRESS");
-                }
+                // if (value.length !== 34) {
+                //   return t("INVALID_ADDRESS");
+                // }
               },
             })}
           />

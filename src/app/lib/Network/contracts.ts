@@ -1,3 +1,5 @@
+import { Address } from "viem";
+
 export enum NetworkType {
   DEVNET = "Devnet",
   MAINNET = "Mainnet",
@@ -39,10 +41,10 @@ export enum Coin {
 }
 
 export interface SignTransactionRequest {
-  amount: number;
+  value: string;
   gasPrice: string;
   gasLimit: string;
-  receiverAddress: string;
+  to: Address;
 }
 
 export interface SignTransactionResponse {

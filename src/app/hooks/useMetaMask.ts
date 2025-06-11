@@ -5,12 +5,14 @@ import {
   Address,
   createWalletClient,
   custom,
+  defineChain,
   getAddress,
-  WalletClient,
+  parseEther,
+  parseGwei,
 } from "viem";
 import { useTranslation } from "next-i18next";
 import { Ethereum, MetaMaskState } from "@/app/hooks/useMetaMask.contracts";
-import { Coin, NetworkType } from "@/app/lib/Network";
+import { Coin, NetworkType, SignTransactionRequest } from "@/app/lib/Network";
 import { useAddressData } from "@/app/hooks/useAddressData";
 import { WalletData } from "@/app/lib/Wallet/contracts";
 
@@ -60,6 +62,21 @@ const mainsailChainConfig = {
   rpcUrls: ["https://dwallets-evm.ihost.org/evm/api"],
 };
 
+const mainsailChain = defineChain({
+  id: MAINSAIL_CHAIN_ID,
+  name: "Mainsail Testnet",
+  nativeCurrency: {
+    decimals: 18,
+    name: "ARK",
+    symbol: "ARK",
+  },
+  rpcUrls: {
+    default: {
+      http: ["https://dwallets-evm.ihost.org/evm/api"],
+    },
+  },
+});
+
 const getChainId = async () => {
   const ethereum = getEthereum() as Ethereum;
 
@@ -88,8 +105,7 @@ export const useMetaMask = (): MetaMaskState => {
   const { t } = useTranslation();
   const [initialized, setInitialized] = useState<boolean>(false);
   const [isConnecting, setIsConnecting] = useState<boolean>(false);
-  const [account, setAccount] = useState<string | undefined>();
-  const [, setWalletClient] = useState<WalletClient>();
+  const [account, setAccount] = useState<Address | undefined>();
   const [error, setError] = useState<string>();
   const [requiresRefresh, setRequiresRefresh] = useState<boolean>(true);
 
@@ -116,14 +132,15 @@ export const useMetaMask = (): MetaMaskState => {
 
   const refreshAccount = (account_?: Address) => {
     const account = account_ ? getAddress(account_) : undefined;
-    const walletClient = createWalletClient({
+    setAccount(account);
+  };
+
+  const getWalletClient = () => {
+    return createWalletClient({
       account,
-      chain: mainnet,
+      chain: mainsailChain,
       transport: custom(getEthereum() as Ethereum),
     });
-
-    setWalletClient(walletClient);
-    setAccount(account);
   };
 
   // Initialize the WalletClient when the page loads
@@ -254,6 +271,18 @@ export const useMetaMask = (): MetaMaskState => {
     refreshAccount();
   };
 
+  const signTransaction = async (request: SignTransactionRequest) => {
+    const walletClient = getWalletClient();
+
+    return await walletClient.sendTransaction({
+      account: account as Address,
+      to: request.to,
+      value: parseEther(request.value),
+      gas: BigInt(request.gasLimit),
+      gasPrice: parseGwei(request.gasPrice),
+    });
+  };
+
   return {
     initialized,
     isInstalled: !needsMetaMask,
@@ -263,6 +292,7 @@ export const useMetaMask = (): MetaMaskState => {
     error,
     connect,
     disconnect,
+    signTransaction,
     wallet,
   };
 };
