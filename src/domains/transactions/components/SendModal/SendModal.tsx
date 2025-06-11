@@ -4,7 +4,7 @@ import { useTranslation } from "next-i18next";
 import { SubmitHandler, useForm, UseFormRegisterReturn } from "react-hook-form";
 import React, { useEffect, useState } from "react";
 import { BigNumber } from "bignumber.js";
-import { Address } from "viem";
+import {Address, isAddress} from "viem";
 import { Dialog } from "@/app/components/Dialog";
 import { InputGroup } from "@/app/components/InputGroup";
 import { Input, NumericInput } from "@/app/components/Input";
@@ -148,10 +148,9 @@ export const SendModal = ({
             {...register("receiverAddress", {
               required: t("RECIPIENT_REQUIRED"),
               validate: (value) => {
-                // @TODO: add a better validation
-                // if (value.length !== 34) {
-                //   return t("INVALID_ADDRESS");
-                // }
+                if (!isAddress(value)) {
+                  return t("INVALID_ADDRESS");
+                }
               },
             })}
           />
