@@ -133,7 +133,11 @@ export const SendModal = ({
               {t("YOU", { ns: "common" })}
             </span>
 
-            <Input className="w-full pr-16 truncate" value={wallet.address} disabled />
+            <Input
+              className="w-full pr-16 truncate"
+              value={wallet.address}
+              disabled
+            />
           </div>
         </InputGroup>
 
