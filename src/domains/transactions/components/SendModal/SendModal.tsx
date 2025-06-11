@@ -73,9 +73,7 @@ export const SendModal = ({
     gasLimit,
   }) => {
     try {
-      // @TODO: handle success response
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const response: SignTransactionResponse = await signTransaction({
+      await signTransaction({
         value: amount,
         to: receiverAddress as Address,
         gasPrice: gasPrice.toString(),
