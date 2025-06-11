@@ -76,11 +76,6 @@ const mainsailChain = defineChain({
   },
 });
 
-const walletClient = createWalletClient({
-  chain: mainsailChain,
-  transport: custom(getEthereum() as Ethereum),
-});
-
 const getChainId = async () => {
   const ethereum = getEthereum() as Ethereum;
 
@@ -137,6 +132,14 @@ export const useMetaMask = (): MetaMaskState => {
   const refreshAccount = (account_?: Address) => {
     const account = account_ ? getAddress(account_) : undefined;
     setAccount(account);
+  };
+
+  const getWalletClient = () => {
+    return createWalletClient({
+      account,
+      chain: mainsailChain,
+      transport: custom(getEthereum() as Ethereum),
+    });
   };
 
   // Initialize the WalletClient when the page loads
@@ -268,7 +271,7 @@ export const useMetaMask = (): MetaMaskState => {
   };
 
   const signTransaction = async (request: SignTransactionRequest) => {
-    return await walletClient.sendTransaction({
+    return await getWalletClient().sendTransaction({
       account: account as Address,
       to: request.to,
       value: parseEther(request.value),
