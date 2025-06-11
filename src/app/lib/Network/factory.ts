@@ -3,7 +3,7 @@ import {
   NetworkAddressLink,
   NetworkTransactionsList,
   NetworkTransactionLink,
-  DelegatesLink,
+  ValidatorsLink,
   WalletsLink,
 } from "./contracts";
 
@@ -70,30 +70,30 @@ export function Network({ network }: { network?: NetworkType | string }) {
 
       return [url.toString(), transactionId].join("");
     },
-    delegatesLink() {
+    validatorsLink() {
       if (!this.isSupported()) {
         throw new Error(`Network ${network} is not supported`);
       }
 
       const url = new URL(
-        this.isTestnet() ? DelegatesLink.DEVNET : DelegatesLink.MAINNET,
+        this.isTestnet() ? ValidatorsLink.DEVNET : ValidatorsLink.MAINNET,
       );
 
-      url.searchParams.append("limit", "51");
+      url.searchParams.append("limit", "54");
 
       return url.toString();
     },
 
-    votingDelegateLink(delegatePublicKey: string) {
+    votingValidatorLink(validatorPublicKey: string) {
       if (!this.isSupported()) {
         throw new Error(`Network ${network} is not supported`);
       }
 
       const url = new URL(
-        this.isTestnet() ? DelegatesLink.DEVNET : DelegatesLink.MAINNET,
+        this.isTestnet() ? ValidatorsLink.DEVNET : ValidatorsLink.MAINNET,
       );
 
-      return [url.toString(), delegatePublicKey].join("/");
+      return [url.toString(), validatorPublicKey].join("/");
     },
 
     walletVotesLink(address: string) {

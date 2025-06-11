@@ -1,23 +1,23 @@
 import classNames from "classnames";
 import { useTranslation } from "next-i18next";
-import { DelegateItem } from "@/app/lib/Delegates";
+import { ValidatorItem } from "src/app/lib/Validators";
 import ExternalLink from "@/public/icons/external-link.svg";
 import { Link } from "@/app/components/Link";
 import { TruncateMiddle } from "@/app/components/Truncate";
 import { Label } from "@/app/components/Label";
 
-export const DelegatesListItem = ({
+export const ValidatorsListItem = ({
   isSelected = false,
   isUnselected = false,
   isCurrent = false,
   isResigned = false,
-  delegate,
+  validator,
   onSelect,
   onDeselect,
   onUnselect,
   onCurrent,
 }: {
-  delegate: DelegateItem;
+  validator: ValidatorItem;
   isSelected?: boolean;
   isUnselected?: boolean;
   isCurrent?: boolean;
@@ -35,21 +35,21 @@ export const DelegatesListItem = ({
 
   const handleOnSelect = () => {
     if (isDefault) {
-      onSelect?.(delegate.address);
+      onSelect?.(validator.address);
       return;
     }
 
     if (isOnlySelected) {
-      onDeselect?.(delegate.address);
+      onDeselect?.(validator.address);
       return;
     }
 
     if (isOnlyCurrent) {
-      onUnselect?.(delegate.address);
+      onUnselect?.(validator.address);
     }
 
     if (isUnselected) {
-      onCurrent?.(delegate.address);
+      onCurrent?.(validator.address);
     }
   };
 
@@ -71,13 +71,13 @@ export const DelegatesListItem = ({
         {isResigned ? (
           <span className="text-theme-gray-400 font-medium text-sm">-</span>
         ) : (
-          delegate.rank
+          validator.rank
         )}
       </div>
 
       <div className="w-2/4 flex items-center overflow-auto">
         <div className="text-md text-black font-normal leading-[125%] overflow-hidden flex-1 dark:text-white">
-          <TruncateMiddle>{delegate.username}</TruncateMiddle>
+          <TruncateMiddle>{validator.address}</TruncateMiddle>
         </div>
 
         {isResigned && (
@@ -88,7 +88,7 @@ export const DelegatesListItem = ({
       </div>
 
       <div className="text-center">
-        <Link href={delegate.explorerUrl} target="_blank">
+        <Link href={validator.explorerUrl} target="_blank">
           <ExternalLink className="w-4" />
         </Link>
       </div>

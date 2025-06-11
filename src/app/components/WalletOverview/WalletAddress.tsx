@@ -15,7 +15,7 @@ export const WalletAddress = ({ walletData }: WalletOverviewProperties) => {
   const { t } = useTranslation();
 
   const network = Network({ network: walletData.network });
-  const { votingDelegate } = useWalletVotes({ walletData });
+  const { votingValidator } = useWalletVotes({ walletData });
   const address = walletData.address;
   assert(address);
 
@@ -54,16 +54,16 @@ export const WalletAddress = ({ walletData }: WalletOverviewProperties) => {
             </div>
           </Tooltip>
 
-          {votingDelegate !== undefined && (
+          {votingValidator !== undefined && (
             <Tooltip
               content={t("VOTING_FOR", {
-                name: votingDelegate.username,
+                name: votingValidator.address,
               })}
             >
               <div>
                 <RoundLinkButton
                   variant="transparent"
-                  href={votingDelegate.explorerUrl}
+                  href={votingValidator.explorerUrl}
                   isExternal
                 >
                   <CheckSquare className="w-[1.125rem]" />

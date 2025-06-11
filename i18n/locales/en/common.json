@@ -40,8 +40,8 @@
   "TRANSFER": "Transfer",
   "CONTRACT": "Contract",
   "MULTIPLE": "Multiple",
-  "VOTE_FOR_DELEGATE": "Vote for Delegate",
-  "ENTER_DELEGATE_NAME": "Enter Delegate Name",
+  "VOTE_FOR_VALIDATOR": "Vote for Validator",
+  "ENTER_VALIDATOR_NAME": "Enter Validator Name",
   "CURRENT": "Current",
   "SELECTED": "Selected",
   "UNSELECTED": "Unselected",
@@ -54,5 +54,5 @@
   "NETWORK_SWITCH_ERROR_TITLE": "Error while switching network",
   "NETWORK_SWITCH_ERROR_DESCRIPTION": "You are trying to change to {{network}} without any wallets on that network. Please create a wallet first before switching networks.",
   "RESIGNED": "Resigned",
-  "NO_DELEGATES_FOUND": "The Delegate is either unregistered or resigned. Check you search term and try again."
+  "NO_VALIDATORS_FOUND": "The Validator is either unregistered or resigned. Check you search term and try again."
 }

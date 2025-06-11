@@ -6,7 +6,7 @@ import React, { useState } from "react";
 
 import { BigNumber } from "bignumber.js";
 import { useForm } from "react-hook-form";
-import { Delegates } from "@/domains/vote/components/Delegates";
+import { Validators } from "@/domains/vote/components/Validators";
 import { Dialog } from "@/app/components/Dialog";
 import { Input } from "@/app/components/Input";
 import { InputGroup } from "@/app/components/InputGroup";
@@ -104,7 +104,7 @@ export const VoteModal = ({
       show={show}
       onClose={onClose}
       onSubmit={handleSubmit}
-      title={t("common:VOTE_FOR_DELEGATE")}
+      title={t("common:VOTE_FOR_VALIDATOR")}
       continueDisabled={
         (voteState.votes.length === 0 && voteState.unvotes.length === 0) ||
         !isValid
@@ -113,7 +113,7 @@ export const VoteModal = ({
       <div className="flex flex-col space-y-4">
         <InputGroup>
           <Input
-            placeholder={t("common:ENTER_DELEGATE_NAME")}
+            placeholder={t("common:ENTER_VALIDATOR_NAME")}
             value={search}
             onChange={(event) => {
               setSearch(
@@ -124,7 +124,7 @@ export const VoteModal = ({
         </InputGroup>
 
         <div className="h-96 max-h-full overflow-y-auto -mr-[14px] delegates-list-parent">
-          <Delegates
+          <Validators
             walletData={wallet}
             onChange={({ votes, unvotes }) => {
               setVoteState({ votes, unvotes });
