@@ -1,6 +1,5 @@
 /* eslint-disable max-lines-per-function */
 import { useCallback, useEffect, useState } from "react";
-import { mainnet } from "viem/chains";
 import {
   Address,
   createWalletClient,

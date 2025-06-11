@@ -4,12 +4,11 @@ import { useTranslation } from "next-i18next";
 import { SubmitHandler, useForm, UseFormRegisterReturn } from "react-hook-form";
 import React, { useEffect, useState } from "react";
 import { BigNumber } from "bignumber.js";
-import {Address, isAddress} from "viem";
+import { Address, isAddress } from "viem";
 import { Dialog } from "@/app/components/Dialog";
 import { InputGroup } from "@/app/components/InputGroup";
 import { Input, NumericInput } from "@/app/components/Input";
-import { SignTransactionResponse, TransactionType } from "@/app/lib/Network";
-import { useArkConnectContext } from "@/app/contexts/useArkConnectContext";
+import { TransactionType } from "@/app/lib/Network";
 import {
   FeeInput,
   validateBalance,
