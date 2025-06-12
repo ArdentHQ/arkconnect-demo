@@ -24,7 +24,7 @@ export function Wallet(wallet: WalletData) {
 
   return {
     /**
-     * Fetches the top 54 validators
+     * Fetches the actively forging validators
      *
      * @returns {Promise<void>}
      */
