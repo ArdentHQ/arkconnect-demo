@@ -23,6 +23,7 @@ class NoArkExtensionException extends Error {
   }
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const getVersion = (): string | null => {
   if (!window.arkconnect) {
     // eslint-disable-next-line unicorn/no-null
