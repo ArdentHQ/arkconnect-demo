@@ -79,7 +79,7 @@ export function Network({ network }: { network?: NetworkType | string }) {
         this.isTestnet() ? ValidatorsLink.DEVNET : ValidatorsLink.MAINNET,
       );
 
-      url.searchParams.append("limit", "54");
+      url.searchParams.append("limit", "53");
 
       return url.toString();
     },
