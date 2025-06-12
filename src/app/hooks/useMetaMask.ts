@@ -284,7 +284,8 @@ export const useMetaMask = (): MetaMaskState => {
       to: request.to,
       value: parseEther(request.value),
       gas: BigInt(request.gasLimit),
-      gasPrice: parseGwei(request.gasPrice),
+      maxFeePerGas: parseGwei(request.gasPrice),
+      maxPriorityFeePerGas: BigInt(0),
     });
   };
 
@@ -302,7 +303,8 @@ export const useMetaMask = (): MetaMaskState => {
       account: account as Address,
       to: WellKnownContracts.Consensus,
       gas: BigInt(request.gasLimit),
-      gasPrice: parseGwei(request.gasPrice),
+      maxFeePerGas: parseGwei(request.gasPrice),
+      maxPriorityFeePerGas: BigInt(0),
       data,
     });
   };
