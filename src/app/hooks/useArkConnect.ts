@@ -14,12 +14,7 @@ import {
   SignTransactionRequest,
   SignTransactionResponse,
   SignVoteRequest,
-  SignVoteRequestVersioned,
   SignVoteResponse,
-  SignVoteResponseVersioned,
-  Version,
-  VoteTypeV1_0,
-  VoteTypeV1_9,
 } from "@/app/lib/Network";
 
 class NoArkExtensionException extends Error {
@@ -39,49 +34,6 @@ const getVersion = (): string | null => {
   }
 
   return window.arkconnect.version();
-};
-
-const formatVoteRequest = <V extends Version = Version>(
-  request: SignVoteRequest,
-  version: V,
-): SignVoteRequestVersioned<V> => {
-  if (version === "1.0.0" || version === "1.8.0" || version === null) {
-    return {
-      ...request,
-      vote:
-        request.vote &&
-        ({
-          amount: request.vote.amount,
-          delegateAddress: request.vote.address,
-        } as V extends "1.0.0" | "1.8.0" | null ? VoteTypeV1_0 : VoteTypeV1_9),
-      unvote:
-        request.unvote &&
-        ({
-          amount: request.unvote.amount,
-          delegateAddress: request.unvote.address,
-        } as V extends "1.0.0" | "1.8.0" | null ? VoteTypeV1_0 : VoteTypeV1_9),
-    };
-  }
-  return request as SignVoteRequestVersioned<V>;
-};
-
-const formatVoteResponse = <V extends Version = Version>(
-  response: SignVoteResponseVersioned<V>,
-  version: V,
-): SignVoteResponse => {
-  if (version === "1.0.0" || version === "1.8.0" || version === null) {
-    const versionedResponse = response as SignVoteResponseVersioned<
-      "1.0.0" | "1.8.0" | null
-    >;
-    return {
-      ...response,
-      voteAddress: versionedResponse.voteDelegateAddress,
-      voteName: versionedResponse.voteDelegateName,
-      unvoteAddress: versionedResponse.unvoteDelegateAddress,
-      unvoteName: versionedResponse.unvoteDelegateName,
-    };
-  }
-  return response as SignVoteResponse;
 };
 
 export const useArkConnect = (): ArkConnectState => {
@@ -190,11 +142,9 @@ export const useArkConnect = (): ArkConnectState => {
           throw new NoArkExtensionException();
         }
 
-        const version = getVersion();
-        const formattedRequest = formatVoteRequest(request, version);
-        const response = (await window.arkconnect.signVote(
-          formattedRequest,
-        )) as SignVoteResponseVersioned<typeof version> | undefined;
+        const response = (await window.arkconnect.signVote(request)) as
+          | SignVoteResponse
+          | undefined;
 
         if (!isTruthy(response)) {
           throw new NoArkExtensionException();
@@ -202,7 +152,7 @@ export const useArkConnect = (): ArkConnectState => {
 
         setIsVoting(false);
 
-        return formatVoteResponse(response, version);
+        return response;
       } catch (error) {
         setIsVoting(false);
 

@@ -12,9 +12,9 @@ import { Input } from "@/app/components/Input";
 import { InputGroup } from "@/app/components/InputGroup";
 
 import { useToasts } from "@/app/hooks/useToasts";
-import { useArkConnectContext } from "@/app/contexts/useArkConnectContext";
 import { FeeInput } from "@/domains/transactions/components/SendModal/SendModal.blocks";
 import { TransactionType } from "@/app/lib/Network";
+import { useActiveWallet } from "@/app/hooks/useActiveWallet";
 
 export interface VotingState {
   votes: string[];
@@ -22,8 +22,7 @@ export interface VotingState {
 }
 
 export interface VoteInput {
-  vote?: VoteType;
-  unvote?: VoteType;
+  votes: string[];
   gasPrice: string;
   gasLimit: string;
 }
@@ -42,7 +41,7 @@ export const VoteModal = ({
 }) => {
   const { t } = useTranslation();
 
-  const { wallet, signVote } = useArkConnectContext();
+  const { wallet, signVote } = useActiveWallet();
 
   const {
     register,
@@ -73,30 +72,25 @@ export const VoteModal = ({
 
   const handleSubmit = () => {
     const voteInput: VoteInput = {
+      votes: [],
       gasPrice: getValues("gasPrice").toString(),
       gasLimit: getValues("gasLimit").toString(),
     };
 
     if (voteState.votes.length > 0) {
-      voteInput.vote = {
-        amount: 0,
-        address: voteState.votes[0],
-      };
-    }
-
-    if (voteState.unvotes.length > 0) {
-      voteInput.unvote = {
-        amount: 0,
-        address: voteState.unvotes[0],
-      };
+      voteInput.votes = [voteState.votes[0]];
     }
 
     // eslint-disable-next-line promise/catch-or-return
-    signVote(voteInput).then(() => {
-      onClose();
-      showToast({ message: t("common:CHANGES_REGISTERED"), type: "success" });
-      return 0;
-    });
+    signVote(voteInput)
+      .then(() => {
+        onClose();
+        showToast({ message: t("common:CHANGES_REGISTERED"), type: "success" });
+        return 0;
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   };
 
   return (

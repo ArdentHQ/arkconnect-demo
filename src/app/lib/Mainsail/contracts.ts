@@ -1,0 +1,10 @@
+import { Address } from "viem";
+
+export const WellKnownContracts: Record<
+  "Consensus" | "MultiPayment" | "Username",
+  Address
+> = {
+  Consensus: "0x535B3D7A252fa034Ed71F0C53ec0C6F784cB64E1",
+  MultiPayment: "0x00EFd0D4639191C49908A7BddbB9A11A994A8527",
+  Username: "0x2c1DE3b4Dbb4aDebEbB5dcECAe825bE2a9fc6eb6",
+};
