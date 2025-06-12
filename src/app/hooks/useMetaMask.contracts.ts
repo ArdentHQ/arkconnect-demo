@@ -1,5 +1,7 @@
 import type { MetaMaskInpageProvider } from "@metamask/providers";
+import { Address } from "viem";
 import { WalletExtensionState } from "@/app/lib/WalletExtension";
+import { SignTransactionRequest } from "@/app/lib/Network";
 
 interface EthereumEvent {
   connect: {
@@ -31,5 +33,8 @@ export interface MetaMaskState {
   error?: string;
   connect: () => Promise<void>;
   disconnect: () => Promise<void>;
+  signTransaction: (
+    request: SignTransactionRequest,
+  ) => Promise<Address | undefined>;
   wallet: WalletExtensionState["wallet"];
 }

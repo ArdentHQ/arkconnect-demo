@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 import { useArkConnectContext } from "@/app/contexts/useArkConnectContext";
 import { useMetaMaskContext } from "@/app/contexts/MetaMaskContext";
+import { SignTransactionRequest } from "@/app/lib/Network";
 
 export const useActiveWallet = () => {
   const arkState = useArkConnectContext();
@@ -49,6 +50,15 @@ export const useActiveWallet = () => {
       }
 
       metaMaskState.disconnect();
+    },
+    signTransaction: async (request: SignTransactionRequest) => {
+      if (connectedWith === "ark") {
+        return await arkState.signTransaction(request);
+      }
+
+      if (connectedWith === "metaMask") {
+        return await metaMaskState.signTransaction(request);
+      }
     },
   };
 };
