@@ -5,15 +5,23 @@ import {
   createWalletClient,
   custom,
   defineChain,
+  encodeFunctionData,
   getAddress,
   parseEther,
   parseGwei,
 } from "viem";
 import { useTranslation } from "next-i18next";
+import { ConsensusAbi } from "@mainsail/evm-contracts";
 import { Ethereum, MetaMaskState } from "@/app/hooks/useMetaMask.contracts";
-import { Coin, NetworkType, SignTransactionRequest } from "@/app/lib/Network";
+import {
+  Coin,
+  NetworkType,
+  SignTransactionRequest,
+  SignVoteRequest,
+} from "@/app/lib/Network";
 import { useAddressData } from "@/app/hooks/useAddressData";
 import { WalletData } from "@/app/lib/Wallet/contracts";
+import { WellKnownContracts } from "@/app/lib/Mainsail/contracts";
 
 const isBrowser = () => typeof window !== "undefined";
 
@@ -280,6 +288,25 @@ export const useMetaMask = (): MetaMaskState => {
     });
   };
 
+  const signVote = async (request: SignVoteRequest) => {
+    const validatorAddress = request.votes.at(0);
+    const isVote = !!validatorAddress;
+
+    const data = encodeFunctionData({
+      abi: ConsensusAbi.abi,
+      args: isVote ? [validatorAddress] : [],
+      functionName: isVote ? "vote" : "unvote",
+    });
+
+    return await getWalletClient().sendTransaction({
+      account: account as Address,
+      to: WellKnownContracts.Consensus,
+      gas: BigInt(request.gasLimit),
+      gasPrice: parseGwei(request.gasPrice),
+      data,
+    });
+  };
+
   return {
     initialized,
     isInstalled: !needsMetaMask,
@@ -290,6 +317,7 @@ export const useMetaMask = (): MetaMaskState => {
     connect,
     disconnect,
     signTransaction,
+    signVote,
     wallet,
   };
 };
