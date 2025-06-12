@@ -21,7 +21,7 @@ export function WalletVotes({
     async sync(): Promise<void> {
       if (!isTruthy(address)) {
         throw new Error(
-          "[Delegates#sync] Failed to retrieve delegates. Wallet address is missing.",
+          "[Validators#sync] Failed to retrieve validators. Wallet address is missing.",
         );
       }
 
@@ -29,7 +29,7 @@ export function WalletVotes({
 
       if (!response.ok) {
         throw new Error(
-          `[Delegates#sync] Failed to retrieve delegates. Error status: ${response.status}`,
+          `[Validators#sync] Failed to retrieve validators. Error status: ${response.status}`,
         );
       }
 

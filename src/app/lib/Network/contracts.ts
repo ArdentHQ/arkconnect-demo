@@ -15,7 +15,7 @@ export enum NetworkAddressLink {
   MAINNET = "https://live.arkscan.io/addresses/",
 }
 
-export enum DelegatesLink {
+export enum ValidatorsLink {
   DEVNET = "https://dwallets-evm.ihost.org/api/validators",
   MAINNET = "https://wallets-evm.ihost.org/api/validators",
 }

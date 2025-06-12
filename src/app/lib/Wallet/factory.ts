@@ -5,54 +5,53 @@ import { Currency } from "@/app/lib/Currency";
 import { Transactions } from "@/app/lib/Transactions/factory";
 import { WalletVotes } from "@/app/lib/Votes";
 import {
-  DelegateItem,
-  Delegates,
-  SingleDelegateResponse,
-} from "@/app/lib/Delegates";
+  ValidatorItem,
+  Validators,
+  SingleValidatorResponse,
+} from "@/app/lib/Validators";
 
 export function Wallet(wallet: WalletData) {
   const network = Network(wallet);
   const votes = WalletVotes(wallet);
-  const delegates = Delegates(wallet);
+  const validators = Validators(wallet);
 
   const transactions = Transactions({
     network: wallet.network,
     address: wallet.address,
   });
 
-  let votingDelegate: DelegateItem | undefined;
+  let votingValidator: ValidatorItem | undefined;
 
   return {
     /**
-     * Fetches the top 51 delegates.
+     * Fetches the actively forging validators
      *
      * @returns {Promise<void>}
      */
-    async syncVotingDelegate(): Promise<void> {
+    async syncVotingValidator(): Promise<void> {
       const currentVotes = votes.currentVotes();
 
-      const delegatePublicKey =
+      const validatorPublicKey =
         currentVotes.length > 0 ? currentVotes[0] : undefined;
 
-      if (delegatePublicKey === undefined) {
+      if (validatorPublicKey === undefined) {
         return;
       }
 
       const response = await fetch(
-        network.votingDelegateLink(delegatePublicKey),
+        network.votingValidatorLink(validatorPublicKey),
       );
 
       if (!response.ok) {
         throw new Error(
-          `[Wallet#syncVotingDelegate] Failed to retrieve votingDelegate. Error status: ${response.status}`,
+          `[Wallet#syncVotingValidator] Failed to retrieve votingValidator. Error status: ${response.status}`,
         );
       }
 
-      const { data } = (await response.json()) as SingleDelegateResponse;
+      const { data } = (await response.json()) as SingleValidatorResponse;
 
-      votingDelegate = {
+      votingValidator = {
         publicKey: data.publicKey,
-        username: data.username,
         address: data.address,
         explorerUrl: network.addressExplorerLink(data.address),
         isResigned: data.isResigned,
@@ -67,12 +66,12 @@ export function Wallet(wallet: WalletData) {
       return votes;
     },
     /**
-     * Returns wallet's delegates interface.
+     * Returns wallet's validators interface.
      *
-     * @returns {ReturnType<typeof Delegates>}
+     * @returns {ReturnType<typeof Validators>}
      */
-    delegates(): ReturnType<typeof Delegates> {
-      return delegates;
+    validators(): ReturnType<typeof Validators> {
+      return validators;
     },
     /**
      * Returns wallet's transaction interface.
@@ -132,12 +131,12 @@ export function Wallet(wallet: WalletData) {
     },
 
     /**
-     * Returns the current voting delegate.
+     * Returns the current voting validator.
      *
-     * @returns {DelegateData | undefined}
+     * @returns {ValidatorData | undefined}
      */
-    votingDelegate(): DelegateItem | undefined {
-      return votingDelegate;
+    votingValidator(): ValidatorItem | undefined {
+      return votingValidator;
     },
   };
 }

@@ -1,7 +1,7 @@
-import { DelegateItem } from "@/app/lib/Delegates";
+import { ValidatorItem } from "src/app/lib/Validators";
 
-export interface DelegatesListProperties {
-  delegates: DelegateItem[];
+export interface ValidatorsListProperties {
+  validators: ValidatorItem[];
   currentVote?: string;
   onChange?: ({
     votes,

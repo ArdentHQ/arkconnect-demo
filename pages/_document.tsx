@@ -29,12 +29,12 @@ export default function Document() {
 
         <meta
           name="description"
-          content="Discover the power of ARK Connect with our demo app. Seamlessly interact with your ARK addresses: effortlessly view balances, track latest transactions, initiate transfers, sign messages, and even vote for delegates."
+          content="Discover the power of ARK Connect with our demo app. Seamlessly interact with your ARK addresses: effortlessly view balances, track latest transactions, initiate transfers, sign messages, and even vote for validators."
         />
         <meta property="og:title" content="Demo App | ARK Connect" />
         <meta
           property="og:description"
-          content="Discover the power of ARK Connect with our demo app. Seamlessly interact with your ARK addresses: effortlessly view balances, track latest transactions, initiate transfers, sign messages, and even vote for delegates."
+          content="Discover the power of ARK Connect with our demo app. Seamlessly interact with your ARK addresses: effortlessly view balances, track latest transactions, initiate transfers, sign messages, and even vote for validators."
         />
         <meta
           property="og:image"
@@ -44,7 +44,7 @@ export default function Document() {
         <meta name="twitter:title" content="Demo App | ARK Connect" />
         <meta
           name="twitter:description"
-          content="Discover the power of ARK Connect with our demo app. Seamlessly interact with your ARK addresses: effortlessly view balances, track latest transactions, initiate transfers, sign messages, and even vote for delegates."
+          content="Discover the power of ARK Connect with our demo app. Seamlessly interact with your ARK addresses: effortlessly view balances, track latest transactions, initiate transfers, sign messages, and even vote for validators."
         />
         <meta
           name="twitter:image"

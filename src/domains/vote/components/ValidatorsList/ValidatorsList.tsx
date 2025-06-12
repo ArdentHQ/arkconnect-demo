@@ -1,37 +1,37 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { DelegatesListItem } from "./DelegatesListItem";
-import { DelegatesListProperties } from "./contracts";
+import { ValidatorsListItem } from "./ValidatorsListItem";
+import { ValidatorsListProperties } from "./contracts";
 import { isTruthy } from "@/app/utils/isTruthy";
 
-export const DelegatesList = ({
-  delegates,
+export const ValidatorsList = ({
+  validators,
   onChange,
   currentVote,
-}: DelegatesListProperties) => {
+}: ValidatorsListProperties) => {
   const [selected, setSelected] = useState<string>();
   const [unselected, setUnselected] = useState<string>();
   const { t } = useTranslation("common");
 
-  if (delegates.length === 0) {
+  if (validators.length === 0) {
     return (
       <div className="w-full text-base font-normal leading-[1.25rem] text-center text-theme-gray-500 dark:text-theme-gray-300">
-        {t("NO_DELEGATES_FOUND")}
+        {t("NO_VALIDATORS_FOUND")}
       </div>
     );
   }
 
   return (
     <div className="space-y-2">
-      {delegates.map((delegate) => {
+      {validators.map((validator) => {
         return (
-          <DelegatesListItem
-            key={delegate.address}
-            delegate={delegate}
-            isSelected={selected === delegate.address}
-            isCurrent={currentVote === delegate.address}
-            isUnselected={unselected === delegate.address}
-            isResigned={delegate.isResigned}
+          <ValidatorsListItem
+            key={validator.address}
+            validator={validator}
+            isSelected={selected === validator.address}
+            isCurrent={currentVote === validator.address}
+            isUnselected={unselected === validator.address}
+            isResigned={validator.isResigned}
             onSelect={(address) => {
               setSelected(address);
 

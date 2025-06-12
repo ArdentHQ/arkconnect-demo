@@ -6,10 +6,10 @@ import { WalletData } from "@/app/lib/Wallet/contracts";
 export const useWalletVotes = ({ walletData }: { walletData: WalletData }) => {
   const { data, refetch } = useQuery({
     staleTime: 0,
-    queryKey: ["delegates"],
+    queryKey: ["validators"],
     initialData: () => ({
-      delegates: [],
-      votingDelegate: undefined,
+      validators: [],
+      votingValidator: undefined,
     }),
     queryFn: async () => {
       const wallet = Wallet(walletData);
@@ -22,13 +22,13 @@ export const useWalletVotes = ({ walletData }: { walletData: WalletData }) => {
       }
 
       await Promise.all([
-        wallet.syncVotingDelegate(),
-        wallet.delegates().sync(),
+        wallet.syncVotingValidator(),
+        wallet.validators().sync(),
       ]);
 
       return {
-        delegates: wallet.delegates().items(),
-        votingDelegate: wallet.votingDelegate(),
+        validators: wallet.validators().items(),
+        votingValidator: wallet.votingValidator(),
       };
     },
     refetchInterval: false,
