@@ -69,5 +69,14 @@ export const useActiveWallet = () => {
         return await metaMaskState.signVote(request);
       }
     },
+    signMessage: async () => {
+      if (connectedWith === "ark") {
+        return await arkState.signMessage();
+      }
+
+      if (connectedWith === "metaMask") {
+        return await metaMaskState.signMessage();
+      }
+    },
   };
 };
