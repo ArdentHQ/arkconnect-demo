@@ -41,7 +41,7 @@ export const Validators = ({
 
     return validatorsIncludingResigned
       .filter((validator) => validator.address.search(searchRegex) > -1)
-      .slice(0, includeResigned ? 52 : 51);
+      .slice(0, includeResigned ? 54 : 53);
   }, [searchTerm, validatorsIncludingResigned, includeResigned]);
 
   return (
