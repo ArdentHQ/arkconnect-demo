@@ -1,6 +1,5 @@
 import type { MetaMaskInpageProvider } from "@metamask/providers";
 import { SendTransactionReturnType } from "viem";
-import type { SignMessageReturnType } from "viem/actions/wallet/signMessage";
 import { WalletExtensionState } from "@/app/lib/WalletExtension";
 import { SignTransactionRequest, SignVoteRequest } from "@/app/lib/Network";
 
@@ -38,6 +37,6 @@ export interface MetaMaskState {
     request: SignTransactionRequest,
   ) => Promise<SendTransactionReturnType>;
   signVote: (request: SignVoteRequest) => Promise<SendTransactionReturnType>;
-  signMessage: () => Promise<SignMessageReturnType>;
+  signMessage: () => Promise<string>;
   wallet: WalletExtensionState["wallet"];
 }
