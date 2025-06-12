@@ -7,16 +7,13 @@ import { SendModal } from "@/domains/transactions/components/SendModal";
 import { VoteModal } from "@/domains/vote/components/VoteModal";
 import { Transactions } from "@/domains/transactions/components/Transactions";
 import { Spinner } from "@/app/components/Spinner";
-import { useArkConnectContext } from "@/app/contexts/useArkConnectContext";
 import { useActiveWallet } from "@/app/hooks/useActiveWallet";
 
 export const Home = () => {
-  const { signMessage } = useArkConnectContext();
-
   const [showSendModal, setShowSendModal] = useState(false);
   const [showVoteModal, setShowVoteModal] = useState(false);
 
-  const { wallet, isConnected, isLoading } = useActiveWallet();
+  const { wallet, isConnected, isLoading, signMessage } = useActiveWallet();
 
   return (
     <Layout>

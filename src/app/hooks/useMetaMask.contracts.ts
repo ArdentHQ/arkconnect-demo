@@ -37,5 +37,6 @@ export interface MetaMaskState {
     request: SignTransactionRequest,
   ) => Promise<SendTransactionReturnType>;
   signVote: (request: SignVoteRequest) => Promise<SendTransactionReturnType>;
+  signMessage: () => Promise<string>;
   wallet: WalletExtensionState["wallet"];
 }

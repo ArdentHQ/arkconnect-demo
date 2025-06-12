@@ -309,6 +309,17 @@ export const useMetaMask = (): MetaMaskState => {
     });
   };
 
+  const signMessage = async () => {
+    const message = await getWalletClient().signMessage({
+      account: account as Address,
+      message: t("SIGN_TEXT"),
+    });
+
+    console.log(message);
+
+    return message;
+  };
+
   return {
     initialized,
     isInstalled: !needsMetaMask,
@@ -320,6 +331,7 @@ export const useMetaMask = (): MetaMaskState => {
     disconnect,
     signTransaction,
     signVote,
+    signMessage,
     wallet,
   };
 };
