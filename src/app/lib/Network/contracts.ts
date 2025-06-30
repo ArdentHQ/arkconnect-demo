@@ -62,6 +62,7 @@ export interface SignTransactionResponse {
 
 export interface SignVoteRequest {
   votes: string[];
+  unvotes: string[];
   gasPrice: string;
   gasLimit: string;
 }

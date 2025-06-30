@@ -1,6 +1,6 @@
-import { WalletVotesResponse } from "./contracts";
-import { NetworkType, Network } from "@/app/lib/Network";
+import { NetworkType, WalletsLink } from "@/app/lib/Network";
 import { isTruthy } from "@/app/utils/isTruthy";
+import { AddressData } from "@/app/hooks/useAddressData";
 
 export function WalletVotes({
   network: networkType,
@@ -9,7 +9,6 @@ export function WalletVotes({
   network?: NetworkType;
   address?: string;
 }) {
-  const network = Network({ network: networkType });
   const state = new Map<"currentVotes", string[]>();
 
   return {
@@ -21,28 +20,30 @@ export function WalletVotes({
     async sync(): Promise<void> {
       if (!isTruthy(address)) {
         throw new Error(
-          "[Validators#sync] Failed to retrieve validators. Wallet address is missing.",
+          "[Validators#sync] Failed to retrieve wallet votes. Wallet address is missing.",
         );
       }
 
-      const response = await fetch(network.walletVotesLink(address));
+      const apiUrl =
+        networkType === NetworkType.DEVNET
+          ? WalletsLink.DEVNET
+          : WalletsLink.MAINNET;
+
+      const response = await fetch(`${apiUrl}/${address}`);
 
       if (!response.ok) {
         throw new Error(
-          `[Validators#sync] Failed to retrieve validators. Error status: ${response.status}`,
+          `[Validators#sync] Failed to retrieve address data. Error status: ${response.status}`,
         );
       }
 
-      const data = (await response.json()) as WalletVotesResponse;
-      const recentVotes = data.data[0]?.asset?.votes;
+      const data = (await response.json()) as { data: AddressData };
+      const vote: string | undefined =
+        data.data.vote || data.data.attributes?.vote;
+      const hasVoted = vote !== undefined;
+      console.log(hasVoted, vote, data);
 
-      if (isTruthy(recentVotes)) {
-        const votes = recentVotes
-          .filter((vote) => vote.startsWith("+"))
-          .map((vote) => vote.slice(1));
-
-        state.set("currentVotes", votes);
-      }
+      state.set("currentVotes", hasVoted ? [vote] : []);
     },
     /**
      * Returns the public keys of current wallets votes.

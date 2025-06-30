@@ -23,6 +23,7 @@ export interface VotingState {
 
 export interface VoteInput {
   votes: string[];
+  unvotes: string[];
   gasPrice: string;
   gasLimit: string;
 }
@@ -73,12 +74,17 @@ export const VoteModal = ({
   const handleSubmit = () => {
     const voteInput: VoteInput = {
       votes: [],
+      unvotes: [],
       gasPrice: getValues("gasPrice").toString(),
       gasLimit: getValues("gasLimit").toString(),
     };
 
     if (voteState.votes.length > 0) {
       voteInput.votes = [voteState.votes[0]];
+    }
+
+    if (voteState.unvotes.length > 0) {
+      voteInput.unvotes = [voteState.unvotes[0]];
     }
 
     // eslint-disable-next-line promise/catch-or-return
