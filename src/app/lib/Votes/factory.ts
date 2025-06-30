@@ -41,7 +41,7 @@ export function WalletVotes({
       const vote: string | undefined =
         data.data.vote || data.data.attributes.vote;
 
-      state.set("currentVotes", vote ? [] : [vote]);
+      state.set("currentVotes", vote ? [vote] : []);
     },
     /**
      * Returns the public keys of current wallets votes.
