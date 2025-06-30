@@ -39,11 +39,9 @@ export function WalletVotes({
 
       const data = (await response.json()) as { data: AddressData };
       const vote: string | undefined =
-        data.data.vote || data.data.attributes?.vote;
-      const hasVoted = vote !== undefined;
-      console.log(hasVoted, vote, data);
+        data.data.vote || data.data.attributes.vote;
 
-      state.set("currentVotes", hasVoted ? [vote] : []);
+      state.set("currentVotes", vote ? [] : [vote]);
     },
     /**
      * Returns the public keys of current wallets votes.
