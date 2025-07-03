@@ -2,11 +2,12 @@ import { QueryKey, useQuery } from "@tanstack/react-query";
 import { NetworkType, WalletsLink } from "@/app/lib/Network";
 import { CurrencyFormatter } from "@/app/utils/currencyFormatter";
 
-interface AddressData {
+export interface AddressData {
   address: string;
   balance: string;
   nonce: string;
   publicKey: string | null;
+  vote?: string;
   updated_at: string;
   attributes: Record<string, string>;
 }
