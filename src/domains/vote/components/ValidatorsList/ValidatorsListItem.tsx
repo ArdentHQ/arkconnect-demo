@@ -76,8 +76,10 @@ export const ValidatorsListItem = ({
       </div>
 
       <div className="w-2/4 flex items-center overflow-auto">
-        <div className="text-md text-black font-normal leading-[125%] overflow-hidden flex-1 dark:text-white">
-          <TruncateMiddle>{validator.address}</TruncateMiddle>
+        <div className="flex gap-3 text-md text-black font-normal leading-[125%] overflow-hidden flex-1 dark:text-white">
+          <TruncateMiddle>
+            {validator.username || validator.address}
+          </TruncateMiddle>
         </div>
 
         {isResigned && (

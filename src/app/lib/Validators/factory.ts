@@ -27,6 +27,7 @@ export function Validators(properties: { network: NetworkType }) {
           rank: validator.attributes.validatorRank,
           address: validator.address,
           publicKey: validator.publicKey,
+          username: validator.attributes.username,
         };
       });
 
