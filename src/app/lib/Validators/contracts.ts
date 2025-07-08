@@ -5,6 +5,7 @@ export interface ValidatorResponseData {
   nonce: string;
   attributes: {
     vote: string;
+    username?: string;
     validatorRank: number;
     validatorApproval: number;
     validatorResigned: boolean;
@@ -28,6 +29,7 @@ export interface ValidatorData {
   publicKey: string;
   address: string;
   rank: number;
+  username?: string;
 }
 
 export interface ValidatorItem extends Omit<ValidatorData, "rank"> {

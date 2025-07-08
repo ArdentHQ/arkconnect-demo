@@ -40,7 +40,12 @@ export const Validators = ({
     const searchRegex = new RegExp(searchTerm, "i");
 
     return validatorsIncludingResigned
-      .filter((validator) => validator.address.search(searchRegex) > -1)
+      .filter((validator) => {
+        return (
+          validator.address.search(searchRegex) > -1 ||
+          (validator.username && validator.username.search(searchRegex) > -1)
+        );
+      })
       .slice(0, includeResigned ? 54 : 53);
   }, [searchTerm, validatorsIncludingResigned, includeResigned]);
 
