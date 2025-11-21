@@ -17,12 +17,12 @@ export enum NetworkAddressLink {
 
 export enum ValidatorsLink {
   DEVNET = "https://testnet.mainsailhq.com/api/validators",
-  MAINNET = "https://testnet.mainsailhq.com/api/validators",
+  MAINNET = "https://mainsailhq.com/api/validators",
 }
 
 export enum NetworkTransactionsList {
   DEVNET = "https://testnet.mainsailhq.com/api/transactions",
-  MAINNET = "https://testnet.mainsailhq.com/api/transactions",
+  MAINNET = "https://mainsailhq.com/api/transactions",
 }
 
 export enum NetworkTransactionLink {
@@ -32,7 +32,7 @@ export enum NetworkTransactionLink {
 
 export enum WalletsLink {
   DEVNET = "https://testnet.mainsailhq.com/api/wallets",
-  MAINNET = "https://testnet.mainsailhq.com/api/wallets",
+  MAINNET = "https://mainsailhq.com/api/wallets",
 }
 
 export enum Coin {
