@@ -16,13 +16,13 @@ export enum NetworkAddressLink {
 }
 
 export enum ValidatorsLink {
-  DEVNET = "https://dwallets-evm.ihost.org/api/validators",
-  MAINNET = "https://wallets-evm.ihost.org/api/validators",
+  DEVNET = "https://testnet.mainsailhq.com/api/validators",
+  MAINNET = "https://testnet.mainsailhq.com/api/validators",
 }
 
 export enum NetworkTransactionsList {
-  DEVNET = "https://dwallets-evm.ihost.org/api/transactions",
-  MAINNET = "https://wallets-evm.ihost.org/api/transactions",
+  DEVNET = "https://testnet.mainsailhq.com/api/transactions",
+  MAINNET = "https://testnet.mainsailhq.com/api/transactions",
 }
 
 export enum NetworkTransactionLink {
@@ -31,8 +31,8 @@ export enum NetworkTransactionLink {
 }
 
 export enum WalletsLink {
-  DEVNET = "https://dwallets-evm.ihost.org/api/wallets",
-  MAINNET = "https://wallets-evm.ihost.org/api/wallets",
+  DEVNET = "https://testnet.mainsailhq.com/api/wallets",
+  MAINNET = "https://testnet.mainsailhq.com/api/wallets",
 }
 
 export enum Coin {
