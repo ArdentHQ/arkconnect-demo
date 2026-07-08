@@ -18,9 +18,20 @@ Development server:
 pnpm dev
 ```
 
-Production server:
+Build:
 
 ```bash
 pnpm build
+```
+
+Start server (HTTPS):
+
+```bash
 pnpm start
+```
+
+Start server (HTTP):
+
+```bash
+pnpm start:http
 ```
