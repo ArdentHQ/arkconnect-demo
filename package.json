@@ -10,6 +10,7 @@
     "dev:http": "next dev",
     "build": "next build",
     "start": "next start",
+    "start:https": "node server.js",
     "lint": "next lint",
     "prettier": "npx prettier '(pages|src)/**/*.{js,ts,jsx,tsx}' --write "
   },
