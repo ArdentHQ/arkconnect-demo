@@ -13,11 +13,15 @@ interface Properties {
 const ArkConnectContextProvider = ({ children }: Properties): JSX.Element => {
   const arkConnectState = useArkConnect();
 
-  const { setNetwork } = arkConnectState;
+  const { isInstalled, setNetwork } = arkConnectState;
 
   const queryClient = useQueryClient();
 
   useEffect(() => {
+    if (!isInstalled) {
+      return;
+    }
+
     const queryKey: QueryKey = ["wallet-connection"];
 
     window.arkconnect?.on(ExtensionSupportedEvent.AddressChanged, (data) => {
@@ -36,7 +40,7 @@ const ArkConnectContextProvider = ({ children }: Properties): JSX.Element => {
     window.arkconnect?.on(ExtensionSupportedEvent.LockToggled, () => {
       queryClient.refetchQueries({ queryKey });
     });
-  }, [queryClient]);
+  }, [isInstalled, queryClient, setNetwork]);
 
   return (
     <ArkConnectContext.Provider value={arkConnectState}>
