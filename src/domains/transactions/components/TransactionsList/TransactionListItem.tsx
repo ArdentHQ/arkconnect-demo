@@ -45,6 +45,7 @@ export const TransactionListItem = ({
           <span className="text-sm text-theme-gray-500 font-medium dark:text-theme-gray-300">
             {tx.isVote() && t("VOTE", { ns: "common" })}
             {tx.isTransfer() && t("TRANSFER", { ns: "common" })}
+            {tx.isMultipay() && t("MULTIPAYMENT", { ns: "common" })}
             {tx.isContract() && t("CONTRACT", { ns: "common" })}
           </span>
 

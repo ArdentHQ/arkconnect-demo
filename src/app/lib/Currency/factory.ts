@@ -47,6 +47,10 @@ export function Currency({
      * @returns {string}
      */
     toCrypto(): string {
+      if (number.isGreaterThan(0) && number.isLessThan(0.01)) {
+        return "<0.01";
+      }
+
       return new Intl.NumberFormat("en-US", {
         style: "decimal",
         maximumFractionDigits: 8,

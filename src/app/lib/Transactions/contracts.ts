@@ -13,6 +13,12 @@ export interface TransactionData {
   timestamp: string;
   nonce: string;
   data: string;
+  receipt?: {
+    gasUsed: number;
+    gasRefunded: number;
+    cumulativeGasUsed: number;
+    status: number;
+  };
 }
 
 export interface TransactionsResponse {
