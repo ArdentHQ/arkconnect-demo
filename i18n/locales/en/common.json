@@ -38,6 +38,7 @@
   "FROM": "From",
   "TO": "To",
   "TRANSFER": "Transfer",
+  "MULTIPAYMENT": "Multipayment",
   "CONTRACT": "Contract",
   "MULTIPLE": "Multiple",
   "VOTE_FOR_VALIDATOR": "Vote for Validator",

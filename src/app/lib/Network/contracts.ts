@@ -11,17 +11,17 @@ export enum TransactionType {
 }
 
 export enum NetworkAddressLink {
-  DEVNET = "https://test.arkscan.io/addresses/",
+  DEVNET = "https://mainsail-explorer.ihost.org//addresses/",
   MAINNET = "https://live.arkscan.io/addresses/",
 }
 
 export enum ValidatorsLink {
-  DEVNET = "https://testnet.mainsailhq.com/api/validators",
+  DEVNET = "https://dwallets-evm.ihost.org/api/validators",
   MAINNET = "https://mainsailhq.com/api/validators",
 }
 
 export enum NetworkTransactionsList {
-  DEVNET = "https://testnet.mainsailhq.com/api/transactions",
+  DEVNET = "https://dwallets-evm.ihost.org/api/transactions",
   MAINNET = "https://mainsailhq.com/api/transactions",
 }
 
@@ -31,7 +31,7 @@ export enum NetworkTransactionLink {
 }
 
 export enum WalletsLink {
-  DEVNET = "https://testnet.mainsailhq.com/api/wallets",
+  DEVNET = "https://dwallets-evm.ihost.org/api/wallets",
   MAINNET = "https://mainsailhq.com/api/wallets",
 }
 

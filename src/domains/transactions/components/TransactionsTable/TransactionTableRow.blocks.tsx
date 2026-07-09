@@ -62,12 +62,25 @@ export const TransactionAddress = ({
   }
 
   if (transaction.isMultipay()) {
+    if (transaction.isSent()) {
+      return (
+        <>
+          <Label variant="warning" className="text-xs">
+            {t("TO")}{" "}
+          </Label>
+          <span className="text-black text-sm font-medium dark:text-white">
+            {t("MULTIPLE")} ({transaction.recipients().length})
+          </span>
+        </>
+      );
+    }
+
     return (
       <>
         <Label variant="success" className="text-xs">
           {t("FROM")}{" "}
         </Label>
-        <span className="text-black text-sm font-medium">
+        <span className="text-black text-sm font-medium dark:text-white">
           {t("MULTIPLE")} ({transaction.recipients().length})
         </span>
       </>

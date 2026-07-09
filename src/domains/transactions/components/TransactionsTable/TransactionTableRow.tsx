@@ -52,6 +52,7 @@ export const TransactionTableRow = ({
           <Label className="text-xs">
             {tx.isVote() && t("VOTE")}
             {tx.isTransfer() && t("TRANSFER")}
+            {tx.isMultipay() && t("MULTIPAYMENT")}
             {tx.isContract() && t("CONTRACT")}
           </Label>
         </TableCell>
