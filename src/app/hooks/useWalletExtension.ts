@@ -1,5 +1,5 @@
 import { QueryKey, useQuery, useQueryClient } from "@tanstack/react-query";
-import { isTruthy } from "@/app/utils/isTruthy";
+import { ArkConnect } from "@ardenthq/ark-connect-sdk";
 import { WalletExtension } from "@/app/lib/WalletExtension";
 
 interface WalletExtensionState {
@@ -42,7 +42,7 @@ export const useWalletExtension = (): WalletExtensionState => {
       return {
         extension,
         isLoaded: isLoaded,
-        isInstalled: isTruthy(window.arkconnect) && isLoaded,
+        isInstalled: ArkConnect.isAvailable() && isLoaded,
         isLoading: !isLoaded,
       };
     },
