@@ -14,7 +14,7 @@
     "prettier": "npx prettier '(pages|src)/**/*.{js,ts,jsx,tsx}' --write "
   },
   "dependencies": {
-    "@ardenthq/ark-connect-sdk": "^0.0.1",
+    "@ardenthq/ark-connect-sdk": "^0.0.2",
     "@arkecosystem/typescript-crypto": "^0.0.31",
     "@headlessui/react": "^1.7.17",
     "@mainsail/evm-contracts": "0.0.1-evm.18",

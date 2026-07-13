@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@ardenthq/ark-connect-sdk':
+        specifier: ^0.0.2
+        version: 0.0.2(react@18.3.1)(viem@2.30.6(typescript@5.8.3))
       '@arkecosystem/typescript-crypto':
         specifier: ^0.0.31
         version: 0.0.31
@@ -169,6 +172,18 @@ packages:
   '@ampproject/remapping@2.3.0':
     resolution: {integrity: sha512-30iZtAPgz+LTIYoeivqYo853f02jBYSd5uGnGpkFV0M3xOt9aN73erkgYAmZU43x4VfqcnLxW9Kpg3R5LC4YYw==}
     engines: {node: '>=6.0.0'}
+
+  '@ardenthq/ark-connect-sdk@0.0.2':
+    resolution: {integrity: sha512-Twa6jru5dsfGEIUy195pLtiHKsZ+Q4QSMPYd/eg8a82G71DgGfhxglj+5gt2kEo511sBhwWL/4rcka+sJZJY0g==}
+    engines: {node: '>=20.12.2'}
+    peerDependencies:
+      react: ^18 || ^19
+      viem: '>=2.0.0'
+    peerDependenciesMeta:
+      react:
+        optional: true
+      viem:
+        optional: true
 
   '@arkecosystem/typescript-crypto@0.0.31':
     resolution: {integrity: sha512-hCrx8DPNZ1EBxRsNV5e7Ufe3dy3J+9prnC7Sm7/iyHxY9KqpbJsJpItTkZc21GFM3a0voWQ9KNM49l04SC95yw==}
@@ -3390,6 +3405,13 @@ snapshots:
     dependencies:
       '@jridgewell/gen-mapping': 0.3.8
       '@jridgewell/trace-mapping': 0.3.25
+
+  '@ardenthq/ark-connect-sdk@0.0.2(react@18.3.1)(viem@2.30.6(typescript@5.8.3))':
+    dependencies:
+      bignumber.js: 11.1.5
+    optionalDependencies:
+      react: 18.3.1
+      viem: 2.30.6(typescript@5.8.3)
 
   '@arkecosystem/typescript-crypto@0.0.31':
     dependencies:
