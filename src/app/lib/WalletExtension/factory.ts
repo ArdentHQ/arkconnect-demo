@@ -1,10 +1,9 @@
-import { isTruthy } from "@/app/utils/isTruthy";
-import { ArkConnectExtension, Coin, NetworkType } from "@/app/lib/Network";
+import { ArkConnect } from "@ardenthq/ark-connect-sdk";
+import { Coin, NetworkType } from "@/app/lib/Network";
 import { Currency } from "@/app/lib/Currency";
 
 export interface WalletExtensionState {
   isInstalled: boolean;
-  extension: ArkConnectExtension | undefined;
   isConnected: boolean;
   wallet: {
     network: NetworkType;
@@ -13,6 +12,8 @@ export interface WalletExtensionState {
     coin?: Coin;
   };
 }
+
+const client = new ArkConnect();
 
 export function WalletExtension() {
   const state = new Map();
@@ -31,17 +32,15 @@ export function WalletExtension() {
      * @returns {boolean}
      */
     isInstalled(): boolean {
-      return isTruthy(this.extension());
+      return ArkConnect.isAvailable();
     },
     /**
-     * Returns arkconnect instance.
+     * Returns the shared SDK client.
      *
-     * @returns {ArkConnectExtension | undefined}
+     * @returns {ArkConnect}
      */
-    extension(): ArkConnectExtension | undefined {
-      if (this.isBrowser()) {
-        return window.arkconnect;
-      }
+    client(): ArkConnect {
+      return client;
     },
     /**
      * Determine whether the extension is connected.
@@ -107,9 +106,9 @@ export function WalletExtension() {
      */
     async syncWalletData(): Promise<void> {
       try {
-        state.set("address", await window.arkconnect?.getAddress());
-        state.set("network", await window.arkconnect?.getNetwork());
-        state.set("balance", await window.arkconnect?.getBalance());
+        state.set("address", await client.getAddress());
+        state.set("network", await client.getNetwork());
+        state.set("balance", await client.getBalance());
       } catch {
         state.set("address", undefined);
         state.set("balance", 0);
@@ -117,14 +116,13 @@ export function WalletExtension() {
       }
     },
     /**
-     * Fetch & updated connection status from window.arkconnect.
+     * Fetch & updated connection status from the extension.
      *
      * @returns {Promise<void>}
      */
     async syncStatus(): Promise<void> {
       try {
-        const isConnected = (await window.arkconnect?.isConnected()) ?? false;
-        state.set("isConnected", isConnected);
+        state.set("isConnected", await client.isConnected());
       } catch {
         state.set("isConnected", false);
         //
@@ -137,7 +135,7 @@ export function WalletExtension() {
      * @returns {Promise<void>}
      */
     async connect(): Promise<void> {
-      await this.extension()?.connect();
+      await client.connect();
     },
     /**
      * Determine whether it's a browser environment.
@@ -173,7 +171,6 @@ export function WalletExtension() {
     toJSON(): WalletExtensionState {
       return {
         isInstalled: this.isInstalled(),
-        extension: this.extension(),
         isConnected: this.isConnected(),
         wallet: {
           network: this.network(),

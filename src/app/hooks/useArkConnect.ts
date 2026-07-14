@@ -2,11 +2,7 @@
 import { QueryKey, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { useTranslation } from "next-i18next";
-import {
-  SignedMessage,
-  UseQueryData,
-  ArkConnectState,
-} from "./useWallet.contracts";
+import { UseQueryData, ArkConnectState } from "./useWallet.contracts";
 import { useWalletExtension } from "./useWalletExtension";
 import { isTruthy } from "@/app/utils/isTruthy";
 import {
@@ -16,26 +12,6 @@ import {
   SignVoteRequest,
   SignVoteResponse,
 } from "@/app/lib/Network";
-
-class NoArkExtensionException extends Error {
-  constructor() {
-    super("arkconnect extension not found");
-  }
-}
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const getVersion = (): string | null => {
-  if (!window.arkconnect) {
-    // eslint-disable-next-line unicorn/no-null
-    return null;
-  }
-
-  if (typeof window.arkconnect.version !== "function") {
-    return "1.0.0";
-  }
-
-  return window.arkconnect.version();
-};
 
 export const useArkConnect = (): ArkConnectState => {
   const [isConnecting, setIsConnecting] = useState(false);
@@ -49,8 +25,10 @@ export const useArkConnect = (): ArkConnectState => {
 
   const { isLoaded, isLoading, extension } = useWalletExtension();
 
+  const client = extension.client();
+
   const queryKey: QueryKey = ["wallet-connection"];
-  const { data, error: _error } = useQuery({
+  const { data } = useQuery({
     enabled: isLoaded,
     refetchOnMount: true,
     queryKey,
@@ -100,11 +78,11 @@ export const useArkConnect = (): ArkConnectState => {
       setIsErrored(false);
       setIsConnecting(false);
 
-      if (!data.isConnected || !isTruthy(data) || !isTruthy(data.extension)) {
+      if (!data.isConnected || !isTruthy(data)) {
         return;
       }
 
-      await data.extension.disconnect();
+      await client.disconnect();
     },
     isTransacting,
     signTransaction: async (
@@ -113,17 +91,7 @@ export const useArkConnect = (): ArkConnectState => {
       setIsTransacting(true);
 
       try {
-        if (!window.arkconnect) {
-          throw new NoArkExtensionException();
-        }
-
-        const response = (await window.arkconnect.signTransaction(
-          transaction,
-        )) as SignTransactionResponse | undefined;
-
-        if (!isTruthy(response)) {
-          throw new NoArkExtensionException();
-        }
+        const response = await client.signTransaction(transaction);
 
         setIsTransacting(false);
 
@@ -139,17 +107,7 @@ export const useArkConnect = (): ArkConnectState => {
       setIsVoting(true);
 
       try {
-        if (!window.arkconnect) {
-          throw new NoArkExtensionException();
-        }
-
-        const response = (await window.arkconnect.signVote(request)) as
-          | SignVoteResponse
-          | undefined;
-
-        if (!isTruthy(response)) {
-          throw new NoArkExtensionException();
-        }
+        const response = await client.signVote(request);
 
         setIsVoting(false);
 
@@ -161,13 +119,7 @@ export const useArkConnect = (): ArkConnectState => {
       }
     },
     signMessage: async (): Promise<void> => {
-      if (!window.arkconnect) {
-        throw new NoArkExtensionException();
-      }
-
-      const response = (await window.arkconnect.signMessage({
-        message: t("SIGN_TEXT"),
-      })) as SignedMessage | undefined;
+      const response = await client.signMessage(t("SIGN_TEXT"));
       console.log({ response });
     },
     setNetwork: (network: NetworkType) => {

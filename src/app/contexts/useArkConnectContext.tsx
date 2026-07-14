@@ -1,14 +1,17 @@
 import { createContext, useContext, useEffect } from "react";
 import { QueryKey, useQueryClient } from "@tanstack/react-query";
+import { ArkConnect } from "@ardenthq/ark-connect-sdk";
 import { useArkConnect } from "@/app/hooks";
 import { ArkConnectState } from "@/app/hooks/useWallet.contracts";
-import { ExtensionSupportedEvent } from "@/app/lib/Network";
+import { NetworkType } from "@/app/lib/Network";
 
 const ArkConnectContext = createContext<ArkConnectState | undefined>(undefined);
 
 interface Properties {
   children: React.ReactNode;
 }
+
+const client = new ArkConnect();
 
 const ArkConnectContextProvider = ({ children }: Properties): JSX.Element => {
   const arkConnectState = useArkConnect();
@@ -24,22 +27,30 @@ const ArkConnectContextProvider = ({ children }: Properties): JSX.Element => {
 
     const queryKey: QueryKey = ["wallet-connection"];
 
-    window.arkconnect?.on(ExtensionSupportedEvent.AddressChanged, (data) => {
-      setNetwork(data.data.wallet.network);
+    const onAddressChanged = ({
+      wallet,
+    }: {
+      wallet: { address: string; network: string };
+    }): void => {
+      setNetwork(wallet.network as NetworkType);
       queryClient.refetchQueries({ queryKey });
-    });
+    };
 
-    window.arkconnect?.on(ExtensionSupportedEvent.Disconnected, () => {
+    const refetch = (): void => {
       queryClient.refetchQueries({ queryKey });
-    });
+    };
 
-    window.arkconnect?.on(ExtensionSupportedEvent.Connected, () => {
-      queryClient.refetchQueries({ queryKey });
-    });
+    client.on("addressChanged", onAddressChanged);
+    client.on("disconnected", refetch);
+    client.on("connected", refetch);
+    client.on("lockToggled", refetch);
 
-    window.arkconnect?.on(ExtensionSupportedEvent.LockToggled, () => {
-      queryClient.refetchQueries({ queryKey });
-    });
+    return () => {
+      client.off("addressChanged", onAddressChanged);
+      client.off("disconnected", refetch);
+      client.off("connected", refetch);
+      client.off("lockToggled", refetch);
+    };
   }, [isInstalled, queryClient, setNetwork]);
 
   return (
