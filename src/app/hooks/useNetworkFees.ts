@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { BigNumber } from "bignumber.js";
-import { useCoingecko } from "@/app/hooks/useCoingecko";
+import { useArkPricing } from "@/app/hooks/useArkPricing";
 import { Coin, NetworkType, TransactionType } from "@/app/lib/Network";
 import { CurrencyFormatter } from "@/app/utils/currencyFormatter";
 
@@ -60,7 +60,7 @@ export const useNetworkFees = (network: NetworkType, type: TransactionType) => {
     },
   });
 
-  const { data: rate } = useCoingecko(
+  const { data: rate } = useArkPricing(
     network === NetworkType.DEVNET ? Coin.DARK : Coin.ARK,
   );
 
