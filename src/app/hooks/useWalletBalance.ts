@@ -1,7 +1,7 @@
 import BigNumber from "bignumber.js";
 import { WalletData } from "@/app/lib/Wallet/contracts";
 import { Wallet } from "@/app/lib/Wallet";
-import { useCoingecko } from "@/app/hooks/useCoingecko";
+import { useArkPricing } from "@/app/hooks/useArkPricing";
 
 export const useWalletBalance = ({
   walletData,
@@ -10,7 +10,7 @@ export const useWalletBalance = ({
 }) => {
   const wallet = Wallet(walletData);
 
-  const { data: price, isLoading, isSuccess } = useCoingecko(wallet.coin());
+  const { data: price, isLoading, isSuccess } = useArkPricing(wallet.coin());
 
   const balance = wallet.balance(price ?? BigNumber(0));
 
