@@ -11,7 +11,7 @@ export enum TransactionType {
 }
 
 export enum NetworkAddressLink {
-  DEVNET = "https://mainsail-explorer.ihost.org//addresses/",
+  DEVNET = "https://mainsail-explorer.ihost.org/addresses/",
   MAINNET = "https://live.arkscan.io/addresses/",
 }
 

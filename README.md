@@ -6,6 +6,12 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## Getting Started
 
+Copy .env:
+
+```bash
+cp .env.example .env
+```
+
 Install dependencies:
 
 ```bash

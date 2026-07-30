@@ -8,6 +8,10 @@ import { Coin } from "@/app/lib/Network";
  */
 export function ArkPricing() {
   const coin = Coin.ARK;
+  const currency = process.env.NEXT_PUBLIC_PRICING_CURRENCY ?? "USD";
+  const baseUrl =
+    process.env.NEXT_PUBLIC_PRICING_API_URL ??
+    "https://pricing.ardenthq.com/api/v1/coins";
 
   const state = new Map<"price", number>();
   state.set("price", 0);
@@ -19,9 +23,7 @@ export function ArkPricing() {
      * @returns {Promise<void>}
      */
     async sync(): Promise<void> {
-      // TODO: remove hardcoded variables.
-      const currency = "USD";
-      const endpoint = `https://pricing.ardenthq.com/api/v1/coins/${coin.toLowerCase()}/price?currencies[]=${currency}`;
+      const endpoint = `${baseUrl}/${coin.toLowerCase()}/price?currencies[]=${currency}`;
 
       const response = await fetch(endpoint);
 
