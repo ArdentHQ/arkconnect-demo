@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { QueryKey, useQuery, useQueryClient } from "@tanstack/react-query";
 import { ArkConnect } from "@ardenthq/ark-connect-sdk";
 import { WalletExtension } from "@/app/lib/WalletExtension";
@@ -21,7 +22,8 @@ interface WalletExtensionState {
 export const useWalletExtension = (): WalletExtensionState => {
   const queryClient = useQueryClient();
 
-  const extension = WalletExtension();
+  const [extension] = useState(() => WalletExtension());
+
   const queryKey: QueryKey = ["wallet-extension"];
 
   const { data } = useQuery({
