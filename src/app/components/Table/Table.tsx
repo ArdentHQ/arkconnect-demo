@@ -1,14 +1,18 @@
+// @tanstack/react-table v9 moved the pre-v9 API behind /legacy, marked @deprecated but
+// officially maintained as a compat bridge. This table uses none of v9's new features
+// (sorting/filtering/pagination), so the legacy API below is deliberate, not an oversight.
+/* eslint-disable sonarjs/deprecation */
 import { HTMLAttributes, ReactElement } from "react";
+import { flexRender, RowData } from "@tanstack/react-table";
 import {
-  ColumnDef,
-  flexRender,
+  LegacyColumnDef,
   getCoreRowModel,
-  useReactTable,
-} from "@tanstack/react-table";
+  useLegacyTable,
+} from "@tanstack/react-table/legacy";
 import { twMerge } from "tailwind-merge";
 
-interface TableProperties<T> {
-  readonly columns: ColumnDef<T>[];
+interface TableProperties<T extends RowData> {
+  readonly columns: LegacyColumnDef<T>[];
   readonly data: T[];
   readonly row: (data: T) => ReactElement;
   readonly hideHeader?: boolean;
@@ -27,13 +31,13 @@ export const TableCell = ({
   </td>
 );
 
-export function Table<T>({
+export function Table<T extends RowData>({
   data,
   columns,
   row,
   hideHeader = false,
 }: TableProperties<T>) {
-  const table = useReactTable({
+  const table = useLegacyTable({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),

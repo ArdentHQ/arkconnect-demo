@@ -21,7 +21,7 @@
     "@metamask/providers": "^22.1.0",
     "@tailwindcss/postcss": "^4.3.3",
     "@tanstack/react-query": "^5.13.4",
-    "@tanstack/react-table": "^8.10.7",
+    "@tanstack/react-table": "^9.2.4",
     "@tippyjs/react": "^4.2.6",
     "@types/node": "^20.10.4",
     "@types/react": "^19.3.0",
