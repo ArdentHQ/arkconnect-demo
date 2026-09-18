@@ -45,8 +45,8 @@ importers:
         specifier: ^19.3.0
         version: 19.3.0(@types/react@19.3.0)
       bignumber.js:
-        specifier: ^9.1.2
-        version: 9.3.0
+        specifier: ^11.1.5
+        version: 11.1.5
       classnames:
         specifier: ^2.5.1
         version: 2.5.1
@@ -1854,9 +1854,6 @@ packages:
 
   bignumber.js@11.1.5:
     resolution: {integrity: sha512-6WmzCNtUnfKpbozq+hOgWaZMMzORmYBwF1xZScyoIX3QRYWeKTtxxwDOW5tIz7C9BdjkIYHGTcelCLkXg0mndw==}
-
-  bignumber.js@9.3.0:
-    resolution: {integrity: sha512-EM7aMFTXbptt/wZdMlBv2t8IViwQL+h6SLHosp8Yf0dqJMTnY6iL32opnAB6kAdL0SZPuvcAzFr31o0c/R3/RA==}
 
   boolbase@1.0.0:
     resolution: {integrity: sha512-JZOSA7Mo9sNGB8+UjSgzdLtokWAky1zbztM3WRLCbZ70/3cTANmQmOdR7y2g+J0e2WXywy1yS468tY+IruqEww==}
@@ -5484,8 +5481,6 @@ snapshots:
   baseline-browser-mapping@2.11.24: {}
 
   bignumber.js@11.1.5: {}
-
-  bignumber.js@9.3.0: {}
 
   boolbase@1.0.0: {}
 
