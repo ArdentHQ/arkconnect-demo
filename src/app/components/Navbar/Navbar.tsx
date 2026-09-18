@@ -23,7 +23,7 @@ interface NavbarProperties {
 
 const NetworkBox = ({ network }: { network: NetworkType }) => {
   return (
-    <span className="px-4 hidden sm:block py-[0.625rem] max-w-[8.75rem] rounded-2xl text-black font-medium text-sm bg-theme-primary-100 active:bg-theme-primary-100 hover:bg-theme-primary-100 focus:outline-none min-h-[2.5rem] border border-transparent dark:border-theme-dark-primary-500 dark:bg-subtle-black dark:hover:bg-dark-blue dark:text-theme-dark-primary-500 cursor-default transition-default">
+    <span className="px-4 hidden sm:block py-2.5 max-w-35 rounded-2xl text-black font-medium text-sm bg-theme-primary-100 active:bg-theme-primary-100 hover:bg-theme-primary-100 focus:outline-hidden min-h-10 border border-transparent dark:border-theme-dark-primary-500 dark:bg-subtle-black dark:hover:bg-dark-blue dark:text-theme-dark-primary-500 cursor-default transition-default">
       {network}
     </span>
   );
@@ -33,7 +33,7 @@ const NavbarWrapper = ({ children }: { children: ReactElement }) => {
   const { darkMode } = useDarkMode();
 
   return (
-    <nav className="sticky inset-x-0 top-0 bg-white min-h-[4rem] flex items-center border-b md:border-none border-theme-gray-100 z-10 dark:bg-subtle-black dark:border-theme-gray-700">
+    <nav className="sticky inset-x-0 top-0 bg-white min-h-16 flex items-center border-b md:border-none border-theme-gray-100 z-10 dark:bg-subtle-black dark:border-theme-gray-700">
       <ul className="flex justify-between items-center container mx-auto px-6 whitespace-nowrap">
         <li>
           <Link href="/" className="block h-6 sm:w-48 w-6">

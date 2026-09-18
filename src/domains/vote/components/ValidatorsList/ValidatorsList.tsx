@@ -15,7 +15,7 @@ export const ValidatorsList = ({
 
   if (validators.length === 0) {
     return (
-      <div className="w-full text-base font-normal leading-[1.25rem] text-center text-theme-gray-500 dark:text-theme-gray-300">
+      <div className="w-full text-base font-normal leading-5 text-center text-theme-gray-500 dark:text-theme-gray-300">
         {t("NO_VALIDATORS_FOUND")}
       </div>
     );

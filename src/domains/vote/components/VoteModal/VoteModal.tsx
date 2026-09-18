@@ -109,7 +109,7 @@ export const VoteModal = ({
           />
         </InputGroup>
 
-        <div className="h-96 max-h-full overflow-y-auto -mr-[14px] delegates-list-parent">
+        <div className="h-96 max-h-full overflow-y-auto mr-[-14px] delegates-list-parent">
           <Validators
             walletData={wallet}
             onChange={({ votes, unvotes }) => {

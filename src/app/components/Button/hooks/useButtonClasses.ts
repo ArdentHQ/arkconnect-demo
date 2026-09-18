@@ -67,9 +67,9 @@ export const useButtonClasses = ({
   }
 
   const base =
-    "flex justify-center items-center font-bold rounded-2xl whitespace-nowrap space-x-[0.6rem] leading-[1.25rem] transition-default border focus:outline-none focus-visible:ring-2 ring-offset-1 ring-theme-gray-300";
+    "flex justify-center items-center font-bold rounded-2xl whitespace-nowrap space-x-[0.6rem] leading-5 transition-default border focus:outline-hidden focus-visible:ring-2 ring-offset-1 ring-theme-gray-300";
 
-  const padding = "py-[0.625rem] px-[1.25rem]";
+  const padding = "py-2.5 px-5";
 
   const hover =
     hoverClassName ??

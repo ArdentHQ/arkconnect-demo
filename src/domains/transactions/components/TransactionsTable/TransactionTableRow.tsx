@@ -34,7 +34,7 @@ export const TransactionTableRow = ({
           <Link
             href={tx.explorerLink()}
             target="_blank"
-            className="max-w-[8rem] block w-full"
+            className="max-w-32 block w-full"
           >
             <TruncateMiddle>{tx.hash()}</TruncateMiddle>
           </Link>

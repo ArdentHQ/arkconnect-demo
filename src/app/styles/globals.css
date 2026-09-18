@@ -1,11 +1,128 @@
-@import "./variables.css";
-@import "./typography.css";
-@import "./skeletons.css";
-@import "./app.css";
+@import './variables.css' layer(base);
+@import './typography.css' layer(base);
+@import './skeletons.css' layer(base);
+@import './app.css' layer(base);
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+  --color-*: initial;
+  --color-black: rgb(var(--theme-color-black));
+  --color-subtle-black: rgb(var(--theme-color-subtle-black));
+  --color-base-black: rgb(var(--theme-color-base-black));
+  --color-white: rgb(var(--theme-color-white));
+  --color-subtle-white: rgb(var(--theme-color-subtle-white));
+  --color-transparent: transparent;
+  --color-theme-primary-50: rgb(var(--theme-color-primary-50));
+  --color-theme-primary-100: rgb(var(--theme-color-primary-100));
+  --color-theme-primary-200: rgb(var(--theme-color-primary-200));
+  --color-theme-primary-300: rgb(var(--theme-color-primary-300));
+  --color-theme-primary-400: rgb(var(--theme-color-primary-400));
+  --color-theme-primary-500: rgb(var(--theme-color-primary-500));
+  --color-theme-primary-600: rgb(var(--theme-color-primary-600));
+  --color-theme-primary-700: rgb(var(--theme-color-primary-700));
+  --color-theme-primary-800: rgb(var(--theme-color-primary-800));
+  --color-theme-primary-900: rgb(var(--theme-color-primary-900));
+  --color-theme-dark-primary-50: rgb(var(--theme-color-dark-primary-50));
+  --color-theme-dark-primary-100: rgb(var(--theme-color-dark-primary-100));
+  --color-theme-dark-primary-200: rgb(var(--theme-color-dark-primary-200));
+  --color-theme-dark-primary-300: rgb(var(--theme-color-dark-primary-300));
+  --color-theme-dark-primary-400: rgb(var(--theme-color-dark-primary-400));
+  --color-theme-dark-primary-500: rgb(var(--theme-color-dark-primary-500));
+  --color-theme-dark-primary-600: rgb(var(--theme-color-dark-primary-600));
+  --color-theme-dark-primary-700: rgb(var(--theme-color-dark-primary-700));
+  --color-theme-dark-primary-800: rgb(var(--theme-color-dark-primary-800));
+  --color-theme-dark-primary-900: rgb(var(--theme-color-dark-primary-900));
+  --color-theme-primary-green-50: rgb(var(--theme-color-primary-green-50));
+  --color-theme-primary-green-100: rgb(var(--theme-color-primary-green-100));
+  --color-theme-primary-green-200: rgb(var(--theme-color-primary-green-200));
+  --color-theme-primary-green-300: rgb(var(--theme-color-primary-green-300));
+  --color-theme-primary-green-400: rgb(var(--theme-color-primary-green-400));
+  --color-theme-primary-green-500: rgb(var(--theme-color-primary-green-500));
+  --color-theme-primary-green-600: rgb(var(--theme-color-primary-green-600));
+  --color-theme-primary-green-650: rgb(var(--theme-color-primary-green-650));
+  --color-theme-primary-green-700: rgb(var(--theme-color-primary-green-700));
+  --color-theme-primary-green-800: rgb(var(--theme-color-primary-green-800));
+  --color-theme-primary-green-900: rgb(var(--theme-color-primary-green-900));
+  --color-theme-error-25: rgb(var(--theme-color-error-25));
+  --color-theme-error-50: rgb(var(--theme-color-error-50));
+  --color-theme-error-100: rgb(var(--theme-color-error-100));
+  --color-theme-error-200: rgb(var(--theme-color-error-200));
+  --color-theme-error-300: rgb(var(--theme-color-error-300));
+  --color-theme-error-400: rgb(var(--theme-color-error-400));
+  --color-theme-error-500: rgb(var(--theme-color-error-500));
+  --color-theme-error-600: rgb(var(--theme-color-error-600));
+  --color-theme-error-700: rgb(var(--theme-color-error-700));
+  --color-theme-error-800: rgb(var(--theme-color-error-800));
+  --color-theme-error-900: rgb(var(--theme-color-error-900));
+  --color-theme-warning-25: rgb(var(--theme-color-warning-25));
+  --color-theme-warning-50: rgb(var(--theme-color-warning-50));
+  --color-theme-warning-100: rgb(var(--theme-color-warning-100));
+  --color-theme-warning-200: rgb(var(--theme-color-warning-200));
+  --color-theme-warning-300: rgb(var(--theme-color-warning-300));
+  --color-theme-warning-400: rgb(var(--theme-color-warning-400));
+  --color-theme-warning-500: rgb(var(--theme-color-warning-500));
+  --color-theme-warning-600: rgb(var(--theme-color-warning-600));
+  --color-theme-warning-700: rgb(var(--theme-color-warning-700));
+  --color-theme-warning-800: rgb(var(--theme-color-warning-800));
+  --color-theme-warning-900: rgb(var(--theme-color-warning-900));
+  --color-theme-success-50: rgb(var(--theme-color-success-50));
+  --color-theme-success-100: rgb(var(--theme-color-success-100));
+  --color-theme-success-200: rgb(var(--theme-color-success-200));
+  --color-theme-success-300: rgb(var(--theme-color-success-300));
+  --color-theme-success-400: rgb(var(--theme-color-success-400));
+  --color-theme-success-500: rgb(var(--theme-color-success-500));
+  --color-theme-success-600: rgb(var(--theme-color-success-600));
+  --color-theme-success-700: rgb(var(--theme-color-success-700));
+  --color-theme-success-800: rgb(var(--theme-color-success-800));
+  --color-theme-success-900: rgb(var(--theme-color-success-900));
+  --color-theme-gray-25: rgb(var(--theme-color-gray-25));
+  --color-theme-gray-50: rgb(var(--theme-color-gray-50));
+  --color-theme-gray-100: rgb(var(--theme-color-gray-100));
+  --color-theme-gray-200: rgb(var(--theme-color-gray-200));
+  --color-theme-gray-300: rgb(var(--theme-color-gray-300));
+  --color-theme-gray-400: rgb(var(--theme-color-gray-400));
+  --color-theme-gray-500: rgb(var(--theme-color-gray-500));
+  --color-theme-gray-600: rgb(var(--theme-color-gray-600));
+  --color-theme-gray-700: rgb(var(--theme-color-gray-700));
+  --color-theme-gray-800: rgb(var(--theme-color-gray-800));
+
+  --font-sans:
+    var(--font-dm-sans), ui-sans-serif, system-ui, sans-serif,
+    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+
+  --shadow-sm: 0px 1px 4px 0px rgba(0, 0, 0, 0.05);
+  --shadow-xl: 0px 15px 35px 0px rgba(46, 46, 46, 0.14);
+  --shadow-button: 0px 0px 0px 4px rgba(229, 243, 237, 1);
+
+  --radius-2_5xl: 1.25rem;
+
+  --leading-4_5: 17.5px;
+}
+
+/*
+  The default border color has changed to `currentcolor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentcolor);
+  }
+}
+
+@utility transition-default {
+  transition: all 0.1s ease-in;
+}
 
 @layer base {
   body {
@@ -30,12 +147,6 @@
 
   .table-row:hover::after {
     @apply opacity-100 content-[""];
-  }
-}
-
-@layer utilities {
-  .transition-default {
-    transition: all 0.1s ease-in;
   }
 }
 

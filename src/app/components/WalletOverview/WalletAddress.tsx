@@ -29,7 +29,7 @@ export const WalletAddress = ({ walletData }: WalletOverviewProperties) => {
           <span className="block lg:hidden">{t("CONNECTED")}</span>
         </p>
 
-        <div className="leading-[1.25rem] font-medium font-sans w-2/3 xs:3/4 sm:w-full dark:text-white">
+        <div className="leading-5 font-medium font-sans w-2/3 xs:3/4 sm:w-full dark:text-white">
           <TruncateMiddle>{walletData.address}</TruncateMiddle>
         </div>
       </div>
@@ -38,7 +38,7 @@ export const WalletAddress = ({ walletData }: WalletOverviewProperties) => {
         <div className="flex items-end space-x-2">
           <Clipboard text={address}>
             <RoundButton variant="transparent">
-              <Copy className="w-[1.125rem]" />
+              <Copy className="w-4.5" />
             </RoundButton>
           </Clipboard>
 
@@ -49,7 +49,7 @@ export const WalletAddress = ({ walletData }: WalletOverviewProperties) => {
                 href={network.addressExplorerLink(address)}
                 isExternal
               >
-                <Explorer className="w-[1.125rem]" />
+                <Explorer className="w-4.5" />
               </RoundLinkButton>
             </div>
           </Tooltip>
@@ -66,7 +66,7 @@ export const WalletAddress = ({ walletData }: WalletOverviewProperties) => {
                   href={votingValidator.explorerUrl}
                   isExternal
                 >
-                  <CheckSquare className="w-[1.125rem]" />
+                  <CheckSquare className="w-4.5" />
                 </RoundLinkButton>
               </div>
             </Tooltip>

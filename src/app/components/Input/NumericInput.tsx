@@ -57,7 +57,7 @@ export const NumericInput = ({
 
               onValueChange(new BigNumber(formatted).toFixed());
             }}
-            className="flex items-center justify-center hover:bg-theme-gray-50 dark:hover:bg-theme-gray-600 basis-1/2 w-full focus:ring-gray-100 focus:ring-2 focus:outline-none relative after:content-[''] after:absolute after:border-t after:bottom-0 after:border-theme-gray-400 after:w-full"
+            className="flex items-center justify-center hover:bg-theme-gray-50 dark:hover:bg-theme-gray-600 basis-1/2 w-full focus:ring-gray-100 focus:ring-2 focus:outline-hidden relative after:content-[''] after:absolute after:border-t after:bottom-0 after:border-theme-gray-400 after:w-full"
           >
             <ArrowUp className="w-2.5 h-2.5 dark:text-white" />
           </button>
@@ -78,7 +78,7 @@ export const NumericInput = ({
 
               onValueChange(new BigNumber(formatted).toFixed());
             }}
-            className="flex items-center relative hover:bg-theme-gray-50 dark:hover:bg-theme-gray-600 justify-center basis-1/2 text-center  w-full focus:ring-gray-100 focus:ring-2 focus:outline-none"
+            className="flex items-center relative hover:bg-theme-gray-50 dark:hover:bg-theme-gray-600 justify-center basis-1/2 text-center  w-full focus:ring-gray-100 focus:ring-2 focus:outline-hidden"
           >
             <ArrowUp className="w-2.5 h-2.5 rotate-180 dark:text-white" />
           </button>

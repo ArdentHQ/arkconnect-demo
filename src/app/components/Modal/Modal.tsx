@@ -23,7 +23,7 @@ export const Modal = ({
 }: ModalProperties): ReactElement => {
   useEffect(() => {
     const wrapper = document.querySelector("#layout") as HTMLDivElement;
-    wrapper.classList.toggle("blur", show);
+    wrapper.classList.toggle("blur-sm", show);
   }, [show]);
 
   return (
