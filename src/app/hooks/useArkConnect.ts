@@ -1,7 +1,7 @@
 /* eslint-disable max-lines-per-function */
 import { QueryKey, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
-import { useTranslation } from "next-i18next";
+import { useTranslation } from "next-i18next/pages";
 import { UseQueryData, ArkConnectState } from "./useWallet.contracts";
 import { useWalletExtension } from "./useWalletExtension";
 import { isTruthy } from "@/app/utils/isTruthy";

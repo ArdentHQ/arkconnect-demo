@@ -1,4 +1,4 @@
-import { useTranslation } from "next-i18next";
+import { useTranslation } from "next-i18next/pages";
 import { TransactionListItem } from "./TransactionListItem";
 import { TransactionData } from "@/app/lib/Transactions/contracts";
 import { WalletData } from "@/app/lib/Wallet/contracts";

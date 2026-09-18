@@ -1,5 +1,5 @@
 import assert from "assert";
-import { useTranslation } from "next-i18next";
+import { useTranslation } from "next-i18next/pages";
 import { WalletOverviewProperties } from "./WalletOverview.contracts";
 import { TruncateMiddle } from "@/app/components/Truncate";
 import Copy from "@/public/icons/copy.svg";

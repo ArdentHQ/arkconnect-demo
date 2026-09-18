@@ -1,4 +1,4 @@
-import { useTranslation } from "next-i18next";
+import { useTranslation } from "next-i18next/pages";
 import { TruncateMiddle } from "@/app/components/Truncate";
 import { NavbarButton } from "@/app/components/Button";
 import { Dropdown, DropdownItem } from "@/app/components/Dropdown";

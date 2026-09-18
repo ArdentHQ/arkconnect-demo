@@ -1,6 +1,6 @@
 /* eslint-disable max-lines-per-function */
 import assert from "assert";
-import { useTranslation } from "next-i18next";
+import { useTranslation } from "next-i18next/pages";
 import { SubmitHandler, useForm } from "react-hook-form";
 import React, { useEffect } from "react";
 import { BigNumber } from "bignumber.js";

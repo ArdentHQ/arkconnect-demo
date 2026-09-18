@@ -1,4 +1,4 @@
-import { useTranslation } from "next-i18next";
+import { useTranslation } from "next-i18next/pages";
 import cn from "classnames";
 import { ComponentType, ReactElement, useMemo } from "react";
 import ConnectArkLight from "@/public/images/connect-ark-light.svg";

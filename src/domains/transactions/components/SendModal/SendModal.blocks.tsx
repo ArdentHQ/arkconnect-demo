@@ -4,7 +4,7 @@ import {
   UseFormRegisterReturn,
   UseFormSetValue,
 } from "react-hook-form";
-import { useTranslation } from "next-i18next";
+import { useTranslation } from "next-i18next/pages";
 import React, { ChangeEvent, useEffect, useState } from "react";
 import cn from "classnames";
 import { twMerge } from "tailwind-merge";

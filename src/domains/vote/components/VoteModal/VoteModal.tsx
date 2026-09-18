@@ -1,5 +1,5 @@
 import assert from "assert";
-import { useTranslation } from "next-i18next";
+import { useTranslation } from "next-i18next/pages";
 
 import React, { useState } from "react";
 

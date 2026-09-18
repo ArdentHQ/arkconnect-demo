@@ -1,6 +1,6 @@
 import cn from "classnames";
 import { HTMLAttributes, ReactElement, useRef } from "react";
-import { useTranslation } from "next-i18next";
+import { useTranslation } from "next-i18next/pages";
 
 import { Placement, ReferenceElement } from "tippy.js";
 import { useClipboard } from "./hooks/useClipboard";

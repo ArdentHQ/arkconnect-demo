@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { useTranslation } from "next-i18next";
+import { useTranslation } from "next-i18next/pages";
 import { TransactionsList } from "@/domains/transactions/components/TransactionsList";
 import { Wallet } from "@/app/lib/Wallet";
 import { WalletData } from "@/app/lib/Wallet/contracts";

@@ -10,7 +10,7 @@ import {
   parseEther,
   parseGwei,
 } from "viem";
-import { useTranslation } from "next-i18next";
+import { useTranslation } from "next-i18next/pages";
 import { ConsensusAbi } from "@mainsail/evm-contracts";
 import { Ethereum, MetaMaskState } from "@/app/hooks/useMetaMask.contracts";
 import {

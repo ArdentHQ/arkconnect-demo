@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { useTranslation } from "next-i18next";
+import { useTranslation } from "next-i18next/pages";
 import { ValidatorItem } from "src/app/lib/Validators";
 import ExternalLink from "@/public/icons/external-link.svg";
 import { Link } from "@/app/components/Link";
