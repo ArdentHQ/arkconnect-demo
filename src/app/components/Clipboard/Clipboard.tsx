@@ -1,5 +1,5 @@
 import cn from "classnames";
-import { HTMLAttributes, useRef } from "react";
+import { HTMLAttributes, ReactElement, useRef } from "react";
 import { useTranslation } from "next-i18next";
 
 import { Placement, ReferenceElement } from "tippy.js";
@@ -21,7 +21,7 @@ export const Clipboard = ({
   tooltipTitle,
   zIndex,
   tooltipPlacement,
-}: ClipboardProperties): JSX.Element => {
+}: ClipboardProperties): ReactElement => {
   const { t } = useTranslation();
   const reference = useRef<(ReferenceElement & HTMLDivElement) | null>(null);
 

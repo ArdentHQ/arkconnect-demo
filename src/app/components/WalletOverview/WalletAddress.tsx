@@ -17,7 +17,7 @@ export const WalletAddress = ({ walletData }: WalletOverviewProperties) => {
   const network = Network({ network: walletData.network });
   const { votingValidator } = useWalletVotes({ walletData });
   const address = walletData.address;
-  assert(address);
+  assert.ok(address);
 
   return (
     <div className="flex items-end justify-between w-full p-6 sm:p-5">

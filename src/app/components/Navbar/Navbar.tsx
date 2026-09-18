@@ -53,13 +53,13 @@ const NavbarWrapper = ({ children }: { children: ReactElement }) => {
   );
 };
 
-const DarkModeToggleButton = (): JSX.Element => {
+const DarkModeToggleButton = (): ReactElement => {
   const { toggleDarkMode, darkMode } = useDarkMode();
 
   return (
     <NavbarButton
       onClick={() => {
-        void toggleDarkMode();
+        toggleDarkMode();
       }}
     >
       {darkMode ? <Moon className="w-4" /> : <Sun className="w-4" />}
@@ -75,7 +75,7 @@ const NavbarConnected = ({ wallet, onDisconnect }: NavbarProperties) => {
         <UserMenu
           address={wallet.address}
           onDisconnect={() => {
-            void onDisconnect();
+            onDisconnect();
           }}
         />
 
@@ -121,7 +121,7 @@ export const Navbar = () => {
         <NavbarConnected
           wallet={wallet}
           onDisconnect={() => {
-            void disconnect();
+            disconnect();
           }}
         />
 

@@ -14,23 +14,23 @@ export const DarkModeProvider = ({ children }) => {
   const [darkMode, setDarkMode] = useState(false);
 
   useEffect(() => {
-    const isDarkMode = localStorage.getItem("darkMode");
-    if (isDarkMode) {
-      setDarkMode(!!JSON.parse(isDarkMode));
+    // Reads browser-only APIs (localStorage/matchMedia), so this has to run after
+    // mount rather than during the initial render, to avoid a hydration mismatch.
+    /* eslint-disable react-hooks/set-state-in-effect */
+    const storedDarkModePreference = localStorage.getItem("darkMode");
+    if (storedDarkModePreference) {
+      setDarkMode(Boolean(JSON.parse(storedDarkModePreference)));
     } else {
-      const prefersDarkMode = window.matchMedia(
+      const isPrefersDarkMode = matchMedia(
         "(prefers-color-scheme: dark)",
       ).matches;
-      setDarkMode(prefersDarkMode);
+      setDarkMode(isPrefersDarkMode);
     }
+    /* eslint-enable react-hooks/set-state-in-effect */
   }, []);
 
   useEffect(() => {
-    if (darkMode) {
-      document.body.classList.add("dark");
-    } else {
-      document.body.classList.remove("dark");
-    }
+    document.body.classList.toggle("dark", darkMode);
   }, [darkMode]);
 
   const toggleDarkMode = () => {

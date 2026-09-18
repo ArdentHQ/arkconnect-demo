@@ -68,13 +68,15 @@ export const NumericInput = ({
                 inputReference.current?.value || 0,
               ).minus(step);
 
-              if (!nextValue.isLessThanOrEqualTo(0)) {
-                const formatted = Number(
-                  nextValue.decimalPlaces(8).toFixed(8),
-                ).toFixed(8);
-
-                onValueChange(new BigNumber(formatted).toFixed());
+              if (nextValue.isLessThanOrEqualTo(0)) {
+                return;
               }
+
+              const formatted = Number(
+                nextValue.decimalPlaces(8).toFixed(8),
+              ).toFixed(8);
+
+              onValueChange(new BigNumber(formatted).toFixed());
             }}
             className="flex items-center relative hover:bg-theme-gray-50 dark:hover:bg-theme-gray-600 justify-center basis-1/2 text-center  w-full focus:ring-gray-100 focus:ring-2 focus:outline-none"
           >

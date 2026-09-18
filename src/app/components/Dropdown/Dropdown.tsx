@@ -1,4 +1,10 @@
-import { Menu, Transition } from "@headlessui/react";
+import {
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuItems,
+  Transition,
+} from "@headlessui/react";
 import classNames from "classnames";
 import { Fragment, ReactElement } from "react";
 
@@ -8,8 +14,8 @@ export const Dropdown = ({
   trigger,
   menuClassName = "static sm:relative inline-block text-left",
 }: {
-  children?: JSX.Element | JSX.Element[] | string;
-  trigger?: JSX.Element | (({ open }: { open: boolean }) => JSX.Element);
+  children?: ReactElement | ReactElement[] | string;
+  trigger?: ReactElement | (({ open }: { open: boolean }) => ReactElement);
   className?: string;
   menuClassName?: string;
 }) => {
@@ -24,9 +30,9 @@ export const Dropdown = ({
       >
         {({ open }) => (
           <>
-            <Menu.Button as="span">
+            <MenuButton as="span">
               {typeof trigger === "function" ? trigger({ open }) : trigger}
-            </Menu.Button>
+            </MenuButton>
             <Transition
               as={Fragment}
               enter="transition ease-out duration-50"
@@ -36,9 +42,9 @@ export const Dropdown = ({
               leaveFrom="transform opacity-100 scale-100"
               leaveTo="transform opacity-0 scale-95"
             >
-              <Menu.Items className="mx-6 sm:mx-0 absolute right-0 mt-6 left-0 sm:left-auto origin-top-right rounded-lg bg-white shadow-xl focus:outline-none overflow-hidden">
+              <MenuItems className="mx-6 sm:mx-0 absolute right-0 mt-6 left-0 sm:left-auto origin-top-right rounded-lg bg-white shadow-xl focus:outline-none overflow-hidden">
                 {children}
-              </Menu.Items>
+              </MenuItems>
             </Transition>
           </>
         )}
@@ -51,7 +57,7 @@ export const DropdownItem = ({
   children,
 }: {
   children: ReactElement | string;
-}) => <Menu.Item>{children}</Menu.Item>;
+}) => <MenuItem>{children}</MenuItem>;
 
 export const DropdownButtonItem = ({
   onClick,

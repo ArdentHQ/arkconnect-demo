@@ -50,13 +50,6 @@ export const FeeInput = ({
 
   const network = wallet.network;
 
-  const [gasPriceInputProperties, setGasPriceInputProperties] = useState<
-    UseFormRegisterReturn | undefined
-  >(undefined);
-  const [gasLimitInputProperties, setGasLimitInputProperties] = useState<
-    UseFormRegisterReturn | undefined
-  >(undefined);
-
   const onGasPriceChange = (value: BigNumber) => {
     setValue("gasPrice", value, {
       shouldValidate: true,
@@ -73,68 +66,65 @@ export const FeeInput = ({
     });
   };
 
-  useEffect(() => {
-    const inputGasPriceProperties = register("gasPrice", {
-      required: t("GAS_PRICE_IS_REQUIRED"),
-      onChange: (event: ChangeEvent<HTMLInputElement>) => {
-        const value = event.target.value === "" ? 0 : event.target.value;
-        onGasPriceChange(BigNumber(value));
-      },
-      min: {
-        value: 5,
-        message: t("GAS_PRICE_TOO_LOW"),
-      },
-      max: {
-        value: 10_000,
-        message: t("GAS_PRICE_TOO_HIGH"),
-      },
-      valueAsNumber: false,
-      validate: (value, formValues: FormValues) => {
-        if (formValues.amount !== "") {
-          return true;
-        }
+  const gasPriceInputProperties = register("gasPrice", {
+    required: t("GAS_PRICE_IS_REQUIRED"),
+    onChange: (event: ChangeEvent<HTMLInputElement>) => {
+      const value = event.target.value === "" ? 0 : event.target.value;
+      onGasPriceChange(BigNumber(value));
+    },
+    min: {
+      value: 5,
+      message: t("GAS_PRICE_TOO_LOW"),
+    },
+    max: {
+      value: 10_000,
+      message: t("GAS_PRICE_TOO_HIGH"),
+    },
+    valueAsNumber: false,
+    // eslint-disable-next-line sonarjs/function-return-type -- react-hook-form validate contract: true | string message | undefined
+    validate: (value, formValues: FormValues) => {
+      if (formValues.amount !== "") {
+        return true;
+      }
 
-        return validateBalance(
-          formValues,
-          t("FEE_EXCEEDS_BALANCE"),
-          wallet.balance,
-        );
-      },
-      deps: ["amount", "gasLimit"],
-    });
+      return validateBalance(
+        formValues,
+        t("FEE_EXCEEDS_BALANCE"),
+        wallet.balance,
+      );
+    },
+    deps: ["amount", "gasLimit"],
+  });
 
-    const inputGasLimitProperties = register("gasLimit", {
-      required: t("GAS_LIMIT_IS_REQUIRED"),
-      onChange: (event: ChangeEvent<HTMLInputElement>) => {
-        const value = event.target.value === "" ? 0 : event.target.value;
-        onGasLimitChange(BigNumber(value));
-      },
-      min: {
-        value: 21_000,
-        message: t("GAS_LIMIT_TOO_LOW"),
-      },
-      max: {
-        value: 2_000_000,
-        message: t("GAS_LIMIT_TOO_HIGH"),
-      },
-      valueAsNumber: false,
-      validate: (value, formValues: FormValues) => {
-        if (formValues.amount !== "") {
-          return true;
-        }
+  const gasLimitInputProperties = register("gasLimit", {
+    required: t("GAS_LIMIT_IS_REQUIRED"),
+    onChange: (event: ChangeEvent<HTMLInputElement>) => {
+      const value = event.target.value === "" ? 0 : event.target.value;
+      onGasLimitChange(BigNumber(value));
+    },
+    min: {
+      value: 21_000,
+      message: t("GAS_LIMIT_TOO_LOW"),
+    },
+    max: {
+      value: 2_000_000,
+      message: t("GAS_LIMIT_TOO_HIGH"),
+    },
+    valueAsNumber: false,
+    // eslint-disable-next-line sonarjs/function-return-type -- react-hook-form validate contract: true | string message | undefined
+    validate: (value, formValues: FormValues) => {
+      if (formValues.amount !== "") {
+        return true;
+      }
 
-        return validateBalance(
-          formValues,
-          t("FEE_EXCEEDS_BALANCE"),
-          wallet.balance,
-        );
-      },
-      deps: ["amount", "gasPrice"],
-    });
-
-    setGasLimitInputProperties(inputGasLimitProperties);
-    setGasPriceInputProperties(inputGasPriceProperties);
-  }, [register, wallet]);
+      return validateBalance(
+        formValues,
+        t("FEE_EXCEEDS_BALANCE"),
+        wallet.balance,
+      );
+    },
+    deps: ["amount", "gasPrice"],
+  });
 
   return (
     <div className={twMerge("inline-flex flex-col space-y-1.5", className)}>
@@ -327,6 +317,8 @@ const SimpleFeeView = ({
 
   useEffect(() => {
     if (status === "ok" && fees?.avg) {
+      // Synchronizes the default fee selection once useNetworkFees resolves.
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       onFeeSelect(fees.avg.gasPrice, fees.avg.gasLimit, "average");
     }
   }, [status]);

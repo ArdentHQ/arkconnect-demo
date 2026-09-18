@@ -1,5 +1,6 @@
 import Tippy, { type TippyProps } from "@tippyjs/react";
 import cn from "classnames";
+import { type ReactElement } from "react";
 import { roundArrow } from "tippy.js";
 
 import "tippy.js/dist/tippy.css";
@@ -18,7 +19,7 @@ export const Tooltip = ({
   variant = "default",
   hideAfter,
   ...properties
-}: Properties): JSX.Element => {
+}: Properties): ReactElement => {
   const { handleShow } = useTooltip({ hideAfter });
 
   return (

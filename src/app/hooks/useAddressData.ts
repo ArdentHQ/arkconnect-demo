@@ -21,7 +21,7 @@ export const useAddressData = ({
 }) => {
   const queryKey: QueryKey = ["address", address];
 
-  const { data, error: _error } = useQuery({
+  const { data } = useQuery({
     enabled: !!address,
     refetchOnMount: true,
     queryKey,
@@ -39,12 +39,15 @@ export const useAddressData = ({
 
   const addressData = data?.data;
 
-  if (addressData) {
-    addressData.balance = CurrencyFormatter.formatUnits(
-      addressData.balance,
-      "ark",
-    ).toString();
+  if (!addressData) {
+    return addressData;
   }
 
-  return addressData;
+  return {
+    ...addressData,
+    balance: CurrencyFormatter.formatUnits(
+      addressData.balance,
+      "ark",
+    ).toString(),
+  };
 };

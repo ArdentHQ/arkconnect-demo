@@ -9,8 +9,7 @@ import { Coin } from "@/app/lib/Network";
 export function ArkPricing() {
   const coin = Coin.ARK;
 
-  const state = new Map<"price", number>();
-  state.set("price", 0);
+  const state = new Map<"price", number>([["price", 0]]);
 
   return {
     /**

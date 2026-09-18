@@ -9,6 +9,28 @@ import {
 
 // @TODO: cleanup url transformations.
 export function Network({ network }: { network?: NetworkType | string }) {
+  /**
+   * Checkes whether the network is supported.
+   *
+   * @returns {boolean}
+   */
+  const isSupported = (): boolean =>
+    NetworkType.DEVNET === network || NetworkType.MAINNET === network;
+
+  /**
+   * Determines if the network is ARK devnet.
+   *
+   * @returns {{}
+   */
+  const isTestnet = (): boolean => NetworkType.DEVNET === network;
+
+  /**
+   * Determines if the network is ARK mainnet.
+   *
+   * @returns {{}
+   */
+  const isMainnet = (): boolean => NetworkType.MAINNET === network;
+
   return {
     /**
      * Generates explorer links for an address.
@@ -17,11 +39,11 @@ export function Network({ network }: { network?: NetworkType | string }) {
      * @returns {string}
      */
     addressExplorerLink(address: string): string {
-      if (!this.isSupported()) {
+      if (!isSupported()) {
         throw new Error(`Network ${network} is not supported`);
       }
 
-      const url = this.isTestnet()
+      const url = isTestnet()
         ? NetworkAddressLink.DEVNET
         : NetworkAddressLink.MAINNET;
 
@@ -36,12 +58,12 @@ export function Network({ network }: { network?: NetworkType | string }) {
      * @returns {string}
      */
     addressTransactionLink(address: string, limit: number = 10): string {
-      if (!this.isSupported()) {
+      if (!isSupported()) {
         throw new Error(`Network ${network} is not supported`);
       }
 
       const url = new URL(
-        this.isTestnet()
+        isTestnet()
           ? NetworkTransactionsList.DEVNET
           : NetworkTransactionsList.MAINNET,
       );
@@ -49,7 +71,7 @@ export function Network({ network }: { network?: NetworkType | string }) {
       url.searchParams.append("address", address);
       url.searchParams.append("limit", limit.toString());
 
-      return url.toString();
+      return url.href;
     },
     /**
      * Generates transaction link for a transaction,
@@ -58,76 +80,55 @@ export function Network({ network }: { network?: NetworkType | string }) {
      * @returns {string}
      */
     transactionLink(transactionId: string): string {
-      if (!this.isSupported()) {
+      if (!isSupported()) {
         throw new Error(`Network ${network} is not supported`);
       }
 
       const url = new URL(
-        this.isTestnet()
+        isTestnet()
           ? NetworkTransactionLink.DEVNET
           : NetworkTransactionLink.MAINNET,
       );
 
-      return [url.toString(), transactionId].join("");
+      return [url.href, transactionId].join("");
     },
     validatorsLink() {
-      if (!this.isSupported()) {
+      if (!isSupported()) {
         throw new Error(`Network ${network} is not supported`);
       }
 
       const url = new URL(
-        this.isTestnet() ? ValidatorsLink.DEVNET : ValidatorsLink.MAINNET,
+        isTestnet() ? ValidatorsLink.DEVNET : ValidatorsLink.MAINNET,
       );
 
       url.searchParams.append("limit", "53");
 
-      return url.toString();
+      return url.href;
     },
 
     votingValidatorLink(validatorPublicKey: string) {
-      if (!this.isSupported()) {
+      if (!isSupported()) {
         throw new Error(`Network ${network} is not supported`);
       }
 
       const url = new URL(
-        this.isTestnet() ? ValidatorsLink.DEVNET : ValidatorsLink.MAINNET,
+        isTestnet() ? ValidatorsLink.DEVNET : ValidatorsLink.MAINNET,
       );
 
-      return [url.toString(), validatorPublicKey].join("/");
+      return [url.href, validatorPublicKey].join("/");
     },
 
     walletVotesLink(address: string) {
-      if (!this.isSupported()) {
+      if (!isSupported()) {
         throw new Error(`Network ${network} is not supported`);
       }
 
-      const url = this.isTestnet() ? WalletsLink.DEVNET : WalletsLink.MAINNET;
+      const url = isTestnet() ? WalletsLink.DEVNET : WalletsLink.MAINNET;
 
-      return [url.toString(), address, "votes"].join("/");
+      return [url, address, "votes"].join("/");
     },
-    /**
-     * Checkes whether the network is supported.
-     *
-     * @returns {boolean}
-     */
-    isSupported(): boolean {
-      return NetworkType.DEVNET === network || NetworkType.MAINNET === network;
-    },
-    /**
-     * Determines if the network is ARK devnet.
-     *
-     * @returns {{}
-     */
-    isTestnet(): boolean {
-      return NetworkType.DEVNET === network;
-    },
-    /**
-     * Determines if the network is ARK mainnet.
-     *
-     * @returns {{}
-     */
-    isMainnet(): boolean {
-      return NetworkType.MAINNET === network;
-    },
+    isSupported,
+    isTestnet,
+    isMainnet,
   };
 }

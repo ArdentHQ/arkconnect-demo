@@ -1,4 +1,4 @@
-import { createContext, useContext } from "react";
+import { createContext, ReactElement, useContext } from "react";
 import { MetaMaskState } from "@/app/hooks/useMetaMask.contracts";
 import { useMetaMask } from "@/app/hooks/useMetaMask";
 
@@ -8,7 +8,7 @@ interface Properties {
   children: React.ReactNode;
 }
 
-const MetaMaskContextProvider = ({ children }: Properties): JSX.Element => {
+const MetaMaskContextProvider = ({ children }: Properties): ReactElement => {
   const metaMaskState = useMetaMask();
 
   return (

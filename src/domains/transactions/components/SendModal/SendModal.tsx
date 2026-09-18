@@ -1,8 +1,8 @@
 /* eslint-disable max-lines-per-function */
 import assert from "assert";
 import { useTranslation } from "next-i18next";
-import { SubmitHandler, useForm, UseFormRegisterReturn } from "react-hook-form";
-import React, { useEffect, useState } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
+import React, { useEffect } from "react";
 import { BigNumber } from "bignumber.js";
 import { Address, isAddress } from "viem";
 import { Dialog } from "@/app/components/Dialog";
@@ -63,7 +63,7 @@ export const SendModal = ({
     [show, reset],
   );
 
-  assert(wallet);
+  assert.ok(wallet);
 
   const submitHandler: FormSubmitHandler = async ({
     amount,
@@ -89,33 +89,25 @@ export const SendModal = ({
   // @TODO: is this the best way to get the coin name?
   const coin = getNetworkCoin(wallet.network);
 
-  const [amountInputProperties, setAmountInputProperties] = useState<
-    UseFormRegisterReturn | undefined
-  >(undefined);
-
-  useEffect(() => {
-    const inputAmountProperties = register("amount", {
-      required: t("AMOUNT_REQUIRED"),
-      min: {
-        value: 0.000_000_01,
-        message: t("AMOUNT_TOO_LOW"),
-      },
-      max: {
-        value: Number(wallet.balance ?? 0),
-        message: t("BALANCE_TOO_LOW"),
-      },
-      validate: (value, formValues) => {
-        return validateBalance(
-          formValues,
-          t("FEE_AND_AMOUNT_EXCEEDS_BALANCE"),
-          wallet.balance,
-        );
-      },
-      deps: ["gasPrice", "gasLimit"],
-    });
-
-    setAmountInputProperties(inputAmountProperties);
-  }, [register, wallet]);
+  const amountInputProperties = register("amount", {
+    required: t("AMOUNT_REQUIRED"),
+    min: {
+      value: 0.00000001,
+      message: t("AMOUNT_TOO_LOW"),
+    },
+    max: {
+      value: Number(wallet.balance ?? 0),
+      message: t("BALANCE_TOO_LOW"),
+    },
+    validate: (value, formValues) => {
+      return validateBalance(
+        formValues,
+        t("FEE_AND_AMOUNT_EXCEEDS_BALANCE"),
+        wallet.balance,
+      );
+    },
+    deps: ["gasPrice", "gasLimit"],
+  });
 
   return (
     <Dialog

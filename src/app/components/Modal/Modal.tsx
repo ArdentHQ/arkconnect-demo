@@ -1,13 +1,18 @@
-import { Dialog, Transition } from "@headlessui/react";
+import {
+  Dialog,
+  DialogPanel,
+  Transition,
+  TransitionChild,
+} from "@headlessui/react";
 import cn from "classnames";
 
-import { Fragment, useEffect } from "react";
+import { Fragment, ReactElement, useEffect } from "react";
 
 export interface ModalProperties {
   children?: React.ReactNode;
   show?: boolean;
   onClose: () => void;
-  initialFocus?: React.MutableRefObject<HTMLElement | null>;
+  initialFocus?: React.RefObject<HTMLElement | null>;
 }
 
 export const Modal = ({
@@ -15,14 +20,10 @@ export const Modal = ({
   show = false,
   onClose,
   initialFocus,
-}: ModalProperties): JSX.Element => {
+}: ModalProperties): ReactElement => {
   useEffect(() => {
     const wrapper = document.querySelector("#layout") as HTMLDivElement;
-    if (show) {
-      wrapper.classList.add("blur");
-    } else {
-      wrapper.classList.remove("blur");
-    }
+    wrapper.classList.toggle("blur", show);
   }, [show]);
 
   return (
@@ -34,7 +35,7 @@ export const Modal = ({
         onClose={onClose}
         initialFocus={initialFocus}
       >
-        <Transition.Child
+        <TransitionChild
           as={Fragment}
           enter="ease-out duration-300"
           enterFrom="opacity-0"
@@ -44,9 +45,9 @@ export const Modal = ({
           leaveTo="opacity-0"
         >
           <div className="absolute inset-0 bg-[rgba(20,20,20,0.15)]" />
-        </Transition.Child>
+        </TransitionChild>
 
-        <Transition.Child
+        <TransitionChild
           as={Fragment}
           enter="ease-out duration-300"
           enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
@@ -55,14 +56,14 @@ export const Modal = ({
           leaveFrom="opacity-100 translate-y-0 sm:scale-100"
           leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
         >
-          <Dialog.Panel
+          <DialogPanel
             className={cn(
               "transform overflow-hidden sm:rounded-lg bg-white shadow-xl transition-all sm:mx-auto w-full sm:max-w-lg dark:bg-base-black dark:border-2 dark:border-theme-gray-700",
             )}
           >
             {children}
-          </Dialog.Panel>
-        </Transition.Child>
+          </DialogPanel>
+        </TransitionChild>
       </Dialog>
     </Transition>
   );

@@ -1,4 +1,4 @@
-import { HTMLAttributes } from "react";
+import { HTMLAttributes, ReactElement } from "react";
 import {
   ColumnDef,
   flexRender,
@@ -8,10 +8,10 @@ import {
 import { twMerge } from "tailwind-merge";
 
 interface TableProperties<T> {
-  columns: ColumnDef<T>[];
-  data: T[];
-  row: (data: T) => JSX.Element;
-  hideHeader?: boolean;
+  readonly columns: ColumnDef<T>[];
+  readonly data: T[];
+  readonly row: (data: T) => ReactElement;
+  readonly hideHeader?: boolean;
 }
 
 export const TableRow = ({ children }: HTMLAttributes<HTMLTableRowElement>) => (
