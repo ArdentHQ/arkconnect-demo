@@ -5,7 +5,7 @@ const nextConfig = {
   // Setting to false to prevent double rendering.
   // See more at https://github.com/vercel/next.js/issues/35822
   reactStrictMode: false,
-  swcMinify: true,
+  agentRules: false,
   i18n,
   webpack(config) {
     config.module.rules.push({

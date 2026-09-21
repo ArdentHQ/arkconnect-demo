@@ -21,7 +21,7 @@ export const inputEnabledColorClasses = {
 export const inputStyleClasses = [
   "placeholder-theme-gray-400 rounded-lg ring-1 ring-inset text-black dark:placeholder-theme-gray-400 dark:text-white",
   "disabled:ring-theme-gray-200 disabled:bg-theme-gray-100 dark:disabled:bg-base-black dark:disabled:text-theme-gray-400 dark:disabled:ring-theme-gray-600",
-  "focus:outline-none",
+  "focus:outline-hidden",
 ];
 
 export const Input = forwardRef<HTMLInputElement, InputProperties>(

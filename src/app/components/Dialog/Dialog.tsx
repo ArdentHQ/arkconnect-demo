@@ -1,5 +1,5 @@
-import { Dialog as HeadlessDialog } from "@headlessui/react";
-import { FormEventHandler } from "react";
+import { DialogTitle } from "@headlessui/react";
+import { ReactElement, SubmitEventHandler } from "react";
 import { ModalProperties, Modal } from "@/app/components/Modal";
 import X from "@/public/icons/x.svg";
 import { Button } from "@/app/components/Button";
@@ -8,7 +8,7 @@ interface Properties extends ModalProperties {
   title: string;
   closeButtonLabel?: string;
   continueButtonLabel?: string;
-  onSubmit?: FormEventHandler<HTMLFormElement>;
+  onSubmit?: SubmitEventHandler<HTMLFormElement>;
   continueDisabled?: boolean;
   showActionButtons?: boolean;
 }
@@ -23,7 +23,7 @@ export const Dialog = ({
   showActionButtons = true,
   onSubmit,
   ...modalProperties
-}: Properties): JSX.Element => {
+}: Properties): ReactElement => {
   return (
     <Modal {...modalProperties} onClose={onClose}>
       <form
@@ -34,9 +34,9 @@ export const Dialog = ({
         className="flex flex-col"
       >
         <div className="bg-theme-gray-100 flex justify-between items-center px-10 py-5 dark:bg-theme-gray-700">
-          <HeadlessDialog.Title className="text-xl text-black font-medium dark:text-white">
+          <DialogTitle className="text-xl text-black font-medium dark:text-white">
             {title}
-          </HeadlessDialog.Title>
+          </DialogTitle>
 
           <button
             type="button"

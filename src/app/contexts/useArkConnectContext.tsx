@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect } from "react";
+import { createContext, ReactElement, useContext, useEffect } from "react";
 import { QueryKey, useQueryClient } from "@tanstack/react-query";
 import { ArkConnect } from "@ardenthq/ark-connect-sdk";
 import { useArkConnect } from "@/app/hooks";
@@ -13,7 +13,7 @@ interface Properties {
 
 const client = new ArkConnect();
 
-const ArkConnectContextProvider = ({ children }: Properties): JSX.Element => {
+const ArkConnectContextProvider = ({ children }: Properties): ReactElement => {
   const arkConnectState = useArkConnect();
 
   const { isInstalled, setNetwork } = arkConnectState;

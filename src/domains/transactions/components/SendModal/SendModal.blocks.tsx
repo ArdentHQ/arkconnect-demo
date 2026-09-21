@@ -4,7 +4,7 @@ import {
   UseFormRegisterReturn,
   UseFormSetValue,
 } from "react-hook-form";
-import { useTranslation } from "next-i18next";
+import { useTranslation } from "next-i18next/pages";
 import React, { ChangeEvent, useEffect, useState } from "react";
 import cn from "classnames";
 import { twMerge } from "tailwind-merge";
@@ -50,13 +50,6 @@ export const FeeInput = ({
 
   const network = wallet.network;
 
-  const [gasPriceInputProperties, setGasPriceInputProperties] = useState<
-    UseFormRegisterReturn | undefined
-  >(undefined);
-  const [gasLimitInputProperties, setGasLimitInputProperties] = useState<
-    UseFormRegisterReturn | undefined
-  >(undefined);
-
   const onGasPriceChange = (value: BigNumber) => {
     setValue("gasPrice", value, {
       shouldValidate: true,
@@ -73,68 +66,65 @@ export const FeeInput = ({
     });
   };
 
-  useEffect(() => {
-    const inputGasPriceProperties = register("gasPrice", {
-      required: t("GAS_PRICE_IS_REQUIRED"),
-      onChange: (event: ChangeEvent<HTMLInputElement>) => {
-        const value = event.target.value === "" ? 0 : event.target.value;
-        onGasPriceChange(BigNumber(value));
-      },
-      min: {
-        value: 5,
-        message: t("GAS_PRICE_TOO_LOW"),
-      },
-      max: {
-        value: 10_000,
-        message: t("GAS_PRICE_TOO_HIGH"),
-      },
-      valueAsNumber: false,
-      validate: (value, formValues: FormValues) => {
-        if (formValues.amount !== "") {
-          return true;
-        }
+  const gasPriceInputProperties = register("gasPrice", {
+    required: t("GAS_PRICE_IS_REQUIRED"),
+    onChange: (event: ChangeEvent<HTMLInputElement>) => {
+      const value = event.target.value === "" ? 0 : event.target.value;
+      onGasPriceChange(BigNumber(value));
+    },
+    min: {
+      value: 5,
+      message: t("GAS_PRICE_TOO_LOW"),
+    },
+    max: {
+      value: 10_000,
+      message: t("GAS_PRICE_TOO_HIGH"),
+    },
+    valueAsNumber: false,
+    // eslint-disable-next-line sonarjs/function-return-type -- react-hook-form validate contract: true | string message | undefined
+    validate: (value, formValues: FormValues) => {
+      if (formValues.amount !== "") {
+        return true;
+      }
 
-        return validateBalance(
-          formValues,
-          t("FEE_EXCEEDS_BALANCE"),
-          wallet.balance,
-        );
-      },
-      deps: ["amount", "gasLimit"],
-    });
+      return validateBalance(
+        formValues,
+        t("FEE_EXCEEDS_BALANCE"),
+        wallet.balance,
+      );
+    },
+    deps: ["amount", "gasLimit"],
+  });
 
-    const inputGasLimitProperties = register("gasLimit", {
-      required: t("GAS_LIMIT_IS_REQUIRED"),
-      onChange: (event: ChangeEvent<HTMLInputElement>) => {
-        const value = event.target.value === "" ? 0 : event.target.value;
-        onGasLimitChange(BigNumber(value));
-      },
-      min: {
-        value: 21_000,
-        message: t("GAS_LIMIT_TOO_LOW"),
-      },
-      max: {
-        value: 2_000_000,
-        message: t("GAS_LIMIT_TOO_HIGH"),
-      },
-      valueAsNumber: false,
-      validate: (value, formValues: FormValues) => {
-        if (formValues.amount !== "") {
-          return true;
-        }
+  const gasLimitInputProperties = register("gasLimit", {
+    required: t("GAS_LIMIT_IS_REQUIRED"),
+    onChange: (event: ChangeEvent<HTMLInputElement>) => {
+      const value = event.target.value === "" ? 0 : event.target.value;
+      onGasLimitChange(BigNumber(value));
+    },
+    min: {
+      value: 21_000,
+      message: t("GAS_LIMIT_TOO_LOW"),
+    },
+    max: {
+      value: 2_000_000,
+      message: t("GAS_LIMIT_TOO_HIGH"),
+    },
+    valueAsNumber: false,
+    // eslint-disable-next-line sonarjs/function-return-type -- react-hook-form validate contract: true | string message | undefined
+    validate: (value, formValues: FormValues) => {
+      if (formValues.amount !== "") {
+        return true;
+      }
 
-        return validateBalance(
-          formValues,
-          t("FEE_EXCEEDS_BALANCE"),
-          wallet.balance,
-        );
-      },
-      deps: ["amount", "gasPrice"],
-    });
-
-    setGasLimitInputProperties(inputGasLimitProperties);
-    setGasPriceInputProperties(inputGasPriceProperties);
-  }, [register, wallet]);
+      return validateBalance(
+        formValues,
+        t("FEE_EXCEEDS_BALANCE"),
+        wallet.balance,
+      );
+    },
+    deps: ["amount", "gasPrice"],
+  });
 
   return (
     <div className={twMerge("inline-flex flex-col space-y-1.5", className)}>
@@ -162,7 +152,7 @@ export const FeeInput = ({
           >
             {t("SIMPLE")}
           </span>
-          <div className="relative w-9 h-5 bg-theme-primary-600 peer-focus-visible:outline-none peer-focus-visible:ring-2 ring-offset-1 peer-focus-visible:ring-theme-gray-300 rounded-full peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-theme-primary-600 after:border after:rounded-full after:h-4 after:w-4 after:transition-all"></div>
+          <div className="relative w-9 h-5 bg-theme-primary-600 peer-focus-visible:outline-hidden peer-focus-visible:ring-2 ring-offset-1 peer-focus-visible:ring-theme-gray-300 rounded-full peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:inset-s-[2px] after:bg-white after:border-theme-primary-600 after:border after:rounded-full after:h-4 after:w-4 after:transition-all"></div>
           <span
             className={cn("ms-3 text-sm font-medium", {
               "text-theme-gray-500 dark:text-theme-gray-200": advancedView,
@@ -327,6 +317,8 @@ const SimpleFeeView = ({
 
   useEffect(() => {
     if (status === "ok" && fees?.avg) {
+      // Synchronizes the default fee selection once useNetworkFees resolves.
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       onFeeSelect(fees.avg.gasPrice, fees.avg.gasLimit, "average");
     }
   }, [status]);

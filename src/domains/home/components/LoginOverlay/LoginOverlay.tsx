@@ -8,7 +8,10 @@ export const LoginOverlay = () => {
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
-    setIsClient(typeof window !== "undefined");
+    // Effects only run client-side, so this deliberately defers rendering
+    // until after mount to avoid a hydration mismatch.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setIsClient(true);
   }, []);
 
   if (!isClient) {

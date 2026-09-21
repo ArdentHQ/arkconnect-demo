@@ -1,6 +1,6 @@
-import { useTranslation } from "next-i18next";
+import { useTranslation } from "next-i18next/pages";
 import cn from "classnames";
-import { ComponentType, useMemo } from "react";
+import { ComponentType, ReactElement, useMemo } from "react";
 import ConnectArkLight from "@/public/images/connect-ark-light.svg";
 import ConnectArkDark from "@/public/images/connect-ark-dark.svg";
 import { H3 } from "@/app/components/Typography";
@@ -28,6 +28,26 @@ enum InstallationStatus {
   METAMASK,
 }
 
+const installationIcons = {
+  [InstallationStatus.NONE]: [InstallLight, InstallDark],
+  [InstallationStatus.BOTH]: [ConnectArkMetamaskLight, ConnectArkMetamaskDark],
+  [InstallationStatus.ARK_CONNECT]: [ConnectArkLight, ConnectArkDark],
+  [InstallationStatus.METAMASK]: [ConnectMetamaskLight, ConnectMetamaskDark],
+};
+
+const InstallationIcon = ({
+  installationStatus,
+  darkMode,
+}: {
+  installationStatus: InstallationStatus;
+  darkMode: boolean;
+}): ReactElement => {
+  const IconComponent = installationIcons[installationStatus][
+    Number(darkMode)
+  ] as ComponentType;
+  return <IconComponent />;
+};
+
 export const ConnectOverlay = () => {
   const { t } = useTranslation();
   const { darkMode } = useDarkMode();
@@ -46,7 +66,7 @@ export const ConnectOverlay = () => {
 
   const { arkExtensionUrl, metaMaskExtensionUrl } = useExtensionUrls();
 
-  const connecting = arkConnecting || metaMaskConnecting;
+  const isConnecting = arkConnecting || metaMaskConnecting;
   const error = arkError || metaMaskError;
 
   const installationStatus = useMemo(() => {
@@ -65,26 +85,6 @@ export const ConnectOverlay = () => {
     return InstallationStatus.NONE;
   }, [arkInstalled, metaMaskInstalled]);
 
-  const Icon = (): JSX.Element => {
-    const icons = {
-      [InstallationStatus.NONE]: [InstallLight, InstallDark],
-      [InstallationStatus.BOTH]: [
-        ConnectArkMetamaskLight,
-        ConnectArkMetamaskDark,
-      ],
-      [InstallationStatus.ARK_CONNECT]: [ConnectArkLight, ConnectArkDark],
-      [InstallationStatus.METAMASK]: [
-        ConnectMetamaskLight,
-        ConnectMetamaskDark,
-      ],
-    };
-
-    const IconComponent = icons[installationStatus][
-      Number(darkMode)
-    ] as ComponentType;
-    return <IconComponent />;
-  };
-
   const dividerText = useMemo(() => {
     return {
       [InstallationStatus.NONE]: t("OR"),
@@ -101,13 +101,18 @@ export const ConnectOverlay = () => {
 
         <div>
           <p className="text-md mb-4 text-theme-gray-500 dark:text-theme-gray-300">
-            {installationStatus === InstallationStatus.NONE
-              ? t("INSTALL_EXTENSION")
-              : t("CONNECT_ARK_CONNECT_TO_START")}
+            {t(
+              installationStatus === InstallationStatus.NONE
+                ? "INSTALL_EXTENSION"
+                : "CONNECT_ARK_CONNECT_TO_START",
+            )}
           </p>
 
           <div className="w-2/3 mx-auto">
-            <Icon />
+            <InstallationIcon
+              installationStatus={installationStatus}
+              darkMode={darkMode}
+            />
           </div>
         </div>
 
@@ -120,7 +125,7 @@ export const ConnectOverlay = () => {
             },
           )}
         >
-          {!connecting && (
+          {!isConnecting && (
             <>
               {!arkInstalled && (
                 <LinkButton
@@ -184,7 +189,7 @@ export const ConnectOverlay = () => {
             </>
           )}
 
-          {connecting && (
+          {isConnecting && (
             <div className="flex items-center space-x-3">
               <Spinner className="w-8" />
               <p className="text-lg font-medium leading-[1.406rem]">
@@ -195,7 +200,7 @@ export const ConnectOverlay = () => {
         </div>
       </div>
 
-      {connecting && <Alert>{t("CLICK_TO_CONFIRM_WALLET_CONNECT")}</Alert>}
+      {isConnecting && <Alert>{t("CLICK_TO_CONFIRM_WALLET_CONNECT")}</Alert>}
 
       {error && (
         <Alert type="error">
@@ -213,8 +218,8 @@ export const ConnectOverlay = () => {
 
 export const Divider = ({ text }: { text: string }) => (
   <div className="flex items-center px-2.5 w-full mt-2">
-    <hr className="flex-grow border-theme-gray-200 dark:border-theme-gray-700 border-t border-dashed border-gray-300" />
+    <hr className="grow border-theme-gray-200 dark:border-theme-gray-700 border-t border-dashed border-gray-300" />
     <span className="mx-3 text-theme-gray-500 text-xs">{text}</span>
-    <hr className="flex-grow border-theme-gray-200 dark:border-theme-gray-700 border-t border-dashed border-gray-300" />
+    <hr className="grow border-theme-gray-200 dark:border-theme-gray-700 border-t border-dashed border-gray-300" />
   </div>
 );

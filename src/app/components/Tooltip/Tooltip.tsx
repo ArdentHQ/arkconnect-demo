@@ -1,5 +1,6 @@
 import Tippy, { type TippyProps } from "@tippyjs/react";
 import cn from "classnames";
+import { type ReactElement } from "react";
 import { roundArrow } from "tippy.js";
 
 import "tippy.js/dist/tippy.css";
@@ -18,7 +19,7 @@ export const Tooltip = ({
   variant = "default",
   hideAfter,
   ...properties
-}: Properties): JSX.Element => {
+}: Properties): ReactElement => {
   const { handleShow } = useTooltip({ hideAfter });
 
   return (
@@ -29,10 +30,10 @@ export const Tooltip = ({
       duration={150}
       className={cn(
         "p-2 font-sans text-sm font-medium text-theme-secondary-200 dark:text-theme-dark-800",
-        "break-words [&.tippy-box]:rounded-lg [&.tippy-box]:leading-5.5 [&_.tippy-content]:p-0", // to unset some of Tippy default styles...
+        "wrap-break-word [&.tippy-box]:rounded-lg [&.tippy-box]:leading-5.5 [&_.tippy-content]:p-0", // to unset some of Tippy default styles...
         className,
         {
-          "[&.tippy-box>.tippy-svg-arrow]:fill-theme-secondary-900 dark:[&.tippy-box>.tippy-svg-arrow]:fill-theme-gray-500 [&.tippy-box]:bg-theme-secondary-900 dark:[&.tippy-box]:dark:bg-theme-gray-500 dark:[&.tippy-box]:text-white":
+          "[&.tippy-box>.tippy-svg-arrow]:fill-theme-secondary-900 dark:[&.tippy-box>.tippy-svg-arrow]:fill-theme-gray-500 [&.tippy-box]:bg-theme-secondary-900 dark:dark:[&.tippy-box]:bg-theme-gray-500 dark:[&.tippy-box]:text-white":
             variant === "default",
           "[&.tippy-box>.tippy-svg-arrow]:fill-theme-danger-400 [&.tippy-box]:bg-theme-danger-400 [&.tippy-box]:text-white":
             variant === "danger",

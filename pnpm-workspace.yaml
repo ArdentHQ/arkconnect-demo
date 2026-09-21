@@ -1,0 +1,6 @@
+allowBuilds:
+  core-js: true
+  unrs-resolver: true
+minimumReleaseAgeExclude:
+  - prettier@3.9.8
+  - viem@2.56.8

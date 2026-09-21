@@ -4,7 +4,7 @@ import { isTruthy } from "@/app/utils/isTruthy";
 
 interface ClipboardOptions {
   resetAfter?: number;
-  reference?: React.RefObject<HTMLElement>;
+  reference?: React.RefObject<HTMLElement | null>;
   onSuccess?: (data: string) => void;
   onError?: () => void;
 }
@@ -20,19 +20,21 @@ export const useClipboard = (
   const [isCopied, setHasCopied] = useState(false);
 
   useEffect(() => {
-    if (isCopied && isTruthy(options?.resetAfter)) {
-      const handler = setTimeout(() => {
-        setHasCopied(false);
-      }, options.resetAfter);
-
-      return () => {
-        clearTimeout(handler);
-      };
+    if (!(isCopied && isTruthy(options?.resetAfter))) {
+      return;
     }
+
+    const handler = setTimeout(() => {
+      setHasCopied(false);
+    }, options.resetAfter);
+
+    return () => {
+      clearTimeout(handler);
+    };
   }, [isCopied, options?.resetAfter]);
 
   const copy = async (data: string): Promise<void> => {
-    const clipboard: Clipboard | undefined = window.navigator.clipboard;
+    const clipboard: Clipboard | undefined = navigator.clipboard;
 
     if (isTruthy(clipboard)) {
       try {
@@ -54,7 +56,7 @@ export const useClipboard = (
   // https://github.com/ArkEcosystem/laravel-foundation/blob/main/resources/assets/js/clipboard.js
   const copyUsingExec = (
     data: string,
-    reference?: React.RefObject<HTMLElement>,
+    reference?: React.RefObject<HTMLElement | null>,
   ): void => {
     const textArea = document.createElement("textarea");
     textArea.value = data;
@@ -72,7 +74,7 @@ export const useClipboard = (
 
     if (isTruthy(isiOSDevice)) {
       const editable = textArea.contentEditable;
-      const readOnly = textArea.readOnly;
+      const isReadOnly = textArea.readOnly;
 
       textArea.contentEditable = "true";
       textArea.readOnly = false;
@@ -80,7 +82,7 @@ export const useClipboard = (
       const range = document.createRange();
       range.selectNodeContents(textArea);
 
-      const selection = window.getSelection();
+      const selection = getSelection();
 
       if (isTruthy(selection)) {
         selection.removeAllRanges();
@@ -89,7 +91,7 @@ export const useClipboard = (
 
       textArea.setSelectionRange(0, 999_999);
       textArea.contentEditable = editable;
-      textArea.readOnly = readOnly;
+      textArea.readOnly = isReadOnly;
     } else {
       textArea.select();
       textArea.focus();
@@ -97,6 +99,7 @@ export const useClipboard = (
 
     setHasCopied(true);
 
+    // eslint-disable-next-line sonarjs/deprecation -- deliberate fallback for browsers without the async Clipboard API
     document.execCommand("copy");
 
     textArea.remove();

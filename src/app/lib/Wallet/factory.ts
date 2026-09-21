@@ -22,6 +22,8 @@ export function Wallet(wallet: WalletData) {
 
   let votingValidator: ValidatorItem | undefined;
 
+  const coin = (): Coin => (network.isTestnet() ? Coin.DARK : Coin.ARK);
+
   return {
     /**
      * Fetches the actively forging validators
@@ -31,9 +33,11 @@ export function Wallet(wallet: WalletData) {
     async syncVotingValidator(): Promise<void> {
       const currentVotes = votes.currentVotes();
 
-      const validatorPublicKey =
-        currentVotes.length > 0 ? currentVotes[0] : undefined;
+      const validatorPublicKey = currentVotes[0];
 
+      // currentVotes() is typed as string[] (no noUncheckedIndexedAccess), so the type
+      // checker doesn't know indexing an empty array actually returns undefined here.
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition, sonarjs/different-types-comparison
       if (validatorPublicKey === undefined) {
         return;
       }
@@ -94,13 +98,7 @@ export function Wallet(wallet: WalletData) {
      *
      * @returns {string}
      */
-    coin(): Coin {
-      if (this.network().isTestnet()) {
-        return Coin.DARK;
-      }
-
-      return Coin.ARK;
-    },
+    coin,
     /**
      * Returns Wallet network interface.
      *
@@ -116,8 +114,8 @@ export function Wallet(wallet: WalletData) {
      */
     balance(rate: BigNumber): ReturnType<typeof Currency> {
       return Currency({
-        coin: this.coin(),
-        rate: this.network().isMainnet() ? rate.toString() : 0,
+        coin: coin(),
+        rate: network.isMainnet() ? rate.toString() : 0,
         value: wallet.balance?.toString() ?? 0,
       });
     },
