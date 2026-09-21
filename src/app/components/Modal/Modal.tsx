@@ -44,7 +44,7 @@ export const Modal = ({
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <div className="absolute inset-0 bg-[rgba(20,20,20,0.15)]" />
+          <div className="absolute inset-0 z-0 bg-[rgba(20,20,20,0.15)]" />
         </TransitionChild>
 
         <TransitionChild
@@ -58,7 +58,7 @@ export const Modal = ({
         >
           <DialogPanel
             className={cn(
-              "transform overflow-hidden sm:rounded-lg bg-white shadow-xl transition-all sm:mx-auto w-full sm:max-w-lg dark:bg-base-black dark:border-2 dark:border-theme-gray-700",
+              "relative z-10 transform overflow-hidden sm:rounded-lg bg-white shadow-xl transition-all sm:mx-auto w-full sm:max-w-lg dark:bg-base-black dark:border-2 dark:border-theme-gray-700",
             )}
           >
             {children}
