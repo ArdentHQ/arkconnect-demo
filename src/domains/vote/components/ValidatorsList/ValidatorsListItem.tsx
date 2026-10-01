@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { useTranslation } from "next-i18next";
+import { useTranslation } from "next-i18next/pages";
 import { ValidatorItem } from "src/app/lib/Validators";
 import ExternalLink from "@/public/icons/external-link.svg";
 import { Link } from "@/app/components/Link";
@@ -60,7 +60,7 @@ export const ValidatorsListItem = ({
         {
           "border-theme-primary-600 bg-theme-primary-50 dark:border-theme-primary-600 dark:bg-theme-dark-primary-600/10":
             isOnlyCurrent || isOnlySelected,
-          "border-theme-error-600 bg-theme-error-50 dark:border-theme-error-500 dark:bg-theme-error-500/[15%]":
+          "border-theme-error-600 bg-theme-error-50 dark:border-theme-error-500 dark:bg-theme-error-500/15":
             isUnselected,
           "border-theme-gray-200 dark:border-theme-gray-700 dark:bg-base-black":
             isDefault,
@@ -83,7 +83,7 @@ export const ValidatorsListItem = ({
         </div>
 
         {isResigned && (
-          <Label variant="danger" className="flex-shrink-0 text-xs ml-auto">
+          <Label variant="danger" className="shrink-0 text-xs ml-auto">
             {t("RESIGNED")}
           </Label>
         )}

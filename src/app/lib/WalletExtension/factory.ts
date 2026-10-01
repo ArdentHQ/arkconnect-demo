@@ -15,25 +15,105 @@ export interface WalletExtensionState {
 
 const client = new ArkConnect();
 
-export function WalletExtension() {
-  const state = new Map();
+type WalletExtensionStateValue =
+  string | number | boolean | Coin | NetworkType | undefined;
 
-  state.set("coin", undefined);
-  state.set("address", undefined);
-  state.set("balance", 0);
-  state.set("network", undefined);
-  state.set("isConnected", false);
-  state.set("isLocked", false);
+/**
+ * Determines whether the extension is installed.
+ *
+ * @returns {boolean}
+ */
+const isInstalled = (): boolean => ArkConnect.isAvailable();
+
+export function WalletExtension() {
+  const state = new Map<string, WalletExtensionStateValue>([
+    ["coin", undefined],
+    ["address", undefined],
+    ["balance", 0],
+    ["network", undefined],
+    ["isConnected", false],
+    ["isLocked", false],
+  ]);
+
+  /**
+   * Determine whether the extension is connected.
+   *
+   * @returns {boolean}
+   */
+  const isConnected = (): boolean => Boolean(state.get("isConnected"));
+
+  /**
+   * Check whether the extension is locked.
+   *
+   * @returns {boolean}
+   */
+  const isLocked = (): boolean => Boolean(state.get("isLocked"));
+
+  /**
+   * Return the active coin of the extension.
+   *
+   * @returns {Coin}
+   */
+  const coin = (): Coin => state.get("coin") as Coin;
+
+  /**
+   * Returns the active address of the extension.
+   *
+   * @returns {string | undefined}
+   */
+  const address = (): string | undefined => state.get("address") as string;
+
+  /**
+   * Returns the active network of the extension
+   *
+   * @returns {boolean}
+   */
+  const network = (): NetworkType => state.get("network") as NetworkType;
+
+  /**
+   * Returns the active network of the extension
+   *
+   * @returns {boolean}
+   */
+  const balance = (): ReturnType<typeof Currency> =>
+    Currency({
+      value: state.get("balance") as string | number,
+      coin: state.get("coin") as Coin | undefined,
+    });
+
+  /**
+   * Fetch and update wallet extension data (balance, address, network)
+   *
+   * @returns {Promise<void>}
+   */
+  const syncWalletData = async (): Promise<void> => {
+    try {
+      state.set("address", await client.getAddress());
+      state.set("network", await client.getNetwork());
+      state.set("balance", await client.getBalance());
+    } catch {
+      state.set("address", undefined);
+      state.set("balance", 0);
+      //
+    }
+  };
+
+  /**
+   * Fetch & updated connection status from the extension.
+   *
+   * @returns {Promise<void>}
+   */
+  const syncStatus = async (): Promise<void> => {
+    try {
+      state.set("isConnected", await client.isConnected());
+    } catch {
+      state.set("isConnected", false);
+      //
+    }
+  };
 
   return {
-    /**
-     * Determines whether the extension is installed.
-     *
-     * @returns {boolean}
-     */
-    isInstalled(): boolean {
-      return ArkConnect.isAvailable();
-    },
+    isInstalled,
     /**
      * Returns the shared SDK client.
      *
@@ -42,93 +122,23 @@ export function WalletExtension() {
     client(): ArkConnect {
       return client;
     },
-    /**
-     * Determine whether the extension is connected.
-     *
-     * @returns {boolean}
-     */
-    isConnected(): boolean {
-      return state.get("isConnected");
-    },
-    /**
-     * Check whether the extension is locked.
-     *
-     * @returns {boolean}
-     */
-    isLocked(): boolean {
-      return state.get("isLocked");
-    },
-    /**
-     * Return the active coin of the extension.
-     *
-     * @returns {Coin}
-     */
-    coin(): Coin {
-      return state.get("coin");
-    },
-    /**
-     * Returns the active address of the extension.
-     *
-     * @returns {string | undefined}
-     */
-    address(): string | undefined {
-      return state.get("address");
-    },
-    /**
-     * Returns the active network of the extension
-     *
-     * @returns {boolean}
-     */
-    network(): NetworkType {
-      return state.get("network");
-    },
-    /**
-     * Returns the active network of the extension
-     *
-     * @returns {boolean}
-     */
-    balance(): ReturnType<typeof Currency> {
-      return Currency({ value: state.get("balance"), coin: state.get("coin") });
-    },
+    isConnected,
+    isLocked,
+    coin,
+    address,
+    network,
+    balance,
     /**
      * Sync extension status & data.
      *
      * @returns {Promise<void>}
      */
     async sync(): Promise<void> {
-      await this.syncStatus();
-      await this.syncWalletData();
+      await syncStatus();
+      await syncWalletData();
     },
-    /**
-     * Fetch and update wallet extension data (balance, address, network)
-     *
-     * @returns {Promise<void>}
-     */
-    async syncWalletData(): Promise<void> {
-      try {
-        state.set("address", await client.getAddress());
-        state.set("network", await client.getNetwork());
-        state.set("balance", await client.getBalance());
-      } catch {
-        state.set("address", undefined);
-        state.set("balance", 0);
-        //
-      }
-    },
-    /**
-     * Fetch & updated connection status from the extension.
-     *
-     * @returns {Promise<void>}
-     */
-    async syncStatus(): Promise<void> {
-      try {
-        state.set("isConnected", await client.isConnected());
-      } catch {
-        state.set("isConnected", false);
-        //
-      }
-    },
-
+    syncWalletData,
+    syncStatus,
     /**
      * Connects to a given network.
      *
@@ -149,11 +159,11 @@ export function WalletExtension() {
     /**
      * Modify the state of the network and its corresponding coin.
      *
-     * @param {NetworkType} network
+     * @param {NetworkType} networkType
      * @returns {void}
      */
-    setNetwork(network?: NetworkType): void {
-      state.set("network", network);
+    setNetwork(networkType?: NetworkType): void {
+      state.set("network", networkType);
 
       if (state.get("network") === NetworkType.DEVNET) {
         state.set("coin", Coin.DARK);
@@ -170,13 +180,13 @@ export function WalletExtension() {
      */
     toJSON(): WalletExtensionState {
       return {
-        isInstalled: this.isInstalled(),
-        isConnected: this.isConnected(),
+        isInstalled: isInstalled(),
+        isConnected: isConnected(),
         wallet: {
-          network: this.network(),
-          address: this.address(),
-          balance: this.balance().toNumber(),
-          coin: this.coin(),
+          network: network(),
+          address: address(),
+          balance: balance().toNumber(),
+          coin: coin(),
         },
       };
     },

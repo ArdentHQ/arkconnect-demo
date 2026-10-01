@@ -18,7 +18,7 @@ export class CurrencyFormatter {
   ): string {
     const decimals = options?.decimals ?? 2;
 
-    return new BigNumber(value)
+    return BigNumber(value)
       .decimalPlaces(decimals)
       .times(price)
       .toFixed(decimals);

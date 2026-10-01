@@ -1,4 +1,4 @@
-import { useTranslation } from "next-i18next";
+import { useTranslation } from "next-i18next/pages";
 import cn from "classnames";
 import { WalletOverviewProperties } from "./WalletOverview.contracts";
 import { Button } from "@/app/components/Button";
@@ -30,7 +30,7 @@ export const WalletBalance = ({
           </span>
         </p>
 
-        <div className="leading-[1.25rem] w-full font-bold font-sans text-xl dark:text-white">
+        <div className="leading-5 w-full font-bold font-sans text-xl dark:text-white">
           {balance.ark}
         </div>
       </div>

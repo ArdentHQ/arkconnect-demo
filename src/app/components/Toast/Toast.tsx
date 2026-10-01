@@ -1,6 +1,6 @@
 import { Transition } from "@headlessui/react";
 import cn from "classnames";
-import { forwardRef, Fragment } from "react";
+import { forwardRef, Fragment, ReactElement } from "react";
 import { ToastCloseButton } from "./Toast.blocks";
 import {
   type ToastProperties,
@@ -21,7 +21,7 @@ export const Toast = forwardRef<HTMLDivElement, ToastProperties>(
       ...properties
     }: ToastProperties,
     reference,
-  ): JSX.Element => {
+  ): ReactElement => {
     const title = "title";
 
     return (
@@ -85,7 +85,7 @@ export const ToastTemplate = ({
   isVisible,
   toastMessage,
   onClose,
-}: ToastTemplateProperties): JSX.Element => (
+}: ToastTemplateProperties): ReactElement => (
   <Transition
     appear={true}
     as={Fragment}

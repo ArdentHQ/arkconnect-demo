@@ -1,4 +1,4 @@
-import { useTranslation } from "next-i18next";
+import { useTranslation } from "next-i18next/pages";
 import { TransactionTableRow } from "./TransactionTableRow";
 import { Table } from "@/app/components/Table";
 import { TransactionData } from "@/app/lib/Transactions/contracts";

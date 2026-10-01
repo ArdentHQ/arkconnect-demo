@@ -1,4 +1,4 @@
-import { useTranslation } from "next-i18next";
+import { useTranslation } from "next-i18next/pages";
 import { Label } from "@/app/components/Label";
 import { Link } from "@/app/components/Link";
 import { TruncateMiddle } from "@/app/components/Truncate";

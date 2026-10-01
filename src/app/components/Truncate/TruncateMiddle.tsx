@@ -8,7 +8,7 @@ export const TruncateMiddle = ({
 }: {
   children?: ReactElement | string;
   className?: string;
-}): JSX.Element => (
+}): ReactElement => (
   <MiddleEllispis>
     <span
       className={cn(

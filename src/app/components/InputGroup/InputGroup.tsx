@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactElement } from "react";
 import cn from "classnames";
 import { InputGroupProperties } from "./InputGroup.contracts";
 import { InputGroupContext } from "./InputGroupContext";
@@ -11,7 +11,7 @@ export const InputGroup = ({
   className,
   variant = "default",
   ...properties
-}: InputGroupProperties): JSX.Element => {
+}: InputGroupProperties): ReactElement => {
   return (
     <InputGroupContext.Provider
       value={{ groupInputName: inputName, groupVariant: variant }}

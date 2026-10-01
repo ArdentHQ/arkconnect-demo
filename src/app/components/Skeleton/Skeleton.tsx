@@ -1,3 +1,4 @@
+import { ReactElement } from "react";
 import SkeletonReact from "react-loading-skeleton";
 import { twMerge } from "tailwind-merge";
 
@@ -15,7 +16,7 @@ export const Skeleton = ({
   animated = true,
   isCircle = false,
   className,
-}: SkeletonProperties): JSX.Element => (
+}: SkeletonProperties): ReactElement => (
   <SkeletonReact
     enableAnimation={animated}
     containerTestId="Skeleton"

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactElement } from "react";
 import cn from "classnames";
 import { InputIconProperties } from "./InputIcon.contracts";
 import { InputIconContext } from "./InputIconContext";
@@ -10,7 +10,7 @@ export const InputIcon = ({
   iconClassName,
   position = "left",
   ...properties
-}: InputIconProperties): JSX.Element => {
+}: InputIconProperties): ReactElement => {
   return (
     <InputIconContext.Provider value={{ iconPosition: position }}>
       <div

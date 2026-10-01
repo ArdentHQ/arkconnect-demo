@@ -13,8 +13,7 @@ export function ArkPricing() {
     process.env.NEXT_PUBLIC_PRICING_API_URL ??
     "https://pricing.ardenthq.com/api/v1/coins";
 
-  const state = new Map<"price", number>();
-  state.set("price", 0);
+  const state = new Map<"price", number>([["price", 0]]);
 
   return {
     /**

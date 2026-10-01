@@ -1,12 +1,14 @@
-import React from "react";
+import React, { ReactElement } from "react";
 
 export type InputGroupVariant = "default" | "error";
 
-export interface InputGroupProperties
-  extends Omit<React.HTMLProps<HTMLDivElement>, "label"> {
+export interface InputGroupProperties extends Omit<
+  React.HTMLProps<HTMLDivElement>,
+  "label"
+> {
   variant?: InputGroupVariant;
-  label?: string | JSX.Element | JSX.Element[];
-  help?: string | JSX.Element | JSX.Element[];
+  label?: string | ReactElement | ReactElement[];
+  help?: string | ReactElement | ReactElement[];
   inputName?: string;
 }
 

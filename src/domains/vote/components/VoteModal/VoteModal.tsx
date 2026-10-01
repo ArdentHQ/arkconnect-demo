@@ -1,6 +1,5 @@
-/* eslint-disable max-lines-per-function */
 import assert from "assert";
-import { useTranslation } from "next-i18next";
+import { useTranslation } from "next-i18next/pages";
 
 import React, { useState } from "react";
 
@@ -69,34 +68,23 @@ export const VoteModal = ({
 
   const [search, setSearch] = useState("");
 
-  assert(wallet);
+  assert.ok(wallet);
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const voteInput: VoteInput = {
-      votes: [],
-      unvotes: [],
+      votes: voteState.votes.length > 0 ? [voteState.votes[0]] : [],
+      unvotes: voteState.unvotes.length > 0 ? [voteState.unvotes[0]] : [],
       gasPrice: getValues("gasPrice").toString(),
       gasLimit: getValues("gasLimit").toString(),
     };
 
-    if (voteState.votes.length > 0) {
-      voteInput.votes = [voteState.votes[0]];
+    try {
+      await signVote(voteInput);
+      onClose();
+      showToast({ message: t("common:CHANGES_REGISTERED"), type: "success" });
+    } catch (error) {
+      console.error(error);
     }
-
-    if (voteState.unvotes.length > 0) {
-      voteInput.unvotes = [voteState.unvotes[0]];
-    }
-
-    // eslint-disable-next-line promise/catch-or-return
-    signVote(voteInput)
-      .then(() => {
-        onClose();
-        showToast({ message: t("common:CHANGES_REGISTERED"), type: "success" });
-        return 0;
-      })
-      .catch((error) => {
-        console.error(error);
-      });
   };
 
   return (
@@ -116,14 +104,12 @@ export const VoteModal = ({
             placeholder={t("common:ENTER_VALIDATOR_NAME")}
             value={search}
             onChange={(event) => {
-              setSearch(
-                (event as React.ChangeEvent<HTMLInputElement>).target.value,
-              );
+              setSearch(event.target.value);
             }}
           />
         </InputGroup>
 
-        <div className="h-96 max-h-full overflow-y-auto -mr-[14px] delegates-list-parent">
+        <div className="h-96 max-h-full overflow-y-auto mr-[-14px] delegates-list-parent">
           <Validators
             walletData={wallet}
             onChange={({ votes, unvotes }) => {

@@ -16,21 +16,21 @@ export const Validators = ({
 }) => {
   const { votingValidator, validators } = useWalletVotes({ walletData });
 
-  const includeResigned = useMemo<boolean>(() => {
-    const votingValidatorIsPresent = validators.some(
+  const isIncludeResigned = useMemo<boolean>(() => {
+    const isVotingValidatorIsPresent = validators.some(
       (validator) => validator.address === votingValidator?.address,
     );
 
-    return !votingValidatorIsPresent && votingValidator !== undefined;
+    return !isVotingValidatorIsPresent && votingValidator !== undefined;
   }, [validators, votingValidator]);
 
   const validatorsIncludingResigned = useMemo<ValidatorItem[]>(() => {
-    if (includeResigned) {
+    if (isIncludeResigned) {
       return [votingValidator as ValidatorItem, ...validators];
     }
 
     return validators;
-  }, [validators, votingValidator, includeResigned]);
+  }, [validators, votingValidator, isIncludeResigned]);
 
   const filteredValidators = useMemo(() => {
     if (!searchTerm || searchTerm.length === 0) {
@@ -42,12 +42,12 @@ export const Validators = ({
     return validatorsIncludingResigned
       .filter((validator) => {
         return (
-          validator.address.search(searchRegex) > -1 ||
-          (validator.username && validator.username.search(searchRegex) > -1)
+          searchRegex.test(validator.address) ||
+          (validator.username && searchRegex.test(validator.username))
         );
       })
-      .slice(0, includeResigned ? 54 : 53);
-  }, [searchTerm, validatorsIncludingResigned, includeResigned]);
+      .slice(0, isIncludeResigned ? 54 : 53);
+  }, [searchTerm, validatorsIncludingResigned, isIncludeResigned]);
 
   return (
     <ValidatorsList

@@ -1,5 +1,5 @@
 import cn from "classnames";
-import { type MouseEventHandler } from "react";
+import { type MouseEventHandler, type ReactElement } from "react";
 import { useTranslation } from "react-i18next";
 import { type ToastType } from "./Toast.contracts";
 import X from "@/public/icons/x.svg";
@@ -10,7 +10,7 @@ export const ToastCloseButton = ({
 }: {
   type: ToastType;
   onClick: MouseEventHandler<HTMLButtonElement>;
-}): JSX.Element => {
+}): ReactElement => {
   const { t } = useTranslation();
 
   return (

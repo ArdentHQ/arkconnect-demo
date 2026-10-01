@@ -10,7 +10,7 @@ import {
   parseEther,
   parseGwei,
 } from "viem";
-import { useTranslation } from "next-i18next";
+import { useTranslation } from "next-i18next/pages";
 import { ConsensusAbi } from "@mainsail/evm-contracts";
 import { Ethereum, MetaMaskState } from "@/app/hooks/useMetaMask.contracts";
 import {
@@ -26,11 +26,11 @@ import { WellKnownContracts } from "@/app/lib/Mainsail/contracts";
 const isBrowser = () => typeof window !== "undefined";
 
 const hasMetaMask = (): boolean =>
-  isBrowser() && window.ethereum?.isMetaMask === true;
+  isBrowser() && globalThis.ethereum?.isMetaMask === true;
 
 const getEthereum = (): Ethereum | undefined => {
   if (isBrowser()) {
-    return window.ethereum as Ethereum;
+    return globalThis.ethereum;
   }
 };
 
@@ -116,8 +116,8 @@ export const useMetaMask = (): MetaMaskState => {
   const [error, setError] = useState<string>();
   const [requiresRefresh, setRequiresRefresh] = useState<boolean>(true);
 
-  const supportsMetaMask = isMetaMaskSupportedBrowser();
-  const needsMetaMask = !hasMetaMask() || !supportsMetaMask;
+  const isSupportsMetaMask = isMetaMaskSupportedBrowser();
+  const isNeedsMetaMask = !hasMetaMask() || !isSupportsMetaMask;
 
   const wallet: WalletData = {
     network: NetworkType.DEVNET,
@@ -152,7 +152,10 @@ export const useMetaMask = (): MetaMaskState => {
 
   // Initialize the WalletClient when the page loads
   useEffect(() => {
-    if (!supportsMetaMask || needsMetaMask || !requiresRefresh) {
+    if (!isSupportsMetaMask || isNeedsMetaMask || !requiresRefresh) {
+      // Synchronizing with the browser's MetaMask/window.ethereum availability,
+      // which can only be checked after mount.
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setInitialized(true);
       return;
     }
@@ -182,7 +185,7 @@ export const useMetaMask = (): MetaMaskState => {
   }, [requiresRefresh]);
 
   useEffect(() => {
-    if (!initialized || !supportsMetaMask || needsMetaMask) {
+    if (!initialized || !isSupportsMetaMask || isNeedsMetaMask) {
       return;
     }
 
@@ -285,7 +288,7 @@ export const useMetaMask = (): MetaMaskState => {
       value: parseEther(request.value),
       gas: BigInt(request.gasLimit),
       maxFeePerGas: parseGwei(request.gasPrice),
-      maxPriorityFeePerGas: BigInt(0),
+      maxPriorityFeePerGas: 0n,
     });
   };
 
@@ -304,7 +307,7 @@ export const useMetaMask = (): MetaMaskState => {
       to: WellKnownContracts.Consensus,
       gas: BigInt(request.gasLimit),
       maxFeePerGas: parseGwei(request.gasPrice),
-      maxPriorityFeePerGas: BigInt(0),
+      maxPriorityFeePerGas: 0n,
       data,
     });
   };
@@ -322,8 +325,8 @@ export const useMetaMask = (): MetaMaskState => {
 
   return {
     initialized,
-    isInstalled: !needsMetaMask,
-    supportsMetaMask,
+    isInstalled: !isNeedsMetaMask,
+    supportsMetaMask: isSupportsMetaMask,
     isConnecting,
     connected: !!account,
     error,
