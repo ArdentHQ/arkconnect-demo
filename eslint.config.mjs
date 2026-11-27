@@ -125,6 +125,9 @@ const eslintConfig = [
       "unicorn/no-array-callback-reference": "error",
       "unicorn/no-array-method-this-argument": "error",
       "unicorn/no-array-reduce": "off",
+      // The fixer strips the ` * ` prefix from every JSDoc block, which is not
+      // the comment style this codebase uses.
+      "unicorn/no-asterisk-prefix-in-documentation-comments": "off",
       "unicorn/no-await-expression-member": "error",
       "unicorn/no-new-array": "error",
       "unicorn/no-null": "error",
