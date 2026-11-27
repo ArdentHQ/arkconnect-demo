@@ -4,7 +4,7 @@ import { Coin } from "@/app/lib/Network";
 export function Currency({
   value,
   coin,
-  rate,
+  rate = 0,
 }: {
   value: string | number;
   coin?: Coin;
@@ -24,7 +24,7 @@ export function Currency({
         currency: "USD",
         maximumFractionDigits: 2,
         minimumFractionDigits: 0,
-      }).format(number.times(rate ?? 0).toNumber());
+      }).format(number.times(rate).toNumber());
     },
     /**
      *  Returns number in ARK format.

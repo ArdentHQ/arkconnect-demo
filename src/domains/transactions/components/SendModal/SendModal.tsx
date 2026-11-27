@@ -23,8 +23,6 @@ interface FormValues {
   gasLimit: BigNumber;
 }
 
-type FormSubmitHandler = SubmitHandler<FormValues>;
-
 export const SendModal = ({
   show,
   onClose,
@@ -32,6 +30,8 @@ export const SendModal = ({
   show: boolean;
   onClose: () => void;
 }) => {
+  type FormSubmitHandler = SubmitHandler<FormValues>;
+
   const { t } = useTranslation("transactions");
 
   const { wallet, signTransaction } = useActiveWallet();

@@ -25,6 +25,13 @@ export const NumericInput = ({
   const { ref } = inputFormProperties ?? {};
   const inputReference = useRef<HTMLInputElement | null>(null);
 
+  // The field is a plain text input, so it can hold anything the user typed.
+  // bignumber.js 10 and newer throw on it, where 9 gave back NaN.
+  const readValue = (): BigNumber => {
+    const value = Number(inputReference.current?.value);
+    return new BigNumber(Number.isFinite(value) ? value : 0);
+  };
+
   return (
     <>
       <div
@@ -49,9 +56,7 @@ export const NumericInput = ({
           <button
             type="button"
             onClick={() => {
-              const nextValue = new BigNumber(
-                inputReference.current?.value || 0,
-              ).plus(step);
+              const nextValue = readValue().plus(step);
 
               const formatted = Number(nextValue.toString()).toFixed(8);
 
@@ -64,9 +69,7 @@ export const NumericInput = ({
           <button
             type="button"
             onClick={() => {
-              const nextValue = new BigNumber(
-                inputReference.current?.value || 0,
-              ).minus(step);
+              const nextValue = readValue().minus(step);
 
               if (nextValue.isLessThanOrEqualTo(0)) {
                 return;

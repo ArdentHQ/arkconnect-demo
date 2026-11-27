@@ -195,7 +195,7 @@ export const FeeInput = ({
 export const validateBalance = (
   formValues: FormValues,
   message: string,
-  balance?: number | string,
+  balance: number | string = 0,
 ) => {
   const { amount: amountString, gasPrice, gasLimit } = formValues;
 
@@ -203,7 +203,7 @@ export const validateBalance = (
 
   const fee = calculateFee(gasPrice, gasLimit);
 
-  if (BigNumber.sum(amount, fee).isGreaterThan(BigNumber(balance ?? 0))) {
+  if (BigNumber.sum(amount, fee).isGreaterThan(BigNumber(balance))) {
     return message;
   }
 };

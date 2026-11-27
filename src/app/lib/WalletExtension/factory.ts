@@ -15,9 +15,6 @@ export interface WalletExtensionState {
 
 const client = new ArkConnect();
 
-type WalletExtensionStateValue =
-  string | number | boolean | Coin | NetworkType | undefined;
-
 /**
  * Determines whether the extension is installed.
  *
@@ -26,6 +23,9 @@ type WalletExtensionStateValue =
 const isInstalled = (): boolean => ArkConnect.isAvailable();
 
 export function WalletExtension() {
+  type WalletExtensionStateValue =
+    string | number | boolean | Coin | NetworkType | undefined;
+
   const state = new Map<string, WalletExtensionStateValue>([
     ["coin", undefined],
     ["address", undefined],

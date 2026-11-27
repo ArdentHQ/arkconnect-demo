@@ -8,7 +8,7 @@ export type ButtonVariant =
 export const useButtonClasses = ({
   variant,
   busy,
-  hoverClassName,
+  hoverClassName = "hover:bg-theme-primary-500 hover:text-white hover:border-theme-primary-500 dark:hover:bg-theme-dark-primary-500 dark:hover:text-white",
   disabled,
 }: {
   disabled?: boolean;
@@ -71,9 +71,7 @@ export const useButtonClasses = ({
 
   const padding = "py-2.5 px-5";
 
-  const hover =
-    hoverClassName ??
-    "hover:bg-theme-primary-500 hover:text-white hover:border-theme-primary-500 dark:hover:bg-theme-dark-primary-500 dark:hover:text-white";
+  const hover = hoverClassName;
 
   return {
     disabled: busy
